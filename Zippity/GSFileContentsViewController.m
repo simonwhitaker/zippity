@@ -1,30 +1,22 @@
 //
-//  GSFileListViewController.m
+//  GSFileContentsViewController.m
 //  Zippity
 //
 //  Created by Simon Whitaker on 16/02/2012.
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "GSFileListViewController.h"
-#import "GSZipFile.h"
 #import "GSFileContentsViewController.h"
 
-@interface GSFileListViewController()
+@implementation GSFileContentsViewController
 
-@property (nonatomic, copy) NSArray * files;
-
-@end
-
-@implementation GSFileListViewController
-
-@synthesize files=_files;
+@synthesize zipFile=_zipFile;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        self.title = @"Zip files";
+        // Custom initialization
     }
     return self;
 }
@@ -47,7 +39,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewDidUnload
@@ -59,11 +51,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    self.title = self.zipFile.name;
     [super viewWillAppear:animated];
-    
-    NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
-    GSZipFile *demoZipFile = [GSZipFile zipFileWithPath:demoPath];
-    self.files = [NSArray arrayWithObject:demoZipFile];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -97,7 +86,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return self.files.count;
+    return [self.zipFile.contents count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,41 +94,42 @@
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    GSZipFile * zipFile = [self.files objectAtIndex:indexPath.row];
-    cell.textLabel.text = zipFile.name;
-    cell.detailTextLabel.text = zipFile.displayLength;
+    // Configure the cell...
+    GSFile *file = [self.zipFile.contents objectAtIndex:indexPath.row];
+    cell.textLabel.text = file.name;
+    cell.detailTextLabel.text = file.displayLength;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
+    
     return cell;
 }
 
+/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return NO;
+    return YES;
 }
+*/
 
+/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return;
-    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        NSMutableArray *mutableFiles = [_files mutableCopy];
-        [mutableFiles removeObjectAtIndex:indexPath.row];
-        _files = [NSArray arrayWithArray:mutableFiles];
         [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
+*/
 
 /*
 // Override to support rearranging the table view.
@@ -161,9 +151,32 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GSFileContentsViewController *vc = [[GSFileContentsViewController alloc] initWithStyle:UITableViewStylePlain];
-    vc.zipFile = [self.files objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:vc animated:YES];
+    GSFile *file = [self.zipFile.contents objectAtIndex:indexPath.row];
+    if ([QLPreviewController canPreviewItem:file.url]) {
+        QLPreviewController *vc = [[QLPreviewController alloc] init];
+        vc.delegate = self;
+        vc.dataSource = file;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"Not yet!"
+                                                      message:@"Zippity doesn't recognise this file type yet. Please try again after the next release."
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+        [av show];
+    }
+}
+
+#pragma mark - QLPreviewController delegate methods
+
+- (void)previewControllerWillDismiss:(QLPreviewController *)controller
+{
+    HELLO
+}
+
+- (void)previewControllerDidDismiss:(QLPreviewController *)controller
+{
+    HELLO
 }
 
 @end

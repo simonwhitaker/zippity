@@ -11,6 +11,16 @@
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
 		F47DFD8114ED4E32007F7443 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7D14ED4E32007F7443 /* Icon.png */; };
 		F47DFD8214ED4E32007F7443 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7E14ED4E32007F7443 /* Icon@2x.png */; };
+		F47DFD8614ED512E007F7443 /* GSFileContentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD8514ED512E007F7443 /* GSFileContentsViewController.m */; };
+		F47DFD8914ED5473007F7443 /* GSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD8814ED5472007F7443 /* GSFile.m */; };
+		F47DFD9D14ED5704007F7443 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9314ED5704007F7443 /* ioapi.c */; };
+		F47DFD9E14ED5704007F7443 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9514ED5704007F7443 /* mztools.c */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -Wno-missing-prototypes"; }; };
+		F47DFD9F14ED5704007F7443 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9714ED5704007F7443 /* unzip.c */; settings = {COMPILER_FLAGS = "-Xanalyzer -analyzer-disable-checker"; }; };
+		F47DFDA014ED5704007F7443 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9914ED5704007F7443 /* zip.c */; settings = {COMPILER_FLAGS = "-Xanalyzer -analyzer-disable-checker"; }; };
+		F47DFDA114ED5704007F7443 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9C14ED5704007F7443 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-deprecated-declarations"; }; };
+		F47DFDA414ED57BC007F7443 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */; };
+		F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */; };
+		F47DFDAD14ED65E2007F7443 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47DFDAC14ED65E2007F7443 /* QuickLook.framework */; };
 		F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535614ECCC82009BF6FE /* UIKit.framework */; };
 		F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535814ECCC82009BF6FE /* Foundation.framework */; };
 		F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */; };
@@ -27,6 +37,25 @@
 		F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		F47DFD7D14ED4E32007F7443 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		F47DFD7E14ED4E32007F7443 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		F47DFD8414ED512E007F7443 /* GSFileContentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileContentsViewController.h; sourceTree = "<group>"; };
+		F47DFD8514ED512E007F7443 /* GSFileContentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileContentsViewController.m; sourceTree = "<group>"; };
+		F47DFD8714ED5472007F7443 /* GSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFile.h; sourceTree = "<group>"; };
+		F47DFD8814ED5472007F7443 /* GSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFile.m; sourceTree = "<group>"; };
+		F47DFD9214ED5704007F7443 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		F47DFD9314ED5704007F7443 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		F47DFD9414ED5704007F7443 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		F47DFD9514ED5704007F7443 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		F47DFD9614ED5704007F7443 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		F47DFD9714ED5704007F7443 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		F47DFD9814ED5704007F7443 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		F47DFD9914ED5704007F7443 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		F47DFD9A14ED5704007F7443 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		F47DFD9B14ED5704007F7443 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
+		F47DFD9C14ED5704007F7443 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZipArchive.mm; sourceTree = "<group>"; };
+		F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
+		F47DFDA514ED5EDF007F7443 /* NSDate+GSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+GSAdditions.h"; sourceTree = "<group>"; };
+		F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+GSAdditions.m"; sourceTree = "<group>"; };
+		F47DFDAC14ED65E2007F7443 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		F47F535214ECCC82009BF6FE /* Zippity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zippity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47F535614ECCC82009BF6FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F47F535814ECCC82009BF6FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -49,6 +78,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F47DFDAD14ED65E2007F7443 /* QuickLook.framework in Frameworks */,
+				F47DFDA414ED57BC007F7443 /* libz.1.2.5.dylib in Frameworks */,
 				F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */,
 				F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */,
 				F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */,
@@ -58,6 +89,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F47DFD8A14ED5577007F7443 /* Data types */ = {
+			isa = PBXGroup;
+			children = (
+				F47DFD8714ED5472007F7443 /* GSFile.h */,
+				F47DFD8814ED5472007F7443 /* GSFile.m */,
+				F47F537114ECCD77009BF6FE /* GSZipFile.h */,
+				F47F537214ECCD77009BF6FE /* GSZipFile.m */,
+			);
+			name = "Data types";
+			sourceTree = "<group>";
+		};
+		F47DFD8B14ED5581007F7443 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F47F537714ECD062009BF6FE /* GSFileListViewController.h */,
+				F47F537814ECD062009BF6FE /* GSFileListViewController.m */,
+				F47DFD8414ED512E007F7443 /* GSFileContentsViewController.h */,
+				F47DFD8514ED512E007F7443 /* GSFileContentsViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		F47DFD9014ED5704007F7443 /* ZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				F47DFD9114ED5704007F7443 /* minizip */,
+				F47DFD9B14ED5704007F7443 /* ZipArchive.h */,
+				F47DFD9C14ED5704007F7443 /* ZipArchive.mm */,
+			);
+			path = ZipArchive;
+			sourceTree = "<group>";
+		};
+		F47DFD9114ED5704007F7443 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				F47DFD9214ED5704007F7443 /* crypt.h */,
+				F47DFD9314ED5704007F7443 /* ioapi.c */,
+				F47DFD9414ED5704007F7443 /* ioapi.h */,
+				F47DFD9514ED5704007F7443 /* mztools.c */,
+				F47DFD9614ED5704007F7443 /* mztools.h */,
+				F47DFD9714ED5704007F7443 /* unzip.c */,
+				F47DFD9814ED5704007F7443 /* unzip.h */,
+				F47DFD9914ED5704007F7443 /* zip.c */,
+				F47DFD9A14ED5704007F7443 /* zip.h */,
+			);
+			path = minizip;
+			sourceTree = "<group>";
+		};
+		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
+			isa = PBXGroup;
+			children = (
+				F47DFD9014ED5704007F7443 /* ZipArchive */,
+			);
+			name = "Third-party libraries";
+			sourceTree = "<group>";
+		};
 		F47F534714ECCC82009BF6FE = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +165,8 @@
 		F47F535514ECCC82009BF6FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F47DFDAC14ED65E2007F7443 /* QuickLook.framework */,
+				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F47F535614ECCC82009BF6FE /* UIKit.framework */,
 				F47F535814ECCC82009BF6FE /* Foundation.framework */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
@@ -88,13 +177,12 @@
 		F47F535C14ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXGroup;
 			children = (
-				F47F537114ECCD77009BF6FE /* GSZipFile.h */,
-				F47F537214ECCD77009BF6FE /* GSZipFile.m */,
-				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
-				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
-				F47F537714ECD062009BF6FE /* GSFileListViewController.h */,
-				F47F537814ECD062009BF6FE /* GSFileListViewController.m */,
+				F47DFDA214ED5709007F7443 /* Third-party libraries */,
+				F47DFD8A14ED5577007F7443 /* Data types */,
+				F47DFD8B14ED5581007F7443 /* View Controllers */,
 				F47F535D14ECCC82009BF6FE /* Supporting Files */,
+				F47DFDA514ED5EDF007F7443 /* NSDate+GSAdditions.h */,
+				F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */,
 			);
 			path = Zippity;
 			sourceTree = "<group>";
@@ -102,6 +190,8 @@
 		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
+				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
 				F47DFD7B14ED4E32007F7443 /* Icon-Small.png */,
 				F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */,
 				F47DFD7D14ED4E32007F7443 /* Icon.png */,
@@ -186,6 +276,14 @@
 				F47F536714ECCC82009BF6FE /* GSAppDelegate.m in Sources */,
 				F47F537314ECCD77009BF6FE /* GSZipFile.m in Sources */,
 				F47F537914ECD062009BF6FE /* GSFileListViewController.m in Sources */,
+				F47DFD8614ED512E007F7443 /* GSFileContentsViewController.m in Sources */,
+				F47DFD8914ED5473007F7443 /* GSFile.m in Sources */,
+				F47DFD9D14ED5704007F7443 /* ioapi.c in Sources */,
+				F47DFD9E14ED5704007F7443 /* mztools.c in Sources */,
+				F47DFD9F14ED5704007F7443 /* unzip.c in Sources */,
+				F47DFDA014ED5704007F7443 /* zip.c in Sources */,
+				F47DFDA114ED5704007F7443 /* ZipArchive.mm in Sources */,
+				F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
