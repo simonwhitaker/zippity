@@ -24,6 +24,11 @@
                 continue;
             }
             
+            // Ignore files starting with a dot
+            if ([filename rangeOfString:@"."].location == 0) {
+                continue;
+            }
+            
             NSString *path = [directoryPath stringByAppendingPathComponent:filename];
             BOOL isDirectory = NO;
             BOOL fileExists = [[NSFileManager defaultManager] fileExistsAtPath:path isDirectory:&isDirectory];

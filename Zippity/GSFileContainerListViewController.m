@@ -8,6 +8,13 @@
 
 #import "GSFileContainerListViewController.h"
 #import "GSZipFile.h"
+#import "GSAppDelegate.h"
+
+@interface GSFileContainerListViewController()
+
+- (void)handleZipFileArrivedNotification:(NSNotification*)notification;
+
+@end
 
 @implementation GSFileContainerListViewController
 
@@ -20,6 +27,11 @@
 
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,7 +52,22 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleZipFileArrivedNotification:) 
+                                                 name:GSAppReceivedZipFileNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:GSAppReceivedZipFileNotification
+                                                  object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -83,43 +110,25 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return NO;
-}
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return;
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        NSMutableArray *mutableFiles = [_files mutableCopy];
-        [mutableFiles removeObjectAtIndex:indexPath.row];
-        _files = [NSArray arrayWithArray:mutableFiles];
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
     return YES;
 }
-*/
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
+        NSError *error = nil;
+        [[NSFileManager defaultManager] removeItemAtPath:fse.path error:&error];
+        if (error) {
+            NSLog(@"Error on deleting file system entity (%@): %@, %@", fse.path, error, error.userInfo);
+        }
+        [self.container invalidateContents];
+        
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }   
+}
 
 #pragma mark - Table view delegate
 
@@ -157,6 +166,18 @@
     if (_container != container) {
         _container = container;
         self.title = [(GSFileSystemEntity*)_container name];
+    }
+}
+
+#pragma mark - notification handlers
+
+- (void)handleZipFileArrivedNotification:(NSNotification *)notification
+{
+    NSString *zipFileDirectory = [[notification.userInfo objectForKey:kGSZipFilePathKey] stringByDeletingLastPathComponent];
+    if ([zipFileDirectory isEqualToString:[(GSFileSystemEntity*)self.container path]]) {
+        id<GSFileContainer> container = (id<GSFileContainer>)self.container;
+        [container invalidateContents];
+        [self.tableView reloadData];
     }
 }
 

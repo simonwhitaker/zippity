@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GSAppDelegate : UIResponder <UIApplicationDelegate>
+#define kGSZipFilePathKey @"zipFilePath"
+
+@interface GSAppDelegate : UIResponder <UIApplicationDelegate> {
+@private
+    NSString *_documentsDirectoryPath;
+}
+
+extern NSString * const GSAppReceivedZipFileNotification;
 
 @property (strong, nonatomic) UIWindow *window;
+@property (readonly, nonatomic) NSString *documentsDirectoryPath;
 
 @end

@@ -12,4 +12,10 @@
 
 @property (nonatomic, readonly) NSArray * contents;
 
+// invalidateContents invalidates the previously
+// determined, and cached, array of contents, forcing
+// them to be rediscovered next time self.contents is
+// called.
+- (void)invalidateContents;
+
 @end

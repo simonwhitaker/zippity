@@ -68,6 +68,15 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
     return _cachePath;
 }
 
+- (void)invalidateContents
+{
+    _contents = nil;
+    self.status = GSZipFileUnzipStatusInitialized;
+    [[NSFileManager defaultManager] removeItemAtPath:self.cachePath error:nil];
+    [self performSelectorInBackground:@selector(populateContents)
+                           withObject:nil];
+}
+
 - (void)populateContents
 {
     @autoreleasepool {

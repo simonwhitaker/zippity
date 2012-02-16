@@ -31,4 +31,9 @@
     return _contents;
 }
 
+- (void)invalidateContents
+{
+    _contents = nil;
+}
+
 @end

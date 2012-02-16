@@ -12,7 +12,10 @@
 
 @implementation GSAppDelegate
 
-@synthesize window = _window;
+@synthesize window=_window;
+@synthesize documentsDirectoryPath=_documentsDirectoryPath;
+
+NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotification";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -20,15 +23,14 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    NSString *rootDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSLog(@"Root directory: %@", rootDirectoryPath);
+    NSLog(@"Root directory: %@", self.documentsDirectoryPath);
     
     // Demo mode: add a sample zip file
     NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
-    NSString *sampleTargetPath = [rootDirectoryPath stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
+    NSString *sampleTargetPath = [self.documentsDirectoryPath stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
     [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
     
-    GSDirectory *rootDirectory = [GSDirectory directoryWithPath:rootDirectoryPath];
+    GSDirectory *rootDirectory = [GSDirectory directoryWithPath:self.documentsDirectoryPath];
     rootDirectory.name = @"Zippity";
     
     GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -78,6 +80,39 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSLog(@"Opening URL: %@", url);
+    
+    NSString *incomingPath = [url path];
+    NSString *filename = [incomingPath lastPathComponent];
+    NSString *targetPath = [self.documentsDirectoryPath stringByAppendingPathComponent:filename];
+    
+    NSError *error = nil;
+    [[NSFileManager defaultManager] copyItemAtPath:incomingPath
+                                            toPath:targetPath
+                                             error:&error];
+    if (error) {
+        NSLog(@"Error copying zip file (%@) to document directory (%@): %@, %@", incomingPath, targetPath, error, error.userInfo);
+    } else {
+        NSLog(@"Saved %@ to %@", incomingPath, targetPath);
+        NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithCapacity:1];
+        [payload setObject:targetPath forKey:kGSZipFilePathKey];
+        [[NSNotificationCenter defaultCenter] postNotificationName:GSAppReceivedZipFileNotification
+                                                            object:self
+                                                          userInfo:payload];
+    }
+    return YES;
+}
+
+- (NSString*)documentsDirectoryPath
+{
+    if (!_documentsDirectoryPath) {
+        _documentsDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    }
+    return _documentsDirectoryPath;
 }
 
 @end
