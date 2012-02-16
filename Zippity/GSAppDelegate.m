@@ -7,6 +7,7 @@
 //
 
 #import "GSAppDelegate.h"
+#import "GSFileListViewController.h"
 
 @implementation GSAppDelegate
 
@@ -17,6 +18,12 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    GSFileListViewController *vc = [[GSFileListViewController alloc] initWithStyle:UITableViewStylePlain];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+
+    self.window.rootViewController = nc;
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
