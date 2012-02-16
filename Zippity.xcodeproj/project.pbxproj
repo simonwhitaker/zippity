@@ -1,0 +1,264 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535614ECCC82009BF6FE /* UIKit.framework */; };
+		F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535814ECCC82009BF6FE /* Foundation.framework */; };
+		F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */; };
+		F47F536114ECCC82009BF6FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F47F535F14ECCC82009BF6FE /* InfoPlist.strings */; };
+		F47F536314ECCC82009BF6FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536214ECCC82009BF6FE /* main.m */; };
+		F47F536714ECCC82009BF6FE /* GSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536614ECCC82009BF6FE /* GSAppDelegate.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F47F535214ECCC82009BF6FE /* Zippity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zippity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F47F535614ECCC82009BF6FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		F47F535814ECCC82009BF6FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		F47F535E14ECCC82009BF6FE /* Zippity-Info.plist */ = {isa = PBXFileReference; path = "Zippity-Info.plist"; sourceTree = "<group>"; };
+		F47F536014ECCC82009BF6FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F47F536214ECCC82009BF6FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */ = {isa = PBXFileReference; path = "Zippity-Prefix.pch"; sourceTree = "<group>"; };
+		F47F536514ECCC82009BF6FE /* GSAppDelegate.h */ = {isa = PBXFileReference; path = GSAppDelegate.h; sourceTree = "<group>"; };
+		F47F536614ECCC82009BF6FE /* GSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GSAppDelegate.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F47F534F14ECCC82009BF6FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */,
+				F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */,
+				F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F47F534714ECCC82009BF6FE = {
+			isa = PBXGroup;
+			children = (
+				F47F535C14ECCC82009BF6FE /* Zippity */,
+				F47F535514ECCC82009BF6FE /* Frameworks */,
+				F47F535314ECCC82009BF6FE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F47F535314ECCC82009BF6FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F47F535214ECCC82009BF6FE /* Zippity.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F47F535514ECCC82009BF6FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F47F535614ECCC82009BF6FE /* UIKit.framework */,
+				F47F535814ECCC82009BF6FE /* Foundation.framework */,
+				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F47F535C14ECCC82009BF6FE /* Zippity */ = {
+			isa = PBXGroup;
+			children = (
+				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
+				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
+				F47F535D14ECCC82009BF6FE /* Supporting Files */,
+			);
+			path = Zippity;
+			sourceTree = "<group>";
+		};
+		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F47F535E14ECCC82009BF6FE /* Zippity-Info.plist */,
+				F47F535F14ECCC82009BF6FE /* InfoPlist.strings */,
+				F47F536214ECCC82009BF6FE /* main.m */,
+				F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F47F535114ECCC82009BF6FE /* Zippity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F47F536A14ECCC82009BF6FE /* Build configuration list for PBXNativeTarget "Zippity" */;
+			buildPhases = (
+				F47F534E14ECCC82009BF6FE /* Sources */,
+				F47F534F14ECCC82009BF6FE /* Frameworks */,
+				F47F535014ECCC82009BF6FE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Zippity;
+			productName = Zippity;
+			productReference = F47F535214ECCC82009BF6FE /* Zippity.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F47F534914ECCC82009BF6FE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Goo Software Ltd";
+			};
+			buildConfigurationList = F47F534C14ECCC82009BF6FE /* Build configuration list for PBXProject "Zippity" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F47F534714ECCC82009BF6FE;
+			productRefGroup = F47F535314ECCC82009BF6FE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F47F535114ECCC82009BF6FE /* Zippity */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F47F535014ECCC82009BF6FE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47F536114ECCC82009BF6FE /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F47F534E14ECCC82009BF6FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F47F536314ECCC82009BF6FE /* main.m in Sources */,
+				F47F536714ECCC82009BF6FE /* GSAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F47F535F14ECCC82009BF6FE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F47F536014ECCC82009BF6FE /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F47F536814ECCC82009BF6FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		F47F536914ECCC82009BF6FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F47F536B14ECCC82009BF6FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
+				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F47F536C14ECCC82009BF6FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
+				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F47F534C14ECCC82009BF6FE /* Build configuration list for PBXProject "Zippity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F47F536814ECCC82009BF6FE /* Debug */,
+				F47F536914ECCC82009BF6FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F47F536A14ECCC82009BF6FE /* Build configuration list for PBXNativeTarget "Zippity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F47F536B14ECCC82009BF6FE /* Debug */,
+				F47F536C14ECCC82009BF6FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F47F534914ECCC82009BF6FE /* Project object */;
+}
