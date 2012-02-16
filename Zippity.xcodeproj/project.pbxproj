@@ -227,6 +227,7 @@
 				F47F534E14ECCC82009BF6FE /* Sources */,
 				F47F534F14ECCC82009BF6FE /* Frameworks */,
 				F47F535014ECCC82009BF6FE /* Resources */,
+				F4E0A93E14EDC0760073644D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -278,6 +279,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F4E0A93E14EDC0760073644D /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "alias git=$(which git)\n\ngit_version()\n{\n    GITVERSION=`git describe | cut -d- -f1-2 | tr - .`\n    GITMODIFIED=`(git status | grep \"modified:\\|added:\\|deleted:\" -q) && echo \"-M\"`\n    echo $GITVERSION$GITMODIFIED\n}\n\nif [[ $(git symbolic-ref -q HEAD) != 'refs/heads/master' ]]; then\n# Get location of parsed Info.plist\nGS_INFO_PLIST_PATH=\"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/Info\"\n\n# Use git version as version number\nexport GS_NEW_VERSION=`git_version`\necho Version is $GS_NEW_VERSION\n\n# Write new version number to parsed Info.plist\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleVersion $GS_NEW_VERSION\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleShortVersionString $GS_NEW_VERSION\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F47F534E14ECCC82009BF6FE /* Sources */ = {
