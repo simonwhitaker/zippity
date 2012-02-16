@@ -13,7 +13,7 @@
 @implementation GSAppDelegate
 
 @synthesize window=_window;
-@synthesize documentsDirectoryPath=_documentsDirectoryPath;
+@synthesize rootDirectory=_rootDirectory;
 
 NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotification";
 
@@ -23,14 +23,14 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    NSLog(@"Root directory: %@", self.documentsDirectoryPath);
+    NSLog(@"Root directory: %@", self.rootDirectory);
     
     // Demo mode: add a sample zip file
     NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
-    NSString *sampleTargetPath = [self.documentsDirectoryPath stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
+    NSString *sampleTargetPath = [self.rootDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
     [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
     
-    GSDirectory *rootDirectory = [GSDirectory directoryWithPath:self.documentsDirectoryPath];
+    GSDirectory *rootDirectory = [GSDirectory directoryWithPath:self.rootDirectory];
     rootDirectory.name = @"Zippity";
     
     GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithStyle:UITableViewStylePlain];
@@ -88,7 +88,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     
     NSString *incomingPath = [url path];
     NSString *filename = [incomingPath lastPathComponent];
-    NSString *targetPath = [self.documentsDirectoryPath stringByAppendingPathComponent:filename];
+    NSString *targetPath = [self.rootDirectory stringByAppendingPathComponent:filename];
     
     NSError *error = nil;
     [[NSFileManager defaultManager] copyItemAtPath:incomingPath
@@ -107,12 +107,22 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     return YES;
 }
 
-- (NSString*)documentsDirectoryPath
+- (NSString*)rootDirectory
 {
-    if (!_documentsDirectoryPath) {
-        _documentsDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    if (!_rootDirectory) {
+        NSString *rootDirectory = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"zippity-files"];
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:rootDirectory
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:&error];
+        if (error) {
+            NSLog(@"Error on creating root directory (%@): %@, %@", rootDirectory, error, error.userInfo);
+        } else {
+            _rootDirectory = rootDirectory;
+        }
     }
-    return _documentsDirectoryPath;
+    return _rootDirectory;
 }
 
 @end

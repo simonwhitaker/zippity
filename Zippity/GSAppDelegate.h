@@ -12,12 +12,12 @@
 
 @interface GSAppDelegate : UIResponder <UIApplicationDelegate> {
 @private
-    NSString *_documentsDirectoryPath;
+    NSString *_rootDirectory;
 }
 
 extern NSString * const GSAppReceivedZipFileNotification;
 
 @property (strong, nonatomic) UIWindow *window;
-@property (readonly, nonatomic) NSString *documentsDirectoryPath;
+@property (readonly, nonatomic) NSString *rootDirectory;
 
 @end
