@@ -8,21 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <QuickLook/QuickLook.h>
+#import "GSFileSystemEntity.h"
 
-@interface GSFile : NSObject <QLPreviewControllerDataSource> {
+@interface GSFile : GSFileSystemEntity <QLPreviewControllerDataSource> {
+
 @private
-    unsigned long long _length;
-    NSDictionary * _attributes;
+    unsigned long long _size;
 }
 
-@property (nonatomic, copy) NSString * name;
-@property (nonatomic, copy) NSString * path;
-@property (nonatomic, readonly) NSURL * url;
-@property (nonatomic, readonly) unsigned long long length;
-@property (nonatomic, readonly) NSString * displayLength;
-@property (nonatomic, readonly) NSDictionary * attributes;
+@property (nonatomic, readonly) unsigned long long size;
 
-- (id)initWithPath:(NSString*)path;
 + (GSFile*)fileWithPath:(NSString*)path;
 
 @end

@@ -10,23 +10,11 @@
 
 @implementation GSFile
 
-@synthesize name=_name;
-@synthesize path=_path;
-
 - (id)init
 {
     self = [super init];
     if (self) {
-        _length = 0;
-    }
-    return self;
-}
-
-- (id)initWithPath:(NSString *)path
-{
-    self = [self init];
-    if (self) {
-        self.path = path;
+        _size = 0;
     }
     return self;
 }
@@ -36,22 +24,9 @@
     return [[GSFile alloc] initWithPath:path];
 }
 
-- (NSString *)name
-{
-    if (_name == nil) {
-        _name = [self.path lastPathComponent];
-    }
-    return _name;
-}
-
-- (NSURL *)url 
-{
-    return [NSURL fileURLWithPath:self.path];
-}
-
-- (unsigned long long)length
+- (unsigned long long)size
 {    
-    if (_length == 0) {
+    if (_size == 0) {
         NSFileManager *fm = [NSFileManager defaultManager];
         NSError * error = nil;
         NSDictionary *d = [fm attributesOfItemAtPath:self.path
@@ -59,23 +34,15 @@
         if (error) {
             NSLog(@"Error on getting file attributes: %@, %@", error, error.userInfo);
         } else {
-            _length = [d fileSize];
+            _size = [d fileSize];
         }
     }
-    return _length;
+    return _size;
 }
 
-- (NSString *)displayLength
+- (NSString*)subtitle
 {
-    return [NSString stringWithFormat:@"%llu bytes", self.length];
-}
-
-- (NSDictionary*)attributes
-{
-    if (_attributes == nil) {
-        _attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.path error:nil];
-    }
-    return _attributes;
+    return [NSString stringWithFormat:@"%llu bytes", self.size];
 }
 
 #pragma QLPreviewController delegate methods

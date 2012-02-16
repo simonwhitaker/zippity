@@ -8,6 +8,7 @@
 
 #import "GSZipFile.h"
 #import "ZipArchive.h"
+#import "NSArray+GSAdditions.h"
 
 @interface GSZipFile()
 
@@ -133,26 +134,8 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
             }
         }
                 
-        error = nil;
-        NSArray * cacheContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.cachePath
-                                                                        error:&error];
-        if (error) {
-            NSLog(@"Error while loading contents of cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
-            self.status = GSZipFileUnzipStatusError;
-            return;
-        } else {
-            NSMutableArray *temp = [NSMutableArray arrayWithCapacity:cacheContents.count];
-            for (NSString *filename in cacheContents) {
-                // TODO: add robust, extendable exclusion filters
-                if ([filename isEqualToString:@"__MACOSX"]) {
-                    continue;
-                }
-                NSString *path = [self.cachePath stringByAppendingPathComponent:filename];
-                [temp addObject:[GSFile fileWithPath:path]];
-            }
-            _contents = [NSArray arrayWithArray:temp];
-            self.status = GSZipFileUnzipStatusComplete;
-        }
+        _contents = [NSArray arrayWithFilesFromDirectory:self.cachePath];
+        self.status = GSZipFileUnzipStatusComplete;
     }
 }
 

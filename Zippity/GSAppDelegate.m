@@ -7,7 +7,8 @@
 //
 
 #import "GSAppDelegate.h"
-#import "GSFileListViewController.h"
+#import "GSFileContainerListViewController.h"
+#import "GSDirectory.h"
 
 @implementation GSAppDelegate
 
@@ -19,7 +20,19 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    GSFileListViewController *vc = [[GSFileListViewController alloc] initWithStyle:UITableViewStylePlain];
+    NSString *rootDirectoryPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSLog(@"Root directory: %@", rootDirectoryPath);
+    
+    // Demo mode: add a sample zip file
+    NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
+    NSString *sampleTargetPath = [rootDirectoryPath stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
+    [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
+    
+    GSDirectory *rootDirectory = [GSDirectory directoryWithPath:rootDirectoryPath];
+    rootDirectory.name = @"Zippity";
+    
+    GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithStyle:UITableViewStylePlain];
+    vc.container = rootDirectory;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 
     self.window.rootViewController = nc;

@@ -6,25 +6,18 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "GSFileListViewController.h"
+#import "GSFileContainerListViewController.h"
 #import "GSZipFile.h"
-#import "GSFileContentsViewController.h"
 
-@interface GSFileListViewController()
+@implementation GSFileContainerListViewController
 
-@property (nonatomic, copy) NSArray * files;
-
-@end
-
-@implementation GSFileListViewController
-
-@synthesize files=_files;
+@synthesize container=_container;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
-        self.title = @"Zip files";
+
     }
     return self;
 }
@@ -50,37 +43,6 @@
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    NSString *demoPath = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
-    GSZipFile *demoZipFile = [GSZipFile zipFileWithPath:demoPath];
-    self.files = [NSArray arrayWithObject:demoZipFile];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
@@ -97,7 +59,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return self.files.count;
+    return self.container.contents.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -109,9 +71,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    GSZipFile * zipFile = [self.files objectAtIndex:indexPath.row];
-    cell.textLabel.text = zipFile.name;
-    cell.detailTextLabel.text = zipFile.displayLength;
+    GSFileSystemEntity *file = [self.container.contents objectAtIndex:indexPath.row];
+    cell.textLabel.text = file.name;
+    cell.detailTextLabel.text = file.subtitle;
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
     return cell;
@@ -124,6 +86,7 @@
     return NO;
 }
 
+/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -140,6 +103,7 @@
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
+*/
 
 /*
 // Override to support rearranging the table view.
@@ -161,9 +125,39 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GSFileContentsViewController *vc = [[GSFileContentsViewController alloc] initWithStyle:UITableViewStylePlain];
-    vc.zipFile = [self.files objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:vc animated:YES];
+    GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
+    if ([fse respondsToSelector:@selector(contents)]) {
+        GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithStyle:UITableViewStylePlain];
+        vc.container = (id<GSFileContainer>)fse;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if ([fse respondsToSelector:@selector(numberOfPreviewItemsInPreviewController:)] && [QLPreviewController canPreviewItem:fse.url]) {
+        QLPreviewController *vc = [[QLPreviewController alloc] init];
+        vc.delegate = self;
+        vc.dataSource = (id<QLPreviewControllerDataSource>) fse;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"Not yet!"
+                                                      message:@"Zippity doesn't recognise this file type yet. Please try again after the next release."
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+        [av show];
+    }
+}
+
+#pragma mark - QLPreviewController delegate
+
+- (void)previewControllerWillDismiss:(QLPreviewController *)controller
+{
+    HELLO
+}
+
+- (void)setContainer:(id<GSFileContainer>)container
+{
+    if (_container != container) {
+        _container = container;
+        self.title = [(GSFileSystemEntity*)_container name];
+    }
 }
 
 @end
