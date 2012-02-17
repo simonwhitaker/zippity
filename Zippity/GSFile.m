@@ -15,6 +15,7 @@
     self = [super init];
     if (self) {
         _size = 0;
+        _subtitle = nil;
     }
     return self;
 }
@@ -40,9 +41,39 @@
     return _size;
 }
 
+// Change to 1000 to show "marketing bytes"
+#define BYTES_IN_DISPLAY_KILOBYTE 1024.0f
+
 - (NSString*)subtitle
 {
-    return [NSString stringWithFormat:@"%llu bytes", self.size];
+    if (_subtitle == nil) {
+        static NSDateFormatter *DateFormatter = nil;
+        if (DateFormatter == nil) {
+            DateFormatter = [[NSDateFormatter alloc] init];
+            DateFormatter.timeStyle = NSDateFormatterNoStyle;
+            DateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        }
+        NSString *lastModifiedString = [DateFormatter stringFromDate:self.attributes.fileModificationDate];
+        
+        static NSArray *SizeSuffixes = nil;
+        if (SizeSuffixes == nil) {
+            SizeSuffixes = [NSArray arrayWithObjects: @"KB", @"MB", @"GB", nil];
+        }
+        NSString * sizeString = [NSString stringWithFormat:@"%llu bytes", self.size];
+
+        CGFloat sizef = (CGFloat)self.size;
+        for (NSString * suffix in SizeSuffixes) {
+            if (sizef > BYTES_IN_DISPLAY_KILOBYTE) {
+                sizef /= BYTES_IN_DISPLAY_KILOBYTE;
+                sizeString = [NSString stringWithFormat:@"%.0f %@", sizef, suffix];
+            } else {
+                break;
+            }
+        }
+        
+        _subtitle = [NSString stringWithFormat:@"%@, last modified %@", sizeString, lastModifiedString];
+    }
+    return _subtitle;
 }
 
 #pragma QLPreviewController delegate methods

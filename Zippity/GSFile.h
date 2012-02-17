@@ -14,6 +14,7 @@
 
 @private
     unsigned long long _size;
+    NSString * _subtitle;
 }
 
 @property (nonatomic, readonly) unsigned long long size;

@@ -20,7 +20,7 @@
 
 - (NSString*)subtitle
 {
-    return [NSString stringWithFormat:@"%u items", self.contents.count];
+    return [NSString stringWithFormat:@"%u %@", self.contents.count, self.contents.count == 1 ? @"item" : @"items"];
 }
 
 - (NSArray*)contents
