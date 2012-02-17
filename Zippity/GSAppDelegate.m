@@ -30,6 +30,9 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     NSString *sampleTargetPath = [self.rootDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
     [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
     
+    // Create a GSDirectory object to act as the data source for the
+    // root folder's view controller. Set its name with the string I
+    // want to appear in the NavigationItem's title.
     GSDirectory *rootDirectory = [GSDirectory directoryWithPath:self.rootDirectory];
     rootDirectory.name = @"Zippity";
     

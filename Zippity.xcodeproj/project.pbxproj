@@ -108,8 +108,6 @@
 				F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */,
 				F47F537114ECCD77009BF6FE /* GSZipFile.h */,
 				F47F537214ECCD77009BF6FE /* GSZipFile.m */,
-				F4AAAD4A14EDA1C8009BE55F /* NSArray+GSAdditions.h */,
-				F4AAAD4B14EDA1C9009BE55F /* NSArray+GSAdditions.m */,
 			);
 			name = "Data types";
 			sourceTree = "<group>";
@@ -189,12 +187,13 @@
 		F47F535C14ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXGroup;
 			children = (
+				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
+				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
+				F4B9909914EE66F200F8FBD8 /* Categories */,
 				F47DFDA214ED5709007F7443 /* Third-party libraries */,
 				F47DFD8A14ED5577007F7443 /* Data types */,
 				F47DFD8B14ED5581007F7443 /* View Controllers */,
 				F47F535D14ECCC82009BF6FE /* Supporting Files */,
-				F47DFDA514ED5EDF007F7443 /* NSDate+GSAdditions.h */,
-				F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */,
 			);
 			path = Zippity;
 			sourceTree = "<group>";
@@ -202,8 +201,6 @@
 		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
-				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
 				F47DFD7B14ED4E32007F7443 /* Icon-Small.png */,
 				F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */,
 				F47DFD7D14ED4E32007F7443 /* Icon.png */,
@@ -215,6 +212,17 @@
 				F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F4B9909914EE66F200F8FBD8 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				F4AAAD4A14EDA1C8009BE55F /* NSArray+GSAdditions.h */,
+				F4AAAD4B14EDA1C9009BE55F /* NSArray+GSAdditions.m */,
+				F47DFDA514ED5EDF007F7443 /* NSDate+GSAdditions.h */,
+				F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,7 +252,7 @@
 		F47F534914ECCC82009BF6FE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = "Goo Software Ltd";
 			};
 			buildConfigurationList = F47F534C14ECCC82009BF6FE /* Build configuration list for PBXProject "Zippity" */;
