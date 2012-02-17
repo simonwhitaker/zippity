@@ -36,4 +36,9 @@
     _contents = nil;
 }
 
+- (UIImage*)icon
+{
+    return [UIImage imageNamed:@"folder-icon-somatic-rebirth.png"];
+}
+
 @end

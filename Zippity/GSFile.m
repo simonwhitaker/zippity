@@ -76,16 +76,4 @@
     return _subtitle;
 }
 
-#pragma QLPreviewController delegate methods
-
-- (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
-{
-    return 1;
-}
-
-- (id <QLPreviewItem>) previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
-{
-    return self.url;
-}
-
 @end

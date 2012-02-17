@@ -9,6 +9,7 @@
 #import "GSFileContainerListViewController.h"
 #import "GSZipFile.h"
 #import "GSAppDelegate.h"
+#import <QuickLook/QuickLook.h>
 
 @interface GSFileContainerListViewController()
 
@@ -101,7 +102,7 @@
     GSFileSystemEntity *file = [self.container.contents objectAtIndex:indexPath.row];
     cell.textLabel.text = file.name;
     cell.detailTextLabel.text = file.subtitle;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.imageView.image = file.icon;
 
     return cell;
 }
@@ -132,6 +133,11 @@
 
 #pragma mark - Table view delegate
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 56.0;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
@@ -139,11 +145,9 @@
         GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithStyle:UITableViewStylePlain];
         vc.container = (id<GSFileContainer>)fse;
         [self.navigationController pushViewController:vc animated:YES];
-    } else if ([fse respondsToSelector:@selector(numberOfPreviewItemsInPreviewController:)] && [QLPreviewController canPreviewItem:fse.url]) {
-        QLPreviewController *vc = [[QLPreviewController alloc] init];
-        vc.delegate = self;
-        vc.dataSource = (id<QLPreviewControllerDataSource>) fse;
-        [self.navigationController pushViewController:vc animated:YES];
+    } else if (fse.documentInteractionController && [QLPreviewController canPreviewItem:fse.documentInteractionController.URL]) {
+        fse.documentInteractionController.delegate = self;
+        [fse.documentInteractionController presentPreviewAnimated:YES];
     } else {
         UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"Not yet!"
                                                       message:@"Zippity doesn't recognise this file type yet. Please try again after the next release."
@@ -154,19 +158,19 @@
     }
 }
 
-#pragma mark - QLPreviewController delegate
-
-- (void)previewControllerWillDismiss:(QLPreviewController *)controller
-{
-    HELLO
-}
-
 - (void)setContainer:(id<GSFileContainer>)container
 {
     if (_container != container) {
         _container = container;
         self.title = [(GSFileSystemEntity*)_container name];
     }
+}
+
+#pragma mark - UIDocumentInteractionController delegate
+
+- (UIViewController*)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
+{
+    return self.navigationController;
 }
 
 #pragma mark - notification handlers

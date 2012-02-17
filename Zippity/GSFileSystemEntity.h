@@ -11,6 +11,8 @@
 @interface GSFileSystemEntity : NSObject {
 @private
     NSDictionary * _attributes;
+    UIImage * _icon;
+    UIDocumentInteractionController * _documentInteractionController;
 }
 
 @property (nonatomic, copy) NSString * name;
@@ -18,6 +20,9 @@
 @property (nonatomic, readonly) NSURL * url;
 @property (nonatomic, readonly) NSString * subtitle;
 @property (nonatomic, readonly) NSDictionary * attributes;
+
+@property (nonatomic, readonly) UIDocumentInteractionController *documentInteractionController;
+@property (nonatomic, readonly) UIImage * icon;
 
 - (id)initWithPath:(NSString*)path;
 

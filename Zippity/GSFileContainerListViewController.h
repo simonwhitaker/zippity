@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "GSFileContainer.h"
-#import <QuickLook/QuickLook.h>
 
-@interface GSFileContainerListViewController : UITableViewController <QLPreviewControllerDelegate>
+@interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate>
 
 @property (nonatomic, retain) id<GSFileContainer> container;
 

@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <QuickLook/QuickLook.h>
 #import "GSFileSystemEntity.h"
 
-@interface GSFile : GSFileSystemEntity <QLPreviewControllerDataSource> {
+@interface GSFile : GSFileSystemEntity {
 
 @private
     unsigned long long _size;

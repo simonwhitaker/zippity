@@ -13,6 +13,16 @@
 @synthesize name=_name;
 @synthesize path=_path;
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _icon = nil;
+        _attributes = nil;
+    }
+    return self;
+}
+
 - (id)initWithPath:(NSString *)path
 {
     self = [self init];
@@ -48,6 +58,23 @@
     return _attributes;
 }
 
+- (UIDocumentInteractionController*)documentInteractionController
+{
+    if (_documentInteractionController == nil) {
+        _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.url];
+    }
+    return _documentInteractionController;
+}
+
+- (UIImage*)icon
+{
+    if (_icon == nil) {
+        if (self.documentInteractionController.icons.count > 0) {
+            _icon = [self.documentInteractionController.icons objectAtIndex:0];
+        }
+    }
+    return _icon;
+}
 
 
 @end

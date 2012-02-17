@@ -19,7 +19,6 @@
 		F47DFDA114ED5704007F7443 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9C14ED5704007F7443 /* ZipArchive.mm */; settings = {COMPILER_FLAGS = "-fno-objc-arc -Wno-deprecated-declarations"; }; };
 		F47DFDA414ED57BC007F7443 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */; };
 		F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */; };
-		F47DFDAD14ED65E2007F7443 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47DFDAC14ED65E2007F7443 /* QuickLook.framework */; };
 		F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535614ECCC82009BF6FE /* UIKit.framework */; };
 		F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535814ECCC82009BF6FE /* Foundation.framework */; };
 		F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */; };
@@ -32,6 +31,9 @@
 		F4AAAD4314ED96D0009BE55F /* GSFileSystemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */; };
 		F4AAAD4614ED9AFA009BE55F /* GSDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */; };
 		F4AAAD4C14EDA1C9009BE55F /* NSArray+GSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4B14EDA1C9009BE55F /* NSArray+GSAdditions.m */; };
+		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
+		F4B9909D14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */; };
+		F4B990A014EE842600F8FBD8 /* folder-icon-flurry2.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,7 +57,6 @@
 		F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		F47DFDA514ED5EDF007F7443 /* NSDate+GSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+GSAdditions.h"; sourceTree = "<group>"; };
 		F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+GSAdditions.m"; sourceTree = "<group>"; };
-		F47DFDAC14ED65E2007F7443 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		F47F535214ECCC82009BF6FE /* Zippity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Zippity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F47F535614ECCC82009BF6FE /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F47F535814ECCC82009BF6FE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -78,6 +79,9 @@
 		F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDirectory.m; sourceTree = "<group>"; };
 		F4AAAD4A14EDA1C8009BE55F /* NSArray+GSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+GSAdditions.h"; sourceTree = "<group>"; };
 		F4AAAD4B14EDA1C9009BE55F /* NSArray+GSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+GSAdditions.m"; sourceTree = "<group>"; };
+		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-somatic-rebirth.png"; sourceTree = "<group>"; };
+		F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-flurry2.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F47DFDAD14ED65E2007F7443 /* QuickLook.framework in Frameworks */,
+				F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */,
 				F47DFDA414ED57BC007F7443 /* libz.1.2.5.dylib in Frameworks */,
 				F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */,
 				F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */,
@@ -175,11 +179,11 @@
 		F47F535514ECCC82009BF6FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F47DFDAC14ED65E2007F7443 /* QuickLook.framework */,
-				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
-				F47F535614ECCC82009BF6FE /* UIKit.framework */,
-				F47F535814ECCC82009BF6FE /* Foundation.framework */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
+				F47F535814ECCC82009BF6FE /* Foundation.framework */,
+				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
+				F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */,
+				F47F535614ECCC82009BF6FE /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -201,10 +205,7 @@
 		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F47DFD7B14ED4E32007F7443 /* Icon-Small.png */,
-				F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */,
-				F47DFD7D14ED4E32007F7443 /* Icon.png */,
-				F47DFD7E14ED4E32007F7443 /* Icon@2x.png */,
+				F4B9909E14EE820C00F8FBD8 /* Images */,
 				F47F537514ECCFEC009BF6FE /* Test data.zip */,
 				F47F535E14ECCC82009BF6FE /* Zippity-Info.plist */,
 				F47F535F14ECCC82009BF6FE /* InfoPlist.strings */,
@@ -223,6 +224,19 @@
 				F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		F4B9909E14EE820C00F8FBD8 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */,
+				F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */,
+				F47DFD7B14ED4E32007F7443 /* Icon-Small.png */,
+				F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */,
+				F47DFD7D14ED4E32007F7443 /* Icon.png */,
+				F47DFD7E14ED4E32007F7443 /* Icon@2x.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,6 +297,8 @@
 				F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */,
 				F47DFD8114ED4E32007F7443 /* Icon.png in Resources */,
 				F47DFD8214ED4E32007F7443 /* Icon@2x.png in Resources */,
+				F4B9909D14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png in Resources */,
+				F4B990A014EE842600F8FBD8 /* folder-icon-flurry2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
