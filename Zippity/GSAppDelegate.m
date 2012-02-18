@@ -32,19 +32,6 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     
     NSLog(@"Root directory: %@", self.rootDirectory);
     
-    // Clean out Inbox folder, which previous versions left dirty
-    NSString *inboxPath = [self.documentsDirectory stringByAppendingPathComponent:@"Inbox"];
-    for (NSString *filename in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:inboxPath error:nil]) {
-        NSError *error = nil;
-        NSString *filePath = [inboxPath stringByAppendingPathComponent:filename];
-        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
-        if (error) {
-            NSLog(@"Error deleting %@: %@, %@", filePath, error, error.userInfo);
-        } else {
-            NSLog(@"Deleted %@", filePath);
-        }
-    }
-    
     // Demo mode: add a sample zip file
     NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
     NSString *sampleTargetPath = [self.rootDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
