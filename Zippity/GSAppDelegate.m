@@ -14,6 +14,7 @@
 
 @synthesize window=_window;
 @synthesize rootDirectory=_rootDirectory;
+@synthesize navigationController=_navigationController;
 
 NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotification";
 
@@ -36,11 +37,12 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     GSDirectory *rootDirectory = [GSDirectory directoryWithPath:self.rootDirectory];
     rootDirectory.name = @"Zippity";
     
-    GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithStyle:UITableViewStylePlain];
-    vc.container = rootDirectory;
+    GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:rootDirectory 
+                                                                                            andSortOrder:GSFileContainerSortOrderByModifiedDateNewestFirst];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 
     self.window.rootViewController = nc;
+    self.navigationController = nc;
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -106,6 +108,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
         [[NSNotificationCenter defaultCenter] postNotificationName:GSAppReceivedZipFileNotification
                                                             object:self
                                                           userInfo:payload];
+        [self.navigationController popToRootViewControllerAnimated:NO];
     }
     return YES;
 }

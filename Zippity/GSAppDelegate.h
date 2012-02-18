@@ -19,5 +19,6 @@ extern NSString * const GSAppReceivedZipFileNotification;
 
 @property (strong, nonatomic) UIWindow *window;
 @property (readonly, nonatomic) NSString *rootDirectory;
+@property (assign, nonatomic) UINavigationController *navigationController;
 
 @end

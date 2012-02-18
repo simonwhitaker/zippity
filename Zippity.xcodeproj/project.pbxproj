@@ -30,7 +30,6 @@
 		F47F537914ECD062009BF6FE /* GSFileContainerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */; };
 		F4AAAD4314ED96D0009BE55F /* GSFileSystemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */; };
 		F4AAAD4614ED9AFA009BE55F /* GSDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */; };
-		F4AAAD4C14EDA1C9009BE55F /* NSArray+GSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4B14EDA1C9009BE55F /* NSArray+GSAdditions.m */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
 		F4B9909D14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */; };
 		F4B990A014EE842600F8FBD8 /* folder-icon-flurry2.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */; };
@@ -77,8 +76,6 @@
 		F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileSystemEntity.m; sourceTree = "<group>"; };
 		F4AAAD4414ED9AFA009BE55F /* GSDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDirectory.h; sourceTree = "<group>"; };
 		F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDirectory.m; sourceTree = "<group>"; };
-		F4AAAD4A14EDA1C8009BE55F /* NSArray+GSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+GSAdditions.h"; sourceTree = "<group>"; };
-		F4AAAD4B14EDA1C9009BE55F /* NSArray+GSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+GSAdditions.m"; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-somatic-rebirth.png"; sourceTree = "<group>"; };
 		F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-flurry2.png"; sourceTree = "<group>"; };
@@ -218,8 +215,6 @@
 		F4B9909914EE66F200F8FBD8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				F4AAAD4A14EDA1C8009BE55F /* NSArray+GSAdditions.h */,
-				F4AAAD4B14EDA1C9009BE55F /* NSArray+GSAdditions.m */,
 				F47DFDA514ED5EDF007F7443 /* NSDate+GSAdditions.h */,
 				F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */,
 			);
@@ -338,7 +333,6 @@
 				F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */,
 				F4AAAD4314ED96D0009BE55F /* GSFileSystemEntity.m in Sources */,
 				F4AAAD4614ED9AFA009BE55F /* GSDirectory.m in Sources */,
-				F4AAAD4C14EDA1C9009BE55F /* NSArray+GSAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

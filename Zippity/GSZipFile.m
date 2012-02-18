@@ -8,13 +8,14 @@
 
 #import "GSZipFile.h"
 #import "ZipArchive.h"
-#import "NSArray+GSAdditions.h"
+#import "GSDirectory.h"
 
 @interface GSZipFile()
 
 - (void)populateContents;
 - (void)setStatus:(GSZipFileUnzipStatus)status; // lets us call self.status internally
 
+@property (nonatomic, readonly) GSDirectory * cacheDirectory;
 @property (nonatomic, copy) NSString * cachePath;
 
 @end
@@ -22,8 +23,8 @@
 @implementation GSZipFile
 
 @synthesize status=_status;
-@synthesize contents=_contents;
 @synthesize cachePath=_cachePath;
+@synthesize cacheDirectory=_cacheDirectory;
 
 NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus";
 
@@ -68,9 +69,19 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
     return _cachePath;
 }
 
+- (NSArray*)contents
+{
+    return self.cacheDirectory.contents;
+}
+
+- (void)sortContentsUsingSortOrder:(GSFileContainerSortOrder)sortOrder
+{
+    [self.cacheDirectory sortContentsUsingSortOrder:sortOrder];
+}
+
 - (void)invalidateContents
 {
-    _contents = nil;
+    _cacheDirectory = nil;
     self.status = GSZipFileUnzipStatusInitialized;
     [[NSFileManager defaultManager] removeItemAtPath:self.cachePath error:nil];
     [self performSelectorInBackground:@selector(populateContents)
@@ -80,7 +91,7 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
 - (void)populateContents
 {
     @autoreleasepool {
-        if (_contents) {
+        if (self.cacheDirectory) {
             self.status = GSZipFileUnzipStatusComplete;
             return;
         }
@@ -142,8 +153,8 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
                 NSLog(@"Couldn't open zip file: %@", self.path);
             }
         }
-                
-        _contents = [NSArray arrayWithFilesFromDirectory:self.cachePath];
+        
+        _cacheDirectory = [GSDirectory directoryWithPath:self.cachePath];
         self.status = GSZipFileUnzipStatusComplete;
     }
 }

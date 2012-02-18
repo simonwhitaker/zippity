@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GSFile.h"
 #import "GSFileContainer.h"
+#import "GSDirectory.h"
 
 #define kZipFileStatusKey @"status"
 
@@ -22,7 +23,7 @@ typedef enum {
 
 @interface GSZipFile : GSFile <GSFileContainer> {
 @private
-    NSArray * _contents;
+    GSDirectory * _cacheDirectory;
     GSZipFileUnzipStatus _status;
 }
 

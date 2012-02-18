@@ -20,12 +20,19 @@
 @implementation GSFileContainerListViewController
 
 @synthesize container=_container;
+@synthesize sortOrder=_sortOrder;
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (id)initWithContainer:(id<GSFileContainer>)container
 {
-    self = [super initWithStyle:style];
-    if (self) {
+    return [self initWithContainer:container andSortOrder:GSFileContainerSortOrderDefault];
+}
 
+- (id)initWithContainer:(id<GSFileContainer>)container andSortOrder:(GSFileContainerSortOrder)sortOrder
+{
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        self.container = container;
+        self.sortOrder = sortOrder;
     }
     return self;
 }
@@ -41,6 +48,12 @@
     [super didReceiveMemoryWarning];
     
     // Release any cached data, images, etc that aren't in use.
+}
+
+#pragma mark - Custom accessors
+- (void)setSortOrder:(GSFileContainerSortOrder)sortOrder
+{
+    [self.container sortContentsUsingSortOrder:sortOrder];
 }
 
 #pragma mark - View lifecycle
@@ -142,8 +155,7 @@
 {
     GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
     if ([fse respondsToSelector:@selector(contents)]) {
-        GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithStyle:UITableViewStylePlain];
-        vc.container = (id<GSFileContainer>)fse;
+        GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:(id<GSFileContainer>)fse];
         [self.navigationController pushViewController:vc animated:YES];
     } else if (fse.documentInteractionController && [QLPreviewController canPreviewItem:fse.documentInteractionController.URL]) {
         fse.documentInteractionController.delegate = self;
