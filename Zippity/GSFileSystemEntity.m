@@ -13,6 +13,8 @@
 @synthesize name=_name;
 @synthesize path=_path;
 
+#pragma mark - Object lifecycle
+
 - (id)init
 {
     self = [super init];
@@ -32,6 +34,8 @@
     return self;
 }
 
+#pragma mark - Custom accessors
+
 - (NSString *)name
 {
     if (_name == nil) {
@@ -43,12 +47,6 @@
 - (NSURL *)url 
 {
     return [NSURL fileURLWithPath:self.path];
-}
-
-- (void)remove:(NSError *__autoreleasing *)error
-{
-    [[NSFileManager defaultManager] removeItemAtPath:self.path
-                                               error:error];
 }
 
 - (NSString *)subtitle
@@ -69,8 +67,9 @@
     return YES;
 }
 
-- (void)markVisited
+- (BOOL)isDirectory
 {
+    return NO;
 }
 
 - (UIDocumentInteractionController*)documentInteractionController
@@ -91,5 +90,16 @@
     return _icon;
 }
 
+#pragma mark - Misc methods
+
+- (void)remove:(NSError *__autoreleasing *)error
+{
+    [[NSFileManager defaultManager] removeItemAtPath:self.path
+                                               error:error];
+}
+
+- (void)markVisited
+{
+}
 
 @end

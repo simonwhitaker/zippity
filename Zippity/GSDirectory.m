@@ -26,7 +26,7 @@
 @synthesize contents=_contents;
 @synthesize sortOrder=_sortOrder;
 
-static NSString * VisitedMarker = @".visited";
+#pragma mark - Object lifecycle
 
 - (id)initWithPath:(NSString *)path
 {
@@ -48,7 +48,7 @@ static NSString * VisitedMarker = @".visited";
 - (NSString*)visitedMarkerPath
 {
     if (_visitedMarkerPath == nil) {
-        return [self.path stringByAppendingPathComponent:VisitedMarker];
+        return [self.path stringByAppendingPathComponent:@".visited"];
     }
     return _visitedMarkerPath;
 }
@@ -78,6 +78,11 @@ static NSString * VisitedMarker = @".visited";
 - (void)setContents:(NSArray *)contents
 {
     _contents = contents;
+}
+
+- (UIImage*)icon
+{
+    return [UIImage imageNamed:@"folder-icon-somatic-rebirth.png"];
 }
 
 - (NSArray*)contents
@@ -126,6 +131,8 @@ static NSString * VisitedMarker = @".visited";
     }
 }
 
+#pragma mark - Misc methods
+
 - (void)sortContents
 {
     switch (self.sortOrder) {
@@ -147,11 +154,6 @@ static NSString * VisitedMarker = @".visited";
 - (void)invalidateContents
 {
     _contents = nil;
-}
-
-- (UIImage*)icon
-{
-    return [UIImage imageNamed:@"folder-icon-somatic-rebirth.png"];
 }
 
 @end

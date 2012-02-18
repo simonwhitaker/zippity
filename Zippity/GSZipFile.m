@@ -30,6 +30,8 @@
 
 NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus";
 
+#pragma mark - Object lifecycle
+
 - (id)initWithPath:(NSString *)path
 {
     self = [super initWithPath:path];
@@ -55,6 +57,8 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
     }
     [self.cacheDirectory remove:error];
 }
+
+#pragma mark - Custom accessors
 
 - (void)setStatus:(GSZipFileUnzipStatus)status
 {
@@ -93,11 +97,6 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
     return self.cacheDirectory.isVisited;
 }
 
-- (void)markVisited
-{
-    [self.cacheDirectory markVisited];
-}
-
 - (NSArray*)contents
 {
     return self.cacheDirectory.contents;
@@ -106,6 +105,13 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
 - (void)setSortOrder:(GSFileContainerSortOrder)sortOrder
 {
     self.cacheDirectory.sortOrder = sortOrder;
+}
+
+#pragma mark - Misc methods
+
+- (void)markVisited
+{
+    [self.cacheDirectory markVisited];
 }
 
 - (void)invalidateContents

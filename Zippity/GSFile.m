@@ -6,9 +6,13 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
+#define BYTES_IN_DISPLAY_KILOBYTE 1024.0f
+
 #import "GSFile.h"
 
 @implementation GSFile
+
+#pragma mark - Object lifecycle
 
 - (id)init
 {
@@ -25,6 +29,8 @@
     return [[GSFile alloc] initWithPath:path];
 }
 
+#pragma mark - Custom accessors
+
 - (unsigned long long)size
 {    
     if (_size == 0) {
@@ -40,9 +46,6 @@
     }
     return _size;
 }
-
-// Change to 1000 to show "marketing bytes"
-#define BYTES_IN_DISPLAY_KILOBYTE 1024.0f
 
 - (NSString*)subtitle
 {
