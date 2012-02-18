@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F419661D14F0252900172FBA /* new-file-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661B14F0252900172FBA /* new-file-marker.png */; };
+		F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661C14F0252900172FBA /* new-file-marker@2x.png */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
 		F47DFD8114ED4E32007F7443 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7D14ED4E32007F7443 /* Icon.png */; };
@@ -36,6 +38,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F419661B14F0252900172FBA /* new-file-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker.png"; sourceTree = "<group>"; };
+		F419661C14F0252900172FBA /* new-file-marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker@2x.png"; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		F47DFD7D14ED4E32007F7443 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -224,6 +228,8 @@
 		F4B9909E14EE820C00F8FBD8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F419661B14F0252900172FBA /* new-file-marker.png */,
+				F419661C14F0252900172FBA /* new-file-marker@2x.png */,
 				F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */,
 				F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */,
 				F47DFD7B14ED4E32007F7443 /* Icon-Small.png */,
@@ -242,9 +248,9 @@
 			buildConfigurationList = F47F536A14ECCC82009BF6FE /* Build configuration list for PBXNativeTarget "Zippity" */;
 			buildPhases = (
 				F47F534E14ECCC82009BF6FE /* Sources */,
+				F4E0A93E14EDC0760073644D /* ShellScript */,
 				F47F534F14ECCC82009BF6FE /* Frameworks */,
 				F47F535014ECCC82009BF6FE /* Resources */,
-				F4E0A93E14EDC0760073644D /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -294,6 +300,8 @@
 				F47DFD8214ED4E32007F7443 /* Icon@2x.png in Resources */,
 				F4B9909D14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png in Resources */,
 				F4B990A014EE842600F8FBD8 /* folder-icon-flurry2.png in Resources */,
+				F419661D14F0252900172FBA /* new-file-marker.png in Resources */,
+				F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
