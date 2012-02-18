@@ -53,7 +53,7 @@
 #pragma mark - Custom accessors
 - (void)setSortOrder:(GSFileContainerSortOrder)sortOrder
 {
-    [self.container sortContentsUsingSortOrder:sortOrder];
+    self.container.sortOrder = sortOrder;
 }
 
 #pragma mark - View lifecycle
@@ -67,6 +67,11 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -116,6 +121,13 @@
     cell.textLabel.text = file.name;
     cell.detailTextLabel.text = file.subtitle;
     cell.imageView.image = file.icon;
+    
+    GSAppDelegate *appDelegate = (GSAppDelegate*)[[UIApplication sharedApplication] delegate];
+    if (self == [appDelegate.navigationController.viewControllers objectAtIndex:0] && !file.isVisited) {
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new-file-marker.png"]];
+    } else {
+        cell.accessoryView = nil;
+    }
 
     return cell;
 }
@@ -134,7 +146,7 @@
         // Delete the row from the data source
         GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
         NSError *error = nil;
-        [[NSFileManager defaultManager] removeItemAtPath:fse.path error:&error];
+        [fse remove:&error];
         if (error) {
             NSLog(@"Error on deleting file system entity (%@): %@, %@", fse.path, error, error.userInfo);
         }
@@ -146,6 +158,15 @@
 
 #pragma mark - Table view delegate
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GSFileSystemEntity *file = [self.container.contents objectAtIndex:indexPath.row];
+
+    if (file.isVisited) {
+        cell.accessoryView = nil;
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 56.0;
@@ -154,8 +175,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
+    [fse markVisited];
+    
     if ([fse respondsToSelector:@selector(contents)]) {
         GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:(id<GSFileContainer>)fse];
+        vc.tableView.delegate = vc;
         [self.navigationController pushViewController:vc animated:YES];
     } else if (fse.documentInteractionController && [QLPreviewController canPreviewItem:fse.documentInteractionController.URL]) {
         fse.documentInteractionController.delegate = self;

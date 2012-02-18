@@ -16,4 +16,6 @@
 
 + (GSDirectory*)directoryWithPath:(NSString*)path;
 
+- (void)markVisited;
+
 @end

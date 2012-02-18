@@ -25,5 +25,8 @@
 @property (nonatomic, readonly) UIImage * icon;
 
 - (id)initWithPath:(NSString*)path;
+- (BOOL)isVisited;
+- (void)markVisited;
+- (void)remove:(NSError *__autoreleasing *)error;
 
 @end

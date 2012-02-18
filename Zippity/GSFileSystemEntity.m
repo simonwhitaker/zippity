@@ -45,6 +45,12 @@
     return [NSURL fileURLWithPath:self.path];
 }
 
+- (void)remove:(NSError *__autoreleasing *)error
+{
+    [[NSFileManager defaultManager] removeItemAtPath:self.path
+                                               error:error];
+}
+
 - (NSString *)subtitle
 {
     return nil;
@@ -56,6 +62,15 @@
         _attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.path error:nil];
     }
     return _attributes;
+}
+
+- (BOOL)isVisited
+{
+    return YES;
+}
+
+- (void)markVisited
+{
 }
 
 - (UIDocumentInteractionController*)documentInteractionController

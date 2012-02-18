@@ -9,6 +9,7 @@
 #import "GSZipFile.h"
 #import "ZipArchive.h"
 #import "GSDirectory.h"
+#import "GSAppDelegate.h"
 
 @interface GSZipFile()
 
@@ -25,6 +26,7 @@
 @synthesize status=_status;
 @synthesize cachePath=_cachePath;
 @synthesize cacheDirectory=_cacheDirectory;
+@synthesize sortOrder=_sortOrder;
 
 NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus";
 
@@ -44,6 +46,16 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
     return z;
 }
 
+- (void)remove:(NSError *__autoreleasing *)error
+{
+    [super remove:error];
+    if (*error != nil) {
+        NSError *error = error;
+        NSLog(@"Error deleting %@: %@, %@", self.path, error, error.userInfo);
+    }
+    [self.cacheDirectory remove:error];
+}
+
 - (void)setStatus:(GSZipFileUnzipStatus)status
 {
     if (_status != status) {
@@ -59,9 +71,16 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
 - (NSString*)cachePath
 {
     if (_cachePath == nil) {
-        NSString *finalDirectoryName = [self.path stringByAppendingString:@".contents"];
+        GSAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        NSString *relativePath = [self.path stringByReplacingOccurrencesOfString:appDelegate.rootDirectory
+                                                                      withString:@""
+                                                                         options:0 
+                                                                           range:NSMakeRange(0, appDelegate.rootDirectory.length)];
+        NSString *finalDirectoryName = [relativePath stringByAppendingString:@".contents"];
+
+        NSString *cacheBasePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         NSArray * pathComponents = [NSArray arrayWithObjects:
-                                    [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0],
+                                    cacheBasePath,
                                     finalDirectoryName,
                                     nil];
         _cachePath = [NSString pathWithComponents:pathComponents];
@@ -69,14 +88,24 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
     return _cachePath;
 }
 
+- (BOOL)isVisited
+{
+    return self.cacheDirectory.isVisited;
+}
+
+- (void)markVisited
+{
+    [self.cacheDirectory markVisited];
+}
+
 - (NSArray*)contents
 {
     return self.cacheDirectory.contents;
 }
 
-- (void)sortContentsUsingSortOrder:(GSFileContainerSortOrder)sortOrder
+- (void)setSortOrder:(GSFileContainerSortOrder)sortOrder
 {
-    [self.cacheDirectory sortContentsUsingSortOrder:sortOrder];
+    self.cacheDirectory.sortOrder = sortOrder;
 }
 
 - (void)invalidateContents

@@ -133,6 +133,9 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
                                                             object:self
                                                           userInfo:payload];
         [self.navigationController popToRootViewControllerAnimated:NO];
+        
+        GSFileContainerListViewController *vc = (GSFileContainerListViewController*)self.navigationController.topViewController;
+        [vc.tableView reloadData];
     }
     return YES;
 }
