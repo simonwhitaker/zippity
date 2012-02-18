@@ -10,10 +10,7 @@
 
 #define kGSZipFilePathKey @"zipFilePath"
 
-@interface GSAppDelegate : UIResponder <UIApplicationDelegate> {
-@private
-    NSString *_rootDirectory;
-}
+@interface GSAppDelegate : UIResponder <UIApplicationDelegate>
 
 extern NSString * const GSAppReceivedZipFileNotification;
 

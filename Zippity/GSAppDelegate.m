@@ -10,6 +10,12 @@
 #import "GSFileContainerListViewController.h"
 #import "GSDirectory.h"
 
+@interface GSAppDelegate()
+
+- (NSString*)documentsDirectory;
+
+@end
+
 @implementation GSAppDelegate
 
 @synthesize window=_window;
@@ -25,6 +31,19 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     self.window.backgroundColor = [UIColor whiteColor];
     
     NSLog(@"Root directory: %@", self.rootDirectory);
+    
+    // Clean out Inbox folder, which previous versions left dirty
+    NSString *inboxPath = [self.documentsDirectory stringByAppendingPathComponent:@"Inbox"];
+    for (NSString *filename in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:inboxPath error:nil]) {
+        NSError *error = nil;
+        NSString *filePath = [inboxPath stringByAppendingPathComponent:filename];
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+        if (error) {
+            NSLog(@"Error deleting %@: %@, %@", filePath, error, error.userInfo);
+        } else {
+            NSLog(@"Deleted %@", filePath);
+        }
+    }
     
     // Demo mode: add a sample zip file
     NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
@@ -102,6 +121,11 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     if (error) {
         NSLog(@"Error copying zip file (%@) to document directory (%@): %@, %@", incomingPath, targetPath, error, error.userInfo);
     } else {
+        [[NSFileManager defaultManager] removeItemAtPath:incomingPath
+                                                   error:&error];
+        if (error) {
+            NSLog(@"Error deleting %@: %@, %@", incomingPath, error, error.userInfo);
+        }
         NSLog(@"Saved %@ to %@", incomingPath, targetPath);
         NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithCapacity:1];
         [payload setObject:targetPath forKey:kGSZipFilePathKey];
@@ -113,10 +137,15 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     return YES;
 }
 
+- (NSString*)documentsDirectory
+{
+    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+}
+
 - (NSString*)rootDirectory
 {
     if (!_rootDirectory) {
-        NSString *rootDirectory = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"zippity-files"];
+        NSString *rootDirectory = [self.documentsDirectory stringByAppendingPathComponent:@"zippity-files"];
         NSError *error = nil;
         [[NSFileManager defaultManager] createDirectoryAtPath:rootDirectory
                                   withIntermediateDirectories:YES
