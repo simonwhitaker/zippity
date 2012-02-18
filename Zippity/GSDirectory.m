@@ -85,6 +85,11 @@
     return [UIImage imageNamed:@"folder-icon-somatic-rebirth.png"];
 }
 
+- (BOOL)isDirectory
+{
+    return YES;
+}
+
 - (NSArray*)contents
 {
     if (!_contents) {
@@ -119,6 +124,14 @@
                 [self sortContents];
             }
         }
+    }
+    
+    // If this directory contains only a single subdirectory, flatten
+    // the directory hierarchy by returning the contents of the 
+    // subdirectory directly
+    if (_contents.count == 1 && [(GSFileSystemEntity*)[_contents objectAtIndex:0] isDirectory]) {
+        GSDirectory *singleSubdirectory = [_contents objectAtIndex:0];
+        return singleSubdirectory.contents;
     }
     return _contents;
 }

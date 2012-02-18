@@ -28,5 +28,6 @@
 - (BOOL)isVisited;
 - (void)markVisited;
 - (void)remove:(NSError *__autoreleasing *)error;
+- (BOOL)isDirectory;
 
 @end
