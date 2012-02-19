@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#define BYTES_IN_DISPLAY_KILOBYTE 1024.0f
+#define kBytesInKilobyte 1024
 
 #import "GSFile.h"
 
@@ -66,8 +66,8 @@
 
         CGFloat sizef = (CGFloat)self.size;
         for (NSString * suffix in SizeSuffixes) {
-            if (sizef > BYTES_IN_DISPLAY_KILOBYTE) {
-                sizef /= BYTES_IN_DISPLAY_KILOBYTE;
+            if (sizef > kBytesInKilobyte) {
+                sizef /= (float)kBytesInKilobyte;
                 sizeString = [NSString stringWithFormat:@"%.0f %@", sizef, suffix];
             } else {
                 break;
