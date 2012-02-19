@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		F419661D14F0252900172FBA /* new-file-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661B14F0252900172FBA /* new-file-marker.png */; };
 		F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661C14F0252900172FBA /* new-file-marker@2x.png */; };
+		F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47AA30014F1284800F100C1 /* GSRootListViewController.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
 		F47DFD8114ED4E32007F7443 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7D14ED4E32007F7443 /* Icon.png */; };
@@ -30,6 +31,8 @@
 		F47F537314ECCD77009BF6FE /* GSZipFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537214ECCD77009BF6FE /* GSZipFile.m */; };
 		F47F537614ECCFEC009BF6FE /* Test data.zip in Resources */ = {isa = PBXBuildFile; fileRef = F47F537514ECCFEC009BF6FE /* Test data.zip */; };
 		F47F537914ECD062009BF6FE /* GSFileContainerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */; };
+		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
+		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
 		F4AAAD4314ED96D0009BE55F /* GSFileSystemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */; };
 		F4AAAD4614ED9AFA009BE55F /* GSDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
@@ -40,6 +43,8 @@
 /* Begin PBXFileReference section */
 		F419661B14F0252900172FBA /* new-file-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker.png"; sourceTree = "<group>"; };
 		F419661C14F0252900172FBA /* new-file-marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker@2x.png"; sourceTree = "<group>"; };
+		F47AA2FF14F1284800F100C1 /* GSRootListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = GSRootListViewController.h; sourceTree = "<group>"; };
+		F47AA30014F1284800F100C1 /* GSRootListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSRootListViewController.m; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		F47DFD7D14ED4E32007F7443 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -75,6 +80,8 @@
 		F47F537514ECCFEC009BF6FE /* Test data.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Test data.zip"; sourceTree = "<group>"; };
 		F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileContainerListViewController.h; sourceTree = "<group>"; };
 		F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileContainerListViewController.m; sourceTree = "<group>"; };
+		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
+		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
 		F4AAAD3F14ED95AD009BE55F /* GSFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileContainer.h; sourceTree = "<group>"; };
 		F4AAAD4114ED96D0009BE55F /* GSFileSystemEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileSystemEntity.h; sourceTree = "<group>"; };
 		F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileSystemEntity.m; sourceTree = "<group>"; };
@@ -122,6 +129,8 @@
 			children = (
 				F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */,
 				F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */,
+				F47AA2FF14F1284800F100C1 /* GSRootListViewController.h */,
+				F47AA30014F1284800F100C1 /* GSRootListViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -228,6 +237,8 @@
 		F4B9909E14EE820C00F8FBD8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F4876C3C14F05D2B00A95302 /* folder-icon.png */,
+				F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */,
 				F419661B14F0252900172FBA /* new-file-marker.png */,
 				F419661C14F0252900172FBA /* new-file-marker@2x.png */,
 				F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */,
@@ -302,6 +313,8 @@
 				F4B990A014EE842600F8FBD8 /* folder-icon-flurry2.png in Resources */,
 				F419661D14F0252900172FBA /* new-file-marker.png in Resources */,
 				F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */,
+				F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */,
+				F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +354,7 @@
 				F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */,
 				F4AAAD4314ED96D0009BE55F /* GSFileSystemEntity.m in Sources */,
 				F4AAAD4614ED9AFA009BE55F /* GSDirectory.m in Sources */,
+				F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

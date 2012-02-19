@@ -8,6 +8,7 @@
 
 #import "GSAppDelegate.h"
 #import "GSFileContainerListViewController.h"
+#import "GSRootListViewController.h"
 #import "GSDirectory.h"
 
 @interface GSAppDelegate()
@@ -43,8 +44,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     GSDirectory *rootDirectory = [GSDirectory directoryWithPath:self.rootDirectory];
     rootDirectory.name = @"Zippity";
     
-    GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:rootDirectory 
-                                                                                            andSortOrder:GSFileContainerSortOrderByModifiedDateNewestFirst];
+    GSRootListViewController *vc = [[GSRootListViewController alloc] initWithContainer:rootDirectory];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 
     self.window.rootViewController = nc;

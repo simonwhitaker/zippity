@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GSFileContainer.h"
+#import "GSZipFile.h"
 
 @interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate>
 

@@ -66,7 +66,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -117,18 +117,11 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    GSFileSystemEntity *file = [self.container.contents objectAtIndex:indexPath.row];
-    cell.textLabel.text = file.name;
-    cell.detailTextLabel.text = file.subtitle;
-    cell.imageView.image = file.icon;
+    GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
+    cell.textLabel.text = fse.name;
+    cell.detailTextLabel.text = fse.subtitle;
+    cell.imageView.image = fse.icon;
     
-    GSAppDelegate *appDelegate = (GSAppDelegate*)[[UIApplication sharedApplication] delegate];
-    if (self == [appDelegate.navigationController.viewControllers objectAtIndex:0] && !file.isVisited) {
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new-file-marker.png"]];
-    } else {
-        cell.accessoryView = nil;
-    }
-
     return cell;
 }
 
@@ -136,36 +129,12 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return NO;
 }
 
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
-        NSError *error = nil;
-        [fse remove:&error];
-        if (error) {
-            NSLog(@"Error on deleting file system entity (%@): %@, %@", fse.path, error, error.userInfo);
-        }
-        [self.container invalidateContents];
-        
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-}
+
 
 #pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    GSFileSystemEntity *file = [self.container.contents objectAtIndex:indexPath.row];
-
-    if (file.isVisited) {
-        cell.accessoryView = nil;
-    }
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
