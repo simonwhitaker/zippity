@@ -146,6 +146,13 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     } else {
         NSLog(@"Copied %@ to %@", incomingPath, targetPath);
 
+        // Set file's last modified date
+        NSDictionary *attrs = [NSDictionary dictionaryWithObject:[NSDate date] forKey:NSFileModificationDate];
+        [[NSFileManager defaultManager] setAttributes:attrs
+                                         ofItemAtPath:targetPath
+                                                error:nil];
+
+
         [[NSFileManager defaultManager] removeItemAtPath:incomingPath
                                                    error:&error];
         if (error) {
