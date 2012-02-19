@@ -50,12 +50,12 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
 
 - (void)remove:(NSError *__autoreleasing *)error
 {
-    [super remove:error];
-    if (*error != nil) {
-        NSError *error = error;
-        NSLog(@"Error deleting %@: %@, %@", self.path, error, error.userInfo);
+    NSError *cacheDirError = nil;
+    [self.cacheDirectory remove:&cacheDirError];
+    if (cacheDirError) {
+        NSLog(@"Error deleting %@: %@, %@", self.cacheDirectory, cacheDirError, cacheDirError.userInfo);
     }
-    [self.cacheDirectory remove:error];
+    [super remove:error];
 }
 
 #pragma mark - Custom accessors
