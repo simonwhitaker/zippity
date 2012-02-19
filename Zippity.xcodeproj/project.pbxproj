@@ -38,8 +38,6 @@
 		F4AAAD4314ED96D0009BE55F /* GSFileSystemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */; };
 		F4AAAD4614ED9AFA009BE55F /* GSDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
-		F4B9909D14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */; };
-		F4B990A014EE842600F8FBD8 /* folder-icon-flurry2.png in Resources */ = {isa = PBXBuildFile; fileRef = F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,8 +90,6 @@
 		F4AAAD4414ED9AFA009BE55F /* GSDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDirectory.h; sourceTree = "<group>"; };
 		F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDirectory.m; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-somatic-rebirth.png"; sourceTree = "<group>"; };
-		F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon-flurry2.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,8 +243,6 @@
 				F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */,
 				F419661B14F0252900172FBA /* new-file-marker.png */,
 				F419661C14F0252900172FBA /* new-file-marker@2x.png */,
-				F4B9909C14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png */,
-				F4B9909F14EE842600F8FBD8 /* folder-icon-flurry2.png */,
 				F47DFD7B14ED4E32007F7443 /* Icon-Small.png */,
 				F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */,
 				F47DFD7D14ED4E32007F7443 /* Icon.png */,
@@ -315,8 +309,6 @@
 				F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */,
 				F47DFD8114ED4E32007F7443 /* Icon.png in Resources */,
 				F47DFD8214ED4E32007F7443 /* Icon@2x.png in Resources */,
-				F4B9909D14EE820500F8FBD8 /* folder-icon-somatic-rebirth.png in Resources */,
-				F4B990A014EE842600F8FBD8 /* folder-icon-flurry2.png in Resources */,
 				F419661D14F0252900172FBA /* new-file-marker.png in Resources */,
 				F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */,
 				F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */,
