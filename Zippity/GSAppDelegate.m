@@ -11,6 +11,8 @@
 #import "GSRootListViewController.h"
 #import "GSDirectory.h"
 
+#define kMaxSuffixesToTry 100
+
 @interface GSAppDelegate()
 
 - (NSString*)documentsDirectory;
@@ -24,6 +26,21 @@
 @synthesize navigationController=_navigationController;
 
 NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotification";
+
+- (void)cleanInboxDirectory 
+{
+    NSString *inboxPath = [self.documentsDirectory stringByAppendingPathComponent:@"Inbox"];
+    for (NSString *filename in [[NSFileManager defaultManager] contentsOfDirectoryAtPath:inboxPath error:nil]) {
+        NSError *error = nil;
+        NSString *filePath = [inboxPath stringByAppendingPathComponent:filename];
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+        if (error) {
+            NSLog(@"Error deleting %@: %@, %@", filePath, error, error.userInfo);
+        } else {
+            NSLog(@"Deleted %@", filePath);
+        }
+    }
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -55,11 +72,14 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
-{
+{    
     /*
      Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
      Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
      */
+    
+    // Delete any temporary files that have been left in the Inbox directory
+    [self cleanInboxDirectory];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
@@ -102,18 +122,38 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     NSString *targetPath = [self.rootDirectory stringByAppendingPathComponent:filename];
     
     NSError *error = nil;
+    
+    NSString *filenameMinusExt = [filename stringByDeletingPathExtension];
+    NSString *filenameExtension = [filename pathExtension];
+    
+    // Make sure the target file has a unique filename
+    NSUInteger suffixNumber = 1;
+    while ([[NSFileManager defaultManager] fileExistsAtPath:targetPath]) {
+        NSString * newFilename = [[filenameMinusExt stringByAppendingFormat:@"-%u", suffixNumber] stringByAppendingPathExtension:filenameExtension];
+        targetPath = [self.rootDirectory stringByAppendingPathComponent:newFilename];
+        suffixNumber++;
+        if (suffixNumber > kMaxSuffixesToTry) {
+            // Oops, we've wrapped around.
+            break;
+        }
+    }
+    
     [[NSFileManager defaultManager] copyItemAtPath:incomingPath
                                             toPath:targetPath
                                              error:&error];
     if (error) {
         NSLog(@"Error copying zip file (%@) to document directory (%@): %@, %@", incomingPath, targetPath, error, error.userInfo);
     } else {
+        NSLog(@"Copied %@ to %@", incomingPath, targetPath);
+
         [[NSFileManager defaultManager] removeItemAtPath:incomingPath
                                                    error:&error];
         if (error) {
             NSLog(@"Error deleting %@: %@, %@", incomingPath, error, error.userInfo);
+        } else {
+            NSLog(@"Deleted %@", incomingPath);
         }
-        NSLog(@"Saved %@ to %@", incomingPath, targetPath);
+        
         NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithCapacity:1];
         [payload setObject:targetPath forKey:kGSZipFilePathKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:GSAppReceivedZipFileNotification
@@ -121,7 +161,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
                                                           userInfo:payload];
         [self.navigationController popToRootViewControllerAnimated:NO];
         
-        GSFileContainerListViewController *vc = (GSFileContainerListViewController*)self.navigationController.topViewController;
+        GSFileContainerListViewController *vc = (GSFileContainerListViewController*)[self.navigationController.viewControllers objectAtIndex:0];
         [vc.tableView reloadData];
     }
     return YES;
