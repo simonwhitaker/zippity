@@ -82,7 +82,7 @@
 
 - (UIImage*)icon
 {
-    return [UIImage imageNamed:@"folder-icon-somatic-rebirth.png"];
+    return [UIImage imageNamed:@"folder-icon.png"];
 }
 
 - (BOOL)isDirectory
