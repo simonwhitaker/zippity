@@ -107,15 +107,13 @@
 {    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
         NSError *error = nil;
-        [fse remove:&error];
+        [self.container removeItemAtIndex:indexPath.row error:&error];
         if (error) {
-            NSLog(@"Error on deleting file system entity (%@): %@, %@", fse.path, error, error.userInfo);
+            NSLog(@"Error on deleting object at row %u of %@: %@, %@", indexPath.row, self, error, error.userInfo);
+        } else {
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         }
-        [self.container invalidateContents];
-        
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }   
 }
 
