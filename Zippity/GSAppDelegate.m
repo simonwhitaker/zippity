@@ -10,6 +10,7 @@
 #import "GSFileContainerListViewController.h"
 #import "GSRootListViewController.h"
 #import "GSDirectory.h"
+#import "TestFlight.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -44,6 +45,8 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [TestFlight takeOff:@"c9a1cdc85d251c1574f49750c3db2a52_NzcyMzIwMTEtMDktMTYgMDU6MTI6MTkuOTU1OTM3"];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];

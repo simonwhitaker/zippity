@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		F40B66FF14F1A20E00156BBB /* safari-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F40B66FD14F1A20E00156BBB /* safari-icon.png */; };
 		F40B670014F1A20E00156BBB /* safari-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40B66FE14F1A20E00156BBB /* safari-icon@2x.png */; };
+		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
+		F40FDBA914F2889F008BF9C8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA514F2889F008BF9C8 /* README.txt */; };
+		F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA614F2889F008BF9C8 /* release_notes.txt */; };
 		F419661D14F0252900172FBA /* new-file-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661B14F0252900172FBA /* new-file-marker.png */; };
 		F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661C14F0252900172FBA /* new-file-marker@2x.png */; };
 		F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47AA30014F1284800F100C1 /* GSRootListViewController.m */; };
@@ -43,6 +46,10 @@
 /* Begin PBXFileReference section */
 		F40B66FD14F1A20E00156BBB /* safari-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "safari-icon.png"; sourceTree = "<group>"; };
 		F40B66FE14F1A20E00156BBB /* safari-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "safari-icon@2x.png"; sourceTree = "<group>"; };
+		F40FDBA414F2889F008BF9C8 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		F40FDBA514F2889F008BF9C8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		F40FDBA614F2889F008BF9C8 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
+		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F419661B14F0252900172FBA /* new-file-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker.png"; sourceTree = "<group>"; };
 		F419661C14F0252900172FBA /* new-file-marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker@2x.png"; sourceTree = "<group>"; };
 		F47AA2FF14F1284800F100C1 /* GSRootListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSRootListViewController.h; sourceTree = "<group>"; };
@@ -102,12 +109,24 @@
 				F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */,
 				F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */,
 				F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */,
+				F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F40FDBA314F2889F008BF9C8 /* TestFlightSDK */ = {
+			isa = PBXGroup;
+			children = (
+				F40FDBA414F2889F008BF9C8 /* libTestFlight.a */,
+				F40FDBA514F2889F008BF9C8 /* README.txt */,
+				F40FDBA614F2889F008BF9C8 /* release_notes.txt */,
+				F40FDBA714F2889F008BF9C8 /* TestFlight.h */,
+			);
+			path = TestFlightSDK;
+			sourceTree = "<group>";
+		};
 		F47DFD8A14ED5577007F7443 /* Data types */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +183,7 @@
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 				F47DFD9014ED5704007F7443 /* ZipArchive */,
 			);
 			name = "Third-party libraries";
@@ -315,6 +335,8 @@
 				F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */,
 				F40B66FF14F1A20E00156BBB /* safari-icon.png in Resources */,
 				F40B670014F1A20E00156BBB /* safari-icon@2x.png in Resources */,
+				F40FDBA914F2889F008BF9C8 /* README.txt in Resources */,
+				F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -372,6 +394,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F40FDBAC14F289DB008BF9C8 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		F40FDBAD14F289DB008BF9C8 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				COPY_PHASE_STRIP = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
+				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc";
+		};
 		F47F536814ECCC82009BF6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -423,6 +483,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -435,6 +499,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
@@ -449,6 +517,7 @@
 			buildConfigurations = (
 				F47F536814ECCC82009BF6FE /* Debug */,
 				F47F536914ECCC82009BF6FE /* Release */,
+				F40FDBAC14F289DB008BF9C8 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -458,6 +527,7 @@
 			buildConfigurations = (
 				F47F536B14ECCC82009BF6FE /* Debug */,
 				F47F536C14ECCC82009BF6FE /* Release */,
+				F40FDBAD14F289DB008BF9C8 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
