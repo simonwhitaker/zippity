@@ -23,6 +23,8 @@ typedef enum {
 // determined, and cached, array of contents, forcing
 // them to be rediscovered next time self.contents is
 // called.
+
 - (void)invalidateContents;
+- (void)removeItemAtIndex:(NSUInteger)index error:(NSError**)error;
 
 @end

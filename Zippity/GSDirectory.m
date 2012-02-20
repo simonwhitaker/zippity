@@ -68,6 +68,17 @@
     return _isVisited;
 }
 
+- (void)removeItemAtIndex:(NSUInteger)index error:(NSError *__autoreleasing *)error
+{
+    if (index < self.contents.count) {
+        GSFileSystemEntity *fse = [self.contents objectAtIndex:index];
+        [[NSFileManager defaultManager] removeItemAtPath:fse.path
+                                                   error:error];
+        [self invalidateContents];
+        
+    }
+}
+
 #pragma mark - Custom accessors
 
 - (NSString*)subtitle

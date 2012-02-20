@@ -58,6 +58,11 @@ NSString * const GSZipFileDidUpdateUnzipStatus = @"GSZipFileDidUpdateUnzipStatus
     [super remove:error];
 }
 
+- (void)removeItemAtIndex:(NSUInteger)index error:(NSError *__autoreleasing *)error
+{
+    [self.cacheDirectory removeItemAtIndex:index error:error];
+}
+
 #pragma mark - Custom accessors
 
 - (void)setStatus:(GSZipFileUnzipStatus)status
