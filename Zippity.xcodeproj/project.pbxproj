@@ -15,6 +15,7 @@
 		F419661D14F0252900172FBA /* new-file-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661B14F0252900172FBA /* new-file-marker.png */; };
 		F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661C14F0252900172FBA /* new-file-marker@2x.png */; };
 		F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* GSFileWrapper.m */; };
+		F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */; };
 		F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47AA30014F1284800F100C1 /* GSRootListViewController.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
@@ -51,6 +52,8 @@
 		F419661C14F0252900172FBA /* new-file-marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker@2x.png"; sourceTree = "<group>"; };
 		F441B49A14F3765D0067A4FC /* GSFileWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileWrapper.m; sourceTree = "<group>"; };
 		F441B49B14F3765D0067A4FC /* GSFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileWrapper.h; sourceTree = "<group>"; };
+		F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+GSZippityAdditions.h"; sourceTree = "<group>"; };
+		F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+GSZippityAdditions.m"; sourceTree = "<group>"; };
 		F47AA2FF14F1284800F100C1 /* GSRootListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSRootListViewController.h; sourceTree = "<group>"; };
 		F47AA30014F1284800F100C1 /* GSRootListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSRootListViewController.m; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -195,6 +198,8 @@
 		F47F535C14ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXGroup;
 			children = (
+				F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */,
+				F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */,
 				F441B49A14F3765D0067A4FC /* GSFileWrapper.m */,
 				F441B49B14F3765D0067A4FC /* GSFileWrapper.h */,
 				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
@@ -349,6 +354,7 @@
 				F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */,
 				F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */,
 				F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */,
+				F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,12 @@ typedef enum {
     GSFileWrapperContainerStatusError
 } GSFileWrapperContainerStatus;
 
+typedef enum {
+    GSFileWrapperSortOrderUnspecified,
+    GSFileWrapperSortOrderByName,
+    GSFileWrapperSortOrderByModificationDateNewestFirst
+} GSFileWrapperSortOrder;
+
 // NSNotification names for notifications raised on completion
 // of asynchronous loading of container contents
 extern NSString * const GSFileWrapperContainerDidReloadContents;
@@ -51,6 +57,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 @property (readonly) NSURL * url;
 @property (readonly) NSString * subtitle;
 @property (readonly) UIImage * icon;
+@property (readonly) NSDictionary * attributes;
 @property (readonly) UIDocumentInteractionController *documentInteractionController;
 
 // Accessors for determining functionality of the file 
@@ -61,6 +68,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 @property (readonly) BOOL isContainer; // YES if the file wrapper contains other files, NO otherwise.
 
 // Container methods: only have effect where isContainer == YES
+@property (nonatomic) GSFileWrapperSortOrder sortOrder;
 @property (readonly) GSFileWrapperContainerStatus containerStatus;
 @property (readonly) NSArray * fileWrappers;
 

@@ -10,6 +10,7 @@
 #import "GSFileWrapper.h"
 #import "ZipArchive.h"
 #import "GSAppDelegate.h"
+#import "NSArray+GSZippityAdditions.h"
 
 //------------------------------------------------------------
 // Public class interface: GSFileWrapper
@@ -57,6 +58,7 @@
 
 @synthesize name=_name;
 @synthesize url=_url;
+@synthesize sortOrder=_sortOrder;
 
 @class GSZipFileWrapper, GSDirectoryWrapper, GSRegularFileWrapper;
 
@@ -112,6 +114,11 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 
 #pragma mark - Materialised properties
 
+- (NSDictionary*)attributes
+{
+    return _attributes;
+}
+
 - (NSString*)subtitle
 {
     return nil;
@@ -156,6 +163,17 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 }
 
 #pragma mark - Container methods
+
+- (void)setSortOrder:(GSFileWrapperSortOrder)sortOrder
+{
+    if (_sortOrder != sortOrder) {
+        _sortOrder = sortOrder;
+        
+        if (_fileWrappers) {
+            _fileWrappers = [_fileWrappers sortedArrayUsingFileWrapperSortOrder:sortOrder];
+        }
+    }
+}
 
 - (void)setContainerStatus:(GSFileWrapperContainerStatus)containerStatus
 {
@@ -300,7 +318,11 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
                 }
                 [tempArray addObject:wrapper];
             }
-            _fileWrappers = [NSArray arrayWithArray:tempArray];
+            if (self.sortOrder) {
+                _fileWrappers = [tempArray sortedArrayUsingFileWrapperSortOrder:self.sortOrder];
+            } else {
+                _fileWrappers = [NSArray arrayWithArray:tempArray];
+            }
             
             if (_fileWrappers.count == 1) {
                 GSFileWrapper * childWrapper = [_fileWrappers objectAtIndex:0];
@@ -373,6 +395,11 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 
 - (BOOL)isArchive { 
     return YES; 
+}
+
+- (void)setSortOrder:(GSFileWrapperSortOrder)sortOrder
+{
+    _cacheDirectory.sortOrder = sortOrder;
 }
 
 - (NSArray*)fileWrappers

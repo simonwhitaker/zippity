@@ -68,6 +68,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
         // TODO: handle error
     }
     rootFileWrapper.name = @"Zippity";
+    rootFileWrapper.sortOrder = GSFileWrapperSortOrderByModificationDateNewestFirst;
     
     GSRootListViewController *vc = [[GSRootListViewController alloc] initWithContainer:rootFileWrapper];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
