@@ -189,10 +189,11 @@
 
 #pragma mark - UIActionSheet delegate methods
 
+#define kEmailButtonLabel @"Email"
+
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    // TODO: replace @"Email" with (localised) string constant
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Email"]) {
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(kEmailButtonLabel, nil)]) {
         if ([MFMailComposeViewController canSendMail]) {
             MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
             
@@ -232,11 +233,11 @@
 
 - (void)handleShareButton:(id)sender
 {
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Share"
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Share %@", @"Share label in sharing action sheet"), self.container.name]
                                                     delegate:self
-                                           cancelButtonTitle:@"Cancel"
+                                           cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button in sharing action sheet")
                                       destructiveButtonTitle:nil
-                                           otherButtonTitles:@"Email", nil];
+                                           otherButtonTitles:NSLocalizedString(kEmailButtonLabel, @"Email button label in action sheet"), nil];
     [as showInView:self.view];
 }
 
