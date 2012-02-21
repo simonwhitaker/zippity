@@ -1,0 +1,515 @@
+//
+//  GSFileWrapper.m
+//  
+//
+//  Created by Simon Whitaker on 21/02/2012.
+//  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+#import "GSFileWrapper.h"
+#import "ZipArchive.h"
+#import "GSAppDelegate.h"
+#import "NSArray+GSZippityAdditions.h"
+
+//------------------------------------------------------------
+// Public class interface: GSFileWrapper
+//------------------------------------------------------------
+
+@interface GSFileWrapper()
+- (void)setUrl:(NSURL*)url;
+- (void)setAttributes:(NSDictionary*)attributes;
+// Allows us to write to self.containerStatus internally
+- (void)setContainerStatus:(GSFileWrapperContainerStatus)containerStatus;
+// Starts the asynchronous reading of container contents.
+- (void)_fetchContainerContents;
+@end
+
+//------------------------------------------------------------
+// Private class interface: GSDirectoryWrapper
+//------------------------------------------------------------
+
+@interface GSDirectoryWrapper : GSFileWrapper
+@end
+
+//------------------------------------------------------------
+// Private class interface: GSRegularFileWrapper
+//------------------------------------------------------------
+
+@interface GSRegularFileWrapper : GSFileWrapper
+@end
+
+//------------------------------------------------------------
+// Private class interface: GSZipFileWrapper
+//------------------------------------------------------------
+
+@interface GSZipFileWrapper : GSRegularFileWrapper {
+    GSFileWrapper * _cacheDirectory;
+    NSString * _cachePath;
+}
+@property (nonatomic, readonly) NSString * cachePath;
+@end
+
+//------------------------------------------------------------
+// Public class: GSFileWrapper
+//------------------------------------------------------------
+
+@implementation GSFileWrapper
+
+@synthesize name=_name;
+@synthesize url=_url;
+@synthesize sortOrder=_sortOrder;
+
+@class GSZipFileWrapper, GSDirectoryWrapper, GSRegularFileWrapper;
+
+NSString * const GSFileWrapperContainerDidReloadContents = @"GSFileWrapperContainerDidReloadContents";
+NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapperContainerDidFailToReloadContents";
+
+#pragma mark - Object lifecycle
+
+- (id)initWithURL:(NSURL*)url error:(NSError**)error
+{
+    self = [super init];
+    if (self) {
+        self.url = url;
+        self.name = [[url path] lastPathComponent];
+        self.attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[url path]
+                                                                           error:error];
+        self.containerStatus = GSFileWrapperContainerStatusInitialised;
+    }
+    if (*error) {
+        return nil;
+    }
+    return self;
+}
+
++ (GSFileWrapper*)fileWrapperWithURL:(NSURL*)url error:(NSError**)error
+{
+    GSFileWrapper *result;
+    BOOL isDirectory = NO;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDirectory]) {
+        if (isDirectory) {
+            result = [[GSDirectoryWrapper alloc] initWithURL:url error:error];
+        } else {
+            NSString *extension = [[[url path] pathExtension] lowercaseString];
+            if ([extension isEqualToString:@"zip"]) {
+                result = [[GSZipFileWrapper alloc] initWithURL:url error:error];
+            } else {
+                result = [[GSRegularFileWrapper alloc] initWithURL:url error:error];
+            }
+        }
+    } else {
+        // TODO: Can't determine file type - bomb out
+    }
+    if (result && *error == nil) {
+        return result;
+    }
+    return nil;
+}
+
+- (BOOL)remove:(NSError *__autoreleasing *)error
+{
+    return [[NSFileManager defaultManager] removeItemAtURL:_url error:error];
+}
+
+#pragma mark - Materialised properties
+
+- (NSDictionary*)attributes
+{
+    return _attributes;
+}
+
+- (NSString*)subtitle
+{
+    return nil;
+}
+
+- (UIImage*)icon
+{
+    if (_icon == nil && self.documentInteractionController.icons.count > 0) {
+        _icon = [self.documentInteractionController.icons objectAtIndex:0];
+    }
+    return _icon;
+}
+
+- (UIDocumentInteractionController*)documentInteractionController
+{
+    if (_documentInteractionController == nil) {
+        _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.url];
+    }
+    return _documentInteractionController;
+}
+
+#pragma mark - Functionality properties
+
+- (BOOL)isDirectory
+{
+    return NO;
+}
+
+- (BOOL)isRegularFile
+{
+    return NO;
+}
+
+- (BOOL)isArchive
+{
+    return NO;
+}
+
+- (BOOL)isContainer 
+{
+    return self.isDirectory || self.isArchive;
+}
+
+#pragma mark - Container methods
+
+- (void)setSortOrder:(GSFileWrapperSortOrder)sortOrder
+{
+    if (_sortOrder != sortOrder) {
+        _sortOrder = sortOrder;
+        
+        if (_fileWrappers) {
+            _fileWrappers = [_fileWrappers sortedArrayUsingFileWrapperSortOrder:sortOrder];
+        }
+    }
+}
+
+- (void)setContainerStatus:(GSFileWrapperContainerStatus)containerStatus
+{
+    if (containerStatus != _containerStatus) {
+        _containerStatus = containerStatus;
+        
+        if (_containerStatus == GSFileWrapperContainerStatusReady) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidReloadContents
+                                                                object:self];
+        }
+    }
+}
+
+- (void)_fetchContainerContents
+{
+    // Subclasses that return YES to isContainer must implement this method.
+    // The method will be called on a background thread so needs its own
+    // autorelease pool. 
+    // 
+    // On success it should set self.containerStatus to
+    // GSFileWrapperContainerStatusReady. A pre-formatted NSNotification
+    // will be sent automatically.
+    //
+    // On failure, it should set self.containerStatus to 
+    // GSFileWrapperContainerStatusError and send an appropriate 
+    // NSNotification with error details in its payload.
+    @autoreleasepool {
+        NSLog(@"Error - need to override _fetchContainerContents in %@", [self class]);
+    }
+}
+
+- (GSFileWrapperContainerStatus)containerStatus
+{
+    return _containerStatus;
+}
+
+- (NSArray*)fileWrappers
+{
+    if (self.isContainer) {
+        if (self.containerStatus == GSFileWrapperContainerStatusInitialised) {
+            [self _fetchContainerContents];
+        }
+        return _fileWrappers;
+    }
+    return nil;
+}
+
+- (void)reloadContainerContents
+{
+    if (self.isContainer) {
+        self.containerStatus = GSFileWrapperContainerStatusInitialised;
+        [self performSelectorInBackground:@selector(_fetchContainerContents) withObject:nil];
+    }
+}
+
+- (GSFileWrapper*)fileWrapperAtIndex:(NSUInteger)index 
+{
+    if (self.isContainer) {
+        return [_fileWrappers objectAtIndex:index];
+    }
+    return nil;
+}
+
+- (BOOL)removeItemAtIndex:(NSUInteger)index error:(NSError**)error
+{
+    if (self.isContainer) {
+        [[_fileWrappers objectAtIndex:index] remove:error];
+    }
+    if (*error) {
+        return NO;
+    } else {
+        [self reloadContainerContents]; // will re-calculate _fileWrappers based on current container contents
+        return YES;
+    }
+}
+
+#pragma mark - Regular file methods
+
+- (unsigned long long)fileSize
+{
+    return _attributes.fileSize;
+}
+
+#pragma mark - Private ivar accessors
+
+- (void)setUrl:(NSURL *)url
+{
+    _url = url;
+}
+
+- (void)setAttributes:(NSDictionary *)attributes
+{
+    _attributes = [attributes copy];
+}
+
+@end
+
+//------------------------------------------------------------
+// Private class: GSDirectoryWrapper
+//------------------------------------------------------------
+
+@implementation GSDirectoryWrapper
+
+- (BOOL)isDirectory { 
+    return YES; 
+}
+
+- (UIImage*)icon
+{
+    return [UIImage imageNamed:@"folder-icon.png"];
+}
+
+- (void)_fetchContainerContents
+{
+    @autoreleasepool {
+        NSError *error = nil;
+        NSArray *urls = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:self.url
+                                                      includingPropertiesForKeys:nil
+                                                                         options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                           error:&error];
+        if (error) {
+            self.containerStatus = GSFileWrapperContainerStatusError;
+            [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                                                                object:self
+                                                              userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];
+        } else {
+            NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:urls.count];
+            for (NSURL *url in urls) {
+                NSString *filename = url.path.lastPathComponent;
+                if ([filename isEqualToString:@"__MACOSX"]) {
+                    continue;
+                }
+                
+                NSError *initError = nil;
+                GSFileWrapper *wrapper = [GSFileWrapper fileWrapperWithURL:url error:&initError];
+                if (initError) {
+                    self.containerStatus = GSFileWrapperContainerStatusError;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                                                                        object:self
+                                                                      userInfo:[NSDictionary dictionaryWithObject:initError forKey:kErrorKey]];
+                    return;
+                }
+                [tempArray addObject:wrapper];
+            }
+            if (self.sortOrder) {
+                _fileWrappers = [tempArray sortedArrayUsingFileWrapperSortOrder:self.sortOrder];
+            } else {
+                _fileWrappers = [NSArray arrayWithArray:tempArray];
+            }
+            
+            if (_fileWrappers.count == 1) {
+                GSFileWrapper * childWrapper = [_fileWrappers objectAtIndex:0];
+                if (childWrapper.isDirectory) {
+                    [childWrapper _fetchContainerContents];
+                    _fileWrappers = childWrapper.fileWrappers;
+                }
+            }
+
+            self.containerStatus = GSFileWrapperContainerStatusReady;
+        }
+    }
+}
+
+
+@end
+
+//------------------------------------------------------------
+// Private class: GSRegularFileWrapper
+//------------------------------------------------------------
+
+@implementation GSRegularFileWrapper
+
+#define kBytesInKilobyte 1024
+
+- (BOOL)isRegularFile { 
+    return YES; 
+}
+
+- (NSString*)subtitle
+{
+    if (_subtitle == nil) {
+        static NSDateFormatter *DateFormatter = nil;
+        
+        if (DateFormatter == nil) {
+            DateFormatter = [[NSDateFormatter alloc] init];
+            DateFormatter.timeStyle = NSDateFormatterNoStyle;
+            DateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        }
+        NSString *lastModifiedString = [DateFormatter stringFromDate:_attributes.fileModificationDate];
+        
+        static NSArray *SizeSuffixes = nil;
+        if (SizeSuffixes == nil) {
+            SizeSuffixes = [NSArray arrayWithObjects: @"KB", @"MB", @"GB", nil];
+        }
+        NSString * sizeString = [NSString stringWithFormat:@"%llu bytes", _attributes.fileSize];
+        
+        CGFloat sizef = (CGFloat)_attributes.fileSize;
+        for (NSString * suffix in SizeSuffixes) {
+            if (sizef > kBytesInKilobyte) {
+                sizef /= (float)kBytesInKilobyte;
+                sizeString = [NSString stringWithFormat:@"%.0f %@", sizef, suffix];
+            } else {
+                break;
+            }
+        }
+        
+        _subtitle = [NSString stringWithFormat:@"%@, last modified %@", sizeString, lastModifiedString];
+    }
+    return _subtitle;
+}
+
+@end
+
+//------------------------------------------------------------
+// Private class: GSZipFileWrapper
+//------------------------------------------------------------
+
+@implementation GSZipFileWrapper
+
+- (BOOL)isArchive { 
+    return YES; 
+}
+
+- (void)setSortOrder:(GSFileWrapperSortOrder)sortOrder
+{
+    _cacheDirectory.sortOrder = sortOrder;
+}
+
+- (NSArray*)fileWrappers
+{
+    if (self.containerStatus == GSFileWrapperContainerStatusReady) {
+        return [_cacheDirectory fileWrappers];
+    }
+    return [super fileWrappers];
+}
+
+- (GSFileWrapper*)fileWrapperAtIndex:(NSUInteger)index
+{
+    return [_cacheDirectory fileWrapperAtIndex:index];
+}
+
+- (BOOL)removeItemAtIndex:(NSUInteger)index error:(NSError *__autoreleasing *)error
+{
+    // Not currently supported for zip files
+    return NO;
+}
+
+- (NSString*)cachePath
+{
+    if (_cachePath == nil) {
+        GSAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.rootDirectory
+                                                                          withString:@""
+                                                                             options:0 
+                                                                               range:NSMakeRange(0, appDelegate.rootDirectory.length)];
+        NSString *finalDirectoryName = [relativePath stringByAppendingString:@".contents"];
+        
+        NSString *cacheBasePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSArray * pathComponents = [NSArray arrayWithObjects:
+                                    cacheBasePath,
+                                    finalDirectoryName,
+                                    nil];
+        _cachePath = [NSString pathWithComponents:pathComponents];
+    }
+    return _cachePath;
+}
+
+- (void)_fetchContainerContents
+{
+    @autoreleasepool {
+        // Get the cache directory for this zip file, ensure it's
+        // available and newer than the zip file it represents
+        NSError * error = nil;
+        
+        BOOL requiresUnzipping = YES;
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:self.cachePath]) {
+            NSDictionary *cacheAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.cachePath error:&error];
+            if (error) {
+                NSLog(@"Error on getting attributes for cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
+                self.containerStatus = GSFileWrapperContainerStatusError;
+                [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                                                                    object:self
+                                                                  userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
+                return;
+            }
+            
+            // We need to re-unzip if the cache directory was last modified before
+            // the zip file was last modified
+            requiresUnzipping = [cacheAttributes.fileModificationDate isEarlierThanDate:_attributes.fileModificationDate];
+        }
+        
+        if (requiresUnzipping) {
+            // Delete any current directory contents
+            error = nil;
+            if ([[NSFileManager defaultManager] fileExistsAtPath:self.cachePath]) {
+                [[NSFileManager defaultManager] removeItemAtPath:self.cachePath error:&error];
+                if (error) {
+                    NSLog(@"Error on deleting existing cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
+                    self.containerStatus = GSFileWrapperContainerStatusError;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                                                                        object:self
+                                                                      userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
+                    return;
+                }
+            }
+
+            // (Re-)create cache directory
+            error = nil;
+            [[NSFileManager defaultManager] createDirectoryAtPath:self.cachePath
+                                      withIntermediateDirectories:YES
+                                                       attributes:nil
+                                                            error:&error];
+            if (error) {
+                NSLog(@"Error on creating cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
+                self.containerStatus = GSFileWrapperContainerStatusError;
+                [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                                                                    object:self
+                                                                  userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
+                return;
+            }
+            
+            ZipArchive *za = [[ZipArchive alloc] init];
+            if ([za UnzipOpenFile:self.url.path]) {
+                BOOL unzipped = [za UnzipFileTo:self.cachePath overWrite:YES];
+                if (!unzipped) {
+                    NSLog(@"Couldn't unzip file (%@) to cache directory (%@)", self.url.path, self.cachePath);
+                }
+            } else {
+                NSLog(@"Couldn't open zip file: %@", self.url.path);
+            }
+        }
+        
+        _cacheDirectory = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.cachePath] error:&error];
+        self.containerStatus = GSFileWrapperContainerStatusReady;
+    }
+}
+
+@end
