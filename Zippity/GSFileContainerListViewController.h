@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "GSFileWrapper.h"
+#import <MessageUI/MessageUI.h>
 
-@interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate>
+@interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 - (id)initWithContainer:(GSFileWrapper*)container;
 //- (id)initWithContainer:(GSFileWrapper*)container andSortOrder:(GSFileContainerSortOrder)sortOrder;

@@ -14,6 +14,8 @@
 		F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA614F2889F008BF9C8 /* release_notes.txt */; };
 		F419661D14F0252900172FBA /* new-file-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661B14F0252900172FBA /* new-file-marker.png */; };
 		F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661C14F0252900172FBA /* new-file-marker@2x.png */; };
+		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
+		F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E714F3C80000082527 /* MobileCoreServices.framework */; };
 		F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* GSFileWrapper.m */; };
 		F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */; };
 		F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47AA30014F1284800F100C1 /* GSRootListViewController.m */; };
@@ -50,6 +52,8 @@
 		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F419661B14F0252900172FBA /* new-file-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker.png"; sourceTree = "<group>"; };
 		F419661C14F0252900172FBA /* new-file-marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker@2x.png"; sourceTree = "<group>"; };
+		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		F43352E714F3C80000082527 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F441B49A14F3765D0067A4FC /* GSFileWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileWrapper.m; sourceTree = "<group>"; };
 		F441B49B14F3765D0067A4FC /* GSFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileWrapper.h; sourceTree = "<group>"; };
 		F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+GSZippityAdditions.h"; sourceTree = "<group>"; };
@@ -97,6 +101,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */,
+				F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */,
 				F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */,
 				F47DFDA414ED57BC007F7443 /* libz.1.2.5.dylib in Frameworks */,
 				F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */,
@@ -186,6 +192,8 @@
 		F47F535514ECCC82009BF6FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F43352E714F3C80000082527 /* MobileCoreServices.framework */,
+				F43352E414F3C41600082527 /* MessageUI.framework */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
 				F47F535814ECCC82009BF6FE /* Foundation.framework */,
 				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,

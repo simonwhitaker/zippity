@@ -9,11 +9,14 @@
 #import "GSFileContainerListViewController.h"
 #import "GSAppDelegate.h"
 #import <QuickLook/QuickLook.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface GSFileContainerListViewController()
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
+
+- (void)handleShareButton:(id)sender;
 
 @end
 
@@ -67,6 +70,9 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                           target:self
+                                                                                           action:@selector(handleShareButton:)];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -204,7 +210,67 @@
     return self.navigationController;
 }
 
-#pragma mark - notification handlers
+#pragma mark - MFMailComposeViewController delegate methods
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - UIActionSheet delegate methods
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    // TODO: replace @"Email" with (localised) string constant
+    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Email"]) {
+        if ([MFMailComposeViewController canSendMail]) {
+            MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+            
+            CFStringRef utiStringRef = (__bridge CFStringRef)self.container.documentInteractionController.UTI;
+            
+            // UTTypeCopy... retains its return value (contains the word "copy"), so we
+            // need to balance this with a release. We either do that manually by retaining
+            // a CFStringRef and calling CFRelease() on it, or we transfer responsility for
+            // memory management to ARC by using __bridge_transfer and let ARC sort it out.
+            // See http://www.mikeash.com/pyblog/friday-qa-2011-09-30-automatic-reference-counting.html
+            // for more on this.
+            NSString *mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(utiStringRef,
+                                                                                              kUTTagClassMIMEType);
+            if (!mimeType) {
+                mimeType = @"application/octet-stream";
+            }
+            
+            NSLog(@"Sending an email with MIME type %@", mimeType);
+            
+            [mailComposer addAttachmentData:[NSData dataWithContentsOfURL:self.container.url]
+                                   mimeType:mimeType
+                                   fileName:self.container.name];
+            mailComposer.mailComposeDelegate = self;
+            [self presentModalViewController:mailComposer animated:YES];
+        } else {
+            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                         message:@"You can't send mail on this device - do you need to set up an email account?"
+                                                        delegate:nil
+                                               cancelButtonTitle:@"OK"
+                                               otherButtonTitles:nil];
+            [av show];
+        }
+    }
+}
+
+#pragma mark - UI event handlers
+
+- (void)handleShareButton:(id)sender
+{
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Share"
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:nil
+                                           otherButtonTitles:@"Email", nil];
+    [as showInView:self.view];
+}
+
+#pragma mark - Notification handlers
 
 - (void)handleContentsReloaded:(NSNotification *)notification
 {
