@@ -9,7 +9,7 @@
 #import "GSAppDelegate.h"
 #import "GSFileContainerListViewController.h"
 #import "GSRootListViewController.h"
-#import "GSDirectory.h"
+//#import "GSDirectory.h"
 #import "TestFlight.h"
 
 #define kMaxSuffixesToTry 100
@@ -61,10 +61,15 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     // Create a GSDirectory object to act as the data source for the
     // root folder's view controller. Set its name with the string I
     // want to appear in the NavigationItem's title.
-    GSDirectory *rootDirectory = [GSDirectory directoryWithPath:self.rootDirectory];
-    rootDirectory.name = @"Zippity";
     
-    GSRootListViewController *vc = [[GSRootListViewController alloc] initWithContainer:rootDirectory];
+    NSError *error = nil;
+    GSFileWrapper * rootFileWrapper = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.rootDirectory] error:&error];
+    if (error) {
+        // TODO: handle error
+    }
+    rootFileWrapper.name = @"Zippity";
+    
+    GSRootListViewController *vc = [[GSRootListViewController alloc] initWithContainer:rootFileWrapper];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
 
     self.window.rootViewController = nc;
@@ -166,13 +171,14 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
         
         NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithCapacity:1];
         [payload setObject:targetPath forKey:kGSZipFilePathKey];
-        [[NSNotificationCenter defaultCenter] postNotificationName:GSAppReceivedZipFileNotification
-                                                            object:self
-                                                          userInfo:payload];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:GSAppReceivedZipFileNotification
+//                                                            object:self
+//                                                          userInfo:payload];
         [self.navigationController popToRootViewControllerAnimated:NO];
         
         GSFileContainerListViewController *vc = (GSFileContainerListViewController*)[self.navigationController.viewControllers objectAtIndex:0];
-        [vc.tableView reloadData];
+        [vc.container reloadContainerContents];
+//        [vc.tableView reloadData];
     }
     return YES;
 }

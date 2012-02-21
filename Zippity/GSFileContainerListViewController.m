@@ -7,32 +7,32 @@
 //
 
 #import "GSFileContainerListViewController.h"
-#import "GSZipFile.h"
 #import "GSAppDelegate.h"
 #import <QuickLook/QuickLook.h>
 
 @interface GSFileContainerListViewController()
 
-- (void)handleZipFileArrivedNotification:(NSNotification*)notification;
+- (void)handleContentsReloaded:(NSNotification*)notification;
+- (void)handleContentsFailedToReload:(NSNotification*)notification;
 
 @end
 
 @implementation GSFileContainerListViewController
 
 @synthesize container=_container;
-@synthesize sortOrder=_sortOrder;
+//@synthesize sortOrder=_sortOrder;
 
-- (id)initWithContainer:(id<GSFileContainer>)container
+- (id)initWithContainer:(GSFileWrapper*)container
 {
-    return [self initWithContainer:container andSortOrder:GSFileContainerSortOrderDefault];
+    return [self initWithContainer:container andSortOrder:0];
 }
 
-- (id)initWithContainer:(id<GSFileContainer>)container andSortOrder:(GSFileContainerSortOrder)sortOrder
+- (id)initWithContainer:(GSFileWrapper*)container andSortOrder:(NSInteger)sortOrder
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         self.container = container;
-        self.sortOrder = sortOrder;
+//        self.sortOrder = sortOrder;
     }
     return self;
 }
@@ -51,10 +51,10 @@
 }
 
 #pragma mark - Custom accessors
-- (void)setSortOrder:(GSFileContainerSortOrder)sortOrder
-{
-    self.container.sortOrder = sortOrder;
-}
+//- (void)setSortOrder:(GSFileContainerSortOrder)sortOrder
+//{
+//    self.container.sortOrder = sortOrder;
+//}
 
 #pragma mark - View lifecycle
 
@@ -78,18 +78,18 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleZipFileArrivedNotification:) 
-                                                 name:GSAppReceivedZipFileNotification
-                                               object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(handleZipFileArrivedNotification:) 
+//                                                 name:GSAppReceivedZipFileNotification
+//                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:GSAppReceivedZipFileNotification
-                                                  object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self
+//                                                    name:GSAppReceivedZipFileNotification
+//                                                  object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -108,7 +108,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return self.container.contents.count;
+    return self.container.fileWrappers.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,10 +120,10 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
-    cell.textLabel.text = fse.name;
-    cell.detailTextLabel.text = fse.subtitle;
-    cell.imageView.image = fse.icon;
+    GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+    cell.textLabel.text = wrapper.name;
+    cell.detailTextLabel.text = wrapper.subtitle;
+    cell.imageView.image = wrapper.icon;
     
     return cell;
 }
@@ -146,16 +146,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
-    [fse markVisited];
+    GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+    // [wrapper markVisited];
     
-    if ([fse respondsToSelector:@selector(contents)]) {
-        GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:(id<GSFileContainer>)fse];
+    if (wrapper.isContainer) {
+        GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:wrapper];
         vc.tableView.delegate = vc;
         [self.navigationController pushViewController:vc animated:YES];
-    } else if (fse.documentInteractionController && [QLPreviewController canPreviewItem:fse.documentInteractionController.URL]) {
-        fse.documentInteractionController.delegate = self;
-        [fse.documentInteractionController presentPreviewAnimated:YES];
+    } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
+        wrapper.documentInteractionController.delegate = self;
+        [wrapper.documentInteractionController presentPreviewAnimated:YES];
     } else {
         UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"Not yet!"
                                                       message:@"Zippity doesn't recognise this file type yet. Please try again after the next release."
@@ -166,11 +166,34 @@
     }
 }
 
-- (void)setContainer:(id<GSFileContainer>)container
+- (void)setContainer:(GSFileWrapper*)container
 {
     if (_container != container) {
+        // Remove old notification observers
+        if (_container) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:GSFileWrapperContainerDidReloadContents
+                                                          object:_container];
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:GSFileWrapperContainerDidFailToReloadContents
+                                                          object:_container];
+        }
+        
+        // Switch container ivar to new container
         _container = container;
-        self.title = [(GSFileSystemEntity*)_container name];
+
+        // Set up new notification observers
+        if (_container) {
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(handleContentsReloaded:)
+                                                         name:GSFileWrapperContainerDidReloadContents
+                                                       object:_container];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(handleContentsFailedToReload:)
+                                                         name:GSFileWrapperContainerDidFailToReloadContents
+                                                       object:_container];
+            self.title = container.name;
+        }
     }
 }
 
@@ -183,14 +206,15 @@
 
 #pragma mark - notification handlers
 
-- (void)handleZipFileArrivedNotification:(NSNotification *)notification
+- (void)handleContentsReloaded:(NSNotification *)notification
 {
-    NSString *zipFileDirectory = [[notification.userInfo objectForKey:kGSZipFilePathKey] stringByDeletingLastPathComponent];
-    if ([zipFileDirectory isEqualToString:[(GSFileSystemEntity*)self.container path]]) {
-        id<GSFileContainer> container = (id<GSFileContainer>)self.container;
-        [container invalidateContents];
-        [self.tableView reloadData];
-    }
+    [self.tableView reloadData];
+}
+
+- (void)handleContentsFailedToReload:(NSNotification *)notification
+{
+    NSLog(@"Contents failed to reload");
+    // TODO: show error to user
 }
 
 @end

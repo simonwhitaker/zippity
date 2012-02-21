@@ -14,12 +14,12 @@
 		F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA614F2889F008BF9C8 /* release_notes.txt */; };
 		F419661D14F0252900172FBA /* new-file-marker.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661B14F0252900172FBA /* new-file-marker.png */; };
 		F419661E14F0252900172FBA /* new-file-marker@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F419661C14F0252900172FBA /* new-file-marker@2x.png */; };
+		F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* GSFileWrapper.m */; };
 		F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47AA30014F1284800F100C1 /* GSRootListViewController.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
 		F47DFD8114ED4E32007F7443 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7D14ED4E32007F7443 /* Icon.png */; };
 		F47DFD8214ED4E32007F7443 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7E14ED4E32007F7443 /* Icon@2x.png */; };
-		F47DFD8914ED5473007F7443 /* GSFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD8814ED5472007F7443 /* GSFile.m */; };
 		F47DFD9D14ED5704007F7443 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9314ED5704007F7443 /* ioapi.c */; };
 		F47DFD9E14ED5704007F7443 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9514ED5704007F7443 /* mztools.c */; settings = {COMPILER_FLAGS = "-Wno-deprecated-declarations -Wno-missing-prototypes"; }; };
 		F47DFD9F14ED5704007F7443 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = F47DFD9714ED5704007F7443 /* unzip.c */; settings = {COMPILER_FLAGS = "-Xanalyzer -analyzer-disable-checker"; }; };
@@ -33,13 +33,10 @@
 		F47F536114ECCC82009BF6FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F47F535F14ECCC82009BF6FE /* InfoPlist.strings */; };
 		F47F536314ECCC82009BF6FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536214ECCC82009BF6FE /* main.m */; };
 		F47F536714ECCC82009BF6FE /* GSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536614ECCC82009BF6FE /* GSAppDelegate.m */; };
-		F47F537314ECCD77009BF6FE /* GSZipFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537214ECCD77009BF6FE /* GSZipFile.m */; };
 		F47F537614ECCFEC009BF6FE /* Test data.zip in Resources */ = {isa = PBXBuildFile; fileRef = F47F537514ECCFEC009BF6FE /* Test data.zip */; };
 		F47F537914ECD062009BF6FE /* GSFileContainerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */; };
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
-		F4AAAD4314ED96D0009BE55F /* GSFileSystemEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */; };
-		F4AAAD4614ED9AFA009BE55F /* GSDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
 /* End PBXBuildFile section */
 
@@ -52,14 +49,14 @@
 		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F419661B14F0252900172FBA /* new-file-marker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker.png"; sourceTree = "<group>"; };
 		F419661C14F0252900172FBA /* new-file-marker@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "new-file-marker@2x.png"; sourceTree = "<group>"; };
+		F441B49A14F3765D0067A4FC /* GSFileWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileWrapper.m; sourceTree = "<group>"; };
+		F441B49B14F3765D0067A4FC /* GSFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileWrapper.h; sourceTree = "<group>"; };
 		F47AA2FF14F1284800F100C1 /* GSRootListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSRootListViewController.h; sourceTree = "<group>"; };
 		F47AA30014F1284800F100C1 /* GSRootListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSRootListViewController.m; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		F47DFD7D14ED4E32007F7443 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		F47DFD7E14ED4E32007F7443 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		F47DFD8714ED5472007F7443 /* GSFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFile.h; sourceTree = "<group>"; };
-		F47DFD8814ED5472007F7443 /* GSFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFile.m; sourceTree = "<group>"; };
 		F47DFD9214ED5704007F7443 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
 		F47DFD9314ED5704007F7443 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
 		F47DFD9414ED5704007F7443 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
@@ -84,18 +81,11 @@
 		F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zippity-Prefix.pch"; sourceTree = "<group>"; };
 		F47F536514ECCC82009BF6FE /* GSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSAppDelegate.h; sourceTree = "<group>"; };
 		F47F536614ECCC82009BF6FE /* GSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GSAppDelegate.m; sourceTree = "<group>"; };
-		F47F537114ECCD77009BF6FE /* GSZipFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSZipFile.h; sourceTree = "<group>"; };
-		F47F537214ECCD77009BF6FE /* GSZipFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSZipFile.m; sourceTree = "<group>"; };
 		F47F537514ECCFEC009BF6FE /* Test data.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Test data.zip"; sourceTree = "<group>"; };
 		F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileContainerListViewController.h; sourceTree = "<group>"; };
 		F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileContainerListViewController.m; sourceTree = "<group>"; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
-		F4AAAD3F14ED95AD009BE55F /* GSFileContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileContainer.h; sourceTree = "<group>"; };
-		F4AAAD4114ED96D0009BE55F /* GSFileSystemEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileSystemEntity.h; sourceTree = "<group>"; };
-		F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileSystemEntity.m; sourceTree = "<group>"; };
-		F4AAAD4414ED9AFA009BE55F /* GSDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDirectory.h; sourceTree = "<group>"; };
-		F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDirectory.m; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -125,22 +115,6 @@
 				F40FDBA714F2889F008BF9C8 /* TestFlight.h */,
 			);
 			path = TestFlightSDK;
-			sourceTree = "<group>";
-		};
-		F47DFD8A14ED5577007F7443 /* Data types */ = {
-			isa = PBXGroup;
-			children = (
-				F4AAAD3F14ED95AD009BE55F /* GSFileContainer.h */,
-				F4AAAD4114ED96D0009BE55F /* GSFileSystemEntity.h */,
-				F4AAAD4214ED96D0009BE55F /* GSFileSystemEntity.m */,
-				F47DFD8714ED5472007F7443 /* GSFile.h */,
-				F47DFD8814ED5472007F7443 /* GSFile.m */,
-				F4AAAD4414ED9AFA009BE55F /* GSDirectory.h */,
-				F4AAAD4514ED9AFA009BE55F /* GSDirectory.m */,
-				F47F537114ECCD77009BF6FE /* GSZipFile.h */,
-				F47F537214ECCD77009BF6FE /* GSZipFile.m */,
-			);
-			name = "Data types";
 			sourceTree = "<group>";
 		};
 		F47DFD8B14ED5581007F7443 /* View Controllers */ = {
@@ -221,11 +195,12 @@
 		F47F535C14ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXGroup;
 			children = (
+				F441B49A14F3765D0067A4FC /* GSFileWrapper.m */,
+				F441B49B14F3765D0067A4FC /* GSFileWrapper.h */,
 				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
 				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
 				F4B9909914EE66F200F8FBD8 /* Categories */,
 				F47DFDA214ED5709007F7443 /* Third-party libraries */,
-				F47DFD8A14ED5577007F7443 /* Data types */,
 				F47DFD8B14ED5581007F7443 /* View Controllers */,
 				F47F535D14ECCC82009BF6FE /* Supporting Files */,
 			);
@@ -365,18 +340,15 @@
 			files = (
 				F47F536314ECCC82009BF6FE /* main.m in Sources */,
 				F47F536714ECCC82009BF6FE /* GSAppDelegate.m in Sources */,
-				F47F537314ECCD77009BF6FE /* GSZipFile.m in Sources */,
 				F47F537914ECD062009BF6FE /* GSFileContainerListViewController.m in Sources */,
-				F47DFD8914ED5473007F7443 /* GSFile.m in Sources */,
 				F47DFD9D14ED5704007F7443 /* ioapi.c in Sources */,
 				F47DFD9E14ED5704007F7443 /* mztools.c in Sources */,
 				F47DFD9F14ED5704007F7443 /* unzip.c in Sources */,
 				F47DFDA014ED5704007F7443 /* zip.c in Sources */,
 				F47DFDA114ED5704007F7443 /* ZipArchive.mm in Sources */,
 				F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */,
-				F4AAAD4314ED96D0009BE55F /* GSFileSystemEntity.m in Sources */,
-				F4AAAD4614ED9AFA009BE55F /* GSDirectory.m in Sources */,
 				F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */,
+				F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

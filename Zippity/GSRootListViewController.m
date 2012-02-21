@@ -15,9 +15,10 @@
 
 @implementation GSRootListViewController
 
-- (id)initWithContainer:(id<GSFileContainer>)container
+- (id)initWithContainer:(GSFileWrapper*)container
 {
-    self = [super initWithContainer:container andSortOrder:GSFileContainerSortOrderByModifiedDateNewestFirst];
+//    self = [super initWithContainer:container andSortOrder:GSFileContainerSortOrderByModifiedDateNewestFirst];
+    self = [super initWithContainer:container];
     if (self) {
         
     }
@@ -73,13 +74,13 @@
     } else {
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         
-        GSFileSystemEntity *fse = [self.container.contents objectAtIndex:indexPath.row];
-        GSAppDelegate *appDelegate = (GSAppDelegate*)[[UIApplication sharedApplication] delegate];
-        if (self == [appDelegate.navigationController.viewControllers objectAtIndex:0] && !fse.isVisited) {
-            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new-file-marker.png"]];
-        } else {
-            cell.accessoryView = nil;
-        }
+//        GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+//        GSAppDelegate *appDelegate = (GSAppDelegate*)[[UIApplication sharedApplication] delegate];
+//        if (self == [appDelegate.navigationController.viewControllers objectAtIndex:0] && !wrapper.isVisited) {
+//            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new-file-marker.png"]];
+//        } else {
+//            cell.accessoryView = nil;
+//        }
     }
     
     return cell;
