@@ -15,16 +15,6 @@
 
 @implementation GSRootListViewController
 
-- (id)initWithContainer:(GSFileWrapper*)container
-{
-//    self = [super initWithContainer:container andSortOrder:GSFileContainerSortOrderByModifiedDateNewestFirst];
-    self = [super initWithContainer:container];
-    if (self) {
-        
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -36,11 +26,11 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [self.tableView reloadData];
-}
+//- (void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    [self.tableView reloadData];
+//}
 
 #pragma mark - Table view data source methods
 

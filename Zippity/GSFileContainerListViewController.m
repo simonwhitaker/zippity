@@ -27,15 +27,9 @@
 
 - (id)initWithContainer:(GSFileWrapper*)container
 {
-    return [self initWithContainer:container andSortOrder:0];
-}
-
-- (id)initWithContainer:(GSFileWrapper*)container andSortOrder:(NSInteger)sortOrder
-{
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         self.container = container;
-//        self.sortOrder = sortOrder;
     }
     return self;
 }
@@ -53,12 +47,6 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - Custom accessors
-//- (void)setSortOrder:(GSFileContainerSortOrder)sortOrder
-//{
-//    self.container.sortOrder = sortOrder;
-//}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
@@ -69,7 +57,6 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                                            target:self
                                                                                            action:@selector(handleShareButton:)];
@@ -81,22 +68,6 @@
     [self.tableView reloadData];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//                                             selector:@selector(handleZipFileArrivedNotification:) 
-//                                                 name:GSAppReceivedZipFileNotification
-//                                               object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self
-//                                                    name:GSAppReceivedZipFileNotification
-//                                                  object:nil];
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -153,7 +124,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-    // [wrapper markVisited];
     
     if (wrapper.isContainer) {
         GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:wrapper];

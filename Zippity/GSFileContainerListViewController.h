@@ -13,9 +13,7 @@
 @interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
 
 - (id)initWithContainer:(GSFileWrapper*)container;
-//- (id)initWithContainer:(GSFileWrapper*)container andSortOrder:(GSFileContainerSortOrder)sortOrder;
 
-//@property (nonatomic) GSFileContainerSortOrder sortOrder;
 @property (nonatomic, retain) GSFileWrapper * container;
 
 @end
