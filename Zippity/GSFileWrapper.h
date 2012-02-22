@@ -33,6 +33,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
     NSString * _name;
     NSString * _subtitle;
     NSURL * _url;
+    BOOL _visited;
     
     // iVars for containers
     NSArray * _fileWrappers;
@@ -48,10 +49,12 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 // (whether it's a directory, etc) based on what it finds 
 // when it loads the URL.
 + (GSFileWrapper*)fileWrapperWithURL:(NSURL*)url error:(NSError**)error;
+
 - (BOOL)remove:(NSError**)error;
 
 // Settable properties
 @property (nonatomic, copy) NSString * name;
+@property (nonatomic) BOOL visited;
 
 // Materialised properties
 @property (readonly) NSURL * url;

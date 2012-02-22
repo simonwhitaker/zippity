@@ -46,8 +46,10 @@
 @interface GSZipFileWrapper : GSRegularFileWrapper {
     GSFileWrapper * _cacheDirectory;
     NSString * _cachePath;
+    NSString * _visitedMarkerPath;
 }
-@property (nonatomic, readonly) NSString * cachePath;
+@property (readonly) NSString * cachePath;
+@property (readonly) NSString * visitedMarkerPath;
 @end
 
 //------------------------------------------------------------
@@ -59,8 +61,7 @@
 @synthesize name=_name;
 @synthesize url=_url;
 @synthesize sortOrder=_sortOrder;
-
-@class GSZipFileWrapper, GSDirectoryWrapper, GSRegularFileWrapper;
+@synthesize visited=_visited;
 
 NSString * const GSFileWrapperContainerDidReloadContents = @"GSFileWrapperContainerDidReloadContents";
 NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapperContainerDidFailToReloadContents";
@@ -138,6 +139,11 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
         _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.url];
     }
     return _documentInteractionController;
+}
+
+- (BOOL)visited
+{
+    return NO;
 }
 
 #pragma mark - Functionality properties
@@ -421,14 +427,20 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
     return NO;
 }
 
+- (BOOL)remove:(NSError *__autoreleasing *)error
+{
+    [[NSFileManager defaultManager] removeItemAtPath:self.visitedMarkerPath error:nil];
+    return [super remove:error];
+}
+
 - (NSString*)cachePath
 {
     if (_cachePath == nil) {
         GSAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.rootDirectory
+        NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.zipFilesDirectory
                                                                           withString:@""
                                                                              options:0 
-                                                                               range:NSMakeRange(0, appDelegate.rootDirectory.length)];
+                                                                               range:NSMakeRange(0, appDelegate.zipFilesDirectory.length)];
         NSString *finalDirectoryName = [relativePath stringByAppendingString:@".contents"];
         
         NSString *cacheBasePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -439,6 +451,33 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
         _cachePath = [NSString pathWithComponents:pathComponents];
     }
     return _cachePath;
+}
+
+- (BOOL)visited
+{
+    return [[NSFileManager defaultManager] fileExistsAtPath:self.visitedMarkerPath];
+}
+
+- (void)setVisited:(BOOL)visited
+{
+    if (visited) {
+        [[[NSDate date] description] writeToFile:self.visitedMarkerPath
+                                      atomically:NO 
+                                        encoding:NSUTF8StringEncoding
+                                           error:nil];
+    } else {
+        [[NSFileManager defaultManager] removeItemAtPath:self.visitedMarkerPath
+                                                   error:nil];
+    }
+}
+
+- (NSString*)visitedMarkerPath
+{
+    if (_visitedMarkerPath == nil) {
+        GSAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        _visitedMarkerPath = [[appDelegate visitedMarkersDirectory] stringByAppendingPathComponent:self.url.lastPathComponent];
+    }
+    return _visitedMarkerPath;
 }
 
 - (void)_fetchContainerContents

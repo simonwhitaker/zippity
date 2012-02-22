@@ -10,12 +10,18 @@
 
 #define kGSZipFilePathKey @"zipFilePath"
 
-@interface GSAppDelegate : UIResponder <UIApplicationDelegate>
+@interface GSAppDelegate : UIResponder <UIApplicationDelegate> {
+    NSString * _documentsDirectory;
+    NSString * _zipFilesDirectory;
+    NSString * _visitedMarkersDirectory;
+}
 
 extern NSString * const GSAppReceivedZipFileNotification;
 
 @property (strong, nonatomic) UIWindow *window;
-@property (readonly, nonatomic) NSString *rootDirectory;
+@property (readonly) NSString *zipFilesDirectory;
+@property (readonly) NSString *visitedMarkersDirectory;
+@property (readonly) NSString *documentsDirectory;
 @property (assign, nonatomic) UINavigationController *navigationController;
 
 @end

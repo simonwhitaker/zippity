@@ -23,7 +23,6 @@
 @implementation GSAppDelegate
 
 @synthesize window=_window;
-@synthesize rootDirectory=_rootDirectory;
 @synthesize navigationController=_navigationController;
 
 NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotification";
@@ -51,11 +50,11 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    NSLog(@"Root directory: %@", self.rootDirectory);
+    NSLog(@"Zip files directory: %@", self.zipFilesDirectory);
     
     // Demo mode: add a sample zip file
     NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
-    NSString *sampleTargetPath = [self.rootDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
+    NSString *sampleTargetPath = [self.zipFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
     [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
     
     // Create a GSDirectory object to act as the data source for the
@@ -63,7 +62,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     // want to appear in the NavigationItem's title.
     
     NSError *error = nil;
-    GSFileWrapper * rootFileWrapper = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.rootDirectory] error:&error];
+    GSFileWrapper * rootFileWrapper = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.zipFilesDirectory] error:&error];
     if (error) {
         // TODO: handle error
     }
@@ -128,7 +127,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     
     NSString *incomingPath = [url path];
     NSString *filename = [incomingPath lastPathComponent];
-    NSString *targetPath = [self.rootDirectory stringByAppendingPathComponent:filename];
+    NSString *targetPath = [self.zipFilesDirectory stringByAppendingPathComponent:filename];
     
     NSError *error = nil;
     
@@ -139,7 +138,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     NSUInteger suffixNumber = 1;
     while ([[NSFileManager defaultManager] fileExistsAtPath:targetPath]) {
         NSString * newFilename = [[filenameMinusExt stringByAppendingFormat:@"-%u", suffixNumber] stringByAppendingPathExtension:filenameExtension];
-        targetPath = [self.rootDirectory stringByAppendingPathComponent:newFilename];
+        targetPath = [self.zipFilesDirectory stringByAppendingPathComponent:newFilename];
         suffixNumber++;
         if (suffixNumber > kMaxSuffixesToTry) {
             // Oops, we've wrapped around.
@@ -172,39 +171,57 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
         
         NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithCapacity:1];
         [payload setObject:targetPath forKey:kGSZipFilePathKey];
-//        [[NSNotificationCenter defaultCenter] postNotificationName:GSAppReceivedZipFileNotification
-//                                                            object:self
-//                                                          userInfo:payload];
         [self.navigationController popToRootViewControllerAnimated:NO];
         
         GSFileContainerListViewController *vc = (GSFileContainerListViewController*)[self.navigationController.viewControllers objectAtIndex:0];
         [vc.container reloadContainerContents];
-//        [vc.tableView reloadData];
     }
     return YES;
 }
 
 - (NSString*)documentsDirectory
 {
-    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    static NSString * DocumentsDirectory = nil;
+    if (DocumentsDirectory == nil) {
+        DocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    }
+    return DocumentsDirectory;
 }
 
-- (NSString*)rootDirectory
+- (NSString*)visitedMarkersDirectory
 {
-    if (!_rootDirectory) {
-        NSString *rootDirectory = [self.documentsDirectory stringByAppendingPathComponent:@"zippity-files"];
+    if (!_visitedMarkersDirectory) {
+        NSString *dir = [self.documentsDirectory stringByAppendingPathComponent:@"zippity-visited-markers"];
         NSError *error = nil;
-        [[NSFileManager defaultManager] createDirectoryAtPath:rootDirectory
+        [[NSFileManager defaultManager] createDirectoryAtPath:dir
                                   withIntermediateDirectories:YES
                                                    attributes:nil
                                                         error:&error];
         if (error) {
-            NSLog(@"Error on creating root directory (%@): %@, %@", rootDirectory, error, error.userInfo);
+            NSLog(@"Error on creating visited markers directory (%@): %@, %@", dir, error, error.userInfo);
         } else {
-            _rootDirectory = rootDirectory;
+            _visitedMarkersDirectory = dir;
         }
     }
-    return _rootDirectory;
+    return _visitedMarkersDirectory;
+}
+
+- (NSString*)zipFilesDirectory
+{
+    if (!_zipFilesDirectory) {
+        NSString *dir = [self.documentsDirectory stringByAppendingPathComponent:@"zippity-files"];
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:dir
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:&error];
+        if (error) {
+            NSLog(@"Error on creating zip file directory (%@): %@, %@", dir, error, error.userInfo);
+        } else {
+            _zipFilesDirectory = dir;
+        }
+    }
+    return _zipFilesDirectory;
 }
 
 @end

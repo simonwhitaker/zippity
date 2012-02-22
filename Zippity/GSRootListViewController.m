@@ -26,12 +26,6 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    [self.tableView reloadData];
-//}
-
 #pragma mark - Table view data source methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -64,13 +58,12 @@
     } else {
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         
-//        GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-//        GSAppDelegate *appDelegate = (GSAppDelegate*)[[UIApplication sharedApplication] delegate];
-//        if (self == [appDelegate.navigationController.viewControllers objectAtIndex:0] && !wrapper.isVisited) {
-//            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new-file-marker.png"]];
-//        } else {
-//            cell.accessoryView = nil;
-//        }
+        GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+        if (wrapper.visited) {
+            cell.accessoryView = nil;
+        } else {
+            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new-file-marker.png"]];
+        }
     }
     
     return cell;
