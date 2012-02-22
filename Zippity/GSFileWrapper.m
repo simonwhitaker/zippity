@@ -115,6 +115,11 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 
 #pragma mark - Materialised properties
 
+- (NSString*)humanFileSize
+{
+    return nil;
+}
+
 - (NSDictionary*)attributes
 {
     return _attributes;
@@ -358,18 +363,9 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
     return YES; 
 }
 
-- (NSString*)subtitle
+- (NSString*)humanFileSize
 {
-    if (_subtitle == nil) {
-        static NSDateFormatter *DateFormatter = nil;
-        
-        if (DateFormatter == nil) {
-            DateFormatter = [[NSDateFormatter alloc] init];
-            DateFormatter.timeStyle = NSDateFormatterNoStyle;
-            DateFormatter.dateStyle = NSDateFormatterMediumStyle;
-        }
-        NSString *lastModifiedString = [DateFormatter stringFromDate:_attributes.fileModificationDate];
-        
+    if (_humanFileSize == nil) {
         static NSArray *SizeSuffixes = nil;
         if (SizeSuffixes == nil) {
             SizeSuffixes = [NSArray arrayWithObjects: @"KB", @"MB", @"GB", nil];
@@ -385,10 +381,9 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
                 break;
             }
         }
-        
-        _subtitle = [NSString stringWithFormat:@"%@, last modified %@", sizeString, lastModifiedString];
+        _humanFileSize = sizeString;
     }
-    return _subtitle;
+    return _humanFileSize;
 }
 
 @end

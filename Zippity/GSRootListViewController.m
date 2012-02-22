@@ -59,11 +59,7 @@
         cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
         
         GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-        if (wrapper.visited) {
-            cell.accessoryView = nil;
-        } else {
-            cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"new-file-marker.png"]];
-        }
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"Added on %@", [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
     }
     
     return cell;

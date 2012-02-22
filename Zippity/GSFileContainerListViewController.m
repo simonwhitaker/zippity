@@ -79,6 +79,18 @@
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
+#pragma mark - Custom accessors
+
+- (NSDateFormatter*)subtitleDateFormatter
+{
+    if (_subtitleDateFormatter == nil) {
+        _subtitleDateFormatter = [[NSDateFormatter alloc] init];
+        _subtitleDateFormatter.timeStyle = NSDateFormatterNoStyle;
+        _subtitleDateFormatter.dateStyle = NSDateFormatterMediumStyle;
+    }
+    return _subtitleDateFormatter;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -104,7 +116,9 @@
     
     GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
     cell.textLabel.text = wrapper.name;
-    cell.detailTextLabel.text = wrapper.subtitle;
+    if (wrapper.isRegularFile) {
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, last modified on %@", wrapper.humanFileSize, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+    }
     cell.imageView.image = wrapper.icon;
     
     return cell;

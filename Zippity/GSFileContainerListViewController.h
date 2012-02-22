@@ -10,10 +10,13 @@
 #import "GSFileWrapper.h"
 #import <MessageUI/MessageUI.h>
 
-@interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate>
+@interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
+    NSDateFormatter * _subtitleDateFormatter;
+}
 
 - (id)initWithContainer:(GSFileWrapper*)container;
 
 @property (nonatomic, retain) GSFileWrapper * container;
+@property (readonly) NSDateFormatter * subtitleDateFormatter;
 
 @end
