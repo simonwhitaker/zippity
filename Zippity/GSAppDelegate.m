@@ -7,9 +7,6 @@
 //
 
 #import "GSAppDelegate.h"
-#import "GSFileContainerListViewController.h"
-#import "GSRootListViewController.h"
-//#import "GSDirectory.h"
 #import "TestFlight.h"
 
 #define kMaxSuffixesToTry 100
@@ -23,9 +20,8 @@
 @implementation GSAppDelegate
 
 @synthesize window=_window;
+@synthesize rootListViewController=_rootListViewController;
 @synthesize navigationController=_navigationController;
-
-NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotification";
 
 - (void)cleanInboxDirectory 
 {
@@ -57,7 +53,7 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
     NSString *sampleTargetPath = [self.zipFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
     [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
     
-    // Create a GSDirectory object to act as the data source for the
+    // Create a GSFileWrapper object to act as the data source for the
     // root folder's view controller. Set its name with the string I
     // want to appear in the NavigationItem's title.
     
@@ -67,10 +63,10 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
         // TODO: handle error
     }
     rootFileWrapper.name = @"Zippity";
-    rootFileWrapper.sortOrder = GSFileWrapperSortOrderByModificationDateNewestFirst;
+//    rootFileWrapper.sortOrder = GSFileWrapperSortOrderByModificationDateNewestFirst;
     
-    GSRootListViewController *vc = [[GSRootListViewController alloc] initWithContainer:rootFileWrapper];
-    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    self.rootListViewController = [[GSRootListViewController alloc] initWithContainer:rootFileWrapper];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
 
     self.window.rootViewController = nc;
     self.navigationController = nc;
@@ -169,12 +165,20 @@ NSString * const GSAppReceivedZipFileNotification = @"GSAppReceivedZipFileNotifi
             NSLog(@"Deleted %@", incomingPath);
         }
         
-        NSMutableDictionary *payload = [NSMutableDictionary dictionaryWithCapacity:1];
-        [payload setObject:targetPath forKey:kGSZipFilePathKey];
         [self.navigationController popToRootViewControllerAnimated:NO];
+
+        self.rootListViewController.startupFileURL = [NSURL fileURLWithPath:targetPath];
+        [self.rootListViewController.container reloadContainerContents];
         
-        GSFileContainerListViewController *vc = (GSFileContainerListViewController*)[self.navigationController.viewControllers objectAtIndex:0];
-        [vc.container reloadContainerContents];
+        NSError * error = nil;
+        GSFileWrapper *newFileWrapper = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:targetPath]
+                                                                    error:&error];
+        if (error) {
+            NSLog(@"Error on creating temp file wrapper for newly-arrived zip (%@): %@, %@", targetPath, error, error.userInfo);
+        } else {
+            GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:newFileWrapper];
+            [self.navigationController pushViewController:vc animated:NO];
+        }
     }
     return YES;
 }

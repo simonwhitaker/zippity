@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GSRootListViewController.h"
 
 #define kGSZipFilePathKey @"zipFilePath"
 
@@ -16,9 +17,8 @@
     NSString * _visitedMarkersDirectory;
 }
 
-extern NSString * const GSAppReceivedZipFileNotification;
-
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) GSRootListViewController *rootListViewController;
 @property (readonly) NSString *zipFilesDirectory;
 @property (readonly) NSString *visitedMarkersDirectory;
 @property (readonly) NSString *documentsDirectory;
