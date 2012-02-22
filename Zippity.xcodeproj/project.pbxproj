@@ -208,8 +208,8 @@
 			children = (
 				F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */,
 				F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */,
-				F441B49A14F3765D0067A4FC /* GSFileWrapper.m */,
 				F441B49B14F3765D0067A4FC /* GSFileWrapper.h */,
+				F441B49A14F3765D0067A4FC /* GSFileWrapper.m */,
 				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
 				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
 				F4B9909914EE66F200F8FBD8 /* Categories */,
