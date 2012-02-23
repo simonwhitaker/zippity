@@ -256,7 +256,9 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
     if (*error) {
         return NO;
     } else {
-        [self reloadContainerContents]; // will re-calculate _fileWrappers based on current container contents
+        NSMutableArray *mutableWrappers = [_fileWrappers mutableCopy];
+        [mutableWrappers removeObjectAtIndex:index];
+        _fileWrappers = [NSArray arrayWithArray:mutableWrappers];
         return YES;
     }
 }
