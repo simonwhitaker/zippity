@@ -166,8 +166,6 @@
         }
         
         [self.navigationController popToRootViewControllerAnimated:NO];
-
-        self.rootListViewController.startupFileURL = [NSURL fileURLWithPath:targetPath];
         [self.rootListViewController.container reloadContainerContents];
         
         NSError * error = nil;
