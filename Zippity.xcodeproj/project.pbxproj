@@ -18,6 +18,7 @@
 		F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E714F3C80000082527 /* MobileCoreServices.framework */; };
 		F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* GSFileWrapper.m */; };
 		F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */; };
+		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
 		F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47AA30014F1284800F100C1 /* GSRootListViewController.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
@@ -36,7 +37,6 @@
 		F47F536114ECCC82009BF6FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F47F535F14ECCC82009BF6FE /* InfoPlist.strings */; };
 		F47F536314ECCC82009BF6FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536214ECCC82009BF6FE /* main.m */; };
 		F47F536714ECCC82009BF6FE /* GSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536614ECCC82009BF6FE /* GSAppDelegate.m */; };
-		F47F537614ECCFEC009BF6FE /* Test data.zip in Resources */ = {isa = PBXBuildFile; fileRef = F47F537514ECCFEC009BF6FE /* Test data.zip */; };
 		F47F537914ECD062009BF6FE /* GSFileContainerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */; };
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
@@ -58,6 +58,7 @@
 		F441B49B14F3765D0067A4FC /* GSFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileWrapper.h; sourceTree = "<group>"; };
 		F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+GSZippityAdditions.h"; sourceTree = "<group>"; };
 		F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+GSZippityAdditions.m"; sourceTree = "<group>"; };
+		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
 		F47AA2FF14F1284800F100C1 /* GSRootListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSRootListViewController.h; sourceTree = "<group>"; };
 		F47AA30014F1284800F100C1 /* GSRootListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSRootListViewController.m; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
@@ -88,7 +89,6 @@
 		F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zippity-Prefix.pch"; sourceTree = "<group>"; };
 		F47F536514ECCC82009BF6FE /* GSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSAppDelegate.h; sourceTree = "<group>"; };
 		F47F536614ECCC82009BF6FE /* GSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GSAppDelegate.m; sourceTree = "<group>"; };
-		F47F537514ECCFEC009BF6FE /* Test data.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Test data.zip"; sourceTree = "<group>"; };
 		F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileContainerListViewController.h; sourceTree = "<group>"; };
 		F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileContainerListViewController.m; sourceTree = "<group>"; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
@@ -223,8 +223,8 @@
 		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F46921A214F7F00500669E7E /* Welcome to Zippity.zip */,
 				F4B9909E14EE820C00F8FBD8 /* Images */,
-				F47F537514ECCFEC009BF6FE /* Test data.zip */,
 				F47F535E14ECCC82009BF6FE /* Zippity-Info.plist */,
 				F47F535F14ECCC82009BF6FE /* InfoPlist.strings */,
 				F47F536214ECCC82009BF6FE /* main.m */,
@@ -312,7 +312,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F47F536114ECCC82009BF6FE /* InfoPlist.strings in Resources */,
-				F47F537614ECCFEC009BF6FE /* Test data.zip in Resources */,
 				F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */,
 				F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */,
 				F47DFD8114ED4E32007F7443 /* Icon.png in Resources */,
@@ -325,6 +324,7 @@
 				F40B670014F1A20E00156BBB /* safari-icon@2x.png in Resources */,
 				F40FDBA914F2889F008BF9C8 /* README.txt in Resources */,
 				F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */,
+				F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -49,7 +49,7 @@
     NSLog(@"Zip files directory: %@", self.zipFilesDirectory);
     
     // Demo mode: add a sample zip file
-    NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Test data.zip" ofType:nil];
+    NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Welcome to Zippity.zip" ofType:nil];
     NSString *sampleTargetPath = [self.zipFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
     [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
     
