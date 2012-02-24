@@ -73,7 +73,7 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
     self = [super init];
     if (self) {
         self.url = url;
-        self.name = [[url path] lastPathComponent];
+        self.name = [[[url path] lastPathComponent] stringByDeletingPathExtension];
         self.attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[url path]
                                                                            error:error];
         self.containerStatus = GSFileWrapperContainerStatusInitialised;
