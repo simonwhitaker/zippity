@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GSRootListViewController.h"
+#import "GSFileContainerListViewController.h"
 
 #define kGSZipFilePathKey @"zipFilePath"
 
@@ -18,7 +18,7 @@
 }
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) GSRootListViewController *rootListViewController;
+@property (strong, nonatomic) GSFileContainerListViewController *rootListViewController;
 @property (readonly) NSString *zipFilesDirectory;
 @property (readonly) NSString *visitedMarkersDirectory;
 @property (readonly) NSString *documentsDirectory;

@@ -63,9 +63,9 @@
         // TODO: handle error
     }
     rootFileWrapper.name = @"Zippity";
-//    rootFileWrapper.sortOrder = GSFileWrapperSortOrderByModificationDateNewestFirst;
+    self.rootListViewController = [[GSFileContainerListViewController alloc] initWithContainer:rootFileWrapper];
+    self.rootListViewController.isRoot = YES;
     
-    self.rootListViewController = [[GSRootListViewController alloc] initWithContainer:rootFileWrapper];
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
 
     self.window.rootViewController = nc;

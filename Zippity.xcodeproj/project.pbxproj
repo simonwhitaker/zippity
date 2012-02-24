@@ -19,7 +19,6 @@
 		F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* GSFileWrapper.m */; };
 		F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */; };
 		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
-		F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47AA30014F1284800F100C1 /* GSRootListViewController.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
 		F47DFD8114ED4E32007F7443 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7D14ED4E32007F7443 /* Icon.png */; };
@@ -59,8 +58,6 @@
 		F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+GSZippityAdditions.h"; sourceTree = "<group>"; };
 		F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+GSZippityAdditions.m"; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
-		F47AA2FF14F1284800F100C1 /* GSRootListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSRootListViewController.h; sourceTree = "<group>"; };
-		F47AA30014F1284800F100C1 /* GSRootListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSRootListViewController.m; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		F47DFD7D14ED4E32007F7443 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -131,8 +128,6 @@
 			children = (
 				F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */,
 				F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */,
-				F47AA2FF14F1284800F100C1 /* GSRootListViewController.h */,
-				F47AA30014F1284800F100C1 /* GSRootListViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -360,7 +355,6 @@
 				F47DFDA014ED5704007F7443 /* zip.c in Sources */,
 				F47DFDA114ED5704007F7443 /* ZipArchive.mm in Sources */,
 				F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */,
-				F47AA30114F1284800F100C1 /* GSRootListViewController.m in Sources */,
 				F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */,
 				F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */,
 			);

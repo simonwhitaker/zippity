@@ -12,11 +12,13 @@
 
 @interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
     NSDateFormatter * _subtitleDateFormatter;
+    BOOL _isRoot;
 }
 
 - (id)initWithContainer:(GSFileWrapper*)container;
 
 @property (nonatomic, retain) GSFileWrapper * container;
 @property (readonly) NSDateFormatter * subtitleDateFormatter;
+@property (nonatomic) BOOL isRoot;
 
 @end

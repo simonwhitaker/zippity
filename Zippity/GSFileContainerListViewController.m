@@ -11,6 +11,8 @@
 #import <QuickLook/QuickLook.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+#define IN_BETA 1
+
 @interface GSFileContainerListViewController()
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
@@ -23,13 +25,14 @@
 @implementation GSFileContainerListViewController
 
 @synthesize container=_container;
-//@synthesize sortOrder=_sortOrder;
+@synthesize isRoot=isRoot;
 
 - (id)initWithContainer:(GSFileWrapper*)container
 {
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         self.container = container;
+        self.isRoot = NO;
     }
     return self;
 }
@@ -57,9 +60,13 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                                                           target:self
-                                                                                           action:@selector(handleShareButton:)];
+    if (self.isRoot) {
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    } else {
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                               target:self
+                                                                                               action:@selector(handleShareButton:)];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -95,18 +102,36 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
+#ifdef IN_BETA
+    if (self.isRoot) return 2;
+#endif
+    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
+#ifdef IN_BETA
+    if (self.isRoot && section == 1) return 1;
+#endif
+    
     return self.container.fileWrappers.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+#ifdef IN_BETA
+    if (self.isRoot && indexPath.section == 1) {
+        NSString *cellID = @"DevNotes";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        }
+        cell.textLabel.text = @"Info for beta testers";
+        cell.imageView.image = [UIImage imageNamed:@"safari-icon.png"];
+        return cell;
+    }
+#endif
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -116,8 +141,13 @@
     
     GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
     cell.textLabel.text = wrapper.name;
+    
     if (wrapper.isRegularFile) {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, last modified on %@", wrapper.humanFileSize, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+        if (self.isRoot) {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Opened on %@", [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+        } else {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, last modified on %@", wrapper.humanFileSize, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+        }
     }
     
     if (wrapper.isContainer || (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url])) {
@@ -136,10 +166,22 @@
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return NO;
+    return self.isRoot && indexPath.section == 0;
 }
 
-
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        NSError *error = nil;
+        [self.container removeItemAtIndex:indexPath.row error:&error];
+        if (error) {
+            NSLog(@"Error on deleting object at row %u of %@: %@, %@", indexPath.row, self, error, error.userInfo);
+        } else {
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        }
+    }   
+}
 
 #pragma mark - Table view delegate
 
@@ -150,6 +192,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+#ifdef IN_BETA
+    if (self.isRoot && indexPath.section == 1) {
+        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://dl.dropbox.com/u/363683/zippity-testers.md"]];
+        return;
+    }
+#endif
+    
     GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
     
     if (wrapper.isContainer) {
