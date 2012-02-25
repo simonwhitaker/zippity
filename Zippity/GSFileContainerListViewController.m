@@ -210,7 +210,17 @@
     
     if (wrapper.isImageFile) {
         GSImagePreviewController *vc = [[GSImagePreviewController alloc] init];
-        vc.imageFile = wrapper;
+        NSArray *imageFileWrappers = self.container.imageFileWrappers;
+        NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
+        
+        assert(initialIndex != NSNotFound);
+        
+        vc.imageFileWrappers = imageFileWrappers;
+        vc.initialIndex = initialIndex;
+        
+        [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackTranslucent];
+        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+        
         [self.navigationController pushViewController:vc animated:YES];
     } else if (wrapper.isContainer) {
         GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:wrapper];

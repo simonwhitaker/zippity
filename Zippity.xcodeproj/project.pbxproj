@@ -41,6 +41,7 @@
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
+		F4E1905514F946EF0098D5BB /* GSImagePreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E1905414F946EF0098D5BB /* GSImagePreviewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +95,7 @@
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		F4E1905414F946EF0098D5BB /* GSImagePreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GSImagePreviewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 				F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */,
 				F442747D14F85C9B00C84A0B /* GSImagePreviewController.h */,
 				F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */,
+				F4E1905414F946EF0098D5BB /* GSImagePreviewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -325,6 +328,7 @@
 				F40FDBA914F2889F008BF9C8 /* README.txt in Resources */,
 				F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */,
 				F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */,
+				F4E1905514F946EF0098D5BB /* GSImagePreviewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "GSFileWrapper.h"
 
-@interface GSImagePreviewController : UIViewController
+@interface GSImagePreviewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
 
-@property (nonatomic, retain) GSFileWrapper * imageFile;
+@property (nonatomic, retain) NSArray * imageFileWrappers;
+@property (nonatomic) NSUInteger initialIndex;
+@property (nonatomic, assign) IBOutlet UIScrollView * scrollView;
 
 - (void)toggleChromeVisibility;
 
