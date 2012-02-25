@@ -66,6 +66,14 @@
     if (self.currentPage < self.imageFileWrappers.count - 1) [self loadImageForPage:self.currentPage + 1];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    GSFileWrapper * container = [(GSFileWrapper*)[self.imageFileWrappers objectAtIndex:0] parent];
+    NSLog(@"Viewing a set of %u image(s) from a total container size of %u file(s)", self.imageFileWrappers.count, container.fileWrappers.count);
+    [TestFlight passCheckpoint:@"Opened an image preview view"];
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
