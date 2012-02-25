@@ -11,6 +11,7 @@
 #import "ZipArchive.h"
 #import "GSAppDelegate.h"
 #import "NSArray+GSZippityAdditions.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 //------------------------------------------------------------
 // Public class interface: GSFileWrapper
@@ -36,7 +37,9 @@
 // Private class interface: GSRegularFileWrapper
 //------------------------------------------------------------
 
-@interface GSRegularFileWrapper : GSFileWrapper
+@interface GSRegularFileWrapper : GSFileWrapper {
+    NSNumber * _isImageFileNumberObj;
+}
 @end
 
 //------------------------------------------------------------
@@ -179,6 +182,11 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 - (BOOL)isContainer 
 {
     return self.isDirectory || self.isArchive;
+}
+
+- (BOOL)isImageFile
+{
+    return NO;
 }
 
 #pragma mark - Container methods
@@ -369,8 +377,44 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 
 #define kBytesInKilobyte 1024
 
-- (BOOL)isRegularFile { 
+- (BOOL)isRegularFile 
+{
     return YES; 
+}
+
+- (BOOL)isImageFile
+{
+    // Returns YES if the file is an image type that can be displayed in
+    // a UIImage object.
+    //
+    // UTI types are listed in "System-Declared Uniform Type Identifiers"
+    // https://developer.apple.com/library/mac/#documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+    //
+    // UIImage-supported images listed in UIImage class reference. In iOS
+    // 4.3 these are:
+    //
+    // TIFF (.tiff, .tif)
+    // JPEG (.jpg, .jpeg)
+    // GIF (.gif)
+    // PNG (.png)
+    // Windows Bitmap Format (DIB) (.bmp, .BMPf)
+    // Windows Icon Format (.ico)
+    // Windows Cursor (.cur)
+    // XWindow bitmap (.xbm)
+    
+    if (_isImageFileNumberObj == nil) {
+        CFStringRef uti = (__bridge CFStringRef)self.documentInteractionController.UTI;
+        BOOL result = UTTypeConformsTo(uti, kUTTypeJPEG)
+            || UTTypeConformsTo(uti, kUTTypePNG)
+            || UTTypeConformsTo(uti, kUTTypeBMP)
+            || UTTypeConformsTo(uti, kUTTypeTIFF)
+            || UTTypeConformsTo(uti, kUTTypeGIF)
+            || UTTypeConformsTo(uti, kUTTypeICO)
+            || [[self.name.pathExtension lowercaseString] isEqualToString:@"cur"]
+            || [[self.name.pathExtension lowercaseString] isEqualToString:@"xbm"];
+        _isImageFileNumberObj = [NSNumber numberWithBool:result];
+    }
+    return [_isImageFileNumberObj boolValue];
 }
 
 - (NSString*)humanFileSize

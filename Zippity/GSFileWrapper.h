@@ -72,6 +72,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 @property (readonly) BOOL isRegularFile;
 @property (readonly) BOOL isArchive; // YES if the file is an archive file, e.g. a .zip, NO otherwise
 @property (readonly) BOOL isContainer; // YES if the file wrapper contains other files, NO otherwise.
+@property (readonly) BOOL isImageFile; // YES if the file is an image that can be displayed in a UIImage
 
 // Container methods: only have effect where isContainer == YES
 @property (nonatomic) GSFileWrapperSortOrder sortOrder;

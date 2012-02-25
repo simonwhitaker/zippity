@@ -10,6 +10,7 @@
 #import "GSAppDelegate.h"
 #import <QuickLook/QuickLook.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "GSImagePreviewController.h"
 
 #define IN_BETA 1
 
@@ -33,6 +34,7 @@
     if (self) {
         self.container = container;
         self.isRoot = NO;
+        self.wantsFullScreenLayout = NO;
     }
     return self;
 }
@@ -72,6 +74,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
+    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    
     [self.tableView reloadData];
 }
 
@@ -202,7 +208,11 @@
     
     GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
     
-    if (wrapper.isContainer) {
+    if (wrapper.isImageFile) {
+        GSImagePreviewController *vc = [[GSImagePreviewController alloc] init];
+        vc.imageFile = wrapper;
+        [self.navigationController pushViewController:vc animated:YES];
+    } else if (wrapper.isContainer) {
         GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:wrapper];
         vc.tableView.delegate = vc;
         [self.navigationController pushViewController:vc animated:YES];
