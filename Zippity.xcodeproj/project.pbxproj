@@ -270,7 +270,8 @@
 			buildConfigurationList = F47F536A14ECCC82009BF6FE /* Build configuration list for PBXNativeTarget "Zippity" */;
 			buildPhases = (
 				F47F534E14ECCC82009BF6FE /* Sources */,
-				F4E0A93E14EDC0760073644D /* ShellScript */,
+				F4E0A93E14EDC0760073644D /* Run Script - Git version */,
+				F4DE424114F99E5B004A996B /* Build Welcome to Zippity.zip */,
 				F47F534F14ECCC82009BF6FE /* Frameworks */,
 				F47F535014ECCC82009BF6FE /* Resources */,
 			);
@@ -335,13 +336,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F4E0A93E14EDC0760073644D /* ShellScript */ = {
+		F4DE424114F99E5B004A996B /* Build Welcome to Zippity.zip */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Build Welcome to Zippity.zip";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "ZIP_FILE=\"$PROJECT_DIR/$PROJECT_NAME/Welcome to Zippity.zip\"\necho \"Updating $ZIP_FILE\"\n\nrm \"$ZIP_FILE\" || exit 1\ncd \"$PROJECT_DIR/$PROJECT_NAME/welcome-contents\" || exit 1\n/usr/bin/zip -r \"$ZIP_FILE\" * -x \"*/.DS_Store\" || exit 1\nexit 0";
+		};
+		F4E0A93E14EDC0760073644D /* Run Script - Git version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script - Git version";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
