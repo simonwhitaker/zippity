@@ -187,6 +187,7 @@
     
     [UIView animateWithDuration:0.35 animations:^{
         self.navigationController.navigationBar.alpha = alpha;
+        self.navigationController.toolbar.alpha = alpha;
     }];
 }
 
