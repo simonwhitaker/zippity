@@ -140,7 +140,7 @@
     }
     
     GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-    cell.textLabel.text = wrapper.name;
+    cell.textLabel.text = wrapper.displayName;
     
     if (wrapper.isRegularFile) {
         if (self.isRoot) {

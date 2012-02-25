@@ -73,7 +73,7 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
     self = [super init];
     if (self) {
         self.url = url;
-        self.name = [[[url path] lastPathComponent] stringByDeletingPathExtension];
+        self.name = [[url path] lastPathComponent];
         self.attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[url path]
                                                                            error:error];
         self.containerStatus = GSFileWrapperContainerStatusInitialised;
@@ -114,6 +114,14 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 }
 
 #pragma mark - Materialised properties
+
+- (NSString*)displayName
+{
+    if (_displayName == nil) {
+        _displayName = [self.name stringByDeletingPathExtension];
+    }
+    return _displayName;
+}
 
 - (NSString*)humanFileSize
 {

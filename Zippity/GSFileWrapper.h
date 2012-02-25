@@ -31,6 +31,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 @interface GSFileWrapper : NSObject {
     NSDictionary * _attributes;
     NSString * _name;
+    NSString * _displayName;
     NSString * _humanFileSize;
     NSURL * _url;
     BOOL _visited;
@@ -58,7 +59,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 
 // Materialised properties
 @property (readonly) NSURL * url;
-//@property (readonly) NSString * subtitle;
+@property (readonly) NSString * displayName;
 @property (readonly) NSString * humanFileSize;
 
 @property (readonly) UIImage * icon;
