@@ -65,6 +65,7 @@
 @synthesize url=_url;
 @synthesize sortOrder=_sortOrder;
 @synthesize visited=_visited;
+@synthesize parent=_parent;
 
 NSString * const GSFileWrapperContainerDidReloadContents = @"GSFileWrapperContainerDidReloadContents";
 NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapperContainerDidFailToReloadContents";
@@ -248,6 +249,16 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
     return nil;
 }
 
+- (NSArray*)imageFileWrappers
+{
+    static NSPredicate * ImageFilePredicate = nil;
+    if (ImageFilePredicate == nil) {
+        ImageFilePredicate = [NSPredicate predicateWithFormat:@"isImageFile == YES"];
+    }
+    NSArray *result = [self.fileWrappers filteredArrayUsingPredicate:ImageFilePredicate];
+    return result;
+}
+
 - (void)reloadContainerContents
 {
     if (self.isContainer) {
@@ -346,6 +357,7 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
                     return;
                 }
                 [tempArray addObject:wrapper];
+                wrapper.parent = self;
             }
             if (self.sortOrder) {
                 _fileWrappers = [tempArray sortedArrayUsingFileWrapperSortOrder:self.sortOrder];
@@ -353,12 +365,41 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
                 _fileWrappers = [NSArray arrayWithArray:tempArray];
             }
             
+            // Flatten nested folders. If we encounter folders
+            // that contain only a single entity which is also a folder,
+            // make the contents of the child folder the logical
+            // contents of the parent folder. The effect is that the
+            // child folder disappears from view.
+            // 
+            // Turns this:
+            // 
+            //    a
+            //    +-b
+            //      +-c
+            //        +-foo.txt
+            //        +-d
+            //          +-e
+            //            +-bar.txt
+            // 
+            // Into this:
+            // 
+            //    a
+            //    +-foo.txt
+            //    +-d
+            //      +-bar.txt
             if (_fileWrappers.count == 1) {
                 GSFileWrapper * childWrapper = [_fileWrappers objectAtIndex:0];
                 if (childWrapper.isDirectory) {
                     [childWrapper _fetchContainerContents];
                     _fileWrappers = childWrapper.fileWrappers;
                 }
+            }
+
+            // Must set parent references AFTER we flatten nested 
+            // folders, so that following the inheritance chain
+            // back up still works.
+            for (GSFileWrapper* wrapper in _fileWrappers) {
+                wrapper.parent = self;
             }
 
             self.containerStatus = GSFileWrapperContainerStatusReady;

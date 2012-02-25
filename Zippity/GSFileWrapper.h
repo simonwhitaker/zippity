@@ -56,6 +56,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 // Settable properties
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic) BOOL visited;
+@property (nonatomic, assign) GSFileWrapper * parent;
 
 // Materialised properties
 @property (readonly) NSURL * url;
@@ -78,6 +79,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 @property (nonatomic) GSFileWrapperSortOrder sortOrder;
 @property (readonly) GSFileWrapperContainerStatus containerStatus;
 @property (readonly) NSArray * fileWrappers;
+@property (readonly) NSArray * imageFileWrappers;
 
 - (void)reloadContainerContents;
 - (GSFileWrapper*)fileWrapperAtIndex:(NSUInteger)index;
