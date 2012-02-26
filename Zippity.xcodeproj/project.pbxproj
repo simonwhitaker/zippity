@@ -348,7 +348,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "ZIP_FILE=\"$PROJECT_DIR/$PROJECT_NAME/Welcome to Zippity.zip\"\necho \"Updating $ZIP_FILE\"\n\nrm \"$ZIP_FILE\" || exit 1\ncd \"$PROJECT_DIR/$PROJECT_NAME/welcome-contents\" || exit 1\n/usr/bin/zip -r \"$ZIP_FILE\" * -x \"*/.DS_Store\" || exit 1\nexit 0";
+			shellScript = "ZIP_FILE=\"$PROJECT_DIR/$PROJECT_NAME/Welcome to Zippity.zip\"\necho \"Updating $ZIP_FILE\"\n\nrm \"$ZIP_FILE\" || exit 1\ncd \"$PROJECT_DIR/welcome-contents\" || exit 1\n/usr/bin/zip -r \"$ZIP_FILE\" * -x \"*/.DS_Store\" || exit 1\nexit 0";
 		};
 		F4E0A93E14EDC0760073644D /* Run Script - Git version */ = {
 			isa = PBXShellScriptBuildPhase;
