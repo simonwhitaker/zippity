@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GSFileWrapper.h"
+#import "GSImageScrollView.h"
 
 @interface GSImagePreviewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
 
@@ -16,5 +17,6 @@
 @property (nonatomic, assign) IBOutlet UIScrollView * scrollView;
 
 - (void)toggleChromeVisibility;
+- (GSImageScrollView*)dequeueReusablePage;
 
 @end

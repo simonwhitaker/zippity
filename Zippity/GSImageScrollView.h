@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GSImageScrollView : UIScrollView
+@interface GSImageScrollView : UIScrollView {
+    __unsafe_unretained UIImageView * _imageView;
+}
 
-@property (nonatomic, assign) UIImageView * imageView;
-@property (nonatomic) NSUInteger page;
+@property (nonatomic) NSUInteger index;
+@property (nonatomic, readonly, assign) UIImageView * imageView;
+
+- (void)displayImage:(UIImage*)image;
+- (void)updateZoomScales;
+
 @end

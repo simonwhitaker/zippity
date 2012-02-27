@@ -13,15 +13,20 @@
 
 @interface GSImagePreviewController ()
 
-@property (nonatomic) NSUInteger currentPage;
-@property (nonatomic, retain) NSMutableDictionary * loadedPages;
+@property (nonatomic) NSUInteger currentIndex;
+@property (nonatomic, retain) NSMutableSet * visiblePages;
+@property (nonatomic, retain) NSMutableSet * reusablePages;
 
-- (void)loadPage:(NSUInteger)page;
-- (void)unloadPage:(NSUInteger)page;
+//- (void)loadPageForIndex:(NSUInteger)index;
+//- (void)unloadPage:(NSUInteger)page;
 
 - (void)handleActionButton:(id)sender;
-- (void)updateLayout;
-- (CGRect)frameForPage:(NSUInteger)page;
+
+- (void)updatePageLayout;
+- (void)updatePageOrientation;
+- (CGRect)frameForPageAtIndex:(NSUInteger)index;
+- (BOOL)isDisplayingPageAtIndex:(NSUInteger)index;
+- (void)configurePage:(GSImageScrollView*)page ForIndex:(NSUInteger)index;
 
 @end
 
@@ -30,8 +35,9 @@
 @synthesize imageFileWrappers=_imageFileWrappers;
 @synthesize initialIndex=_initialIndex;
 @synthesize scrollView=_scrollView;
-@synthesize currentPage=_currentPage;
-@synthesize loadedPages=_loadedPages;
+@synthesize currentIndex=_currentIndex;
+@synthesize visiblePages=_visiblePages;
+@synthesize reusablePages=_reusablePages;
 
 #pragma mark - Object lifecycle
 
@@ -40,8 +46,7 @@
     self = [super init];
     if (self) {
         self.wantsFullScreenLayout = YES;
-        self.loadedPages = [NSMutableDictionary dictionary];
-        _currentPage = NSNotFound;
+        _currentIndex = NSNotFound;
     }
     return self;
 }
@@ -54,6 +59,9 @@
     self.toolbarItems = [NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                                                target:self
                                                                                                action:@selector(handleActionButton:)]];
+    
+    self.visiblePages = [NSMutableSet set];
+    self.reusablePages = [NSMutableSet set];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -63,13 +71,10 @@
     self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
     [self.navigationController setToolbarHidden:NO animated:animated];
     
-    self.currentPage = self.initialIndex;
+    self.currentIndex = self.initialIndex;
     
-    [self loadPage:self.currentPage];
-    if (self.currentPage > 0) [self loadPage:self.currentPage - 1];
-    if (self.currentPage < self.imageFileWrappers.count - 1) [self loadPage:self.currentPage + 1];
-
-    [self updateLayout];
+    [self updatePageOrientation];
+    [self updatePageLayout];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -88,11 +93,21 @@
     [self.navigationController setToolbarHidden:YES animated:animated];
 }
 
-- (CGRect)frameForPage:(NSUInteger)page
+- (CGRect)frameForPageAtIndex:(NSUInteger)page
 {
     CGRect f = self.view.bounds;
     f.origin.x = self.scrollView.bounds.size.width * page + kPagePaddingWidth;
     return f;
+}
+
+- (BOOL)isDisplayingPageAtIndex:(NSUInteger)index
+{
+    for (GSImageScrollView *page in self.visiblePages) {
+        if (page.index == index) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 #pragma mark - Interface orientation
@@ -104,10 +119,69 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [self updateLayout];
+    [self updatePageOrientation];
 }
 
-- (void)updateLayout {
+- (void)configurePage:(GSImageScrollView*)page ForIndex:(NSUInteger)index
+{
+    page.frame = [self frameForPageAtIndex:index];
+    page.index = index;
+    GSFileWrapper *imageFileWrapper = [self.imageFileWrappers objectAtIndex:index];
+    UIImage *image = [UIImage imageWithContentsOfFile:imageFileWrapper.url.path];
+    [page displayImage:image];
+}
+
+- (void)updatePageLayout
+{
+    // Updates the layout of current pages based on which 
+    // pages are visible right now
+    CGRect visibleBounds = self.scrollView.bounds;
+    NSInteger firstNeededPageIndex = floorf(CGRectGetMinX(visibleBounds) / CGRectGetWidth(visibleBounds));
+    NSInteger lastNeededPageIndex = floorf((CGRectGetMaxX(visibleBounds) - 1) / CGRectGetWidth(visibleBounds));
+    
+    firstNeededPageIndex = MAX(firstNeededPageIndex, 0);
+    lastNeededPageIndex = MIN(lastNeededPageIndex, self.imageFileWrappers.count - 1);
+    
+    // Recycle no-longer-needed pages
+    for (GSImageScrollView* page in self.visiblePages) {
+        if (page.index < firstNeededPageIndex || page.index > lastNeededPageIndex) {
+            NSLog(@"Recycling page at index %u", page.index);
+            [self.reusablePages addObject:page];
+            [page removeFromSuperview];
+        }
+    }
+    // Remove all contents of self.reusablePages from self.visiblePages
+    // Can't do this in the for loop or we'd be mutating the visiblePages
+    // set as we enumerated over it.
+    [self.visiblePages minusSet:self.reusablePages];
+    
+    // Add any missing pages
+    for (NSInteger index = firstNeededPageIndex; index <= lastNeededPageIndex; index++) {
+        if (![self isDisplayingPageAtIndex:index]) {
+            NSLog(@"Populating page at index %u", index);
+            GSImageScrollView *page = [self dequeueReusablePage];
+            if (page == nil) {
+                page = [[GSImageScrollView alloc] initWithFrame:[self frameForPageAtIndex:index]];
+                page.delegate = self;
+            }
+            [self configurePage:page ForIndex:index];
+            
+            [self.scrollView addSubview:page];
+            [self.visiblePages addObject:page];
+        }
+    }
+}
+
+- (GSImageScrollView *)dequeueReusablePage
+{
+    GSImageScrollView *page = [self.reusablePages anyObject];
+    if (page) {
+        [self.reusablePages removeObject:page];
+    }
+    return page;
+}
+
+- (void)updatePageOrientation {
     CGRect f = self.view.bounds;
     f.origin.x -= kPagePaddingWidth;
     f.size.width += kPagePaddingWidth * 2;
@@ -115,57 +189,20 @@
     
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.imageFileWrappers.count, 
                                              self.scrollView.frame.size.height);
-    for (NSNumber *pageKey in self.loadedPages) {
-        GSImageScrollView *isv = [self.loadedPages objectForKey:pageKey];
-        isv.frame = [self frameForPage:pageKey.unsignedIntegerValue];
+    for (GSImageScrollView *page in self.visiblePages) {
+        page.frame = [self frameForPageAtIndex:page.index];
+        [page updateZoomScales];
     }
-    self.scrollView.contentOffset = CGPointMake(self.scrollView.frame.size.width * self.currentPage, 0);
-}
-
-#pragma mark - Utility methods
-
-- (void)loadPage:(NSUInteger)page
-{
-    NSNumber * pageKey = [NSNumber numberWithUnsignedInteger:page];
-    if ([self.loadedPages objectForKey:pageKey]) {
-        // We've already loaded this page
-        NSLog(@"We've already loaded page %u", page);
-        return;
-    }
-    
-    NSLog(@"Loading page %u", page);
-    GSFileWrapper *imageFileWrapper = [self.imageFileWrappers objectAtIndex:page];
-    UIImage *image = [UIImage imageWithContentsOfFile:imageFileWrapper.url.path];
-    UIImageView *iv = [[UIImageView alloc] initWithImage:image];
-    iv.contentMode = UIViewContentModeScaleAspectFit;
-    
-    GSImageScrollView *isv = [[GSImageScrollView alloc] initWithFrame:[self frameForPage:page]];
-    isv.imageView = iv;
-    isv.delegate = self;
-    
-    [self.scrollView addSubview:isv];
-    [self.loadedPages setObject:isv forKey:pageKey];
-}
-
-- (void)unloadPage:(NSUInteger)page
-{
-    NSNumber * pageKey = [NSNumber numberWithUnsignedInteger:page];
-    GSImageScrollView *isv = [self.loadedPages objectForKey:pageKey];
-    
-    if (isv) {
-        NSLog(@"Removing page %u", page);
-        [isv removeFromSuperview];
-        [self.loadedPages removeObjectForKey:pageKey];
-    }
+    self.scrollView.contentOffset = CGPointMake(self.scrollView.frame.size.width * self.currentIndex, 0);
 }
 
 #pragma mark - Custom accessors
 
-- (void)setCurrentPage:(NSUInteger)currentPage
+- (void)setCurrentIndex:(NSUInteger)currentIndex
 {
-    if (currentPage != _currentPage) {
-        _currentPage = currentPage;
-        self.title = [NSString stringWithFormat:@"%u of %u", _currentPage + 1, self.imageFileWrappers.count];
+    if (currentIndex != _currentIndex) {
+        _currentIndex = currentIndex;
+        self.title = [NSString stringWithFormat:@"%u of %u", _currentIndex + 1, self.imageFileWrappers.count];
     }
 }
 
@@ -174,30 +211,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == self.scrollView) {
-        
-    }
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    if (scrollView == self.scrollView) {
-        // Update the current page value
-        NSUInteger previousPage = self.currentPage;
-        self.currentPage = (NSUInteger)roundf(scrollView.contentOffset.x / scrollView.frame.size.width);
-        
-        // Check which way we've scrolled and pre-load the next image 
-        // in that direction, if there is one
-        if (self.currentPage < previousPage && self.currentPage > 0) {
-            [self loadPage:self.currentPage - 1];
-            [self unloadPage:self.currentPage + 2];
-        } else if (self.currentPage > previousPage && self.currentPage < self.imageFileWrappers.count - 1) {
-            [self loadPage:self.currentPage + 1];
-            [self unloadPage:self.currentPage - 2];
-        }
-        
-        // Reset the zoom factor for the previous page
-        GSImageScrollView *isv = [self.loadedPages objectForKey:[NSNumber numberWithUnsignedInteger:previousPage]];
-        [isv setZoomScale:1.0];
+        [self updatePageLayout];
     }
 }
 
@@ -219,7 +233,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save image"]) {
-        GSFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentPage];
+        GSFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
         UIImage *image = [UIImage imageWithContentsOfFile:currentPhoto.url.path];
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
     }
@@ -245,7 +259,7 @@
 
 - (void)handleActionButton:(id)sender
 {
-    GSFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentPage];
+    GSFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
     NSString *actionSheetTitle = [NSString stringWithFormat:@"Share %@", currentPhoto.name];
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:actionSheetTitle
                                                     delegate:self
