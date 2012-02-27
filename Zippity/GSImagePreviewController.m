@@ -17,9 +17,6 @@
 @property (nonatomic, retain) NSMutableSet * visiblePages;
 @property (nonatomic, retain) NSMutableSet * reusablePages;
 
-//- (void)loadPageForIndex:(NSUInteger)index;
-//- (void)unloadPage:(NSUInteger)page;
-
 - (void)handleActionButton:(id)sender;
 
 - (void)updatePageLayout;
@@ -27,6 +24,9 @@
 - (CGRect)frameForPageAtIndex:(NSUInteger)index;
 - (BOOL)isDisplayingPageAtIndex:(NSUInteger)index;
 - (void)configurePage:(GSImageScrollView*)page ForIndex:(NSUInteger)index;
+- (void)toggleChromeVisibility;
+- (void)handleSingleTap:(UIGestureRecognizer*)gestureRecognizer;
+- (void)handleDoubleTap:(UIGestureRecognizer*)gestureRecognizer;
 
 @end
 
@@ -53,8 +53,14 @@
 
 - (void)viewDidLoad
 {    
-    UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleChromeVisibility)];
-    [self.scrollView addGestureRecognizer:gr];
+    UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+    UITapGestureRecognizer *doubleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+    doubleTapGestureRecognizer.numberOfTapsRequired = 2;
+    
+    [self.scrollView addGestureRecognizer:singleTapGestureRecognizer];
+    [self.scrollView addGestureRecognizer:doubleTapGestureRecognizer];
+    
+    [singleTapGestureRecognizer requireGestureRecognizerToFail:doubleTapGestureRecognizer];
     
     self.toolbarItems = [NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                                                target:self
@@ -211,6 +217,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == self.scrollView) {
+        self.currentIndex = roundf(self.scrollView.contentOffset.x / self.scrollView.frame.size.width);
         [self updatePageLayout];
     }
 }
@@ -255,6 +262,27 @@
         self.navigationController.navigationBar.alpha = alpha;
         self.navigationController.toolbar.alpha = alpha;
     }];
+}
+
+- (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        GSImageScrollView *currentPage = nil;
+        for (GSImageScrollView *page in self.visiblePages) {
+            if (page.index == self.currentIndex) {
+                currentPage = page;
+                break;
+            }
+        }
+        if (currentPage) {
+            [currentPage handleDoubleTapAtPoint:[gestureRecognizer locationInView:currentPage.imageView]];
+        }
+    }
+}
+
+- (void)handleSingleTap:(UIGestureRecognizer *)gestureRecognizer
+{
+    [self toggleChromeVisibility];
 }
 
 - (void)handleActionButton:(id)sender

@@ -16,7 +16,6 @@
 @property (nonatomic) NSUInteger initialIndex;
 @property (nonatomic, assign) IBOutlet UIScrollView * scrollView;
 
-- (void)toggleChromeVisibility;
 - (GSImageScrollView*)dequeueReusablePage;
 
 @end

@@ -20,8 +20,6 @@
     if (self) {
         // Initialization code
         UIImageView * iv = [[UIImageView alloc] initWithFrame:self.bounds];
-        iv.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        iv.contentMode = UIViewContentModeCenter;
         [self addSubview:iv];
         _imageView = iv;
     }
@@ -30,8 +28,12 @@
 
 - (void)displayImage:(UIImage *)image
 {
+    self.zoomScale = 1.0;
+    self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
     self.imageView.image = image;
+    
     [self updateZoomScales];
+    [self setNeedsLayout];
 }
 
 - (void)updateZoomScales {
@@ -40,27 +42,10 @@
     // For images that exceed the dimensions of the view port,
     // we want to be able to zoom in to full size and out until
     // they fit the viewport
-    //
-    // For images smaller than the dimensions of the view port,
-    // we want to be able to zoom in until they fit the
-    // viewport, and zoom out until they're full size.
-    //
-    // The image is oversized if either of its dimensions is
-    // greater than the 
-    CGFloat widthScaleFactor = self.imageView.image.size.width / self.frame.size.width;
-    CGFloat heightScaleFactor = self.imageView.image.size.height / self.frame.size.height;
-    
-    CGFloat maxScaleFactor = MAX(widthScaleFactor, heightScaleFactor);
-    
-    BOOL isOversized = maxScaleFactor > 1.0;
-    
-    if (isOversized) {
-        self.maximumZoomScale = 1.0;
-        self.minimumZoomScale = 1 / maxScaleFactor;
-    } else {
-        self.minimumZoomScale = 1.0;
-        self.maximumZoomScale = 1 / maxScaleFactor;
-    }
+    CGFloat minimumWidthScale = self.frame.size.width / self.imageView.frame.size.width;
+    CGFloat minimumHeightScale = self.frame.size.height / self.imageView.frame.size.height;
+    CGFloat minimumZoomScale = MIN(minimumWidthScale, minimumHeightScale);
+    self.minimumZoomScale = MIN(1.0, minimumZoomScale);
     self.zoomScale = self.minimumZoomScale;
 }
 
@@ -86,6 +71,41 @@
     }
     
     self.imageView.frame = frameToCenter;
+}
+
+- (void)handleDoubleTapAtPoint:(CGPoint)point
+{
+    float newZoomFactor;
+    if (self.zoomScale == self.minimumZoomScale) {
+        newZoomFactor = self.maximumZoomScale;
+    } else {
+        newZoomFactor = self.minimumZoomScale;
+    }
+    
+    if (newZoomFactor == self.zoomScale) {
+        return;
+    }
+    
+    NSLog(@"Zooming to new zoom scale factor: %.2f", newZoomFactor);
+    CGRect zoomRect = [self zoomRectForScale:newZoomFactor withCenter:point];
+    [self zoomToRect:zoomRect animated:YES];
+}
+                       
+- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center 
+{
+    CGRect zoomRect;
+
+    // the zoom rect is in the content view's coordinates. 
+    //    At a zoom scale of 1.0, it would be the size of the imageScrollView's bounds.
+    //    As the zoom scale decreases, so more content is visible, the size of the rect grows.
+    zoomRect.size.height = self.imageView.frame.size.height / scale;
+    zoomRect.size.width  = self.imageView.frame.size.width  / scale;
+
+    // choose an origin so as to get the right center.
+    zoomRect.origin.x    = center.x - (zoomRect.size.width  / 2.0);
+    zoomRect.origin.y    = center.y - (zoomRect.size.height / 2.0);
+
+    return zoomRect;
 }
 
 @end

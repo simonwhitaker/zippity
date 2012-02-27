@@ -18,4 +18,7 @@
 - (void)displayImage:(UIImage*)image;
 - (void)updateZoomScales;
 
+- (void)handleDoubleTapAtPoint:(CGPoint)point;
+
 @end
+
