@@ -20,6 +20,7 @@
 		F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */; };
 		F442747F14F85C9B00C84A0B /* GSImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */; };
 		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
+		F476B0D614FB81B700E653E1 /* GSImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F476B0D514FB81B700E653E1 /* GSImageScrollView.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
 		F47DFD8114ED4E32007F7443 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7D14ED4E32007F7443 /* Icon.png */; };
@@ -62,6 +63,8 @@
 		F442747D14F85C9B00C84A0B /* GSImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSImagePreviewController.h; sourceTree = "<group>"; };
 		F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSImagePreviewController.m; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
+		F476B0D414FB81B700E653E1 /* GSImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSImageScrollView.h; sourceTree = "<group>"; };
+		F476B0D514FB81B700E653E1 /* GSImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSImageScrollView.m; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		F47DFD7D14ED4E32007F7443 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -136,6 +139,8 @@
 				F442747D14F85C9B00C84A0B /* GSImagePreviewController.h */,
 				F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */,
 				F4E1905414F946EF0098D5BB /* GSImagePreviewController.xib */,
+				F476B0D414FB81B700E653E1 /* GSImageScrollView.h */,
+				F476B0D514FB81B700E653E1 /* GSImageScrollView.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -383,6 +388,7 @@
 				F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */,
 				F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */,
 				F442747F14F85C9B00C84A0B /* GSImagePreviewController.m in Sources */,
+				F476B0D614FB81B700E653E1 /* GSImageScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

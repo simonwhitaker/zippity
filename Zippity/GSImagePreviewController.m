@@ -7,14 +7,21 @@
 //
 
 #import "GSImagePreviewController.h"
+#import "GSImageScrollView.h"
+
+#define kPagePaddingWidth 10.0
 
 @interface GSImagePreviewController ()
 
 @property (nonatomic) NSUInteger currentPage;
-@property (nonatomic) NSRange loadedPagesRange;
+@property (nonatomic, retain) NSMutableDictionary * loadedPages;
 
-- (void)loadImageForPage:(NSUInteger)page;
+- (void)loadPage:(NSUInteger)page;
+- (void)unloadPage:(NSUInteger)page;
+
 - (void)handleActionButton:(id)sender;
+- (void)updateLayout;
+- (CGRect)frameForPage:(NSUInteger)page;
 
 @end
 
@@ -24,7 +31,7 @@
 @synthesize initialIndex=_initialIndex;
 @synthesize scrollView=_scrollView;
 @synthesize currentPage=_currentPage;
-@synthesize loadedPagesRange=_loadedPagesRange;
+@synthesize loadedPages=_loadedPages;
 
 #pragma mark - Object lifecycle
 
@@ -33,14 +40,14 @@
     self = [super init];
     if (self) {
         self.wantsFullScreenLayout = YES;
-        self.loadedPagesRange = NSMakeRange(NSNotFound, 0);
+        self.loadedPages = [NSMutableDictionary dictionary];
         _currentPage = NSNotFound;
     }
     return self;
 }
 
 - (void)viewDidLoad
-{
+{    
     UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggleChromeVisibility)];
     [self.scrollView addGestureRecognizer:gr];
     
@@ -58,17 +65,17 @@
     
     self.currentPage = self.initialIndex;
     
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.imageFileWrappers.count, self.scrollView.frame.size.height);
-    self.scrollView.contentOffset = CGPointMake(self.scrollView.frame.size.width * self.currentPage, 0);
-    
-    [self loadImageForPage:self.currentPage];
-    if (self.currentPage > 0) [self loadImageForPage:self.currentPage - 1];
-    if (self.currentPage < self.imageFileWrappers.count - 1) [self loadImageForPage:self.currentPage + 1];
+    [self loadPage:self.currentPage];
+    if (self.currentPage > 0) [self loadPage:self.currentPage - 1];
+    if (self.currentPage < self.imageFileWrappers.count - 1) [self loadPage:self.currentPage + 1];
+
+    [self updateLayout];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
     GSFileWrapper * container = [(GSFileWrapper*)[self.imageFileWrappers objectAtIndex:0] parent];
     NSLog(@"Viewing a set of %u image(s) from a total container size of %u file(s)", self.imageFileWrappers.count, container.fileWrappers.count);
     [TestFlight passCheckpoint:@"Opened an image preview view"];
@@ -81,6 +88,13 @@
     [self.navigationController setToolbarHidden:YES animated:animated];
 }
 
+- (CGRect)frameForPage:(NSUInteger)page
+{
+    CGRect f = self.view.bounds;
+    f.origin.x = self.scrollView.bounds.size.width * page + kPagePaddingWidth;
+    return f;
+}
+
 #pragma mark - Interface orientation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -90,48 +104,58 @@
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [self updateLayout];
+}
+
+- (void)updateLayout {
+    CGRect f = self.view.bounds;
+    f.origin.x -= kPagePaddingWidth;
+    f.size.width += kPagePaddingWidth * 2;
+    self.scrollView.frame = f;
+    
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.imageFileWrappers.count, 
                                              self.scrollView.frame.size.height);
-    for (UIView *v in self.scrollView.subviews) {
-        NSUInteger thisPage = v.tag;
-        v.frame = CGRectMake(self.scrollView.frame.size.width * thisPage,
-                             0,
-                             self.scrollView.frame.size.width,
-                             self.scrollView.frame.size.height);
+    for (NSNumber *pageKey in self.loadedPages) {
+        GSImageScrollView *isv = [self.loadedPages objectForKey:pageKey];
+        isv.frame = [self frameForPage:pageKey.unsignedIntegerValue];
     }
     self.scrollView.contentOffset = CGPointMake(self.scrollView.frame.size.width * self.currentPage, 0);
 }
 
 #pragma mark - Utility methods
 
-- (void)loadImageForPage:(NSUInteger)page
+- (void)loadPage:(NSUInteger)page
 {
-    if (NSLocationInRange(page, self.loadedPagesRange)) {
-        // We've already loaded this image
+    NSNumber * pageKey = [NSNumber numberWithUnsignedInteger:page];
+    if ([self.loadedPages objectForKey:pageKey]) {
+        // We've already loaded this page
+        NSLog(@"We've already loaded page %u", page);
         return;
     }
+    
+    NSLog(@"Loading page %u", page);
     GSFileWrapper *imageFileWrapper = [self.imageFileWrappers objectAtIndex:page];
     UIImage *image = [UIImage imageWithContentsOfFile:imageFileWrapper.url.path];
     UIImageView *iv = [[UIImageView alloc] initWithImage:image];
-    iv.tag = page;
-    CGRect frame = self.scrollView.bounds;
-    frame.origin.x = frame.size.width * page;
-    iv.frame = frame;
     iv.contentMode = UIViewContentModeScaleAspectFit;
-    [self.scrollView addSubview:iv];
     
-    if (self.loadedPagesRange.location == NSNotFound) {
-        self.loadedPagesRange = NSMakeRange(page, 1);
-    } else if (page < self.loadedPagesRange.location) {
-        NSRange temp = self.loadedPagesRange;
-        NSUInteger diff = temp.location - page;
-        temp.location = page;
-        temp.length += diff;
-        self.loadedPagesRange = temp;
-    } else if (page >= NSMaxRange(self.loadedPagesRange)) {
-        NSRange temp = self.loadedPagesRange;
-        temp.length = page - temp.location + 1;
-        self.loadedPagesRange = temp;
+    GSImageScrollView *isv = [[GSImageScrollView alloc] initWithFrame:[self frameForPage:page]];
+    isv.imageView = iv;
+    isv.delegate = self;
+    
+    [self.scrollView addSubview:isv];
+    [self.loadedPages setObject:isv forKey:pageKey];
+}
+
+- (void)unloadPage:(NSUInteger)page
+{
+    NSNumber * pageKey = [NSNumber numberWithUnsignedInteger:page];
+    GSImageScrollView *isv = [self.loadedPages objectForKey:pageKey];
+    
+    if (isv) {
+        NSLog(@"Removing page %u", page);
+        [isv removeFromSuperview];
+        [self.loadedPages removeObjectForKey:pageKey];
     }
 }
 
@@ -147,19 +171,47 @@
 
 #pragma mark - UIScrollView delegate methods
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == self.scrollView) {
+        
+    }
+}
+
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    // Update the current page value
-    NSUInteger previousPage = self.currentPage;
-    self.currentPage = (NSUInteger)roundf(scrollView.contentOffset.x / scrollView.frame.size.width);
-    
-    // Check which way we've scrolled and pre-load the next image 
-    // in that direction, if there is one
-    if (self.currentPage < previousPage && self.currentPage > 0) {
-        [self loadImageForPage:self.currentPage - 1];
-    } else if (self.currentPage > previousPage && self.currentPage < self.imageFileWrappers.count - 1) {
-        [self loadImageForPage:self.currentPage + 1];
+    if (scrollView == self.scrollView) {
+        // Update the current page value
+        NSUInteger previousPage = self.currentPage;
+        self.currentPage = (NSUInteger)roundf(scrollView.contentOffset.x / scrollView.frame.size.width);
+        
+        // Check which way we've scrolled and pre-load the next image 
+        // in that direction, if there is one
+        if (self.currentPage < previousPage && self.currentPage > 0) {
+            [self loadPage:self.currentPage - 1];
+            [self unloadPage:self.currentPage + 2];
+        } else if (self.currentPage > previousPage && self.currentPage < self.imageFileWrappers.count - 1) {
+            [self loadPage:self.currentPage + 1];
+            [self unloadPage:self.currentPage - 2];
+        }
+        
+        // Reset the zoom factor for the previous page
+        GSImageScrollView *isv = [self.loadedPages objectForKey:[NSNumber numberWithUnsignedInteger:previousPage]];
+        [isv setZoomScale:1.0];
     }
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    if ([scrollView respondsToSelector:@selector(imageView)]) {
+        return [(GSImageScrollView*)scrollView imageView];
+    }
+    return nil;
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale
+{
+    
 }
 
 #pragma mark - UIActionSheet delegate methods
