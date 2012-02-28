@@ -76,6 +76,7 @@
     
     self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
     [self.navigationController setToolbarHidden:NO animated:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     self.currentIndex = self.initialIndex;
     
@@ -250,14 +251,24 @@
 
 - (void)toggleChromeVisibility {
     CGFloat alpha;
-    if (self.navigationController.navigationBar.alpha < 0.05) {
-        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    BOOL shouldShow = [[UIApplication sharedApplication] isStatusBarHidden];
+    [[UIApplication sharedApplication] setStatusBarHidden:!shouldShow withAnimation:UIStatusBarAnimationFade];
+
+    if (shouldShow) {
+        // Make sure navigation bar is correctly placed - it will move to the top of 
+        // the screen on rotation once the status bar is hidden and doesn't automatically
+        // move back whent the status bar reappears.
+        CGSize s = [[UIApplication sharedApplication] statusBarFrame].size;
+        CGFloat statusBarHeight = UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? s.height : s.width;
+        CGRect f = self.navigationController.navigationBar.frame;
+        f.origin.y = statusBarHeight;
+        self.navigationController.navigationBar.frame = f;
+        
         alpha = 1.0;
     } else {
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
         alpha = 0.0;
     }
-    
+
     [UIView animateWithDuration:0.35 animations:^{
         self.navigationController.navigationBar.alpha = alpha;
         self.navigationController.toolbar.alpha = alpha;
