@@ -42,8 +42,8 @@
     // For images that exceed the dimensions of the view port,
     // we want to be able to zoom in to full size and out until
     // they fit the viewport
-    CGFloat minimumWidthScale = self.frame.size.width / self.imageView.frame.size.width;
-    CGFloat minimumHeightScale = self.frame.size.height / self.imageView.frame.size.height;
+    CGFloat minimumWidthScale = self.frame.size.width / (self.imageView.frame.size.width / self.zoomScale);
+    CGFloat minimumHeightScale = self.frame.size.height / (self.imageView.frame.size.height / self.zoomScale);
     CGFloat minimumZoomScale = MIN(minimumWidthScale, minimumHeightScale);
     self.minimumZoomScale = MIN(1.0, minimumZoomScale);
     self.zoomScale = self.minimumZoomScale;
