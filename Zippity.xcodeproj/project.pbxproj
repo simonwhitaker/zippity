@@ -275,7 +275,7 @@
 			buildConfigurationList = F47F536A14ECCC82009BF6FE /* Build configuration list for PBXNativeTarget "Zippity" */;
 			buildPhases = (
 				F47F534E14ECCC82009BF6FE /* Sources */,
-				F448269014FACA2500748100 /* ShellScript */,
+				F448269014FACA2500748100 /* Update version in Info.plist */,
 				F4DE424114F99E5B004A996B /* Build Welcome to Zippity.zip */,
 				F47F534F14ECCC82009BF6FE /* Frameworks */,
 				F47F535014ECCC82009BF6FE /* Resources */,
@@ -341,13 +341,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F448269014FACA2500748100 /* ShellScript */ = {
+		F448269014FACA2500748100 /* Update version in Info.plist */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Update version in Info.plist";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
