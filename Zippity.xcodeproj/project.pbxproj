@@ -275,7 +275,7 @@
 			buildConfigurationList = F47F536A14ECCC82009BF6FE /* Build configuration list for PBXNativeTarget "Zippity" */;
 			buildPhases = (
 				F47F534E14ECCC82009BF6FE /* Sources */,
-				F4E0A93E14EDC0760073644D /* Run Script - Git version */,
+				F448269014FACA2500748100 /* ShellScript */,
 				F4DE424114F99E5B004A996B /* Build Welcome to Zippity.zip */,
 				F47F534F14ECCC82009BF6FE /* Frameworks */,
 				F47F535014ECCC82009BF6FE /* Resources */,
@@ -341,6 +341,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F448269014FACA2500748100 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PROJECT_DIR}/version.sh --set --plist-path \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\" --quiet";
+		};
 		F4DE424114F99E5B004A996B /* Build Welcome to Zippity.zip */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -354,20 +367,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "ZIP_FILE=\"$PROJECT_DIR/$PROJECT_NAME/Welcome to Zippity.zip\"\necho \"Updating $ZIP_FILE\"\n\nrm \"$ZIP_FILE\" || exit 1\ncd \"$PROJECT_DIR/welcome-contents\" || exit 1\n/usr/bin/zip -r \"$ZIP_FILE\" * -x \"*/.DS_Store\" || exit 1\nexit 0";
-		};
-		F4E0A93E14EDC0760073644D /* Run Script - Git version */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script - Git version";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "alias git=$(which git)\n\ngit_version()\n{\n    GITVERSION=`git describe | cut -d- -f1-2 | tr - .`\n    GITMODIFIED=`(git status | grep \"modified:\\|added:\\|deleted:\" -q) && echo \"-M\"`\n    echo $GITVERSION$GITMODIFIED\n}\n\nif [[ $(git symbolic-ref -q HEAD) != 'refs/heads/master' ]]; then\n# Get location of parsed Info.plist\nGS_INFO_PLIST_PATH=\"$BUILT_PRODUCTS_DIR/$FULL_PRODUCT_NAME/Info\"\n\n# Use git version as version number\nexport GS_NEW_VERSION=`git_version`\necho Version is $GS_NEW_VERSION\n\n# Write new version number to parsed Info.plist\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleVersion $GS_NEW_VERSION\ndefaults write \"$GS_INFO_PLIST_PATH\" CFBundleShortVersionString $GS_NEW_VERSION\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -423,6 +422,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = "Ad Hoc";
 		};
@@ -431,6 +431,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
@@ -466,6 +467,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				SDKROOT = iphoneos;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
@@ -486,12 +488,14 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
 		F47F536B14ECCC82009BF6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
@@ -508,6 +512,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CURRENT_PROJECT_VERSION = 11;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
