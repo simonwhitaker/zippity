@@ -218,9 +218,15 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == self.scrollView) {
-        self.currentIndex = roundf(self.scrollView.contentOffset.x / self.scrollView.frame.size.width);
         [self updatePageLayout];
     }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    // Don't call in scrollViewDidScroll; causes problems on rotation
+    // when the delegate method gets called when the bounds change
+    self.currentIndex = roundf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
