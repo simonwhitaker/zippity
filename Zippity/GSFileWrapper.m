@@ -12,6 +12,8 @@
 #import "GSAppDelegate.h"
 #import "NSArray+GSZippityAdditions.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "GSArchive.h"
+
 
 //------------------------------------------------------------
 // Public class interface: GSFileWrapper
@@ -97,7 +99,7 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
             result = [[GSDirectoryWrapper alloc] initWithURL:url error:error];
         } else {
             NSString *extension = [[[url path] pathExtension] lowercaseString];
-            if ([extension isEqualToString:@"zip"]) {
+            if ([extension isEqualToString:@"zip"] || [extension isEqualToString:@"gz"]) {
                 result = [[GSZipFileWrapper alloc] initWithURL:url error:error];
             } else {
                 result = [[GSRegularFileWrapper alloc] initWithURL:url error:error];
@@ -625,14 +627,11 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
                 return;
             }
             
-            ZipArchive *za = [[ZipArchive alloc] init];
-            if ([za UnzipOpenFile:self.url.path]) {
-                BOOL unzipped = [za UnzipFileTo:self.cachePath overWrite:YES];
-                if (!unzipped) {
-                    NSLog(@"Couldn't unzip file (%@) to cache directory (%@)", self.url.path, self.cachePath);
-                }
-            } else {
-                NSLog(@"Couldn't open zip file: %@", self.url.path);
+            GSArchive *archive = [[GSArchive alloc] initWithPath:self.url.path];
+            NSError *error = nil;
+            BOOL success = [archive extractToDirectory:self.cachePath overwrite:YES error:&error];
+            if (!success) {
+                NSLog(@"Error on extracting archive (%@) to cache directory (%@): %@, %@", self.url.path, self.cachePath, error, [error userInfo]);
             }
         }
         
