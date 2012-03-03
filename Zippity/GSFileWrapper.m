@@ -44,10 +44,10 @@
 @end
 
 //------------------------------------------------------------
-// Private class interface: GSZipFileWrapper
+// Private class interface: GSArchiveFileWrapper
 //------------------------------------------------------------
 
-@interface GSZipFileWrapper : GSRegularFileWrapper {
+@interface GSArchiveFileWrapper : GSRegularFileWrapper {
     GSFileWrapper * _cacheDirectory;
     NSString * _cachePath;
     NSString * _visitedMarkerPath;
@@ -111,7 +111,7 @@ static NSSet * SupportedArchiveTypes;
         } else {
             UIDocumentInteractionController *ic = [UIDocumentInteractionController interactionControllerWithURL:url];
             if ([SupportedArchiveTypes containsObject:ic.UTI]) {
-                result = [[GSZipFileWrapper alloc] initWithURL:url error:error];
+                result = [[GSArchiveFileWrapper alloc] initWithURL:url error:error];
             } else {
                 result = [[GSRegularFileWrapper alloc] initWithURL:url error:error];
             }
@@ -499,10 +499,10 @@ static NSSet * SupportedArchiveTypes;
 @end
 
 //------------------------------------------------------------
-// Private class: GSZipFileWrapper
+// Private class: GSArchiveFileWrapper
 //------------------------------------------------------------
 
-@implementation GSZipFileWrapper
+@implementation GSArchiveFileWrapper
 
 - (BOOL)isArchive { 
     return YES; 

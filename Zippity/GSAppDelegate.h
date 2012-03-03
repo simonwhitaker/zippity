@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "GSFileContainerListViewController.h"
 
-#define kGSZipFilePathKey @"zipFilePath"
-
 @interface GSAppDelegate : UIResponder <UIApplicationDelegate> {
     NSString * _documentsDirectory;
     NSString * _zipFilesDirectory;
