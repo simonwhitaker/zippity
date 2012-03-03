@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "GSFileWrapper.h"
-#import "ZipArchive.h"
 #import "GSAppDelegate.h"
 #import "NSArray+GSZippityAdditions.h"
 #import <MobileCoreServices/MobileCoreServices.h>
@@ -74,6 +73,18 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 
 #pragma mark - Object lifecycle
 
+static NSSet * SupportedArchiveTypes;
+
++ (void)initialize
+{
+    NSMutableSet * tempTypes = [NSMutableSet set];
+    NSArray *documentTypes = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleDocumentTypes"];
+    for (NSDictionary *documentType in documentTypes) {
+        [tempTypes addObjectsFromArray:[documentType valueForKeyPath:@"LSItemContentTypes"]];
+    }
+    SupportedArchiveTypes = [NSSet setWithSet:tempTypes];
+}
+
 - (id)initWithURL:(NSURL*)url error:(NSError**)error
 {
     self = [super init];
@@ -98,15 +109,17 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
         if (isDirectory) {
             result = [[GSDirectoryWrapper alloc] initWithURL:url error:error];
         } else {
-            NSString *extension = [[[url path] pathExtension] lowercaseString];
-            if ([extension isEqualToString:@"zip"] || [extension isEqualToString:@"gz"]) {
+            UIDocumentInteractionController *ic = [UIDocumentInteractionController interactionControllerWithURL:url];
+            if ([SupportedArchiveTypes containsObject:ic.UTI]) {
                 result = [[GSZipFileWrapper alloc] initWithURL:url error:error];
             } else {
                 result = [[GSRegularFileWrapper alloc] initWithURL:url error:error];
             }
+            // Save the document interaction controller - no point re-generating it later
+            result->_documentInteractionController = ic;
         }
     } else {
-        // TODO: Can't determine file type - bomb out
+        // TODO: File doesn't exist - bomb out
     }
     if (result && *error == nil) {
         return result;
