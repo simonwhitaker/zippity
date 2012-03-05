@@ -20,7 +20,6 @@
 				<string>org.gnu.gnu-zip-tar-archive</string>
 				<string>public.tar-archive</string>
 				<string>public.bzip2-archive</string>
-				<string>com.rarlab.rar-archive</string>
 			</array>
 		</dict>
 	</array>
