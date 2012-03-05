@@ -549,10 +549,10 @@ static NSArray * SupportedArchiveTypes;
 {
     if (_cachePath == nil) {
         GSAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.zipFilesDirectory
+        NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.archiveFilesDirectory
                                                                           withString:@""
                                                                              options:0 
-                                                                               range:NSMakeRange(0, appDelegate.zipFilesDirectory.length)];
+                                                                               range:NSMakeRange(0, appDelegate.archiveFilesDirectory.length)];
         NSString *finalDirectoryName = [relativePath stringByAppendingString:@".contents"];
         
         NSString *cacheBasePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
