@@ -73,16 +73,16 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 
 #pragma mark - Object lifecycle
 
-static NSSet * SupportedArchiveTypes;
+static NSArray * SupportedArchiveTypes;
 
 + (void)initialize
 {
-    NSMutableSet * tempTypes = [NSMutableSet set];
+    NSMutableArray * tempTypes = [NSMutableArray array];
     NSArray *documentTypes = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleDocumentTypes"];
     for (NSDictionary *documentType in documentTypes) {
         [tempTypes addObjectsFromArray:[documentType valueForKeyPath:@"LSItemContentTypes"]];
     }
-    SupportedArchiveTypes = [NSSet setWithSet:tempTypes];
+    SupportedArchiveTypes = [NSArray arrayWithArray:tempTypes];
 }
 
 - (id)initWithURL:(NSURL*)url error:(NSError**)error
@@ -110,7 +110,14 @@ static NSSet * SupportedArchiveTypes;
             result = [[GSDirectoryWrapper alloc] initWithURL:url error:error];
         } else {
             UIDocumentInteractionController *ic = [UIDocumentInteractionController interactionControllerWithURL:url];
-            if ([SupportedArchiveTypes containsObject:ic.UTI]) {
+            BOOL isArchiveType = NO;
+            for (NSString * uti in SupportedArchiveTypes) {
+                if (UTTypeConformsTo((__bridge CFStringRef)ic.UTI, (__bridge CFStringRef)uti)) {
+                    isArchiveType = YES;
+                    break;
+                }
+            }
+            if (isArchiveType) {
                 result = [[GSArchiveFileWrapper alloc] initWithURL:url error:error];
             } else {
                 result = [[GSRegularFileWrapper alloc] initWithURL:url error:error];
