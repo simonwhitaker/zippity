@@ -8,6 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#define kGSArchiveErrorDomain @"GSArchive"
+#define kGSArchiveLowLevelErrorCodeKey @"LowLevelErrorCode"
+#define kGSArchiveLowLevelErrorStringKey @"LowLevelErrorString"
+
+enum {
+    GSArchiveFileReadError = 1,
+    GSArchiveEntryReadError,
+    GSArchiveEntryWriteError,
+};
+
 @interface GSArchive : NSObject
 
 @property (nonatomic, retain) NSString * path;

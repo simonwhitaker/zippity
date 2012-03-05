@@ -10,6 +10,16 @@
 #import "libarchive/archive.h"
 #import "libarchive/archive_entry.h"
 
+static NSDictionary * errorInfoForArchive(struct archive *a) {
+    NSMutableDictionary *info = [NSMutableDictionary dictionary];
+    [info setObject:[NSString stringWithCString:archive_error_string(a) encoding:NSUTF8StringEncoding]
+             forKey:kGSArchiveLowLevelErrorStringKey];
+    [info setObject:[NSNumber numberWithInt:archive_errno(a)]
+             forKey:kGSArchiveLowLevelErrorCodeKey];
+    return [NSDictionary dictionaryWithDictionary:info];
+}
+
+
 static int copy_data(struct archive *ar, struct archive *aw) {
     int r;
     const void *buff;
@@ -67,9 +77,11 @@ static int copy_data(struct archive *ar, struct archive *aw) {
     archive_write_disk_set_options(ext, flags);
     archive_write_disk_set_standard_lookup(ext);
     
-    r = archive_read_open_file(a, filename, 10240);
+    r = archive_read_open_filename(a, filename, 10240);
     if (r != ARCHIVE_OK) {
-        *error = [[NSError alloc] initWithDomain:@"GSARchive" code:r userInfo:nil];
+        *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                            code:GSArchiveFileReadError
+                                        userInfo:errorInfoForArchive(a)];
         return NO;
     }
     
@@ -80,7 +92,9 @@ static int copy_data(struct archive *ar, struct archive *aw) {
             break;
         }
         if (r < ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:@"GSArchive" code:r userInfo:nil];
+            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                code:GSArchiveEntryReadError
+                                            userInfo:errorInfoForArchive(a)];
             return NO;
         }
         
@@ -92,19 +106,25 @@ static int copy_data(struct archive *ar, struct archive *aw) {
         
         r = archive_write_header(ext, entry);
         if (r != ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:@"GSArchive" code:r userInfo:nil];
+            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                code:GSArchiveEntryWriteError
+                                            userInfo:errorInfoForArchive(a)];
             return NO;
         } else if (archive_entry_size(entry) > 0) {
-            copy_data(a, ext);
+            r = copy_data(a, ext);
             if (r != ARCHIVE_OK) {
-                *error = [[NSError alloc] initWithDomain:@"GSArchive" code:r userInfo:nil];
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                    code:GSArchiveEntryWriteError
+                                                userInfo:errorInfoForArchive(a)];
                 return NO;
             }
         }
         
         r = archive_write_finish_entry(ext);
         if (r != ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:@"GSArchive" code:r userInfo:nil];
+            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                code:GSArchiveEntryWriteError
+                                            userInfo:errorInfoForArchive(a)];
             return NO;
         }
     }
