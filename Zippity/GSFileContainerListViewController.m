@@ -12,6 +12,11 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "GSImagePreviewController.h"
 
+enum {
+    GSFileContainerListViewActionSheetShare = 1,
+    GSFileContainerListViewActionSheetDelete,
+};
+
 @interface GSFileContainerListViewController()
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
@@ -19,6 +24,7 @@
 
 - (void)shareSelectedItems;
 - (void)deleteSelectedItems;
+- (void)updateToolbarButtons;
 
 @end
 
@@ -138,6 +144,25 @@
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
+#pragma mark - Utility methods
+
+- (void)updateToolbarButtons 
+{
+    NSUInteger numSelected = [[self.tableView indexPathsForSelectedRows] count];
+    
+    if (numSelected) {
+        self.deleteButton.title = [NSString stringWithFormat:@"Delete (%u)", numSelected];
+        self.shareButton.title = [NSString stringWithFormat:@"Share (%u)", numSelected];
+    } else {
+        self.deleteButton.title = @"Delete";
+        self.shareButton.title = @"Share";
+    }
+    
+    for (UIBarButtonItem *button in self.toolbarItems) {
+        button.enabled = numSelected > 0;
+    }
+}
+
 #pragma mark - Custom accessors
 
 - (NSDateFormatter*)subtitleDateFormatter
@@ -230,23 +255,6 @@
 //}
 //
 #pragma mark - Table view delegate
-
-- (void)updateToolbarButtons 
-{
-    NSUInteger numSelected = [[self.tableView indexPathsForSelectedRows] count];
-    
-    if (numSelected) {
-        self.deleteButton.title = [NSString stringWithFormat:@"Delete (%u)", numSelected];
-        self.shareButton.title = [NSString stringWithFormat:@"Share (%u)", numSelected];
-    } else {
-        self.deleteButton.title = @"Delete";
-        self.shareButton.title = @"Share";
-    }
-    
-    for (UIBarButtonItem *button in self.toolbarItems) {
-        button.enabled = numSelected > 0;
-    }
-}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -351,42 +359,66 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(kEmailButtonLabel, nil)]) {
-        if ([MFMailComposeViewController canSendMail]) {
-            MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
-            mailComposer.mailComposeDelegate = self;
+    if (actionSheet.tag == GSFileContainerListViewActionSheetShare) {
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(kEmailButtonLabel, nil)]) {
+            if ([MFMailComposeViewController canSendMail]) {
+                MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+                mailComposer.mailComposeDelegate = self;
+                
+                for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
+                    GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+                    CFStringRef utiStringRef = (__bridge CFStringRef)wrapper.documentInteractionController.UTI;
+                    
+                    // UTTypeCopy... retains its return value (contains the word "copy"), so we
+                    // need to balance this with a release. We either do that manually by keeping
+                    // a pointer to the CFStringRef and then calling CFRelease() on it, or we 
+                    // transfer responsility for memory management to ARC by using 
+                    // __bridge_transfer and let ARC sort it out.
+                    // See http://www.mikeash.com/pyblog/friday-qa-2011-09-30-automatic-reference-counting.html
+                    // for more on this.
+                    NSString *mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(utiStringRef,
+                                                                                                      kUTTagClassMIMEType);
+                    if (!mimeType) {
+                        mimeType = @"application/octet-stream";
+                    }
+                    
+                    NSLog(@"Attaching %@ to email with MIME type %@", wrapper.name, mimeType);
+                    
+                    [mailComposer addAttachmentData:[NSData dataWithContentsOfURL:wrapper.url]
+                                           mimeType:mimeType
+                                           fileName:wrapper.name];
+                }
+                [self presentModalViewController:mailComposer animated:YES];
+            } else {
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                             message:@"You can't send mail on this device - do you need to set up an email account?"
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+                [av show];
+            }
+        }
+    } else if (actionSheet.tag == GSFileContainerListViewActionSheetDelete) {
+        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+            NSMutableArray * successfullyDeleted = [NSMutableArray array];
+            NSMutableArray * failedToDelete = [NSMutableArray array];
             
             for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
-                GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-                CFStringRef utiStringRef = (__bridge CFStringRef)wrapper.documentInteractionController.UTI;
-                
-                // UTTypeCopy... retains its return value (contains the word "copy"), so we
-                // need to balance this with a release. We either do that manually by keeping
-                // a pointer to the CFStringRef and then calling CFRelease() on it, or we 
-                // transfer responsility for memory management to ARC by using 
-                // __bridge_transfer and let ARC sort it out.
-                // See http://www.mikeash.com/pyblog/friday-qa-2011-09-30-automatic-reference-counting.html
-                // for more on this.
-                NSString *mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(utiStringRef,
-                                                                                                  kUTTagClassMIMEType);
-                if (!mimeType) {
-                    mimeType = @"application/octet-stream";
+                NSError *error = nil;
+                [self.container removeItemAtIndex:indexPath.row error:&error];
+                if (error) {
+                    NSLog(@"Error on deleting object at row %u of %@: %@, %@", indexPath.row, self, error, error.userInfo);
+                    [failedToDelete addObject:indexPath];
+                } else {
+                    [successfullyDeleted addObject:indexPath];
                 }
-                
-                NSLog(@"Attaching %@ to email with MIME type %@", wrapper.name, mimeType);
-                
-                [mailComposer addAttachmentData:[NSData dataWithContentsOfURL:wrapper.url]
-                                       mimeType:mimeType
-                                       fileName:wrapper.name];
             }
-            [self presentModalViewController:mailComposer animated:YES];
-        } else {
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
-                                                         message:@"You can't send mail on this device - do you need to set up an email account?"
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles:nil];
-            [av show];
+            [self.tableView deleteRowsAtIndexPaths:successfullyDeleted
+                                  withRowAnimation:UITableViewRowAnimationFade];
+            
+            // TODO: show error if failedToDelete.count isn't 0?
+            
+            [self updateToolbarButtons];
         }
     }
 }
@@ -405,12 +437,19 @@
                                            cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:@"Email", nil];
-    [as showInView:self.view];
+    as.tag = GSFileContainerListViewActionSheetShare;
+    [as showFromToolbar:self.navigationController.toolbar];
 }
 
 - (void)deleteSelectedItems
 {
-    
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Delete files"
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:@"Delete"
+                                           otherButtonTitles:nil];
+    as.tag = GSFileContainerListViewActionSheetDelete;
+    [as showFromToolbar:self.navigationController.toolbar];
 }
 
 #pragma mark - Notification handlers
