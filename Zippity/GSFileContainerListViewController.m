@@ -212,7 +212,7 @@
     
     if (wrapper.isRegularFile) {
         if (self.isRoot) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Opened on %@", [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"Added on %@", [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
         } else {
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, last modified on %@", wrapper.humanFileSize, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
         }
