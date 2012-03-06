@@ -416,6 +416,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
@@ -481,6 +482,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
@@ -499,6 +501,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
