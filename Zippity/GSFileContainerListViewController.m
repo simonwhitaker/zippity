@@ -12,8 +12,6 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "GSImagePreviewController.h"
 
-#define IN_BETA 1
-
 @interface GSFileContainerListViewController()
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
@@ -170,36 +168,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#ifdef IN_BETA
-    if (self.isRoot) return 2;
-#endif
-    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#ifdef IN_BETA
-    if (self.isRoot && section == 1) return 1;
-#endif
-    
     return self.container.fileWrappers.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#ifdef IN_BETA
-    if (self.isRoot && indexPath.section == 1) {
-        NSString *cellID = @"DevNotes";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-        }
-        cell.textLabel.text = @"Info for beta testers";
-        cell.imageView.image = [UIImage imageNamed:@"safari-icon.png"];
-        return cell;
-    }
-#endif
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -287,15 +265,6 @@
     if (tableView.isEditing) {
         [self updateToolbarButtons];
     } else {
-    
-#ifdef IN_BETA
-        if (self.isRoot && indexPath.section == 1) {
-            [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://dl.dropbox.com/u/363683/zippity-testers.md"]];
-            return;
-        }
-#endif
-    
         GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
         
         if (wrapper.isImageFile) {
@@ -425,7 +394,7 @@
 
 - (void)toggleEditMode
 {
-    [self.tableView setEditing:!self.tableView.editing animated:YES];
+    [self setEditing:!self.editing animated:YES];
 }
 
 - (void)shareSelectedItems
