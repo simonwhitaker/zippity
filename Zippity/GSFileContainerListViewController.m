@@ -361,9 +361,10 @@
                 CFStringRef utiStringRef = (__bridge CFStringRef)wrapper.documentInteractionController.UTI;
                 
                 // UTTypeCopy... retains its return value (contains the word "copy"), so we
-                // need to balance this with a release. We either do that manually by retaining
-                // a CFStringRef and calling CFRelease() on it, or we transfer responsility for
-                // memory management to ARC by using __bridge_transfer and let ARC sort it out.
+                // need to balance this with a release. We either do that manually by keeping
+                // a pointer to the CFStringRef and then calling CFRelease() on it, or we 
+                // transfer responsility for memory management to ARC by using 
+                // __bridge_transfer and let ARC sort it out.
                 // See http://www.mikeash.com/pyblog/friday-qa-2011-09-30-automatic-reference-counting.html
                 // for more on this.
                 NSString *mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(utiStringRef,
