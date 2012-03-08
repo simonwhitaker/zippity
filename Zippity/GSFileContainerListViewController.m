@@ -143,6 +143,8 @@ enum {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
+    [self.navigationController setToolbarHidden:YES animated:animated];
+
     [self.tableView reloadData];
 }
 
