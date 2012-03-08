@@ -21,4 +21,7 @@
 @property (readonly) NSDateFormatter * subtitleDateFormatter;
 @property (nonatomic) BOOL isRoot;
 
+@property (nonatomic, assign) UIBarButtonItem * shareButton;
+@property (nonatomic, assign) UIBarButtonItem * deleteButton;
+
 @end

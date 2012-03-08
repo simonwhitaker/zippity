@@ -46,11 +46,11 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     
-    NSLog(@"Zip files directory: %@", self.zipFilesDirectory);
+    NSLog(@"Zip files directory: %@", self.archiveFilesDirectory);
     
     // Demo mode: add a sample zip file
     NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Welcome to Zippity.zip" ofType:nil];
-    NSString *sampleTargetPath = [self.zipFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
+    NSString *sampleTargetPath = [self.archiveFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
     [[NSFileManager defaultManager] removeItemAtPath:sampleTargetPath error:nil];
     [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
     
@@ -59,7 +59,7 @@
     // want to appear in the NavigationItem's title.
     
     NSError *error = nil;
-    GSFileWrapper * rootFileWrapper = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.zipFilesDirectory] error:&error];
+    GSFileWrapper * rootFileWrapper = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.archiveFilesDirectory] error:&error];
     if (error) {
         // TODO: handle error
     }
@@ -124,7 +124,7 @@
     
     NSString *incomingPath = [url path];
     NSString *filename = [incomingPath lastPathComponent];
-    NSString *targetPath = [self.zipFilesDirectory stringByAppendingPathComponent:filename];
+    NSString *targetPath = [self.archiveFilesDirectory stringByAppendingPathComponent:filename];
     
     NSError *error = nil;
     
@@ -135,7 +135,7 @@
     NSUInteger suffixNumber = 1;
     while ([[NSFileManager defaultManager] fileExistsAtPath:targetPath]) {
         NSString * newFilename = [[filenameMinusExt stringByAppendingFormat:@"-%u", suffixNumber] stringByAppendingPathExtension:filenameExtension];
-        targetPath = [self.zipFilesDirectory stringByAppendingPathComponent:newFilename];
+        targetPath = [self.archiveFilesDirectory stringByAppendingPathComponent:newFilename];
         suffixNumber++;
         if (suffixNumber > kMaxSuffixesToTry) {
             // Oops, we've wrapped around.
@@ -209,9 +209,9 @@
     return _visitedMarkersDirectory;
 }
 
-- (NSString*)zipFilesDirectory
+- (NSString*)archiveFilesDirectory
 {
-    if (!_zipFilesDirectory) {
+    if (!_archiveFilesDirectory) {
         NSString *dir = [self.documentsDirectory stringByAppendingPathComponent:@"zippity-files"];
         NSError *error = nil;
         [[NSFileManager defaultManager] createDirectoryAtPath:dir
@@ -221,10 +221,10 @@
         if (error) {
             NSLog(@"Error on creating zip file directory (%@): %@, %@", dir, error, error.userInfo);
         } else {
-            _zipFilesDirectory = dir;
+            _archiveFilesDirectory = dir;
         }
     }
-    return _zipFilesDirectory;
+    return _archiveFilesDirectory;
 }
 
 @end

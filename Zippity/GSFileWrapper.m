@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "GSFileWrapper.h"
-#import "ZipArchive.h"
 #import "GSAppDelegate.h"
 #import "NSArray+GSZippityAdditions.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import "GSArchive.h"
+
 
 //------------------------------------------------------------
 // Public class interface: GSFileWrapper
@@ -43,10 +44,10 @@
 @end
 
 //------------------------------------------------------------
-// Private class interface: GSZipFileWrapper
+// Private class interface: GSArchiveFileWrapper
 //------------------------------------------------------------
 
-@interface GSZipFileWrapper : GSRegularFileWrapper {
+@interface GSArchiveFileWrapper : GSRegularFileWrapper {
     GSFileWrapper * _cacheDirectory;
     NSString * _cachePath;
     NSString * _visitedMarkerPath;
@@ -72,6 +73,18 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 
 #pragma mark - Object lifecycle
 
+static NSArray * SupportedArchiveTypes;
+
++ (void)initialize
+{
+    NSMutableArray * tempTypes = [NSMutableArray array];
+    NSArray *documentTypes = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleDocumentTypes"];
+    for (NSDictionary *documentType in documentTypes) {
+        [tempTypes addObjectsFromArray:[documentType valueForKeyPath:@"LSItemContentTypes"]];
+    }
+    SupportedArchiveTypes = [NSArray arrayWithArray:tempTypes];
+}
+
 - (id)initWithURL:(NSURL*)url error:(NSError**)error
 {
     self = [super init];
@@ -96,15 +109,24 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
         if (isDirectory) {
             result = [[GSDirectoryWrapper alloc] initWithURL:url error:error];
         } else {
-            NSString *extension = [[[url path] pathExtension] lowercaseString];
-            if ([extension isEqualToString:@"zip"]) {
-                result = [[GSZipFileWrapper alloc] initWithURL:url error:error];
+            UIDocumentInteractionController *ic = [UIDocumentInteractionController interactionControllerWithURL:url];
+            BOOL isArchiveType = NO;
+            for (NSString * uti in SupportedArchiveTypes) {
+                if (UTTypeConformsTo((__bridge CFStringRef)ic.UTI, (__bridge CFStringRef)uti)) {
+                    isArchiveType = YES;
+                    break;
+                }
+            }
+            if (isArchiveType) {
+                result = [[GSArchiveFileWrapper alloc] initWithURL:url error:error];
             } else {
                 result = [[GSRegularFileWrapper alloc] initWithURL:url error:error];
             }
+            // Save the document interaction controller - no point re-generating it later
+            result->_documentInteractionController = ic;
         }
     } else {
-        // TODO: Can't determine file type - bomb out
+        // TODO: File doesn't exist - bomb out
     }
     if (result && *error == nil) {
         return result;
@@ -484,10 +506,10 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 @end
 
 //------------------------------------------------------------
-// Private class: GSZipFileWrapper
+// Private class: GSArchiveFileWrapper
 //------------------------------------------------------------
 
-@implementation GSZipFileWrapper
+@implementation GSArchiveFileWrapper
 
 - (BOOL)isArchive { 
     return YES; 
@@ -527,10 +549,10 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
 {
     if (_cachePath == nil) {
         GSAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.zipFilesDirectory
+        NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.archiveFilesDirectory
                                                                           withString:@""
                                                                              options:0 
-                                                                               range:NSMakeRange(0, appDelegate.zipFilesDirectory.length)];
+                                                                               range:NSMakeRange(0, appDelegate.archiveFilesDirectory.length)];
         NSString *finalDirectoryName = [relativePath stringByAppendingString:@".contents"];
         
         NSString *cacheBasePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -625,14 +647,11 @@ NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapper
                 return;
             }
             
-            ZipArchive *za = [[ZipArchive alloc] init];
-            if ([za UnzipOpenFile:self.url.path]) {
-                BOOL unzipped = [za UnzipFileTo:self.cachePath overWrite:YES];
-                if (!unzipped) {
-                    NSLog(@"Couldn't unzip file (%@) to cache directory (%@)", self.url.path, self.cachePath);
-                }
-            } else {
-                NSLog(@"Couldn't open zip file: %@", self.url.path);
+            GSArchive *archive = [[GSArchive alloc] initWithPath:self.url.path];
+            NSError *error = nil;
+            BOOL success = [archive extractToDirectory:self.cachePath overwrite:YES error:&error];
+            if (!success) {
+                NSLog(@"Error on extracting archive (%@) to cache directory (%@): %@, %@", self.url.path, self.cachePath, error, [error userInfo]);
             }
         }
         

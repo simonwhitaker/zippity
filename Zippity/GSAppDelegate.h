@@ -9,17 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "GSFileContainerListViewController.h"
 
-#define kGSZipFilePathKey @"zipFilePath"
-
 @interface GSAppDelegate : UIResponder <UIApplicationDelegate> {
     NSString * _documentsDirectory;
-    NSString * _zipFilesDirectory;
+    NSString * _archiveFilesDirectory;
     NSString * _visitedMarkersDirectory;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) GSFileContainerListViewController *rootListViewController;
-@property (readonly) NSString *zipFilesDirectory;
+@property (readonly) NSString *archiveFilesDirectory;
 @property (readonly) NSString *visitedMarkersDirectory;
 @property (readonly) NSString *documentsDirectory;
 @property (assign, nonatomic) UINavigationController *navigationController;
