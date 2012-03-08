@@ -12,14 +12,19 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "GSImagePreviewController.h"
 
-#define IN_BETA 1
+enum {
+    GSFileContainerListViewActionSheetShare = 1,
+    GSFileContainerListViewActionSheetDelete,
+};
 
 @interface GSFileContainerListViewController()
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
 
-- (void)handleShareButton:(id)sender;
+- (void)shareSelectedItems;
+- (void)deleteSelectedItems;
+- (void)updateToolbarButtons;
 
 @end
 
@@ -27,9 +32,11 @@
 
 @synthesize container=_container;
 @synthesize isRoot=isRoot;
+@synthesize shareButton=_shareButton;
+@synthesize deleteButton=_deleteButton;
 
 - (id)initWithContainer:(GSFileWrapper*)container
-{
+{    
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
         self.container = container;
@@ -58,18 +65,34 @@
 {
     [super viewDidLoad];
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    if (self.isRoot) {
-        self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    } else {
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                                                               target:self
-                                                                                               action:@selector(handleShareButton:)];
-    }
+    NSMutableArray * toolbarButtons = [NSMutableArray array];
+    UIBarButtonItem * tempButton;
+    tempButton = [[UIBarButtonItem alloc] initWithTitle:@"Share"
+                                                  style:UIBarButtonItemStyleBordered
+                                                 target:self
+                                                 action:@selector(shareSelectedItems)];
+    tempButton.width = 80.0;
+    [toolbarButtons addObject:tempButton];
+    self.shareButton = tempButton;
     
+    if (self.isRoot) {
+        tempButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" 
+                                                      style:UIBarButtonItemStyleBordered 
+                                                     target:self 
+                                                     action:@selector(deleteSelectedItems)];
+        tempButton.tintColor = [UIColor colorWithRed:0.8 green:0.0 blue:0.0 alpha:1.0];
+        tempButton.width = 80.0;
+        [toolbarButtons addObject:tempButton];
+        self.deleteButton = tempButton;
+    }
+        
+    self.toolbarItems = [NSArray arrayWithArray:toolbarButtons];
+
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                           target:self
+                                                                                           action:@selector(toggleEditMode)];
+    self.tableView.allowsMultipleSelectionDuringEditing = YES;
+
     if (self.isRoot) {
         // Add a version number header
         UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 
@@ -121,6 +144,25 @@
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
+#pragma mark - Utility methods
+
+- (void)updateToolbarButtons 
+{
+    NSUInteger numSelected = [[self.tableView indexPathsForSelectedRows] count];
+    
+    if (numSelected) {
+        self.deleteButton.title = [NSString stringWithFormat:@"Delete (%u)", numSelected];
+        self.shareButton.title = [NSString stringWithFormat:@"Share (%u)", numSelected];
+    } else {
+        self.deleteButton.title = @"Delete";
+        self.shareButton.title = @"Share";
+    }
+    
+    for (UIBarButtonItem *button in self.toolbarItems) {
+        button.enabled = numSelected > 0;
+    }
+}
+
 #pragma mark - Custom accessors
 
 - (NSDateFormatter*)subtitleDateFormatter
@@ -133,40 +175,34 @@
     return _subtitleDateFormatter;
 }
 
+#pragma mark - UITableViewController methods
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    
+    if (editing) {
+        for (UIBarButtonItem *button in self.toolbarItems) {
+            button.enabled = NO;
+        }
+    }
+    [self.navigationController setToolbarHidden:!editing animated:animated];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#ifdef IN_BETA
-    if (self.isRoot) return 2;
-#endif
-    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#ifdef IN_BETA
-    if (self.isRoot && section == 1) return 1;
-#endif
-    
     return self.container.fileWrappers.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#ifdef IN_BETA
-    if (self.isRoot && indexPath.section == 1) {
-        NSString *cellID = @"DevNotes";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
-        }
-        cell.textLabel.text = @"Info for beta testers";
-        cell.imageView.image = [UIImage imageNamed:@"safari-icon.png"];
-        return cell;
-    }
-#endif
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -197,13 +233,6 @@
     return cell;
 }
 
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return self.isRoot && indexPath.section == 0;
-}
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -225,47 +254,50 @@
     return 56.0;
 }
 
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView.isEditing) {
+        [self updateToolbarButtons];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#ifdef IN_BETA
-    if (self.isRoot && indexPath.section == 1) {
-        [tableView deselectRowAtIndexPath:indexPath animated:NO];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://dl.dropbox.com/u/363683/zippity-testers.md"]];
-        return;
-    }
-#endif
-    
-    GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-    
-    if (wrapper.isImageFile) {
-        GSImagePreviewController *vc = [[GSImagePreviewController alloc] init];
-        NSArray *imageFileWrappers = self.container.imageFileWrappers;
-        NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
-        
-        assert(initialIndex != NSNotFound);
-        
-        vc.imageFileWrappers = imageFileWrappers;
-        vc.initialIndex = initialIndex;
-        
-        [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackTranslucent];
-        self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-        
-        [self.navigationController pushViewController:vc animated:YES];
-    } else if (wrapper.isContainer) {
-        GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:wrapper];
-        vc.tableView.delegate = vc;
-        [self.navigationController pushViewController:vc animated:YES];
-    } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
-        wrapper.documentInteractionController.delegate = self;
-        [wrapper.documentInteractionController presentPreviewAnimated:YES];
+    if (tableView.isEditing) {
+        [self updateToolbarButtons];
     } else {
-        [tableView deselectRowAtIndexPath:indexPath animated:NO];
-        UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"Not yet!"
-                                                      message:@"Zippity doesn't recognise this file type yet. Please try again after the next release."
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-        [av show];
+        GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+        
+        if (wrapper.isImageFile) {
+            GSImagePreviewController *vc = [[GSImagePreviewController alloc] init];
+            NSArray *imageFileWrappers = self.container.imageFileWrappers;
+            NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
+            
+            assert(initialIndex != NSNotFound);
+            
+            vc.imageFileWrappers = imageFileWrappers;
+            vc.initialIndex = initialIndex;
+            
+            [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackTranslucent];
+            self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+            
+            [self.navigationController pushViewController:vc animated:YES];
+        } else if (wrapper.isContainer) {
+            GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:wrapper];
+            vc.tableView.delegate = vc;
+            [self.navigationController pushViewController:vc animated:YES];
+        } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
+            wrapper.documentInteractionController.delegate = self;
+            [wrapper.documentInteractionController presentPreviewAnimated:YES];
+        } else {
+            [tableView deselectRowAtIndexPath:indexPath animated:NO];
+            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"Not yet!"
+                                                          message:@"Zippity doesn't recognise this file type yet. Please try again after the next release."
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+            [av show];
+        }
     }
 }
 
@@ -320,52 +352,97 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(kEmailButtonLabel, nil)]) {
-        if ([MFMailComposeViewController canSendMail]) {
-            MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
-            
-            CFStringRef utiStringRef = (__bridge CFStringRef)self.container.documentInteractionController.UTI;
-            
-            // UTTypeCopy... retains its return value (contains the word "copy"), so we
-            // need to balance this with a release. We either do that manually by retaining
-            // a CFStringRef and calling CFRelease() on it, or we transfer responsility for
-            // memory management to ARC by using __bridge_transfer and let ARC sort it out.
-            // See http://www.mikeash.com/pyblog/friday-qa-2011-09-30-automatic-reference-counting.html
-            // for more on this.
-            NSString *mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(utiStringRef,
-                                                                                              kUTTagClassMIMEType);
-            if (!mimeType) {
-                mimeType = @"application/octet-stream";
+    if (actionSheet.tag == GSFileContainerListViewActionSheetShare) {
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(kEmailButtonLabel, nil)]) {
+            if ([MFMailComposeViewController canSendMail]) {
+                MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
+                mailComposer.mailComposeDelegate = self;
+                
+                for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
+                    GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+                    CFStringRef utiStringRef = (__bridge CFStringRef)wrapper.documentInteractionController.UTI;
+                    
+                    // UTTypeCopy... retains its return value (contains the word "copy"), so we
+                    // need to balance this with a release. We either do that manually by keeping
+                    // a pointer to the CFStringRef and then calling CFRelease() on it, or we 
+                    // transfer responsility for memory management to ARC by using 
+                    // __bridge_transfer and let ARC sort it out.
+                    // See http://www.mikeash.com/pyblog/friday-qa-2011-09-30-automatic-reference-counting.html
+                    // for more on this.
+                    NSString *mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(utiStringRef,
+                                                                                                      kUTTagClassMIMEType);
+                    if (!mimeType) {
+                        mimeType = @"application/octet-stream";
+                    }
+                    
+                    NSLog(@"Attaching %@ to email with MIME type %@", wrapper.name, mimeType);
+                    
+                    [mailComposer addAttachmentData:[NSData dataWithContentsOfURL:wrapper.url]
+                                           mimeType:mimeType
+                                           fileName:wrapper.name];
+                }
+                [self presentModalViewController:mailComposer animated:YES];
+            } else {
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
+                                                             message:@"You can't send mail on this device - do you need to set up an email account?"
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+                [av show];
             }
+        }
+    } else if (actionSheet.tag == GSFileContainerListViewActionSheetDelete) {
+        if (buttonIndex == actionSheet.destructiveButtonIndex) {
+            NSMutableArray * successfullyDeleted = [NSMutableArray array];
+            NSMutableArray * failedToDelete = [NSMutableArray array];
             
-            NSLog(@"Sending an email with MIME type %@", mimeType);
+            for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
+                NSError *error = nil;
+                [self.container removeItemAtIndex:indexPath.row error:&error];
+                if (error) {
+                    NSLog(@"Error on deleting object at row %u of %@: %@, %@", indexPath.row, self, error, error.userInfo);
+                    [failedToDelete addObject:indexPath];
+                } else {
+                    [successfullyDeleted addObject:indexPath];
+                }
+            }
+            [self.tableView deleteRowsAtIndexPaths:successfullyDeleted
+                                  withRowAnimation:UITableViewRowAnimationFade];
             
-            [mailComposer addAttachmentData:[NSData dataWithContentsOfURL:self.container.url]
-                                   mimeType:mimeType
-                                   fileName:self.container.name];
-            mailComposer.mailComposeDelegate = self;
-            [self presentModalViewController:mailComposer animated:YES];
-        } else {
-            UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
-                                                         message:@"You can't send mail on this device - do you need to set up an email account?"
-                                                        delegate:nil
-                                               cancelButtonTitle:@"OK"
-                                               otherButtonTitles:nil];
-            [av show];
+            // TODO: show error if failedToDelete.count isn't 0?
+            
+            [self updateToolbarButtons];
         }
     }
 }
 
 #pragma mark - UI event handlers
 
-- (void)handleShareButton:(id)sender
+- (void)toggleEditMode
 {
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Share %@", @"Share label in sharing action sheet"), self.container.name]
+    [self setEditing:!self.editing animated:YES];
+}
+
+- (void)shareSelectedItems
+{
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Share files"
                                                     delegate:self
-                                           cancelButtonTitle:NSLocalizedString(@"Cancel", @"Cancel button in sharing action sheet")
+                                           cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:nil
-                                           otherButtonTitles:NSLocalizedString(kEmailButtonLabel, @"Email button label in action sheet"), nil];
-    [as showInView:self.view];
+                                           otherButtonTitles:@"Email", nil];
+    as.tag = GSFileContainerListViewActionSheetShare;
+    [as showFromToolbar:self.navigationController.toolbar];
+}
+
+- (void)deleteSelectedItems
+{
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Delete files"
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:@"Delete"
+                                           otherButtonTitles:nil];
+    as.tag = GSFileContainerListViewActionSheetDelete;
+    [as showFromToolbar:self.navigationController.toolbar];
 }
 
 #pragma mark - Notification handlers
