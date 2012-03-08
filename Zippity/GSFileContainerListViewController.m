@@ -143,6 +143,8 @@ enum {
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
+    [self.navigationController setToolbarHidden:YES animated:animated];
+
     [self.tableView reloadData];
 }
 
@@ -195,6 +197,7 @@ enum {
     [super setEditing:editing animated:animated];
     
     if (editing) {
+        [TestFlight passCheckpoint:@"Entered edit mode"];
         for (UIBarButtonItem *button in self.toolbarItems) {
             button.enabled = NO;
         }
@@ -246,6 +249,12 @@ enum {
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GSFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:indexPath.row];
+    return !fileWrapper.isDirectory;
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -277,6 +286,9 @@ enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView.isEditing) {
+        if (![self tableView:tableView canEditRowAtIndexPath:indexPath]) {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
         [self updateToolbarButtons];
     } else {
         GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
@@ -356,6 +368,9 @@ enum {
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
+    if (result == MFMailComposeResultSent) {
+        [TestFlight passCheckpoint:@"Emailed some files"];
+    }
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -424,6 +439,8 @@ enum {
             
             // TODO: show error if failedToDelete.count isn't 0?
             
+            [TestFlight passCheckpoint:@"Deleted some files"];
+
             [self updateToolbarButtons];
         }
     }
