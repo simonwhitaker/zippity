@@ -19,6 +19,10 @@ enum {
 
 @interface GSFileContainerListViewController()
 
+@property (nonatomic, retain) UIBarButtonItem *editButton;
+@property (nonatomic, retain) UIBarButtonItem *doneButton;
+
+
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
 
@@ -34,6 +38,9 @@ enum {
 @synthesize isRoot=isRoot;
 @synthesize shareButton=_shareButton;
 @synthesize deleteButton=_deleteButton;
+
+@synthesize editButton=_editButton;
+@synthesize doneButton=_doneButton;
 
 - (id)initWithContainer:(GSFileWrapper*)container
 {    
@@ -88,9 +95,15 @@ enum {
         
     self.toolbarItems = [NSArray arrayWithArray:toolbarButtons];
 
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                                                           target:self
-                                                                                           action:@selector(toggleEditMode)];
+    self.editButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                    target:self
+                                                                    action:@selector(toggleEditMode)];
+    self.doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                                                    target:self
+                                                                    action:@selector(toggleEditMode)];
+    
+    self.navigationItem.rightBarButtonItem = self.editButton;
+    
     self.tableView.allowsMultipleSelectionDuringEditing = YES;
 
     if (self.isRoot) {
@@ -421,6 +434,7 @@ enum {
 - (void)toggleEditMode
 {
     [self setEditing:!self.editing animated:YES];
+    self.navigationItem.rightBarButtonItem = self.editing ? self.doneButton : self.editButton;
 }
 
 - (void)shareSelectedItems
