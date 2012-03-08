@@ -118,6 +118,17 @@
 			path = TestFlightSDK;
 			sourceTree = "<group>";
 		};
+		F42D56E41508B013000D89A2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F4F62C2714FFC3B600AB0C8C /* GSArchive.h */,
+				F4F62C2814FFC3B600AB0C8C /* GSArchive.m */,
+				F441B49B14F3765D0067A4FC /* GSFileWrapper.h */,
+				F441B49A14F3765D0067A4FC /* GSFileWrapper.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		F42E46101505E01900DBAF17 /* Image gallery */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,14 +141,14 @@
 			name = "Image gallery";
 			sourceTree = "<group>";
 		};
-		F47DFD8B14ED5581007F7443 /* View Controllers */ = {
+		F47DFD8B14ED5581007F7443 /* Views and controllers */ = {
 			isa = PBXGroup;
 			children = (
 				F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */,
 				F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */,
 				F42E46101505E01900DBAF17 /* Image gallery */,
 			);
-			name = "View Controllers";
+			name = "Views and controllers";
 			sourceTree = "<group>";
 		};
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
@@ -183,17 +194,10 @@
 		F47F535C14ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXGroup;
 			children = (
-				F4F62C2714FFC3B600AB0C8C /* GSArchive.h */,
-				F4F62C2814FFC3B600AB0C8C /* GSArchive.m */,
-				F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */,
-				F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */,
-				F441B49B14F3765D0067A4FC /* GSFileWrapper.h */,
-				F441B49A14F3765D0067A4FC /* GSFileWrapper.m */,
-				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
-				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
+				F42D56E41508B013000D89A2 /* Models */,
 				F4B9909914EE66F200F8FBD8 /* Categories */,
 				F47DFDA214ED5709007F7443 /* Third-party libraries */,
-				F47DFD8B14ED5581007F7443 /* View Controllers */,
+				F47DFD8B14ED5581007F7443 /* Views and controllers */,
 				F47F535D14ECCC82009BF6FE /* Supporting Files */,
 			);
 			path = Zippity;
@@ -206,6 +210,8 @@
 				F4B9909E14EE820C00F8FBD8 /* Images */,
 				F47F535E14ECCC82009BF6FE /* Zippity-Info.plist */,
 				F47F535F14ECCC82009BF6FE /* InfoPlist.strings */,
+				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
+				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
 				F47F536214ECCC82009BF6FE /* main.m */,
 				F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */,
 			);
@@ -215,6 +221,8 @@
 		F4B9909914EE66F200F8FBD8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */,
+				F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */,
 				F47DFDA514ED5EDF007F7443 /* NSDate+GSAdditions.h */,
 				F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */,
 			);
@@ -408,7 +416,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
@@ -474,7 +482,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
@@ -493,7 +501,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
