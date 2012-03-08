@@ -248,6 +248,12 @@ enum {
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    GSFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:indexPath.row];
+    return !fileWrapper.isDirectory;
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -279,6 +285,9 @@ enum {
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView.isEditing) {
+        if (![self tableView:tableView canEditRowAtIndexPath:indexPath]) {
+            [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        }
         [self updateToolbarButtons];
     } else {
         GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
