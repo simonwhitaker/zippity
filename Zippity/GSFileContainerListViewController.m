@@ -425,7 +425,15 @@ enum {
 
 - (void)shareSelectedItems
 {
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Share files"
+    NSString *title;
+    if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
+        NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
+        GSFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
+        title = [NSString stringWithFormat:@"Share %@", fileWrapper.name];
+    } else {
+        title = [NSString stringWithFormat:@"Share %u files", [[self.tableView indexPathsForSelectedRows] count]];
+    }
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
                                                     delegate:self
                                            cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:nil
@@ -436,7 +444,15 @@ enum {
 
 - (void)deleteSelectedItems
 {
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:@"Delete files"
+    NSString *title;
+    if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
+        NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
+        GSFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
+        title = [NSString stringWithFormat:@"Delete %@", fileWrapper.name];
+    } else {
+        title = [NSString stringWithFormat:@"Delete %u files", [[self.tableView indexPathsForSelectedRows] count]];
+    }
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
                                                     delegate:self
                                            cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:@"Delete"
