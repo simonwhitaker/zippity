@@ -197,6 +197,7 @@ enum {
     [super setEditing:editing animated:animated];
     
     if (editing) {
+        [TestFlight passCheckpoint:@"Entered edit mode"];
         for (UIBarButtonItem *button in self.toolbarItems) {
             button.enabled = NO;
         }
@@ -367,6 +368,9 @@ enum {
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
+    if (result == MFMailComposeResultSent) {
+        [TestFlight passCheckpoint:@"Emailed some files"];
+    }
     [self dismissModalViewControllerAnimated:YES];
 }
 
@@ -435,6 +439,8 @@ enum {
             
             // TODO: show error if failedToDelete.count isn't 0?
             
+            [TestFlight passCheckpoint:@"Deleted some files"];
+
             [self updateToolbarButtons];
         }
     }
