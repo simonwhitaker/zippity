@@ -10,6 +10,8 @@
 		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
 		F40FDBA914F2889F008BF9C8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA514F2889F008BF9C8 /* README.txt */; };
 		F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA614F2889F008BF9C8 /* release_notes.txt */; };
+		F417C78A150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m */; };
+		F417C78C150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F417C78B150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib */; };
 		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
 		F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E714F3C80000082527 /* MobileCoreServices.framework */; };
 		F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* GSFileWrapper.m */; };
@@ -45,6 +47,9 @@
 		F40FDBA514F2889F008BF9C8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		F40FDBA614F2889F008BF9C8 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
 		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		F417C788150A305F0035CACD /* GSUnrecognisedFileTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSUnrecognisedFileTypeViewController.h; sourceTree = "<group>"; };
+		F417C789150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; };
+		F417C78B150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GSUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
 		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F43352E714F3C80000082527 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F441B49A14F3765D0067A4FC /* GSFileWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileWrapper.m; sourceTree = "<group>"; };
@@ -148,6 +153,9 @@
 			children = (
 				F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */,
 				F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */,
+				F417C788150A305F0035CACD /* GSUnrecognisedFileTypeViewController.h */,
+				F417C789150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m */,
+				F417C78B150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib */,
 				F42E46101505E01900DBAF17 /* Image gallery */,
 			);
 			name = "Views and controllers";
@@ -323,6 +331,7 @@
 				F4E1905514F946EF0098D5BB /* GSImagePreviewController.xib in Resources */,
 				F4F62C2514FFBE7600AB0C8C /* README.md in Resources */,
 				F4686A7415095BBC003871FC /* Settings.bundle in Resources */,
+				F417C78C150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +382,7 @@
 				F442747F14F85C9B00C84A0B /* GSImagePreviewController.m in Sources */,
 				F476B0D614FB81B700E653E1 /* GSImageScrollView.m in Sources */,
 				F4F62C2914FFC3B600AB0C8C /* GSArchive.m in Sources */,
+				F417C78A150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

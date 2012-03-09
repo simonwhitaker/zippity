@@ -11,6 +11,7 @@
 #import <QuickLook/QuickLook.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "GSImagePreviewController.h"
+#import "GSUnrecognisedFileTypeViewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
@@ -237,14 +238,8 @@ enum {
         }
     }
     
-    if (wrapper.isContainer || (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url])) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.imageView.image = wrapper.icon;
-    
     
     return cell;
 }
@@ -315,13 +310,8 @@ enum {
             wrapper.documentInteractionController.delegate = self;
             [wrapper.documentInteractionController presentPreviewAnimated:YES];
         } else {
-            [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"Not yet!"
-                                                          message:@"Zippity doesn't recognise this file type yet. Please try again after the next release."
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-            [av show];
+            GSUnrecognisedFileTypeViewController *vc = [[GSUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }
