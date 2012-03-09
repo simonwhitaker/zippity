@@ -62,9 +62,10 @@
     
     [singleTapGestureRecognizer requireGestureRecognizerToFail:doubleTapGestureRecognizer];
     
-    self.toolbarItems = [NSArray arrayWithObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
-                                                                                               target:self
-                                                                                               action:@selector(handleActionButton:)]];
+    UIBarButtonItem *actionBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                                                                                     target:self
+                                                                                     action:@selector(handleActionButton:)];
+    self.navigationItem.rightBarButtonItem = actionBarButton;
     
     self.visiblePages = [NSMutableSet set];
     self.reusablePages = [NSMutableSet set];
@@ -75,7 +76,7 @@
     [super viewWillAppear:animated];
     
     self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
-    [self.navigationController setToolbarHidden:NO animated:animated];
+//    [self.navigationController setToolbarHidden:NO animated:animated];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     self.currentIndex = self.initialIndex;
