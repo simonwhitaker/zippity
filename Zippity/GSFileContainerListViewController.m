@@ -72,7 +72,18 @@ enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    if (self.isRoot) {
+        UIImageView *titleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+        titleImage.contentMode = UIViewContentModeScaleAspectFit;
+        self.navigationItem.titleView = titleImage;
+    }
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0]];
+    [[UIToolbar appearance] setTintColor:[UIColor colorWithWhite:0.1 alpha:1.0]];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    
+    
     NSMutableArray * toolbarButtons = [NSMutableArray array];
     UIBarButtonItem * tempButton;
     tempButton = [[UIBarButtonItem alloc] initWithTitle:@"Share"
@@ -88,7 +99,7 @@ enum {
                                                       style:UIBarButtonItemStyleBordered 
                                                      target:self 
                                                      action:@selector(deleteSelectedItems)];
-        tempButton.tintColor = [UIColor colorWithRed:0.8 green:0.0 blue:0.0 alpha:1.0];
+        tempButton.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
         tempButton.width = 80.0;
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
@@ -141,7 +152,7 @@ enum {
 {
     [super viewWillAppear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
     [self.navigationController setToolbarHidden:YES animated:animated];
@@ -155,9 +166,23 @@ enum {
     self.container.visited = YES;
 }
 
+#pragma mark - UI orientation methods
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (self.isRoot) {
+        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+        } else {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
+        }
+    }
 }
 
 #pragma mark - Utility methods

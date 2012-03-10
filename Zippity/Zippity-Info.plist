@@ -25,6 +25,8 @@
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleBlackOpaque</string>
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon</string>
