@@ -107,6 +107,29 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    [defaults synchronize];
+    BOOL shoudClearCache = [defaults boolForKey:@"clear_cache_preference"];
+    
+    if (shoudClearCache) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSError *error = nil;
+        NSArray *cacheContents = [fm contentsOfDirectoryAtPath:self.cacheDirectory error:&error];
+        if (error) {
+            
+        } else {
+            for (NSString *filename in cacheContents) {
+                NSString *path = [self.cacheDirectory stringByAppendingPathComponent:filename];
+                NSLog(@"Deleting %@", path);
+                [fm removeItemAtPath:path error:&error];
+                if (error) {
+                    NSLog(@"Error on deleting %@: %@, %@", path, error, error.userInfo);
+                }
+            }
+        }
+    }
+    [defaults setBool:NO forKey:@"clear_cache_preference"];
+    [defaults synchronize];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -189,6 +212,24 @@
         DocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     }
     return DocumentsDirectory;
+}
+
+- (NSString*)cacheDirectory
+{
+    if (!_cacheDirectory) {
+        NSString *dir = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:@"archive-contents"];
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:dir
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:&error];
+        if (error) {
+            NSLog(@"Error on creating cache directory (%@): %@, %@", dir, error, error.userInfo);
+        } else {
+            _cacheDirectory = dir;
+        }
+    }
+    return _cacheDirectory;
 }
 
 - (NSString*)visitedMarkersDirectory

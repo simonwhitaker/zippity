@@ -555,7 +555,7 @@ static NSArray * SupportedArchiveTypes;
                                                                                range:NSMakeRange(0, appDelegate.archiveFilesDirectory.length)];
         NSString *finalDirectoryName = [relativePath stringByAppendingString:@".contents"];
         
-        NSString *cacheBasePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        NSString *cacheBasePath = appDelegate.cacheDirectory;
         NSArray * pathComponents = [NSArray arrayWithObjects:
                                     cacheBasePath,
                                     finalDirectoryName,

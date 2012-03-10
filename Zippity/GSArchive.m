@@ -110,7 +110,7 @@ static int copy_data(struct archive *ar, struct archive *aw) {
                                                 code:GSArchiveEntryWriteError
                                             userInfo:errorInfoForArchive(a)];
             return NO;
-        } else if (archive_entry_size(entry) > 0) {
+        } else if (archive_entry_size(entry) > 0 || !archive_entry_size_is_set(entry)) {
             r = copy_data(a, ext);
             if (r != ARCHIVE_OK) {
                 *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 

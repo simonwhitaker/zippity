@@ -11,6 +11,7 @@
 #import <QuickLook/QuickLook.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "GSImagePreviewController.h"
+#import "GSUnrecognisedFileTypeViewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
@@ -71,7 +72,18 @@ enum {
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
+    if (self.isRoot) {
+        UIImageView *titleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+        titleImage.contentMode = UIViewContentModeScaleAspectFit;
+        self.navigationItem.titleView = titleImage;
+    }
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0]];
+    [[UIToolbar appearance] setTintColor:[UIColor colorWithWhite:0.1 alpha:1.0]];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    
+    
     NSMutableArray * toolbarButtons = [NSMutableArray array];
     UIBarButtonItem * tempButton;
     tempButton = [[UIBarButtonItem alloc] initWithTitle:@"Share"
@@ -87,7 +99,7 @@ enum {
                                                       style:UIBarButtonItemStyleBordered 
                                                      target:self 
                                                      action:@selector(deleteSelectedItems)];
-        tempButton.tintColor = [UIColor colorWithRed:0.8 green:0.0 blue:0.0 alpha:1.0];
+        tempButton.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
         tempButton.width = 80.0;
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
@@ -140,7 +152,7 @@ enum {
 {
     [super viewWillAppear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault animated:animated];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
     [self.navigationController setToolbarHidden:YES animated:animated];
@@ -154,9 +166,23 @@ enum {
     self.container.visited = YES;
 }
 
+#pragma mark - UI orientation methods
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if (self.isRoot) {
+        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+        } else {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
+        }
+    }
 }
 
 #pragma mark - Utility methods
@@ -237,14 +263,8 @@ enum {
         }
     }
     
-    if (wrapper.isContainer || (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url])) {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.imageView.image = wrapper.icon;
-    
     
     return cell;
 }
@@ -315,13 +335,8 @@ enum {
             wrapper.documentInteractionController.delegate = self;
             [wrapper.documentInteractionController presentPreviewAnimated:YES];
         } else {
-            [tableView deselectRowAtIndexPath:indexPath animated:NO];
-            UIAlertView * av = [[UIAlertView alloc] initWithTitle:@"Not yet!"
-                                                          message:@"Zippity doesn't recognise this file type yet. Please try again after the next release."
-                                                         delegate:nil
-                                                cancelButtonTitle:@"OK"
-                                                otherButtonTitles:nil];
-            [av show];
+            GSUnrecognisedFileTypeViewController *vc = [[GSUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
+            [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }
