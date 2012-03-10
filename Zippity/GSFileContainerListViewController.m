@@ -79,9 +79,6 @@ enum {
         self.navigationItem.titleView = titleImage;
     }
     
-    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0]];
-    [[UIToolbar appearance] setTintColor:[UIColor colorWithWhite:0.1 alpha:1.0]];
-    [[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
     
     
     NSMutableArray * toolbarButtons = [NSMutableArray array];
@@ -154,6 +151,10 @@ enum {
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
+    self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
     
     [self.navigationController setToolbarHidden:YES animated:animated];
 
@@ -318,13 +319,8 @@ enum {
             NSArray *imageFileWrappers = self.container.imageFileWrappers;
             NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
             
-            assert(initialIndex != NSNotFound);
-            
             vc.imageFileWrappers = imageFileWrappers;
             vc.initialIndex = initialIndex;
-            
-            [[UIApplication sharedApplication] setStatusBarStyle:UIBarStyleBlackTranslucent];
-            self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
             
             [self.navigationController pushViewController:vc animated:YES];
         } else if (wrapper.isContainer) {

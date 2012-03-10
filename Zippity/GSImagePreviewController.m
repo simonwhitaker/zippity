@@ -75,8 +75,10 @@
 {
     [super viewWillAppear:animated];
     
-    self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
-//    [self.navigationController setToolbarHidden:NO animated:animated];
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.tintColor = nil;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     self.currentIndex = self.initialIndex;
@@ -278,7 +280,6 @@
 
     [UIView animateWithDuration:0.35 animations:^{
         self.navigationController.navigationBar.alpha = alpha;
-        self.navigationController.toolbar.alpha = alpha;
     }];
 }
 
@@ -312,7 +313,7 @@
                                            cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:@"Save image", nil];
-    [as showFromToolbar:self.navigationController.toolbar];
+    [as showFromRect:CGRectZero inView:self.view animated:YES];
 }
 
 @end
