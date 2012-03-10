@@ -75,8 +75,10 @@
 {
     [super viewWillAppear:animated];
     
-    self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
-//    [self.navigationController setToolbarHidden:NO animated:animated];
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.tintColor = nil;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     self.currentIndex = self.initialIndex;
@@ -144,8 +146,8 @@
     // Updates the layout of current pages based on which 
     // pages are visible right now
     CGRect visibleBounds = self.scrollView.bounds;
-    NSInteger firstNeededPageIndex = floorf(CGRectGetMinX(visibleBounds) / CGRectGetWidth(visibleBounds));
-    NSInteger lastNeededPageIndex = floorf((CGRectGetMaxX(visibleBounds) - 1) / CGRectGetWidth(visibleBounds));
+    NSInteger firstNeededPageIndex = floorf(CGRectGetMinX(visibleBounds) / CGRectGetWidth(visibleBounds)) - 1;
+    NSInteger lastNeededPageIndex = floorf((CGRectGetMaxX(visibleBounds) - 1) / CGRectGetWidth(visibleBounds)) + 1;
     
     firstNeededPageIndex = MAX(firstNeededPageIndex, 0);
     lastNeededPageIndex = MIN(lastNeededPageIndex, self.imageFileWrappers.count - 1);
@@ -278,7 +280,6 @@
 
     [UIView animateWithDuration:0.35 animations:^{
         self.navigationController.navigationBar.alpha = alpha;
-        self.navigationController.toolbar.alpha = alpha;
     }];
 }
 
@@ -312,7 +313,7 @@
                                            cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:@"Save image", nil];
-    [as showFromToolbar:self.navigationController.toolbar];
+    [as showFromRect:CGRectZero inView:self.view animated:YES];
 }
 
 @end
