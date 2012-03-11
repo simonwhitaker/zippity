@@ -74,7 +74,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.tintColor = nil;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
@@ -261,7 +261,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save image"]) {
+    if (buttonIndex == actionSheet.firstOtherButtonIndex) {
         GSFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
         UIImage *image = [UIImage imageWithContentsOfFile:currentPhoto.url.path];
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
@@ -324,7 +324,7 @@
                                                     delegate:self
                                            cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:nil
-                                           otherButtonTitles:@"Save image", nil];
+                                           otherButtonTitles:@"Save to Photos", nil];
     [as showFromRect:CGRectZero inView:self.view animated:YES];
 }
 
