@@ -23,5 +23,6 @@
 
 @property (nonatomic, assign) UIBarButtonItem * shareButton;
 @property (nonatomic, assign) UIBarButtonItem * deleteButton;
+@property (nonatomic, assign) UIBarButtonItem * saveImagesButton;
 
 @end
