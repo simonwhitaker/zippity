@@ -289,6 +289,10 @@ enum {
     
     GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
     cell.textLabel.text = wrapper.displayName;
+    cell.textLabel.accessibilityLabel = wrapper.name;
+    if (wrapper.isDirectory) {
+        cell.textLabel.accessibilityLabel = [cell.textLabel.accessibilityLabel stringByAppendingString:@", folder"];
+    }
     
     if (wrapper.isRegularFile) {
         if (self.isRoot) {
