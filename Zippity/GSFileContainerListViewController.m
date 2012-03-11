@@ -459,6 +459,7 @@ enum {
                                            fileName:wrapper.name];
                 }
                 [self presentModalViewController:mailComposer animated:YES];
+                [self setEditing:NO animated:YES];
             } else {
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                              message:@"You can't send mail on this device - do you need to set up an email account?"
@@ -490,7 +491,7 @@ enum {
             
             [TestFlight passCheckpoint:@"Deleted some files"];
 
-            [self updateToolbarButtons];
+            [self setEditing:NO animated:YES];
         }
     } else if (actionSheet.tag == GSFileContainerListViewActionSaveImages) {
         if (buttonIndex == actionSheet.firstOtherButtonIndex) {
@@ -499,6 +500,7 @@ enum {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
             }
         }
+        [self setEditing:NO animated:YES];
     }
 }
 
