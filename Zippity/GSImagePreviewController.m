@@ -78,11 +78,23 @@
     [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.tintColor = nil;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     self.currentIndex = self.initialIndex;
     
+    // Hiding the navigation bar and toolbar will result in the
+    // view's subviews being re-laid out. We'll populate them in
+    // viewDidLayoutSubviews so here we'll call setNeedsLayout
+    // just to make sure that the subviews definitely get laid out
+    // (in case some unexpected change to this behaviour in a
+    // future app version or iOS release otherwise catches us out).
+    [self.view setNeedsLayout];
+}
+
+- (void)viewDidLayoutSubviews
+{
     [self updatePageOrientation];
     [self updatePageLayout];
 }
