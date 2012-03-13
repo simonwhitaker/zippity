@@ -166,8 +166,6 @@ enum {
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
     
-    [self.navigationController setToolbarHidden:YES animated:animated];
-
     [self.tableView reloadData];
 }
 
@@ -175,6 +173,12 @@ enum {
 {
     [super viewDidAppear:animated];
     self.container.visited = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self setEditing:NO animated:animated];
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - UI orientation methods
