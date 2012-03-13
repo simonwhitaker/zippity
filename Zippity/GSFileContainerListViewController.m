@@ -125,8 +125,6 @@ enum {
     
     self.navigationItem.rightBarButtonItem = self.editButton;
     
-    self.tableView.allowsMultipleSelectionDuringEditing = YES;
-
     if (self.isRoot) {
         // Add a version number header
         UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 
@@ -251,6 +249,11 @@ enum {
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated
 {
+    // Set allowsMultipleSelectionDuringEditing to YES only while
+    // editing. This gives us the golden combination of swipe-to-delete
+    // while out of edit mode and multiple selections while in it.
+    self.tableView.allowsMultipleSelectionDuringEditing = editing;
+    
     [super setEditing:editing animated:animated];
     
     if (editing) {
@@ -306,6 +309,12 @@ enum {
     cell.imageView.image = wrapper.icon;
     
     return cell;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Only allow swipe-to-delete in the root view
+    return self.isRoot ? UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
