@@ -148,9 +148,7 @@
 {
     page.frame = [self frameForPageAtIndex:index];
     page.index = index;
-    GSFileWrapper *imageFileWrapper = [self.imageFileWrappers objectAtIndex:index];
-    UIImage *image = [UIImage imageWithContentsOfFile:imageFileWrapper.url.path];
-    [page displayImage:image];
+    page.imageFileWrapper = [self.imageFileWrappers objectAtIndex:index];
 }
 
 - (void)updatePageLayout
@@ -168,6 +166,7 @@
     for (GSImageScrollView* page in self.visiblePages) {
         if (page.index < firstNeededPageIndex || page.index > lastNeededPageIndex) {
             NSLog(@"Recycling page at index %u", page.index);
+            page.imageFileWrapper = nil;
             [self.reusablePages addObject:page];
             [page removeFromSuperview];
         }

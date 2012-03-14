@@ -8,14 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class GSFileWrapper;
+
 @interface GSImageScrollView : UIScrollView {
-    __unsafe_unretained UIImageView * _imageView;
 }
 
+@property (nonatomic, weak) GSFileWrapper * imageFileWrapper;
 @property (nonatomic) NSUInteger index;
-@property (nonatomic, readonly, assign) UIImageView * imageView;
+@property (nonatomic, weak) UIImageView * imageView;
+@property (nonatomic, weak) UIActivityIndicatorView * activityIndicatorView;
 
-- (void)displayImage:(UIImage*)image;
 - (void)updateZoomScales;
 
 - (void)handleDoubleTapAtPoint:(CGPoint)point;
