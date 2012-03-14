@@ -177,7 +177,9 @@ enum {
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self setEditing:NO animated:animated];
+    if (self.tableView.editing) {
+        [self toggleEditMode];
+    }
     [super viewWillDisappear:animated];
 }
 
@@ -247,30 +249,6 @@ enum {
         _subtitleDateFormatter.dateStyle = NSDateFormatterMediumStyle;
     }
     return _subtitleDateFormatter;
-}
-
-#pragma mark - UITableViewController methods
-
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated
-{
-    // Set allowsMultipleSelectionDuringEditing to YES only while
-    // editing. This gives us the golden combination of swipe-to-delete
-    // while out of edit mode and multiple selections while in it.
-    self.tableView.allowsMultipleSelectionDuringEditing = editing;
-    
-    [super setEditing:editing animated:animated];
-    
-    if (editing) {
-        [TestFlight passCheckpoint:@"Entered edit mode"];
-        for (UIBarButtonItem *button in self.toolbarItems) {
-            button.enabled = NO;
-        }
-        self.navigationItem.rightBarButtonItem = self.doneButton;
-    } else {
-        self.navigationItem.rightBarButtonItem = self.editButton;
-        self.selectedImageFileWrappers = nil;
-    }
-    [self.navigationController setToolbarHidden:!editing animated:animated];
 }
 
 #pragma mark - Table view data source
@@ -472,7 +450,9 @@ enum {
                                            fileName:wrapper.name];
                 }
                 [self presentModalViewController:mailComposer animated:YES];
-                [self setEditing:NO animated:YES];
+                if (self.tableView.editing) {
+                    [self toggleEditMode];
+                }
             } else {
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                              message:@"You can't send mail on this device - do you need to set up an email account?"
@@ -504,7 +484,9 @@ enum {
             
             [TestFlight passCheckpoint:@"Deleted some files"];
 
-            [self setEditing:NO animated:YES];
+            if (self.tableView.editing) {
+                [self toggleEditMode];
+            }
         }
     } else if (actionSheet.tag == GSFileContainerListViewActionSaveImages) {
         if (buttonIndex == actionSheet.firstOtherButtonIndex) {
@@ -513,7 +495,9 @@ enum {
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
             }
         }
-        [self setEditing:NO animated:YES];
+        if (self.tableView.editing) {
+            [self toggleEditMode];
+        }
     }
 }
 
@@ -521,7 +505,26 @@ enum {
 
 - (void)toggleEditMode
 {
-    [self setEditing:!self.editing animated:YES];
+    BOOL editing = !self.tableView.editing;
+    
+    // Set allowsMultipleSelectionDuringEditing to YES only while
+    // editing. This gives us the golden combination of swipe-to-delete
+    // while out of edit mode and multiple selections while in it.
+    self.tableView.allowsMultipleSelectionDuringEditing = editing;
+    
+    [self.tableView setEditing:editing animated:YES];
+    
+    if (editing) {
+        [TestFlight passCheckpoint:@"Entered edit mode"];
+        for (UIBarButtonItem *button in self.toolbarItems) {
+            button.enabled = NO;
+        }
+        self.navigationItem.rightBarButtonItem = self.doneButton;
+    } else {
+        self.navigationItem.rightBarButtonItem = self.editButton;
+        self.selectedImageFileWrappers = nil;
+    }
+    [self.navigationController setToolbarHidden:!editing animated:YES];
 }
 
 - (void)saveSelectedImages
