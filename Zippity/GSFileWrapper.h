@@ -61,6 +61,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 // Materialised properties
 @property (readonly) NSURL * url;
 @property (readonly) NSString * displayName;
+@property (readonly) UIImage * displayImage; // nil if isImageFile is NO, else an image resized if necessary to be suitable for preview
 @property (readonly) NSString * humanFileSize;
 
 @property (readonly) UIImage * icon;
@@ -84,5 +85,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 - (void)reloadContainerContents;
 - (GSFileWrapper*)fileWrapperAtIndex:(NSUInteger)index;
 - (BOOL)removeItemAtIndex:(NSUInteger)index error:(NSError**)error;
+
+extern NSString * const GSFileWrapperGeneratedPreviewImage;
 
 @end

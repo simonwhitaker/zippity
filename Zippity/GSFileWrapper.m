@@ -7,12 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GSFileWrapper.h"
-#import "GSAppDelegate.h"
-#import "NSArray+GSZippityAdditions.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "GSArchive.h"
 
+#import "GSAppDelegate.h"
+#import "GSArchive.h"
+#import "GSFileWrapper.h"
+#import "NSArray+GSZippityAdditions.h"
+
+
+#define kBytesInKilobyte 1024
+#define kDisplayImageMaxDimension 1000.0
+
+NSString * const GSFileWrapperGeneratedPreviewImage = @"GSFileWrapperGeneratedPreviewImage";
 
 //------------------------------------------------------------
 // Public class interface: GSFileWrapper
@@ -41,6 +47,7 @@
 @interface GSRegularFileWrapper : GSFileWrapper {
     NSNumber * _isImageFileNumberObj;
 }
+@property BOOL isQueuedForImageResizing;
 @end
 
 //------------------------------------------------------------
@@ -147,6 +154,11 @@ static NSArray * SupportedArchiveTypes;
         _displayName = [self.name stringByDeletingPathExtension];
     }
     return _displayName;
+}
+
+- (UIImage*)displayImage
+{
+    return nil;
 }
 
 - (NSString*)humanFileSize
@@ -438,7 +450,64 @@ static NSArray * SupportedArchiveTypes;
 
 @implementation GSRegularFileWrapper
 
-#define kBytesInKilobyte 1024
+@synthesize isQueuedForImageResizing = _isQueuedForImageResizing;
+
+#pragma mark - Private methods for preview image resizing
+
++ (NSOperationQueue*)_resizeQueue
+{
+    static NSOperationQueue * queue = nil;
+    if (!queue) {
+        queue = [[NSOperationQueue alloc] init];
+        queue.maxConcurrentOperationCount = 1;
+    }
+    
+    return queue;
+}
+
+- (NSString*)_displayImageCachePath
+{
+    NSString *itemPath = [self.url.path stringByDeletingLastPathComponent];
+    NSString *filename = [[self.url.path lastPathComponent] stringByDeletingPathExtension];
+    
+    NSString *previewImageFilename = [NSString stringWithFormat:@".preview_%@.png", filename];
+    return [itemPath stringByAppendingPathComponent:previewImageFilename];
+}
+
+- (void)_generateDisplayImage
+{
+    @autoreleasepool {
+        UIImage *result;
+        
+        NSLog(@"Starting to resize %@", self.url.lastPathComponent);
+        UIImage *image = [UIImage imageWithContentsOfFile:self.url.path];
+        CGFloat scale = MAX(image.size.width / kDisplayImageMaxDimension, image.size.height / kDisplayImageMaxDimension);
+        CGSize newSize = image.size;
+        
+        newSize.height /= scale;
+        newSize.width /= scale;
+        
+        UIGraphicsBeginImageContext(newSize);
+        [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+        result = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        NSError *error = nil;
+        [UIImagePNGRepresentation(result) writeToFile:[self _displayImageCachePath]
+                                              options:NSDataWritingAtomic
+                                                error:&error];
+        if (error) {
+            // TODO: send error notification
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperGeneratedPreviewImage
+                                                                object:self];
+        }
+        NSLog(@"Finished resizing %@", self.url.lastPathComponent);
+        self.isQueuedForImageResizing = NO;
+    }
+}
+
+#pragma mark - Public methods
 
 - (BOOL)isRegularFile 
 {
@@ -478,6 +547,32 @@ static NSArray * SupportedArchiveTypes;
         _isImageFileNumberObj = [NSNumber numberWithBool:result];
     }
     return [_isImageFileNumberObj boolValue];
+}
+
+- (UIImage*)displayImage
+{
+    if (!self.isImageFile) {
+        return nil;
+    }
+    
+    UIImage *image = [UIImage imageWithContentsOfFile:self.url.path];
+    if (image.size.width <= kDisplayImageMaxDimension && image.size.height <= kDisplayImageMaxDimension) {
+        return image;
+    }
+    
+    NSString *displayImageCachePath = [self _displayImageCachePath];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:displayImageCachePath]) {
+        NSLog(@"Found cached, resized image: %@", [displayImageCachePath lastPathComponent]);
+        return [UIImage imageWithContentsOfFile:displayImageCachePath];
+    } else {
+        if (!self.isQueuedForImageResizing) {
+            [[GSRegularFileWrapper _resizeQueue] addOperation:[NSBlockOperation blockOperationWithBlock:^{
+                [self _generateDisplayImage];
+            }]];
+            self.isQueuedForImageResizing = YES;
+        }
+        return nil;
+    }
 }
 
 - (NSString*)humanFileSize

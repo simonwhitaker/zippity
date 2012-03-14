@@ -7,12 +7,14 @@
 //
 
 #import "GSImageScrollView.h"
+#import "GSFileWrapper.h"
 
 @implementation GSImageScrollView
 
 @synthesize imageView=_imageView;
 @synthesize index=_index;
-
+@synthesize imageFileWrapper=_imageFileWrapper;
+@synthesize activityIndicatorView=_activityIndicatorView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -20,20 +22,64 @@
     if (self) {
         // Initialization code
         UIImageView * iv = [[UIImageView alloc] initWithFrame:self.bounds];
+        iv.backgroundColor = [UIColor blackColor];
         [self addSubview:iv];
-        _imageView = iv;
+        self.imageView = iv;
+        
+        UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        aiv.center = iv.center;
+        aiv.hidesWhenStopped = YES;
+        [self addSubview:aiv];
+        self.activityIndicatorView = aiv;
     }
     return self;
 }
 
-- (void)displayImage:(UIImage *)image
+- (void)setImageFileWrapper:(GSFileWrapper *)imageFileWrapper
 {
-    self.zoomScale = 1.0;
-    self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
-    self.imageView.image = image;
-    
-    [self updateZoomScales];
-    [self setNeedsLayout];
+    if (_imageFileWrapper != imageFileWrapper) {
+        self.imageView.image = nil;
+        
+        // Remove any existing notifications
+        if (_imageFileWrapper) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                            name:GSFileWrapperGeneratedPreviewImage
+                                                          object:_imageFileWrapper];
+        }
+        
+        // Flip self.imageFileWrapper to point to the new value
+        _imageFileWrapper = imageFileWrapper;
+        
+        // Set up a notification on GSFileWrapperGeneratedPreviewImage for
+        // the new image file before we call displayImage on it, since there's
+        // otherwise a race condition where by the time displayImage returns nil 
+        // it's already created the preview image, so we never get the
+        // notification
+        if (_imageFileWrapper) {
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(displayImage) 
+                                                         name:GSFileWrapperGeneratedPreviewImage
+                                                       object:_imageFileWrapper];
+        }
+        [self displayImage];
+    }
+}
+
+- (void)displayImage
+{
+    if (self.imageFileWrapper.displayImage) {
+        [self.activityIndicatorView stopAnimating];
+        self.zoomScale = 1.0;
+        UIImage *image = self.imageFileWrapper.displayImage;
+        
+        self.imageView.frame = CGRectMake(0, 0, image.size.width, image.size.height);
+        self.imageView.image = image;
+        
+        [self updateZoomScales];
+        [self setNeedsLayout];
+    } else {
+        [self.activityIndicatorView startAnimating];
+    }
 }
 
 - (void)updateZoomScales {

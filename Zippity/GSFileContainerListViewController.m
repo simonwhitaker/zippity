@@ -16,19 +16,21 @@
 enum {
     GSFileContainerListViewActionSheetShare = 1,
     GSFileContainerListViewActionSheetDelete,
+    GSFileContainerListViewActionSaveImages,
 };
 
 @interface GSFileContainerListViewController()
 
 @property (nonatomic, retain) UIBarButtonItem *editButton;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
-
+@property (nonatomic, retain) NSArray *selectedImageFileWrappers;
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
 
 - (void)shareSelectedItems;
 - (void)deleteSelectedItems;
+- (void)saveSelectedImages;
 - (void)updateToolbarButtons;
 
 @end
@@ -39,6 +41,8 @@ enum {
 @synthesize isRoot=isRoot;
 @synthesize shareButton=_shareButton;
 @synthesize deleteButton=_deleteButton;
+@synthesize saveImagesButton=_saveImagesButton;
+@synthesize selectedImageFileWrappers=_selectedImageFileWrappers;
 
 @synthesize editButton=_editButton;
 @synthesize doneButton=_doneButton;
@@ -100,6 +104,14 @@ enum {
         tempButton.width = 80.0;
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
+    } else {
+        tempButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Images"
+                                                      style:UIBarButtonItemStyleBordered
+                                                     target:self
+                                                     action:@selector(saveSelectedImages)];
+        tempButton.width = 120.0;
+        [toolbarButtons addObject:tempButton];
+        self.saveImagesButton = tempButton;
     }
         
     self.toolbarItems = [NSArray arrayWithArray:toolbarButtons];
@@ -113,8 +125,6 @@ enum {
     
     self.navigationItem.rightBarButtonItem = self.editButton;
     
-    self.tableView.allowsMultipleSelectionDuringEditing = YES;
-
     if (self.isRoot) {
         // Add a version number header
         UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 
@@ -156,8 +166,6 @@ enum {
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
     
-    [self.navigationController setToolbarHidden:YES animated:animated];
-
     [self.tableView reloadData];
 }
 
@@ -165,6 +173,14 @@ enum {
 {
     [super viewDidAppear:animated];
     self.container.visited = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if (self.tableView.editing) {
+        [self toggleEditMode];
+    }
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - UI orientation methods
@@ -192,16 +208,34 @@ enum {
 {
     NSUInteger numSelected = [[self.tableView indexPathsForSelectedRows] count];
     
+    NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:self.container.fileWrappers.count];
+    for (NSIndexPath *ip in [self.tableView indexPathsForSelectedRows]) {
+        GSFileWrapper *wrapper = [self.container.fileWrappers objectAtIndex:ip.row];
+        if (wrapper.isImageFile) {
+            [tempArray addObject:wrapper];
+        }
+    }
+    
+    self.selectedImageFileWrappers = [NSArray arrayWithArray:tempArray];
+    
     if (numSelected) {
         self.deleteButton.title = [NSString stringWithFormat:@"Delete (%u)", numSelected];
         self.shareButton.title = [NSString stringWithFormat:@"Share (%u)", numSelected];
+        self.deleteButton.enabled = YES;
+        self.shareButton.enabled = YES;
     } else {
         self.deleteButton.title = @"Delete";
         self.shareButton.title = @"Share";
+        self.deleteButton.enabled = NO;
+        self.shareButton.enabled = NO;
     }
     
-    for (UIBarButtonItem *button in self.toolbarItems) {
-        button.enabled = numSelected > 0;
+    if (self.selectedImageFileWrappers.count) {
+        self.saveImagesButton.title = [NSString stringWithFormat:@"Save Images (%u)", numSelected];
+        self.saveImagesButton.enabled = YES;
+    } else {
+        self.saveImagesButton.title = @"Save Images";
+        self.saveImagesButton.enabled = NO;
     }
 }
 
@@ -215,21 +249,6 @@ enum {
         _subtitleDateFormatter.dateStyle = NSDateFormatterMediumStyle;
     }
     return _subtitleDateFormatter;
-}
-
-#pragma mark - UITableViewController methods
-
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated
-{
-    [super setEditing:editing animated:animated];
-    
-    if (editing) {
-        [TestFlight passCheckpoint:@"Entered edit mode"];
-        for (UIBarButtonItem *button in self.toolbarItems) {
-            button.enabled = NO;
-        }
-    }
-    [self.navigationController setToolbarHidden:!editing animated:animated];
 }
 
 #pragma mark - Table view data source
@@ -255,6 +274,10 @@ enum {
     
     GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
     cell.textLabel.text = wrapper.displayName;
+    cell.textLabel.accessibilityLabel = wrapper.name;
+    if (wrapper.isDirectory) {
+        cell.textLabel.accessibilityLabel = [cell.textLabel.accessibilityLabel stringByAppendingString:@", folder"];
+    }
     
     if (wrapper.isRegularFile) {
         if (self.isRoot) {
@@ -268,6 +291,12 @@ enum {
     cell.imageView.image = wrapper.icon;
     
     return cell;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Only allow swipe-to-delete in the root view
+    return self.isRoot ? UITableViewCellEditingStyleDelete : UITableViewCellEditingStyleNone;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -421,6 +450,9 @@ enum {
                                            fileName:wrapper.name];
                 }
                 [self presentModalViewController:mailComposer animated:YES];
+                if (self.tableView.editing) {
+                    [self toggleEditMode];
+                }
             } else {
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                              message:@"You can't send mail on this device - do you need to set up an email account?"
@@ -452,7 +484,19 @@ enum {
             
             [TestFlight passCheckpoint:@"Deleted some files"];
 
-            [self updateToolbarButtons];
+            if (self.tableView.editing) {
+                [self toggleEditMode];
+            }
+        }
+    } else if (actionSheet.tag == GSFileContainerListViewActionSaveImages) {
+        if (buttonIndex == actionSheet.firstOtherButtonIndex) {
+            for (GSFileWrapper *wrapper in self.selectedImageFileWrappers) {
+                UIImage *image = [UIImage imageWithContentsOfFile:wrapper.url.path];
+                UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+            }
+        }
+        if (self.tableView.editing) {
+            [self toggleEditMode];
         }
     }
 }
@@ -461,8 +505,44 @@ enum {
 
 - (void)toggleEditMode
 {
-    [self setEditing:!self.editing animated:YES];
-    self.navigationItem.rightBarButtonItem = self.editing ? self.doneButton : self.editButton;
+    BOOL editing = !self.tableView.editing;
+    
+    // Set allowsMultipleSelectionDuringEditing to YES only while
+    // editing. This gives us the golden combination of swipe-to-delete
+    // while out of edit mode and multiple selections while in it.
+    self.tableView.allowsMultipleSelectionDuringEditing = editing;
+    
+    [self.tableView setEditing:editing animated:YES];
+    
+    if (editing) {
+        [TestFlight passCheckpoint:@"Entered edit mode"];
+        for (UIBarButtonItem *button in self.toolbarItems) {
+            button.enabled = NO;
+        }
+        self.navigationItem.rightBarButtonItem = self.doneButton;
+    } else {
+        self.navigationItem.rightBarButtonItem = self.editButton;
+        self.selectedImageFileWrappers = nil;
+    }
+    [self.navigationController setToolbarHidden:!editing animated:YES];
+}
+
+- (void)saveSelectedImages
+{
+    NSString *title;
+    if (self.selectedImageFileWrappers.count == 1) {
+        GSFileWrapper *imageFileWrapper = [self.selectedImageFileWrappers objectAtIndex:0];
+        title = [NSString stringWithFormat:@"Save %@", imageFileWrapper.name];
+    } else {
+        title = [NSString stringWithFormat:@"Save %u images", self.selectedImageFileWrappers.count];
+    }
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
+                                                    delegate:self
+                                           cancelButtonTitle:@"Cancel"
+                                      destructiveButtonTitle:nil
+                                           otherButtonTitles:@"Save to Photos", nil];
+    as.tag = GSFileContainerListViewActionSaveImages;
+    [as showFromToolbar:self.navigationController.toolbar];
 }
 
 - (void)shareSelectedItems

@@ -74,15 +74,27 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+
     [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.tintColor = nil;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+    self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
 
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
     
     self.currentIndex = self.initialIndex;
     
+    // Hiding the navigation bar and toolbar will result in the
+    // view's subviews being re-laid out. We'll populate them in
+    // viewDidLayoutSubviews so here we'll call setNeedsLayout
+    // just to make sure that the subviews definitely get laid out
+    // (in case some unexpected change to this behaviour in a
+    // future app version or iOS release otherwise catches us out).
+    [self.view setNeedsLayout];
+}
+
+- (void)viewDidLayoutSubviews
+{
     [self updatePageOrientation];
     [self updatePageLayout];
 }
@@ -136,9 +148,7 @@
 {
     page.frame = [self frameForPageAtIndex:index];
     page.index = index;
-    GSFileWrapper *imageFileWrapper = [self.imageFileWrappers objectAtIndex:index];
-    UIImage *image = [UIImage imageWithContentsOfFile:imageFileWrapper.url.path];
-    [page displayImage:image];
+    page.imageFileWrapper = [self.imageFileWrappers objectAtIndex:index];
 }
 
 - (void)updatePageLayout
@@ -146,8 +156,8 @@
     // Updates the layout of current pages based on which 
     // pages are visible right now
     CGRect visibleBounds = self.scrollView.bounds;
-    NSInteger firstNeededPageIndex = floorf(CGRectGetMinX(visibleBounds) / CGRectGetWidth(visibleBounds)) - 1;
-    NSInteger lastNeededPageIndex = floorf((CGRectGetMaxX(visibleBounds) - 1) / CGRectGetWidth(visibleBounds)) + 1;
+    NSInteger firstNeededPageIndex = floorf(CGRectGetMinX(visibleBounds) / CGRectGetWidth(visibleBounds));
+    NSInteger lastNeededPageIndex = floorf((CGRectGetMaxX(visibleBounds) - 1) / CGRectGetWidth(visibleBounds));
     
     firstNeededPageIndex = MAX(firstNeededPageIndex, 0);
     lastNeededPageIndex = MIN(lastNeededPageIndex, self.imageFileWrappers.count - 1);
@@ -156,6 +166,7 @@
     for (GSImageScrollView* page in self.visiblePages) {
         if (page.index < firstNeededPageIndex || page.index > lastNeededPageIndex) {
             NSLog(@"Recycling page at index %u", page.index);
+            page.imageFileWrapper = nil;
             [self.reusablePages addObject:page];
             [page removeFromSuperview];
         }
@@ -249,7 +260,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:@"Save image"]) {
+    if (buttonIndex == actionSheet.firstOtherButtonIndex) {
         GSFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
         UIImage *image = [UIImage imageWithContentsOfFile:currentPhoto.url.path];
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
@@ -312,7 +323,7 @@
                                                     delegate:self
                                            cancelButtonTitle:@"Cancel"
                                       destructiveButtonTitle:nil
-                                           otherButtonTitles:@"Save image", nil];
+                                           otherButtonTitles:@"Save to Photos", nil];
     [as showFromRect:CGRectZero inView:self.view animated:YES];
 }
 
