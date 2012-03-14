@@ -25,7 +25,7 @@
 		F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* GSFileWrapper.m */; };
 		F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */; };
 		F442747F14F85C9B00C84A0B /* GSImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */; };
-		F4686A7415095BBC003871FC /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4686A7315095BBC003871FC /* Settings.bundle */; };
+		F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F45DA71C150FA05500C40E63 /* Settings.bundle */; };
 		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
 		F476B0D614FB81B700E653E1 /* GSImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F476B0D514FB81B700E653E1 /* GSImageScrollView.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
@@ -74,7 +74,7 @@
 		F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+GSZippityAdditions.m"; sourceTree = "<group>"; };
 		F442747D14F85C9B00C84A0B /* GSImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSImagePreviewController.h; sourceTree = "<group>"; };
 		F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSImagePreviewController.m; sourceTree = "<group>"; };
-		F4686A7315095BBC003871FC /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		F45DA71C150FA05500C40E63 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
 		F476B0D414FB81B700E653E1 /* GSImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSImageScrollView.h; sourceTree = "<group>"; };
 		F476B0D514FB81B700E653E1 /* GSImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSImageScrollView.m; sourceTree = "<group>"; };
@@ -189,7 +189,6 @@
 		F47F534714ECCC82009BF6FE = {
 			isa = PBXGroup;
 			children = (
-				F4686A7315095BBC003871FC /* Settings.bundle */,
 				F47F535C14ECCC82009BF6FE /* Zippity */,
 				F47F535514ECCC82009BF6FE /* Frameworks */,
 				F47F535314ECCC82009BF6FE /* Products */,
@@ -221,6 +220,7 @@
 		F47F535C14ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXGroup;
 			children = (
+				F45DA71C150FA05500C40E63 /* Settings.bundle */,
 				F42D56E41508B013000D89A2 /* Models */,
 				F4B9909914EE66F200F8FBD8 /* Categories */,
 				F47DFDA214ED5709007F7443 /* Third-party libraries */,
@@ -354,7 +354,6 @@
 				F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */,
 				F4E1905514F946EF0098D5BB /* GSImagePreviewController.xib in Resources */,
 				F4F62C2514FFBE7600AB0C8C /* README.md in Resources */,
-				F4686A7415095BBC003871FC /* Settings.bundle in Resources */,
 				F417C78C150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib in Resources */,
 				F4413929150BBEC0007F5E03 /* nav-bar-title.png in Resources */,
 				F441392A150BBEC0007F5E03 /* nav-bar-title@2x.png in Resources */,
@@ -364,6 +363,7 @@
 				F4413933150BC4DB007F5E03 /* Default.png in Resources */,
 				F4413936150BC691007F5E03 /* nav-bar-title-landscape.png in Resources */,
 				F4413937150BC691007F5E03 /* nav-bar-title-landscape@2x.png in Resources */,
+				F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
