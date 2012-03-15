@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "GSArchive.h"
+#import "ZPArchive.h"
 #import "libarchive/archive.h"
 #import "libarchive/archive_entry.h"
 
@@ -43,7 +43,7 @@ static int copy_data(struct archive *ar, struct archive *aw) {
     return 0;
 }
 
-@implementation GSArchive
+@implementation ZPArchive
 
 @synthesize path=_path;
 

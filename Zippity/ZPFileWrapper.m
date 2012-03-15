@@ -1,5 +1,5 @@
 //
-//  GSFileWrapper.m
+//  ZPFileWrapper.m
 //  
 //
 //  Created by Simon Whitaker on 21/02/2012.
@@ -9,53 +9,53 @@
 #import <Foundation/Foundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
-#import "GSAppDelegate.h"
-#import "GSArchive.h"
-#import "GSFileWrapper.h"
-#import "NSArray+GSZippityAdditions.h"
+#import "ZPAppDelegate.h"
+#import "ZPArchive.h"
+#import "ZPFileWrapper.h"
+#import "NSArray+ZPAdditions.h"
 
 
 #define kBytesInKilobyte 1024
 #define kDisplayImageMaxDimension 1000.0
 
-NSString * const GSFileWrapperGeneratedPreviewImage = @"GSFileWrapperGeneratedPreviewImage";
+NSString * const ZPFileWrapperGeneratedPreviewImage = @"ZPFileWrapperGeneratedPreviewImage";
 
 //------------------------------------------------------------
-// Public class interface: GSFileWrapper
+// Public class interface: ZPFileWrapper
 //------------------------------------------------------------
 
-@interface GSFileWrapper()
+@interface ZPFileWrapper()
 - (void)setUrl:(NSURL*)url;
 - (void)setAttributes:(NSDictionary*)attributes;
 // Allows us to write to self.containerStatus internally
-- (void)setContainerStatus:(GSFileWrapperContainerStatus)containerStatus;
+- (void)setContainerStatus:(ZPFileWrapperContainerStatus)containerStatus;
 // Starts the asynchronous reading of container contents.
 - (void)_fetchContainerContents;
 @end
 
 //------------------------------------------------------------
-// Private class interface: GSDirectoryWrapper
+// Private class interface: ZPDirectoryWrapper
 //------------------------------------------------------------
 
-@interface GSDirectoryWrapper : GSFileWrapper
+@interface ZPDirectoryWrapper : ZPFileWrapper
 @end
 
 //------------------------------------------------------------
-// Private class interface: GSRegularFileWrapper
+// Private class interface: ZPRegularFileWrapper
 //------------------------------------------------------------
 
-@interface GSRegularFileWrapper : GSFileWrapper {
+@interface ZPRegularFileWrapper : ZPFileWrapper {
     NSNumber * _isImageFileNumberObj;
 }
 @property BOOL isQueuedForImageResizing;
 @end
 
 //------------------------------------------------------------
-// Private class interface: GSArchiveFileWrapper
+// Private class interface: ZPArchiveFileWrapper
 //------------------------------------------------------------
 
-@interface GSArchiveFileWrapper : GSRegularFileWrapper {
-    GSFileWrapper * _cacheDirectory;
+@interface ZPArchiveFileWrapper : ZPRegularFileWrapper {
+    ZPFileWrapper * _cacheDirectory;
     NSString * _cachePath;
     NSString * _visitedMarkerPath;
 }
@@ -64,10 +64,10 @@ NSString * const GSFileWrapperGeneratedPreviewImage = @"GSFileWrapperGeneratedPr
 @end
 
 //------------------------------------------------------------
-// Public class: GSFileWrapper
+// Public class: ZPFileWrapper
 //------------------------------------------------------------
 
-@implementation GSFileWrapper
+@implementation ZPFileWrapper
 
 @synthesize name=_name;
 @synthesize url=_url;
@@ -75,8 +75,8 @@ NSString * const GSFileWrapperGeneratedPreviewImage = @"GSFileWrapperGeneratedPr
 @synthesize visited=_visited;
 @synthesize parent=_parent;
 
-NSString * const GSFileWrapperContainerDidReloadContents = @"GSFileWrapperContainerDidReloadContents";
-NSString * const GSFileWrapperContainerDidFailToReloadContents = @"GSFileWrapperContainerDidFailToReloadContents";
+NSString * const ZPFileWrapperContainerDidReloadContents = @"ZPFileWrapperContainerDidReloadContents";
+NSString * const ZPFileWrapperContainerDidFailToReloadContents = @"ZPFileWrapperContainerDidFailToReloadContents";
 
 #pragma mark - Object lifecycle
 
@@ -100,7 +100,7 @@ static NSArray * SupportedArchiveTypes;
         self.name = [[url path] lastPathComponent];
         self.attributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[url path]
                                                                            error:error];
-        self.containerStatus = GSFileWrapperContainerStatusInitialised;
+        self.containerStatus = ZPFileWrapperContainerStatusInitialised;
     }
     if (*error) {
         return nil;
@@ -108,13 +108,13 @@ static NSArray * SupportedArchiveTypes;
     return self;
 }
 
-+ (GSFileWrapper*)fileWrapperWithURL:(NSURL*)url error:(NSError**)error
++ (ZPFileWrapper*)fileWrapperWithURL:(NSURL*)url error:(NSError**)error
 {
-    GSFileWrapper *result;
+    ZPFileWrapper *result;
     BOOL isDirectory = NO;
     if ([[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDirectory]) {
         if (isDirectory) {
-            result = [[GSDirectoryWrapper alloc] initWithURL:url error:error];
+            result = [[ZPDirectoryWrapper alloc] initWithURL:url error:error];
         } else {
             UIDocumentInteractionController *ic = [UIDocumentInteractionController interactionControllerWithURL:url];
             BOOL isArchiveType = NO;
@@ -125,9 +125,9 @@ static NSArray * SupportedArchiveTypes;
                 }
             }
             if (isArchiveType) {
-                result = [[GSArchiveFileWrapper alloc] initWithURL:url error:error];
+                result = [[ZPArchiveFileWrapper alloc] initWithURL:url error:error];
             } else {
-                result = [[GSRegularFileWrapper alloc] initWithURL:url error:error];
+                result = [[ZPRegularFileWrapper alloc] initWithURL:url error:error];
             }
             // Save the document interaction controller - no point re-generating it later
             result->_documentInteractionController = ic;
@@ -226,7 +226,7 @@ static NSArray * SupportedArchiveTypes;
 
 #pragma mark - Container methods
 
-- (void)setSortOrder:(GSFileWrapperSortOrder)sortOrder
+- (void)setSortOrder:(ZPFileWrapperSortOrder)sortOrder
 {
     if (_sortOrder != sortOrder) {
         _sortOrder = sortOrder;
@@ -237,13 +237,13 @@ static NSArray * SupportedArchiveTypes;
     }
 }
 
-- (void)setContainerStatus:(GSFileWrapperContainerStatus)containerStatus
+- (void)setContainerStatus:(ZPFileWrapperContainerStatus)containerStatus
 {
     if (containerStatus != _containerStatus) {
         _containerStatus = containerStatus;
         
-        if (_containerStatus == GSFileWrapperContainerStatusReady) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidReloadContents
+        if (_containerStatus == ZPFileWrapperContainerStatusReady) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidReloadContents
                                                                 object:self];
         }
     }
@@ -256,18 +256,18 @@ static NSArray * SupportedArchiveTypes;
     // autorelease pool. 
     // 
     // On success it should set self.containerStatus to
-    // GSFileWrapperContainerStatusReady. A pre-formatted NSNotification
+    // ZPFileWrapperContainerStatusReady. A pre-formatted NSNotification
     // will be sent automatically.
     //
     // On failure, it should set self.containerStatus to 
-    // GSFileWrapperContainerStatusError and send an appropriate 
+    // ZPFileWrapperContainerStatusError and send an appropriate 
     // NSNotification with error details in its payload.
     @autoreleasepool {
         NSLog(@"Error - need to override _fetchContainerContents in %@", [self class]);
     }
 }
 
-- (GSFileWrapperContainerStatus)containerStatus
+- (ZPFileWrapperContainerStatus)containerStatus
 {
     return _containerStatus;
 }
@@ -275,7 +275,7 @@ static NSArray * SupportedArchiveTypes;
 - (NSArray*)fileWrappers
 {
     if (self.isContainer) {
-        if (self.containerStatus == GSFileWrapperContainerStatusInitialised) {
+        if (self.containerStatus == ZPFileWrapperContainerStatusInitialised) {
             [self _fetchContainerContents];
         }
         return _fileWrappers;
@@ -296,12 +296,12 @@ static NSArray * SupportedArchiveTypes;
 - (void)reloadContainerContents
 {
     if (self.isContainer) {
-        self.containerStatus = GSFileWrapperContainerStatusInitialised;
+        self.containerStatus = ZPFileWrapperContainerStatusInitialised;
         [self performSelectorInBackground:@selector(_fetchContainerContents) withObject:nil];
     }
 }
 
-- (GSFileWrapper*)fileWrapperAtIndex:(NSUInteger)index 
+- (ZPFileWrapper*)fileWrapperAtIndex:(NSUInteger)index 
 {
     if (self.isContainer) {
         return [_fileWrappers objectAtIndex:index];
@@ -346,10 +346,10 @@ static NSArray * SupportedArchiveTypes;
 @end
 
 //------------------------------------------------------------
-// Private class: GSDirectoryWrapper
+// Private class: ZPDirectoryWrapper
 //------------------------------------------------------------
 
-@implementation GSDirectoryWrapper
+@implementation ZPDirectoryWrapper
 
 - (BOOL)isDirectory { 
     return YES; 
@@ -369,8 +369,8 @@ static NSArray * SupportedArchiveTypes;
                                                                          options:NSDirectoryEnumerationSkipsHiddenFiles
                                                                            error:&error];
         if (error) {
-            self.containerStatus = GSFileWrapperContainerStatusError;
-            [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+            self.containerStatus = ZPFileWrapperContainerStatusError;
+            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
                                                                 object:self
                                                               userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];
         } else {
@@ -382,10 +382,10 @@ static NSArray * SupportedArchiveTypes;
                 }
                 
                 NSError *initError = nil;
-                GSFileWrapper *wrapper = [GSFileWrapper fileWrapperWithURL:url error:&initError];
+                ZPFileWrapper *wrapper = [ZPFileWrapper fileWrapperWithURL:url error:&initError];
                 if (initError) {
-                    self.containerStatus = GSFileWrapperContainerStatusError;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                    self.containerStatus = ZPFileWrapperContainerStatusError;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
                                                                         object:self
                                                                       userInfo:[NSDictionary dictionaryWithObject:initError forKey:kErrorKey]];
                     return;
@@ -422,7 +422,7 @@ static NSArray * SupportedArchiveTypes;
             //    +-d
             //      +-bar.txt
             if (_fileWrappers.count == 1) {
-                GSFileWrapper * childWrapper = [_fileWrappers objectAtIndex:0];
+                ZPFileWrapper * childWrapper = [_fileWrappers objectAtIndex:0];
                 if (childWrapper.isDirectory) {
                     [childWrapper _fetchContainerContents];
                     _fileWrappers = childWrapper.fileWrappers;
@@ -432,11 +432,11 @@ static NSArray * SupportedArchiveTypes;
             // Must set parent references AFTER we flatten nested 
             // folders, so that following the inheritance chain
             // back up still works.
-            for (GSFileWrapper* wrapper in _fileWrappers) {
+            for (ZPFileWrapper* wrapper in _fileWrappers) {
                 wrapper.parent = self;
             }
 
-            self.containerStatus = GSFileWrapperContainerStatusReady;
+            self.containerStatus = ZPFileWrapperContainerStatusReady;
         }
     }
 }
@@ -445,10 +445,10 @@ static NSArray * SupportedArchiveTypes;
 @end
 
 //------------------------------------------------------------
-// Private class: GSRegularFileWrapper
+// Private class: ZPRegularFileWrapper
 //------------------------------------------------------------
 
-@implementation GSRegularFileWrapper
+@implementation ZPRegularFileWrapper
 
 @synthesize isQueuedForImageResizing = _isQueuedForImageResizing;
 
@@ -499,7 +499,7 @@ static NSArray * SupportedArchiveTypes;
         if (error) {
             // TODO: send error notification
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperGeneratedPreviewImage
+            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImage
                                                                 object:self];
         }
         NSLog(@"Finished resizing %@", self.url.lastPathComponent);
@@ -566,7 +566,7 @@ static NSArray * SupportedArchiveTypes;
         return [UIImage imageWithContentsOfFile:displayImageCachePath];
     } else {
         if (!self.isQueuedForImageResizing) {
-            [[GSRegularFileWrapper _resizeQueue] addOperation:[NSBlockOperation blockOperationWithBlock:^{
+            [[ZPRegularFileWrapper _resizeQueue] addOperation:[NSBlockOperation blockOperationWithBlock:^{
                 [self _generateDisplayImage];
             }]];
             self.isQueuedForImageResizing = YES;
@@ -601,29 +601,29 @@ static NSArray * SupportedArchiveTypes;
 @end
 
 //------------------------------------------------------------
-// Private class: GSArchiveFileWrapper
+// Private class: ZPArchiveFileWrapper
 //------------------------------------------------------------
 
-@implementation GSArchiveFileWrapper
+@implementation ZPArchiveFileWrapper
 
 - (BOOL)isArchive { 
     return YES; 
 }
 
-- (void)setSortOrder:(GSFileWrapperSortOrder)sortOrder
+- (void)setSortOrder:(ZPFileWrapperSortOrder)sortOrder
 {
     _cacheDirectory.sortOrder = sortOrder;
 }
 
 - (NSArray*)fileWrappers
 {
-    if (self.containerStatus == GSFileWrapperContainerStatusReady) {
+    if (self.containerStatus == ZPFileWrapperContainerStatusReady) {
         return [_cacheDirectory fileWrappers];
     }
     return [super fileWrappers];
 }
 
-- (GSFileWrapper*)fileWrapperAtIndex:(NSUInteger)index
+- (ZPFileWrapper*)fileWrapperAtIndex:(NSUInteger)index
 {
     return [_cacheDirectory fileWrapperAtIndex:index];
 }
@@ -643,7 +643,7 @@ static NSArray * SupportedArchiveTypes;
 - (NSString*)cachePath
 {
     if (_cachePath == nil) {
-        GSAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        ZPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.archiveFilesDirectory
                                                                           withString:@""
                                                                              options:0 
@@ -681,7 +681,7 @@ static NSArray * SupportedArchiveTypes;
 - (NSString*)visitedMarkerPath
 {
     if (_visitedMarkerPath == nil) {
-        GSAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        ZPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         _visitedMarkerPath = [[appDelegate visitedMarkersDirectory] stringByAppendingPathComponent:self.url.lastPathComponent];
     }
     return _visitedMarkerPath;
@@ -700,8 +700,8 @@ static NSArray * SupportedArchiveTypes;
             NSDictionary *cacheAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.cachePath error:&error];
             if (error) {
                 NSLog(@"Error on getting attributes for cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
-                self.containerStatus = GSFileWrapperContainerStatusError;
-                [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                self.containerStatus = ZPFileWrapperContainerStatusError;
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
                                                                     object:self
                                                                   userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
                 return;
@@ -719,8 +719,8 @@ static NSArray * SupportedArchiveTypes;
                 [[NSFileManager defaultManager] removeItemAtPath:self.cachePath error:&error];
                 if (error) {
                     NSLog(@"Error on deleting existing cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
-                    self.containerStatus = GSFileWrapperContainerStatusError;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                    self.containerStatus = ZPFileWrapperContainerStatusError;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
                                                                         object:self
                                                                       userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
                     return;
@@ -735,14 +735,14 @@ static NSArray * SupportedArchiveTypes;
                                                             error:&error];
             if (error) {
                 NSLog(@"Error on creating cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
-                self.containerStatus = GSFileWrapperContainerStatusError;
-                [[NSNotificationCenter defaultCenter] postNotificationName:GSFileWrapperContainerDidFailToReloadContents
+                self.containerStatus = ZPFileWrapperContainerStatusError;
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
                                                                     object:self
                                                                   userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
                 return;
             }
             
-            GSArchive *archive = [[GSArchive alloc] initWithPath:self.url.path];
+            ZPArchive *archive = [[ZPArchive alloc] initWithPath:self.url.path];
             NSError *error = nil;
             BOOL success = [archive extractToDirectory:self.cachePath overwrite:YES error:&error];
             if (!success) {
@@ -750,8 +750,8 @@ static NSArray * SupportedArchiveTypes;
             }
         }
         
-        _cacheDirectory = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.cachePath] error:&error];
-        self.containerStatus = GSFileWrapperContainerStatusReady;
+        _cacheDirectory = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.cachePath] error:&error];
+        self.containerStatus = ZPFileWrapperContainerStatusReady;
     }
 }
 

@@ -7,17 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GSFileWrapper.h"
+#import "ZPFileWrapper.h"
 #import <MessageUI/MessageUI.h>
 
-@interface GSFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
+@interface ZPFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
     NSDateFormatter * _subtitleDateFormatter;
     BOOL _isRoot;
 }
 
-- (id)initWithContainer:(GSFileWrapper*)container;
+- (id)initWithContainer:(ZPFileWrapper*)container;
 
-@property (nonatomic, retain) GSFileWrapper * container;
+@property (nonatomic, retain) ZPFileWrapper * container;
 @property (readonly) NSDateFormatter * subtitleDateFormatter;
 @property (nonatomic) BOOL isRoot;
 

@@ -1,5 +1,5 @@
 //
-//  GSImageScrollView.h
+//  ZPImageScrollView.h
 //  Zippity
 //
 //  Created by Simon Whitaker on 27/02/2012.
@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@class GSFileWrapper;
+@class ZPFileWrapper;
 
-@interface GSImageScrollView : UIScrollView {
+@interface ZPImageScrollView : UIScrollView {
 }
 
-@property (nonatomic, weak) GSFileWrapper * imageFileWrapper;
+@property (nonatomic, weak) ZPFileWrapper * imageFileWrapper;
 @property (nonatomic) NSUInteger index;
 @property (nonatomic, weak) UIImageView * imageView;
 @property (nonatomic, weak) UIActivityIndicatorView * activityIndicatorView;

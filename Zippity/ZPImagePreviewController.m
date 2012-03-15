@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "GSImagePreviewController.h"
-#import "GSImageScrollView.h"
+#import "ZPImagePreviewController.h"
+#import "ZPImageScrollView.h"
 
 #define kPagePaddingWidth 10.0
 
-@interface GSImagePreviewController ()
+@interface ZPImagePreviewController ()
 
 @property (nonatomic) NSUInteger currentIndex;
 @property (nonatomic, retain) NSMutableSet * visiblePages;
@@ -23,14 +23,14 @@
 - (void)updatePageOrientation;
 - (CGRect)frameForPageAtIndex:(NSUInteger)index;
 - (BOOL)isDisplayingPageAtIndex:(NSUInteger)index;
-- (void)configurePage:(GSImageScrollView*)page ForIndex:(NSUInteger)index;
+- (void)configurePage:(ZPImageScrollView*)page ForIndex:(NSUInteger)index;
 - (void)toggleChromeVisibility;
 - (void)handleSingleTap:(UIGestureRecognizer*)gestureRecognizer;
 - (void)handleDoubleTap:(UIGestureRecognizer*)gestureRecognizer;
 
 @end
 
-@implementation GSImagePreviewController
+@implementation ZPImagePreviewController
 
 @synthesize imageFileWrappers=_imageFileWrappers;
 @synthesize initialIndex=_initialIndex;
@@ -103,7 +103,7 @@
 {
     [super viewDidAppear:animated];
 
-    GSFileWrapper * container = [(GSFileWrapper*)[self.imageFileWrappers objectAtIndex:0] parent];
+    ZPFileWrapper * container = [(ZPFileWrapper*)[self.imageFileWrappers objectAtIndex:0] parent];
     NSLog(@"Viewing a set of %u image(s) from a total container size of %u file(s)", self.imageFileWrappers.count, container.fileWrappers.count);
     [TestFlight passCheckpoint:@"Opened an image preview view"];
 }
@@ -124,7 +124,7 @@
 
 - (BOOL)isDisplayingPageAtIndex:(NSUInteger)index
 {
-    for (GSImageScrollView *page in self.visiblePages) {
+    for (ZPImageScrollView *page in self.visiblePages) {
         if (page.index == index) {
             return YES;
         }
@@ -144,7 +144,7 @@
     [self updatePageOrientation];
 }
 
-- (void)configurePage:(GSImageScrollView*)page ForIndex:(NSUInteger)index
+- (void)configurePage:(ZPImageScrollView*)page ForIndex:(NSUInteger)index
 {
     page.frame = [self frameForPageAtIndex:index];
     page.index = index;
@@ -163,7 +163,7 @@
     lastNeededPageIndex = MIN(lastNeededPageIndex, self.imageFileWrappers.count - 1);
     
     // Recycle no-longer-needed pages
-    for (GSImageScrollView* page in self.visiblePages) {
+    for (ZPImageScrollView* page in self.visiblePages) {
         if (page.index < firstNeededPageIndex || page.index > lastNeededPageIndex) {
             NSLog(@"Recycling page at index %u", page.index);
             page.imageFileWrapper = nil;
@@ -180,9 +180,9 @@
     for (NSInteger index = firstNeededPageIndex; index <= lastNeededPageIndex; index++) {
         if (![self isDisplayingPageAtIndex:index]) {
             NSLog(@"Populating page at index %u", index);
-            GSImageScrollView *page = [self dequeueReusablePage];
+            ZPImageScrollView *page = [self dequeueReusablePage];
             if (page == nil) {
-                page = [[GSImageScrollView alloc] initWithFrame:[self frameForPageAtIndex:index]];
+                page = [[ZPImageScrollView alloc] initWithFrame:[self frameForPageAtIndex:index]];
                 page.delegate = self;
             }
             [self configurePage:page ForIndex:index];
@@ -193,9 +193,9 @@
     }
 }
 
-- (GSImageScrollView *)dequeueReusablePage
+- (ZPImageScrollView *)dequeueReusablePage
 {
-    GSImageScrollView *page = [self.reusablePages anyObject];
+    ZPImageScrollView *page = [self.reusablePages anyObject];
     if (page) {
         [self.reusablePages removeObject:page];
     }
@@ -210,7 +210,7 @@
     
     self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width * self.imageFileWrappers.count, 
                                              self.scrollView.frame.size.height);
-    for (GSImageScrollView *page in self.visiblePages) {
+    for (ZPImageScrollView *page in self.visiblePages) {
         page.frame = [self frameForPageAtIndex:page.index];
         [page updateZoomScales];
     }
@@ -246,7 +246,7 @@
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     if ([scrollView respondsToSelector:@selector(imageView)]) {
-        return [(GSImageScrollView*)scrollView imageView];
+        return [(ZPImageScrollView*)scrollView imageView];
     }
     return nil;
 }
@@ -261,7 +261,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == actionSheet.firstOtherButtonIndex) {
-        GSFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
+        ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
         UIImage *image = [UIImage imageWithContentsOfFile:currentPhoto.url.path];
         UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
     }
@@ -297,8 +297,8 @@
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer
 {
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        GSImageScrollView *currentPage = nil;
-        for (GSImageScrollView *page in self.visiblePages) {
+        ZPImageScrollView *currentPage = nil;
+        for (ZPImageScrollView *page in self.visiblePages) {
             if (page.index == self.currentIndex) {
                 currentPage = page;
                 break;
@@ -317,7 +317,7 @@
 
 - (void)handleActionButton:(id)sender
 {
-    GSFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
+    ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
     NSString *actionSheetTitle = [NSString stringWithFormat:@"Share %@", currentPhoto.name];
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:actionSheetTitle
                                                     delegate:self
