@@ -8,6 +8,7 @@
 
 #import "ZPAppDelegate.h"
 #import "TestFlight.h"
+#import "MACollectionUtilities.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -22,6 +23,13 @@
 @synthesize window=_window;
 @synthesize rootListViewController=_rootListViewController;
 @synthesize navigationController=_navigationController;
+
++ (void)initialize
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *appDefaults = DICT(kZPDefaultsFirstLaunchKey, [NSNumber numberWithBool:YES]);
+    [defaults registerDefaults:appDefaults];
+}
 
 - (void)cleanInboxDirectory 
 {
@@ -48,11 +56,17 @@
     
     NSLog(@"Zip files directory: %@", self.archiveFilesDirectory);
     
-    // Demo mode: add a sample zip file
-    NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Welcome to Zippity.zip" ofType:nil];
-    NSString *sampleTargetPath = [self.archiveFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
-    [[NSFileManager defaultManager] removeItemAtPath:sampleTargetPath error:nil];
-    [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
+    // First run: add a sample zip file
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults boolForKey:kZPDefaultsFirstLaunchKey]) {
+        NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Welcome to Zippity.zip" ofType:nil];
+        NSString *sampleTargetPath = [self.archiveFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
+        [[NSFileManager defaultManager] removeItemAtPath:sampleTargetPath error:nil];
+        [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
+        
+        [defaults setBool:NO forKey:kZPDefaultsFirstLaunchKey];
+        [defaults synchronize];
+    }
     
     // Create a ZPFileWrapper object to act as the data source for the
     // root folder's view controller. Set its name with the string I
@@ -108,7 +122,7 @@
      */
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [defaults synchronize];
-    BOOL shoudClearCache = [defaults boolForKey:@"clear_cache_preference"];
+    BOOL shoudClearCache = [defaults boolForKey:kZPDefaultsClearCacheKey];
     
     if (shoudClearCache) {
         NSFileManager *fm = [NSFileManager defaultManager];
@@ -127,7 +141,7 @@
             }
         }
     }
-    [defaults setBool:NO forKey:@"clear_cache_preference"];
+    [defaults setBool:NO forKey:kZPDefaultsClearCacheKey];
     [defaults synchronize];
 }
 

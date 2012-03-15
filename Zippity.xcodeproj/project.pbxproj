@@ -26,6 +26,7 @@
 		F441B4C614F3B2E80067A4FC /* NSArray+ZPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+ZPAdditions.m */; };
 		F442747F14F85C9B00C84A0B /* ZPImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */; };
 		F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F45DA71C150FA05500C40E63 /* Settings.bundle */; };
+		F4653839151267B800EE9461 /* MACollectionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = F4653838151267B800EE9461 /* MACollectionUtilities.m */; };
 		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
 		F476B0D614FB81B700E653E1 /* ZPImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
@@ -70,14 +71,16 @@
 		F4413934150BC691007F5E03 /* nav-bar-title-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title-landscape.png"; sourceTree = "<group>"; };
 		F4413935150BC691007F5E03 /* nav-bar-title-landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title-landscape@2x.png"; sourceTree = "<group>"; };
 		F441B49A14F3765D0067A4FC /* ZPFileWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPFileWrapper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		F441B49B14F3765D0067A4FC /* ZPFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ZPFileWrapper.h; sourceTree = "<group>"; };
+		F441B49B14F3765D0067A4FC /* ZPFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPFileWrapper.h; sourceTree = "<group>"; };
 		F441B4C414F3B2E80067A4FC /* NSArray+ZPAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSArray+ZPAdditions.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F441B4C514F3B2E80067A4FC /* NSArray+ZPAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSArray+ZPAdditions.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F442747D14F85C9B00C84A0B /* ZPImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImagePreviewController.h; sourceTree = "<group>"; };
 		F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImagePreviewController.m; sourceTree = "<group>"; };
 		F45DA71C150FA05500C40E63 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		F4653837151267B800EE9461 /* MACollectionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACollectionUtilities.h; sourceTree = "<group>"; };
+		F4653838151267B800EE9461 /* MACollectionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACollectionUtilities.m; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
-		F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ZPImageScrollView.h; sourceTree = "<group>"; };
+		F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImageScrollView.h; sourceTree = "<group>"; };
 		F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImageScrollView.m; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
@@ -107,7 +110,7 @@
 		F4F62C2114FFBE7600AB0C8C /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
 		F4F62C2214FFBE7600AB0C8C /* libarc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libarc.a; sourceTree = "<group>"; };
 		F4F62C2314FFBE7600AB0C8C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		F4F62C2714FFC3B600AB0C8C /* ZPArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; path = ZPArchive.h; sourceTree = "<group>"; };
+		F4F62C2714FFC3B600AB0C8C /* ZPArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPArchive.h; sourceTree = "<group>"; };
 		F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPArchive.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +168,15 @@
 			name = "Image gallery";
 			sourceTree = "<group>";
 		};
+		F4653836151267B800EE9461 /* MACollectionUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				F4653837151267B800EE9461 /* MACollectionUtilities.h */,
+				F4653838151267B800EE9461 /* MACollectionUtilities.m */,
+			);
+			path = MACollectionUtilities;
+			sourceTree = "<group>";
+		};
 		F47DFD8B14ED5581007F7443 /* Views and controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +193,7 @@
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F4653836151267B800EE9461 /* MACollectionUtilities */,
 				F4F62C1E14FFBE7600AB0C8C /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
@@ -417,6 +430,7 @@
 				F476B0D614FB81B700E653E1 /* ZPImageScrollView.m in Sources */,
 				F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */,
 				F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */,
+				F4653839151267B800EE9461 /* MACollectionUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

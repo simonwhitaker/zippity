@@ -14,7 +14,7 @@
 			<key>DefaultValue</key>
 			<false/>
 			<key>Key</key>
-			<string>clear_cache_preference</string>
+			<string>GSZippityClearCacheOnNextRun</string>
 			<key>Title</key>
 			<string>Remove Cached Files</string>
 			<key>Type</key>
