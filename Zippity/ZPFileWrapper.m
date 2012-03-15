@@ -16,7 +16,7 @@
 
 
 #define kBytesInKilobyte 1024
-#define kDisplayImageMaxDimension 1000.0
+#define kDisplayImageMaxDimension 1250.0
 
 NSString * const ZPFileWrapperGeneratedPreviewImage = @"ZPFileWrapperGeneratedPreviewImage";
 
