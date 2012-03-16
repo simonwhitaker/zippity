@@ -55,6 +55,7 @@ enum {
 - (void)deleteSelectedItems;
 - (void)saveSelectedImages;
 - (void)updateToolbarButtons;
+- (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
 
 @end
 
@@ -100,12 +101,7 @@ enum {
 {
     [super viewDidLoad];
     
-    if (self.isRoot) {
-        UIImageView *titleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-        titleImage.contentMode = UIViewContentModeScaleAspectFit;
-        self.navigationItem.titleView = titleImage;
-    }
-    
+    [self updateUIForOrientation:self.interfaceOrientation];
     
     
     NSMutableArray * toolbarButtons = [NSMutableArray array];
@@ -186,6 +182,7 @@ enum {
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
     
@@ -208,6 +205,17 @@ enum {
 
 #pragma mark - UI orientation methods
 
+- (void)updateUIForOrientation:(UIInterfaceOrientation)orientation
+{
+    if (self.isRoot) {
+        if (UIInterfaceOrientationIsPortrait(orientation)) {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+        } else {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
+        }
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
@@ -216,13 +224,7 @@ enum {
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    if (self.isRoot) {
-        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-        } else {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
-        }
-    }
+    [self updateUIForOrientation:toInterfaceOrientation];
 }
 
 #pragma mark - Utility methods
