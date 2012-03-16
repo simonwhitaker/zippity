@@ -19,6 +19,29 @@ enum {
     GSFileContainerListViewActionSaveImages,
 };
 
+@interface UIBarItem(ZPAdditions)
+
+- (void)updateWithLabel:(NSString*)label andCount:(NSUInteger)count;
+
+@end
+
+@implementation UIBarItem(ZPAdditions)
+
+- (void)updateWithLabel:(NSString *)label andCount:(NSUInteger)count
+{
+    if (count > 99) {
+        self.title = [NSString stringWithFormat:@"%@ (99+)", label];
+    } else if (count) {
+        self.title = [NSString stringWithFormat:@"%@ (%u)", label, count];
+    } else {
+        self.title = label;
+    }
+    
+    self.enabled = count > 0;
+}
+
+@end
+
 @interface ZPFileContainerListViewController()
 
 @property (nonatomic, retain) UIBarButtonItem *editButton;
@@ -218,25 +241,9 @@ enum {
     
     self.selectedImageFileWrappers = [NSArray arrayWithArray:tempArray];
     
-    if (numSelected) {
-        self.deleteButton.title = [NSString stringWithFormat:@"Delete (%u)", numSelected];
-        self.shareButton.title = [NSString stringWithFormat:@"Share (%u)", numSelected];
-        self.deleteButton.enabled = YES;
-        self.shareButton.enabled = YES;
-    } else {
-        self.deleteButton.title = @"Delete";
-        self.shareButton.title = @"Share";
-        self.deleteButton.enabled = NO;
-        self.shareButton.enabled = NO;
-    }
-    
-    if (self.selectedImageFileWrappers.count) {
-        self.saveImagesButton.title = [NSString stringWithFormat:@"Save Images (%u)", numSelected];
-        self.saveImagesButton.enabled = YES;
-    } else {
-        self.saveImagesButton.title = @"Save Images";
-        self.saveImagesButton.enabled = NO;
-    }
+    [self.deleteButton updateWithLabel:@"Delete" andCount:numSelected];
+    [self.shareButton updateWithLabel:@"Share" andCount:numSelected];
+    [self.saveImagesButton updateWithLabel:@"Save Images" andCount:[self.selectedImageFileWrappers count]];
 }
 
 #pragma mark - Custom accessors
@@ -516,9 +523,7 @@ enum {
     
     if (editing) {
         [TestFlight passCheckpoint:@"Entered edit mode"];
-        for (UIBarButtonItem *button in self.toolbarItems) {
-            button.enabled = NO;
-        }
+        [self updateToolbarButtons];
         self.navigationItem.rightBarButtonItem = self.doneButton;
     } else {
         self.navigationItem.rightBarButtonItem = self.editButton;
