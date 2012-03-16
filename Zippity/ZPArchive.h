@@ -18,7 +18,7 @@ enum {
     GSArchiveEntryWriteError,
 };
 
-@interface GSArchive : NSObject
+@interface ZPArchive : NSObject
 
 @property (nonatomic, retain) NSString * path;
 

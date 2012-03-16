@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F404A4DF1513DEC300C5D59F /* nav-bar-background-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F404A4DD1513DEC300C5D59F /* nav-bar-background-landscape.png */; };
+		F404A4E01513DEC300C5D59F /* nav-bar-background-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F404A4DE1513DEC300C5D59F /* nav-bar-background-landscape@2x.png */; };
 		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
 		F40FDBA914F2889F008BF9C8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA514F2889F008BF9C8 /* README.txt */; };
 		F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA614F2889F008BF9C8 /* release_notes.txt */; };
-		F417C78A150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m */; };
-		F417C78C150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F417C78B150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib */; };
+		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
+		F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41385B515134AF80087B896 /* QuartzCore.framework */; };
+		F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */; };
+		F417C78C150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F417C78B150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib */; };
 		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
 		F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E714F3C80000082527 /* MobileCoreServices.framework */; };
 		F4413929150BBEC0007F5E03 /* nav-bar-title.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413927150BBEC0007F5E03 /* nav-bar-title.png */; };
@@ -22,12 +26,13 @@
 		F4413933150BC4DB007F5E03 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413931150BC4DB007F5E03 /* Default.png */; };
 		F4413936150BC691007F5E03 /* nav-bar-title-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413934150BC691007F5E03 /* nav-bar-title-landscape.png */; };
 		F4413937150BC691007F5E03 /* nav-bar-title-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413935150BC691007F5E03 /* nav-bar-title-landscape@2x.png */; };
-		F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* GSFileWrapper.m */; };
-		F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */; };
-		F442747F14F85C9B00C84A0B /* GSImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */; };
+		F441B49C14F3765D0067A4FC /* ZPFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* ZPFileWrapper.m */; };
+		F441B4C614F3B2E80067A4FC /* NSArray+ZPAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B4C514F3B2E80067A4FC /* NSArray+ZPAdditions.m */; };
+		F442747F14F85C9B00C84A0B /* ZPImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */; };
 		F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F45DA71C150FA05500C40E63 /* Settings.bundle */; };
+		F4653839151267B800EE9461 /* MACollectionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = F4653838151267B800EE9461 /* MACollectionUtilities.m */; };
 		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
-		F476B0D614FB81B700E653E1 /* GSImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F476B0D514FB81B700E653E1 /* GSImageScrollView.m */; };
+		F476B0D614FB81B700E653E1 /* ZPImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
 		F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */; };
 		F47DFD8114ED4E32007F7443 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7D14ED4E32007F7443 /* Icon.png */; };
@@ -39,25 +44,31 @@
 		F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */; };
 		F47F536114ECCC82009BF6FE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F47F535F14ECCC82009BF6FE /* InfoPlist.strings */; };
 		F47F536314ECCC82009BF6FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536214ECCC82009BF6FE /* main.m */; };
-		F47F536714ECCC82009BF6FE /* GSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536614ECCC82009BF6FE /* GSAppDelegate.m */; };
-		F47F537914ECD062009BF6FE /* GSFileContainerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */; };
+		F47F536714ECCC82009BF6FE /* ZPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */; };
+		F47F537914ECD062009BF6FE /* ZPFileContainerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */; };
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
-		F4E1905514F946EF0098D5BB /* GSImagePreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E1905414F946EF0098D5BB /* GSImagePreviewController.xib */; };
+		F4E1905514F946EF0098D5BB /* ZPImagePreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E1905414F946EF0098D5BB /* ZPImagePreviewController.xib */; };
 		F4F62C2414FFBE7600AB0C8C /* libarc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F62C2214FFBE7600AB0C8C /* libarc.a */; };
 		F4F62C2514FFBE7600AB0C8C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4F62C2314FFBE7600AB0C8C /* README.md */; };
-		F4F62C2914FFC3B600AB0C8C /* GSArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* GSArchive.m */; };
+		F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F40144F4151263690036AF48 /* ZPDefaultsKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZPDefaultsKeys.h; sourceTree = "<group>"; };
+		F404A4DD1513DEC300C5D59F /* nav-bar-background-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-background-landscape.png"; sourceTree = "<group>"; };
+		F404A4DE1513DEC300C5D59F /* nav-bar-background-landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-background-landscape@2x.png"; sourceTree = "<group>"; };
 		F40FDBA414F2889F008BF9C8 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		F40FDBA514F2889F008BF9C8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		F40FDBA614F2889F008BF9C8 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
 		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
-		F417C788150A305F0035CACD /* GSUnrecognisedFileTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSUnrecognisedFileTypeViewController.h; sourceTree = "<group>"; };
-		F417C789150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; };
-		F417C78B150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GSUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
+		F41385B115134AEA0087B896 /* GSSmokedInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSSmokedInfoView.h; sourceTree = "<group>"; };
+		F41385B215134AEA0087B896 /* GSSmokedInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSSmokedInfoView.m; sourceTree = "<group>"; };
+		F41385B515134AF80087B896 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F417C78B150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
 		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F43352E714F3C80000082527 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F4413927150BBEC0007F5E03 /* nav-bar-title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title.png"; sourceTree = "<group>"; };
@@ -68,16 +79,18 @@
 		F4413931150BC4DB007F5E03 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		F4413934150BC691007F5E03 /* nav-bar-title-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title-landscape.png"; sourceTree = "<group>"; };
 		F4413935150BC691007F5E03 /* nav-bar-title-landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title-landscape@2x.png"; sourceTree = "<group>"; };
-		F441B49A14F3765D0067A4FC /* GSFileWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileWrapper.m; sourceTree = "<group>"; };
-		F441B49B14F3765D0067A4FC /* GSFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileWrapper.h; sourceTree = "<group>"; };
-		F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+GSZippityAdditions.h"; sourceTree = "<group>"; };
-		F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+GSZippityAdditions.m"; sourceTree = "<group>"; };
-		F442747D14F85C9B00C84A0B /* GSImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSImagePreviewController.h; sourceTree = "<group>"; };
-		F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSImagePreviewController.m; sourceTree = "<group>"; };
+		F441B49A14F3765D0067A4FC /* ZPFileWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPFileWrapper.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F441B49B14F3765D0067A4FC /* ZPFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPFileWrapper.h; sourceTree = "<group>"; };
+		F441B4C414F3B2E80067A4FC /* NSArray+ZPAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "NSArray+ZPAdditions.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		F441B4C514F3B2E80067A4FC /* NSArray+ZPAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSArray+ZPAdditions.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F442747D14F85C9B00C84A0B /* ZPImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImagePreviewController.h; sourceTree = "<group>"; };
+		F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImagePreviewController.m; sourceTree = "<group>"; };
 		F45DA71C150FA05500C40E63 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		F4653837151267B800EE9461 /* MACollectionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACollectionUtilities.h; sourceTree = "<group>"; };
+		F4653838151267B800EE9461 /* MACollectionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACollectionUtilities.m; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
-		F476B0D414FB81B700E653E1 /* GSImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSImageScrollView.h; sourceTree = "<group>"; };
-		F476B0D514FB81B700E653E1 /* GSImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSImageScrollView.m; sourceTree = "<group>"; };
+		F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImageScrollView.h; sourceTree = "<group>"; };
+		F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImageScrollView.m; sourceTree = "<group>"; };
 		F47DFD7B14ED4E32007F7443 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		F47DFD7D14ED4E32007F7443 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -93,21 +106,21 @@
 		F47F536014ECCC82009BF6FE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F47F536214ECCC82009BF6FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Zippity-Prefix.pch"; sourceTree = "<group>"; };
-		F47F536514ECCC82009BF6FE /* GSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSAppDelegate.h; sourceTree = "<group>"; };
-		F47F536614ECCC82009BF6FE /* GSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GSAppDelegate.m; sourceTree = "<group>"; };
-		F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSFileContainerListViewController.h; sourceTree = "<group>"; };
-		F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSFileContainerListViewController.m; sourceTree = "<group>"; };
+		F47F536514ECCC82009BF6FE /* ZPAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZPAppDelegate.h; sourceTree = "<group>"; };
+		F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZPAppDelegate.m; sourceTree = "<group>"; };
+		F47F537714ECD062009BF6FE /* ZPFileContainerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPFileContainerListViewController.h; sourceTree = "<group>"; };
+		F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPFileContainerListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		F4E1905414F946EF0098D5BB /* GSImagePreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GSImagePreviewController.xib; sourceTree = "<group>"; };
+		F4E1905414F946EF0098D5BB /* ZPImagePreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPImagePreviewController.xib; sourceTree = "<group>"; };
 		F4F62C1F14FFBE7600AB0C8C /* archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive.h; sourceTree = "<group>"; };
 		F4F62C2014FFBE7600AB0C8C /* archive_entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive_entry.h; sourceTree = "<group>"; };
 		F4F62C2114FFBE7600AB0C8C /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
 		F4F62C2214FFBE7600AB0C8C /* libarc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libarc.a; sourceTree = "<group>"; };
 		F4F62C2314FFBE7600AB0C8C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		F4F62C2714FFC3B600AB0C8C /* GSArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSArchive.h; sourceTree = "<group>"; };
-		F4F62C2814FFC3B600AB0C8C /* GSArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSArchive.m; sourceTree = "<group>"; };
+		F4F62C2714FFC3B600AB0C8C /* ZPArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPArchive.h; sourceTree = "<group>"; };
+		F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPArchive.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */,
 				F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */,
 				F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */,
 				F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */,
@@ -144,10 +158,10 @@
 		F42D56E41508B013000D89A2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F4F62C2714FFC3B600AB0C8C /* GSArchive.h */,
-				F4F62C2814FFC3B600AB0C8C /* GSArchive.m */,
-				F441B49B14F3765D0067A4FC /* GSFileWrapper.h */,
-				F441B49A14F3765D0067A4FC /* GSFileWrapper.m */,
+				F4F62C2714FFC3B600AB0C8C /* ZPArchive.h */,
+				F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */,
+				F441B49B14F3765D0067A4FC /* ZPFileWrapper.h */,
+				F441B49A14F3765D0067A4FC /* ZPFileWrapper.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -155,23 +169,32 @@
 		F42E46101505E01900DBAF17 /* Image gallery */ = {
 			isa = PBXGroup;
 			children = (
-				F442747D14F85C9B00C84A0B /* GSImagePreviewController.h */,
-				F442747E14F85C9B00C84A0B /* GSImagePreviewController.m */,
-				F4E1905414F946EF0098D5BB /* GSImagePreviewController.xib */,
-				F476B0D414FB81B700E653E1 /* GSImageScrollView.h */,
-				F476B0D514FB81B700E653E1 /* GSImageScrollView.m */,
+				F442747D14F85C9B00C84A0B /* ZPImagePreviewController.h */,
+				F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */,
+				F4E1905414F946EF0098D5BB /* ZPImagePreviewController.xib */,
+				F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */,
+				F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */,
 			);
 			name = "Image gallery";
+			sourceTree = "<group>";
+		};
+		F4653836151267B800EE9461 /* MACollectionUtilities */ = {
+			isa = PBXGroup;
+			children = (
+				F4653837151267B800EE9461 /* MACollectionUtilities.h */,
+				F4653838151267B800EE9461 /* MACollectionUtilities.m */,
+			);
+			path = MACollectionUtilities;
 			sourceTree = "<group>";
 		};
 		F47DFD8B14ED5581007F7443 /* Views and controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F47F537714ECD062009BF6FE /* GSFileContainerListViewController.h */,
-				F47F537814ECD062009BF6FE /* GSFileContainerListViewController.m */,
-				F417C788150A305F0035CACD /* GSUnrecognisedFileTypeViewController.h */,
-				F417C789150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m */,
-				F417C78B150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib */,
+				F47F537714ECD062009BF6FE /* ZPFileContainerListViewController.h */,
+				F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */,
+				F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */,
+				F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */,
+				F417C78B150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib */,
 				F42E46101505E01900DBAF17 /* Image gallery */,
 			);
 			name = "Views and controllers";
@@ -180,6 +203,9 @@
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
+				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
+				F4653836151267B800EE9461 /* MACollectionUtilities */,
 				F4F62C1E14FFBE7600AB0C8C /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
@@ -206,11 +232,12 @@
 		F47F535514ECCC82009BF6FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
 				F47F535814ECCC82009BF6FE /* Foundation.framework */,
-				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F43352E414F3C41600082527 /* MessageUI.framework */,
 				F43352E714F3C80000082527 /* MobileCoreServices.framework */,
+				F41385B515134AF80087B896 /* QuartzCore.framework */,
 				F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */,
 				F47F535614ECCC82009BF6FE /* UIKit.framework */,
 			);
@@ -233,14 +260,15 @@
 		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F46921A214F7F00500669E7E /* Welcome to Zippity.zip */,
+				F47F536514ECCC82009BF6FE /* ZPAppDelegate.h */,
+				F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */,
 				F4B9909E14EE820C00F8FBD8 /* Images */,
-				F47F535E14ECCC82009BF6FE /* Zippity-Info.plist */,
 				F47F535F14ECCC82009BF6FE /* InfoPlist.strings */,
-				F47F536514ECCC82009BF6FE /* GSAppDelegate.h */,
-				F47F536614ECCC82009BF6FE /* GSAppDelegate.m */,
 				F47F536214ECCC82009BF6FE /* main.m */,
+				F46921A214F7F00500669E7E /* Welcome to Zippity.zip */,
+				F47F535E14ECCC82009BF6FE /* Zippity-Info.plist */,
 				F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */,
+				F40144F4151263690036AF48 /* ZPDefaultsKeys.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -248,8 +276,8 @@
 		F4B9909914EE66F200F8FBD8 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				F441B4C414F3B2E80067A4FC /* NSArray+GSZippityAdditions.h */,
-				F441B4C514F3B2E80067A4FC /* NSArray+GSZippityAdditions.m */,
+				F441B4C414F3B2E80067A4FC /* NSArray+ZPAdditions.h */,
+				F441B4C514F3B2E80067A4FC /* NSArray+ZPAdditions.m */,
 				F47DFDA514ED5EDF007F7443 /* NSDate+GSAdditions.h */,
 				F47DFDA614ED5EDF007F7443 /* NSDate+GSAdditions.m */,
 			);
@@ -259,6 +287,8 @@
 		F4B9909E14EE820C00F8FBD8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F404A4DD1513DEC300C5D59F /* nav-bar-background-landscape.png */,
+				F404A4DE1513DEC300C5D59F /* nav-bar-background-landscape@2x.png */,
 				F4413934150BC691007F5E03 /* nav-bar-title-landscape.png */,
 				F4413935150BC691007F5E03 /* nav-bar-title-landscape@2x.png */,
 				F4413930150BC4DB007F5E03 /* Default@2x.png */,
@@ -352,9 +382,9 @@
 				F40FDBA914F2889F008BF9C8 /* README.txt in Resources */,
 				F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */,
 				F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */,
-				F4E1905514F946EF0098D5BB /* GSImagePreviewController.xib in Resources */,
+				F4E1905514F946EF0098D5BB /* ZPImagePreviewController.xib in Resources */,
 				F4F62C2514FFBE7600AB0C8C /* README.md in Resources */,
-				F417C78C150A31F20035CACD /* GSUnrecognisedFileTypeViewController.xib in Resources */,
+				F417C78C150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib in Resources */,
 				F4413929150BBEC0007F5E03 /* nav-bar-title.png in Resources */,
 				F441392A150BBEC0007F5E03 /* nav-bar-title@2x.png in Resources */,
 				F441392E150BC158007F5E03 /* nav-bar-background.png in Resources */,
@@ -364,6 +394,8 @@
 				F4413936150BC691007F5E03 /* nav-bar-title-landscape.png in Resources */,
 				F4413937150BC691007F5E03 /* nav-bar-title-landscape@2x.png in Resources */,
 				F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */,
+				F404A4DF1513DEC300C5D59F /* nav-bar-background-landscape.png in Resources */,
+				F404A4E01513DEC300C5D59F /* nav-bar-background-landscape@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,15 +438,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				F47F536314ECCC82009BF6FE /* main.m in Sources */,
-				F47F536714ECCC82009BF6FE /* GSAppDelegate.m in Sources */,
-				F47F537914ECD062009BF6FE /* GSFileContainerListViewController.m in Sources */,
+				F47F536714ECCC82009BF6FE /* ZPAppDelegate.m in Sources */,
+				F47F537914ECD062009BF6FE /* ZPFileContainerListViewController.m in Sources */,
 				F47DFDA714ED5EDF007F7443 /* NSDate+GSAdditions.m in Sources */,
-				F441B49C14F3765D0067A4FC /* GSFileWrapper.m in Sources */,
-				F441B4C614F3B2E80067A4FC /* NSArray+GSZippityAdditions.m in Sources */,
-				F442747F14F85C9B00C84A0B /* GSImagePreviewController.m in Sources */,
-				F476B0D614FB81B700E653E1 /* GSImageScrollView.m in Sources */,
-				F4F62C2914FFC3B600AB0C8C /* GSArchive.m in Sources */,
-				F417C78A150A305F0035CACD /* GSUnrecognisedFileTypeViewController.m in Sources */,
+				F441B49C14F3765D0067A4FC /* ZPFileWrapper.m in Sources */,
+				F441B4C614F3B2E80067A4FC /* NSArray+ZPAdditions.m in Sources */,
+				F442747F14F85C9B00C84A0B /* ZPImagePreviewController.m in Sources */,
+				F476B0D614FB81B700E653E1 /* ZPImageScrollView.m in Sources */,
+				F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */,
+				F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */,
+				F4653839151267B800EE9461 /* MACollectionUtilities.m in Sources */,
+				F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

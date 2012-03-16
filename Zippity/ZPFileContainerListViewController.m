@@ -6,12 +6,12 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "GSFileContainerListViewController.h"
-#import "GSAppDelegate.h"
+#import "ZPFileContainerListViewController.h"
+#import "ZPAppDelegate.h"
 #import <QuickLook/QuickLook.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "GSImagePreviewController.h"
-#import "GSUnrecognisedFileTypeViewController.h"
+#import "ZPImagePreviewController.h"
+#import "ZPUnrecognisedFileTypeViewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
@@ -19,7 +19,30 @@ enum {
     GSFileContainerListViewActionSaveImages,
 };
 
-@interface GSFileContainerListViewController()
+@interface UIBarItem(ZPAdditions)
+
+- (void)updateWithLabel:(NSString*)label andCount:(NSUInteger)count;
+
+@end
+
+@implementation UIBarItem(ZPAdditions)
+
+- (void)updateWithLabel:(NSString *)label andCount:(NSUInteger)count
+{
+    if (count > 99) {
+        self.title = [NSString stringWithFormat:@"%@ (99+)", label];
+    } else if (count) {
+        self.title = [NSString stringWithFormat:@"%@ (%u)", label, count];
+    } else {
+        self.title = label;
+    }
+    
+    self.enabled = count > 0;
+}
+
+@end
+
+@interface ZPFileContainerListViewController()
 
 @property (nonatomic, retain) UIBarButtonItem *editButton;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
@@ -32,10 +55,11 @@ enum {
 - (void)deleteSelectedItems;
 - (void)saveSelectedImages;
 - (void)updateToolbarButtons;
+- (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
 
 @end
 
-@implementation GSFileContainerListViewController
+@implementation ZPFileContainerListViewController
 
 @synthesize container=_container;
 @synthesize isRoot=isRoot;
@@ -47,7 +71,7 @@ enum {
 @synthesize editButton=_editButton;
 @synthesize doneButton=_doneButton;
 
-- (id)initWithContainer:(GSFileWrapper*)container
+- (id)initWithContainer:(ZPFileWrapper*)container
 {    
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
@@ -77,12 +101,7 @@ enum {
 {
     [super viewDidLoad];
     
-    if (self.isRoot) {
-        UIImageView *titleImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-        titleImage.contentMode = UIViewContentModeScaleAspectFit;
-        self.navigationItem.titleView = titleImage;
-    }
-    
+    [self updateUIForOrientation:self.interfaceOrientation];
     
     
     NSMutableArray * toolbarButtons = [NSMutableArray array];
@@ -163,6 +182,7 @@ enum {
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
     self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
     
@@ -185,6 +205,17 @@ enum {
 
 #pragma mark - UI orientation methods
 
+- (void)updateUIForOrientation:(UIInterfaceOrientation)orientation
+{
+    if (self.isRoot) {
+        if (UIInterfaceOrientationIsPortrait(orientation)) {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+        } else {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
+        }
+    }
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
@@ -193,13 +224,7 @@ enum {
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    if (self.isRoot) {
-        if (UIInterfaceOrientationIsPortrait(toInterfaceOrientation)) {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-        } else {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
-        }
-    }
+    [self updateUIForOrientation:toInterfaceOrientation];
 }
 
 #pragma mark - Utility methods
@@ -210,7 +235,7 @@ enum {
     
     NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:self.container.fileWrappers.count];
     for (NSIndexPath *ip in [self.tableView indexPathsForSelectedRows]) {
-        GSFileWrapper *wrapper = [self.container.fileWrappers objectAtIndex:ip.row];
+        ZPFileWrapper *wrapper = [self.container.fileWrappers objectAtIndex:ip.row];
         if (wrapper.isImageFile) {
             [tempArray addObject:wrapper];
         }
@@ -218,25 +243,9 @@ enum {
     
     self.selectedImageFileWrappers = [NSArray arrayWithArray:tempArray];
     
-    if (numSelected) {
-        self.deleteButton.title = [NSString stringWithFormat:@"Delete (%u)", numSelected];
-        self.shareButton.title = [NSString stringWithFormat:@"Share (%u)", numSelected];
-        self.deleteButton.enabled = YES;
-        self.shareButton.enabled = YES;
-    } else {
-        self.deleteButton.title = @"Delete";
-        self.shareButton.title = @"Share";
-        self.deleteButton.enabled = NO;
-        self.shareButton.enabled = NO;
-    }
-    
-    if (self.selectedImageFileWrappers.count) {
-        self.saveImagesButton.title = [NSString stringWithFormat:@"Save Images (%u)", numSelected];
-        self.saveImagesButton.enabled = YES;
-    } else {
-        self.saveImagesButton.title = @"Save Images";
-        self.saveImagesButton.enabled = NO;
-    }
+    [self.deleteButton updateWithLabel:@"Delete" andCount:numSelected];
+    [self.shareButton updateWithLabel:@"Share" andCount:numSelected];
+    [self.saveImagesButton updateWithLabel:@"Save Images" andCount:[self.selectedImageFileWrappers count]];
 }
 
 #pragma mark - Custom accessors
@@ -272,7 +281,7 @@ enum {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
     
-    GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+    ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
     cell.textLabel.text = wrapper.displayName;
     cell.textLabel.accessibilityLabel = wrapper.name;
     if (wrapper.isDirectory) {
@@ -301,7 +310,7 @@ enum {
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    GSFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:indexPath.row];
+    ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:indexPath.row];
     return !fileWrapper.isDirectory;
 }
 
@@ -341,10 +350,10 @@ enum {
         }
         [self updateToolbarButtons];
     } else {
-        GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+        ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
         
         if (wrapper.isImageFile) {
-            GSImagePreviewController *vc = [[GSImagePreviewController alloc] init];
+            ZPImagePreviewController *vc = [[ZPImagePreviewController alloc] init];
             NSArray *imageFileWrappers = self.container.imageFileWrappers;
             NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
             
@@ -353,29 +362,29 @@ enum {
             
             [self.navigationController pushViewController:vc animated:YES];
         } else if (wrapper.isContainer) {
-            GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:wrapper];
+            ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:wrapper];
             vc.tableView.delegate = vc;
             [self.navigationController pushViewController:vc animated:YES];
         } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
             wrapper.documentInteractionController.delegate = self;
             [wrapper.documentInteractionController presentPreviewAnimated:YES];
         } else {
-            GSUnrecognisedFileTypeViewController *vc = [[GSUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
+            ZPUnrecognisedFileTypeViewController *vc = [[ZPUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
             [self.navigationController pushViewController:vc animated:YES];
         }
     }
 }
 
-- (void)setContainer:(GSFileWrapper*)container
+- (void)setContainer:(ZPFileWrapper*)container
 {
     if (_container != container) {
         // Remove old notification observers
         if (_container) {
             [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:GSFileWrapperContainerDidReloadContents
+                                                            name:ZPFileWrapperContainerDidReloadContents
                                                           object:_container];
             [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:GSFileWrapperContainerDidFailToReloadContents
+                                                            name:ZPFileWrapperContainerDidFailToReloadContents
                                                           object:_container];
         }
         
@@ -386,11 +395,11 @@ enum {
         if (_container) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(handleContentsReloaded:)
-                                                         name:GSFileWrapperContainerDidReloadContents
+                                                         name:ZPFileWrapperContainerDidReloadContents
                                                        object:_container];
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(handleContentsFailedToReload:)
-                                                         name:GSFileWrapperContainerDidFailToReloadContents
+                                                         name:ZPFileWrapperContainerDidFailToReloadContents
                                                        object:_container];
             self.title = container.name;
         }
@@ -427,7 +436,7 @@ enum {
                 mailComposer.mailComposeDelegate = self;
                 
                 for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
-                    GSFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+                    ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
                     CFStringRef utiStringRef = (__bridge CFStringRef)wrapper.documentInteractionController.UTI;
                     
                     // UTTypeCopy... retains its return value (contains the word "copy"), so we
@@ -455,7 +464,7 @@ enum {
                 }
             } else {
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
-                                                             message:@"You can't send mail on this device - do you need to set up an email account?"
+                                                             message:@"You can't send mail on this device - maybe you need to set up an email account?"
                                                             delegate:nil
                                                    cancelButtonTitle:@"OK"
                                                    otherButtonTitles:nil];
@@ -490,7 +499,7 @@ enum {
         }
     } else if (actionSheet.tag == GSFileContainerListViewActionSaveImages) {
         if (buttonIndex == actionSheet.firstOtherButtonIndex) {
-            for (GSFileWrapper *wrapper in self.selectedImageFileWrappers) {
+            for (ZPFileWrapper *wrapper in self.selectedImageFileWrappers) {
                 UIImage *image = [UIImage imageWithContentsOfFile:wrapper.url.path];
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
             }
@@ -516,9 +525,7 @@ enum {
     
     if (editing) {
         [TestFlight passCheckpoint:@"Entered edit mode"];
-        for (UIBarButtonItem *button in self.toolbarItems) {
-            button.enabled = NO;
-        }
+        [self updateToolbarButtons];
         self.navigationItem.rightBarButtonItem = self.doneButton;
     } else {
         self.navigationItem.rightBarButtonItem = self.editButton;
@@ -531,7 +538,7 @@ enum {
 {
     NSString *title;
     if (self.selectedImageFileWrappers.count == 1) {
-        GSFileWrapper *imageFileWrapper = [self.selectedImageFileWrappers objectAtIndex:0];
+        ZPFileWrapper *imageFileWrapper = [self.selectedImageFileWrappers objectAtIndex:0];
         title = [NSString stringWithFormat:@"Save %@", imageFileWrapper.name];
     } else {
         title = [NSString stringWithFormat:@"Save %u images", self.selectedImageFileWrappers.count];
@@ -550,7 +557,7 @@ enum {
     NSString *title;
     if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
         NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
-        GSFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
+        ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
         title = [NSString stringWithFormat:@"Share %@", fileWrapper.name];
     } else {
         title = [NSString stringWithFormat:@"Share %u files", [[self.tableView indexPathsForSelectedRows] count]];
@@ -569,7 +576,7 @@ enum {
     NSString *title;
     if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
         NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
-        GSFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
+        ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
         title = [NSString stringWithFormat:@"Delete %@", fileWrapper.name];
     } else {
         title = [NSString stringWithFormat:@"Delete %u files", [[self.tableView indexPathsForSelectedRows] count]];

@@ -1,15 +1,15 @@
 //
-//  GSImageScrollView.m
+//  ZPImageScrollView.m
 //  Zippity
 //
 //  Created by Simon Whitaker on 27/02/2012.
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "GSImageScrollView.h"
-#import "GSFileWrapper.h"
+#import "ZPImageScrollView.h"
+#import "ZPFileWrapper.h"
 
-@implementation GSImageScrollView
+@implementation ZPImageScrollView
 
 @synthesize imageView=_imageView;
 @synthesize index=_index;
@@ -35,7 +35,7 @@
     return self;
 }
 
-- (void)setImageFileWrapper:(GSFileWrapper *)imageFileWrapper
+- (void)setImageFileWrapper:(ZPFileWrapper *)imageFileWrapper
 {
     if (_imageFileWrapper != imageFileWrapper) {
         self.imageView.image = nil;
@@ -43,14 +43,14 @@
         // Remove any existing notifications
         if (_imageFileWrapper) {
             [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:GSFileWrapperGeneratedPreviewImage
+                                                            name:ZPFileWrapperGeneratedPreviewImage
                                                           object:_imageFileWrapper];
         }
         
         // Flip self.imageFileWrapper to point to the new value
         _imageFileWrapper = imageFileWrapper;
         
-        // Set up a notification on GSFileWrapperGeneratedPreviewImage for
+        // Set up a notification on ZPFileWrapperGeneratedPreviewImage for
         // the new image file before we call displayImage on it, since there's
         // otherwise a race condition where by the time displayImage returns nil 
         // it's already created the preview image, so we never get the
@@ -58,7 +58,7 @@
         if (_imageFileWrapper) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(displayImage) 
-                                                         name:GSFileWrapperGeneratedPreviewImage
+                                                         name:ZPFileWrapperGeneratedPreviewImage
                                                        object:_imageFileWrapper];
         }
         [self displayImage];

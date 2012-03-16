@@ -1,5 +1,5 @@
 //
-//  GSFileWrapper.h
+//  ZPFileWrapper.h
 //  
 //
 //  Created by Simon Whitaker on 21/02/2012.
@@ -11,24 +11,24 @@
 #define kErrorKey @"error"
 
 typedef enum {
-    GSFileWrapperContainerStatusUnknown,
-    GSFileWrapperContainerStatusInitialised,
-    GSFileWrapperContainerStatusReady,
-    GSFileWrapperContainerStatusError
-} GSFileWrapperContainerStatus;
+    ZPFileWrapperContainerStatusUnknown,
+    ZPFileWrapperContainerStatusInitialised,
+    ZPFileWrapperContainerStatusReady,
+    ZPFileWrapperContainerStatusError
+} ZPFileWrapperContainerStatus;
 
 typedef enum {
-    GSFileWrapperSortOrderUnspecified,
-    GSFileWrapperSortOrderByName,
-    GSFileWrapperSortOrderByModificationDateNewestFirst
-} GSFileWrapperSortOrder;
+    ZPFileWrapperSortOrderUnspecified,
+    ZPFileWrapperSortOrderByName,
+    ZPFileWrapperSortOrderByModificationDateNewestFirst
+} ZPFileWrapperSortOrder;
 
 // NSNotification names for notifications raised on completion
 // of asynchronous loading of container contents
-extern NSString * const GSFileWrapperContainerDidReloadContents;
-extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
+extern NSString * const ZPFileWrapperContainerDidReloadContents;
+extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 
-@interface GSFileWrapper : NSObject {
+@interface ZPFileWrapper : NSObject {
     NSDictionary * _attributes;
     NSString * _name;
     NSString * _displayName;
@@ -38,7 +38,7 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
     
     // iVars for containers
     NSArray * _fileWrappers;
-    GSFileWrapperContainerStatus _containerStatus;
+    ZPFileWrapperContainerStatus _containerStatus;
     
     // TODO: move to a UIKit-aware category? Fine here for now, but
     // when we launch Zippity for OS X.... ;-)
@@ -49,14 +49,14 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 // Initializer that determines the nature of the file 
 // (whether it's a directory, etc) based on what it finds 
 // when it loads the URL.
-+ (GSFileWrapper*)fileWrapperWithURL:(NSURL*)url error:(NSError**)error;
++ (ZPFileWrapper*)fileWrapperWithURL:(NSURL*)url error:(NSError**)error;
 
 - (BOOL)remove:(NSError**)error;
 
 // Settable properties
 @property (nonatomic, copy) NSString * name;
 @property (nonatomic) BOOL visited;
-@property (nonatomic, assign) GSFileWrapper * parent;
+@property (nonatomic, assign) ZPFileWrapper * parent;
 
 // Materialised properties
 @property (readonly) NSURL * url;
@@ -77,15 +77,15 @@ extern NSString * const GSFileWrapperContainerDidFailToReloadContents;
 @property (readonly) BOOL isImageFile; // YES if the file is an image that can be displayed in a UIImage
 
 // Container methods: only have effect where isContainer == YES
-@property (nonatomic) GSFileWrapperSortOrder sortOrder;
-@property (readonly) GSFileWrapperContainerStatus containerStatus;
+@property (nonatomic) ZPFileWrapperSortOrder sortOrder;
+@property (readonly) ZPFileWrapperContainerStatus containerStatus;
 @property (readonly) NSArray * fileWrappers;
 @property (readonly) NSArray * imageFileWrappers;
 
 - (void)reloadContainerContents;
-- (GSFileWrapper*)fileWrapperAtIndex:(NSUInteger)index;
+- (ZPFileWrapper*)fileWrapperAtIndex:(NSUInteger)index;
 - (BOOL)removeItemAtIndex:(NSUInteger)index error:(NSError**)error;
 
-extern NSString * const GSFileWrapperGeneratedPreviewImage;
+extern NSString * const ZPFileWrapperGeneratedPreviewImage;
 
 @end

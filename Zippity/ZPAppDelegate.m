@@ -6,22 +6,30 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "GSAppDelegate.h"
+#import "ZPAppDelegate.h"
 #import "TestFlight.h"
+#import "MACollectionUtilities.h"
 
 #define kMaxSuffixesToTry 100
 
-@interface GSAppDelegate()
+@interface ZPAppDelegate()
 
 - (NSString*)documentsDirectory;
 
 @end
 
-@implementation GSAppDelegate
+@implementation ZPAppDelegate
 
 @synthesize window=_window;
 @synthesize rootListViewController=_rootListViewController;
 @synthesize navigationController=_navigationController;
+
++ (void)initialize
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *appDefaults = DICT(kZPDefaultsFirstLaunchKey, [NSNumber numberWithBool:YES]);
+    [defaults registerDefaults:appDefaults];
+}
 
 - (void)cleanInboxDirectory 
 {
@@ -48,23 +56,28 @@
     
     NSLog(@"Zip files directory: %@", self.archiveFilesDirectory);
     
-    // Demo mode: add a sample zip file
-    NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Welcome to Zippity.zip" ofType:nil];
-    NSString *sampleTargetPath = [self.archiveFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
-    [[NSFileManager defaultManager] removeItemAtPath:sampleTargetPath error:nil];
-    [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
+    // First run: add a sample zip file
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults boolForKey:kZPDefaultsFirstLaunchKey]) {
+        NSString *sampleZipFile = [[NSBundle mainBundle] pathForResource:@"Welcome to Zippity.zip" ofType:nil];
+        NSString *sampleTargetPath = [self.archiveFilesDirectory stringByAppendingPathComponent:[sampleZipFile lastPathComponent]];
+        [[NSFileManager defaultManager] removeItemAtPath:sampleTargetPath error:nil];
+        [[NSFileManager defaultManager] copyItemAtPath:sampleZipFile toPath:sampleTargetPath error:nil];
+        
+        [defaults setBool:NO forKey:kZPDefaultsFirstLaunchKey];
+        [defaults synchronize];
+    }
     
-    // Create a GSFileWrapper object to act as the data source for the
+    // Create a ZPFileWrapper object to act as the data source for the
     // root folder's view controller. Set its name with the string I
     // want to appear in the NavigationItem's title.
-    
     NSError *error = nil;
-    GSFileWrapper * rootFileWrapper = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.archiveFilesDirectory] error:&error];
+    ZPFileWrapper * rootFileWrapper = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.archiveFilesDirectory] error:&error];
     if (error) {
         // TODO: handle error
     }
     rootFileWrapper.name = @"Zippity";
-    self.rootListViewController = [[GSFileContainerListViewController alloc] initWithContainer:rootFileWrapper];
+    self.rootListViewController = [[ZPFileContainerListViewController alloc] initWithContainer:rootFileWrapper];
     self.rootListViewController.isRoot = YES;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
@@ -109,7 +122,7 @@
      */
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [defaults synchronize];
-    BOOL shoudClearCache = [defaults boolForKey:@"clear_cache_preference"];
+    BOOL shoudClearCache = [defaults boolForKey:kZPDefaultsClearCacheKey];
     
     if (shoudClearCache) {
         NSFileManager *fm = [NSFileManager defaultManager];
@@ -128,7 +141,7 @@
             }
         }
     }
-    [defaults setBool:NO forKey:@"clear_cache_preference"];
+    [defaults setBool:NO forKey:kZPDefaultsClearCacheKey];
     [defaults synchronize];
 }
 
@@ -193,12 +206,12 @@
         [self.rootListViewController.container reloadContainerContents];
         
         NSError * error = nil;
-        GSFileWrapper *newFileWrapper = [GSFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:targetPath]
+        ZPFileWrapper *newFileWrapper = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:targetPath]
                                                                     error:&error];
         if (error) {
             NSLog(@"Error on creating temp file wrapper for newly-arrived zip (%@): %@, %@", targetPath, error, error.userInfo);
         } else {
-            GSFileContainerListViewController *vc = [[GSFileContainerListViewController alloc] initWithContainer:newFileWrapper];
+            ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:newFileWrapper];
             [self.navigationController pushViewController:vc animated:NO];
         }
     }

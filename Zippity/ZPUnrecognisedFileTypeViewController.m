@@ -1,27 +1,27 @@
 //
-//  GSUnrecognisedFileTypeViewController.m
+//  ZPUnrecognisedFileTypeViewController.m
 //  Zippity
 //
 //  Created by Simon Whitaker on 09/03/2012.
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "GSUnrecognisedFileTypeViewController.h"
+#import "ZPUnrecognisedFileTypeViewController.h"
 
-@interface GSUnrecognisedFileTypeViewController ()
+@interface ZPUnrecognisedFileTypeViewController ()
 
 - (void)handleActionButton;
 
 @end
 
-@implementation GSUnrecognisedFileTypeViewController
+@implementation ZPUnrecognisedFileTypeViewController
 
 @synthesize fileWrapper=_fileWrapper;
 @synthesize filenameLabel=_filenameLabel;
 
-- (id)initWithFileWrapper:(GSFileWrapper*)fileWrapper
+- (id)initWithFileWrapper:(ZPFileWrapper*)fileWrapper
 {
-    self = [super initWithNibName:@"GSUnrecognisedFileTypeViewController" bundle:nil];
+    self = [super initWithNibName:@"ZPUnrecognisedFileTypeViewController" bundle:nil];
     if (self) {
         self.fileWrapper = fileWrapper;
     }

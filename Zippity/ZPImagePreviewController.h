@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GSFileWrapper.h"
-#import "GSImageScrollView.h"
+#import "ZPFileWrapper.h"
+#import "ZPImageScrollView.h"
 
-@interface GSImagePreviewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
+@interface ZPImagePreviewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, retain) NSArray * imageFileWrappers;
 @property (nonatomic) NSUInteger initialIndex;
 @property (nonatomic, assign) IBOutlet UIScrollView * scrollView;
 
-- (GSImageScrollView*)dequeueReusablePage;
+- (ZPImageScrollView*)dequeueReusablePage;
 
 @end
