@@ -6,6 +6,7 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
+#import "GSSmokedInfoView.h"
 #import "ZPImagePreviewController.h"
 #import "ZPImageScrollView.h"
 
@@ -268,12 +269,24 @@ NSString * const ActionMenuCancelButtonTitle = @"Cancel";
     if (buttonTitle == ActionMenuSaveToPhotosButtonTitle) {
         ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
         UIImage *image = [UIImage imageWithContentsOfFile:currentPhoto.url.path];
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     } else if (buttonTitle == ActionMenuOpenInButtonTitle) {
         ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
         [[currentPhoto documentInteractionController] presentOpenInMenuFromRect:CGRectZero
                                                                          inView:self.view
                                                                        animated:YES];
+    }
+}
+
+- (void)image:(UIImage*)image didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo
+{
+    if (error) {
+        NSLog(@"Error on saving image: %@, %@", error, [error userInfo]);
+        GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:@"Error: couldn't save image to Photos" andTimeout:2.0];
+        [iv show];
+    } else {
+        GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:@"Image saved to Photos!" andTimeout:2.0];
+        [iv show];
     }
 }
 

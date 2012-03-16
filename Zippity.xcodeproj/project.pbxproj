@@ -10,6 +10,8 @@
 		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
 		F40FDBA914F2889F008BF9C8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA514F2889F008BF9C8 /* README.txt */; };
 		F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA614F2889F008BF9C8 /* release_notes.txt */; };
+		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
+		F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41385B515134AF80087B896 /* QuartzCore.framework */; };
 		F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */; };
 		F417C78C150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F417C78B150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib */; };
 		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
@@ -57,6 +59,9 @@
 		F40FDBA514F2889F008BF9C8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		F40FDBA614F2889F008BF9C8 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
 		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		F41385B115134AEA0087B896 /* GSSmokedInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSSmokedInfoView.h; sourceTree = "<group>"; };
+		F41385B215134AEA0087B896 /* GSSmokedInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSSmokedInfoView.m; sourceTree = "<group>"; };
+		F41385B515134AF80087B896 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F417C78B150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
@@ -119,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */,
 				F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */,
 				F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */,
 				F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */,
@@ -193,6 +199,8 @@
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
+				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
 				F4653836151267B800EE9461 /* MACollectionUtilities */,
 				F4F62C1E14FFBE7600AB0C8C /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
@@ -220,11 +228,12 @@
 		F47F535514ECCC82009BF6FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
 				F47F535814ECCC82009BF6FE /* Foundation.framework */,
-				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F43352E414F3C41600082527 /* MessageUI.framework */,
 				F43352E714F3C80000082527 /* MobileCoreServices.framework */,
+				F41385B515134AF80087B896 /* QuartzCore.framework */,
 				F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */,
 				F47F535614ECCC82009BF6FE /* UIKit.framework */,
 			);
@@ -431,6 +440,7 @@
 				F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */,
 				F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */,
 				F4653839151267B800EE9461 /* MACollectionUtilities.m in Sources */,
+				F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
