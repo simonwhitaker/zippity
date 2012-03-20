@@ -50,6 +50,7 @@ enum {
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
+- (void)handleApplicationDidBecomeActiveNotification:(NSNotification*)notification;
 
 - (void)shareSelectedItems;
 - (void)deleteSelectedItems;
@@ -193,6 +194,10 @@ enum {
 {
     [super viewDidAppear:animated];
     self.container.visited = YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleApplicationDidBecomeActiveNotification:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -200,6 +205,11 @@ enum {
     if (self.tableView.editing) {
         [self toggleEditMode];
     }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self 
+                                                    name:UIApplicationDidBecomeActiveNotification 
+                                                  object:nil];
+    
     [super viewWillDisappear:animated];
 }
 
@@ -601,6 +611,11 @@ enum {
 {
     NSLog(@"Contents failed to reload");
     // TODO: show error to user
+}
+
+- (void)handleApplicationDidBecomeActiveNotification:(NSNotification *)notification
+{
+    [self.tableView reloadData];
 }
 
 @end

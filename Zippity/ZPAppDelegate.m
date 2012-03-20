@@ -27,7 +27,8 @@
 + (void)initialize
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *appDefaults = DICT(kZPDefaultsFirstLaunchKey, [NSNumber numberWithBool:YES]);
+    NSDictionary *appDefaults = DICT(kZPDefaultsFirstLaunchKey, [NSNumber numberWithBool:YES],
+                                     kZPDefaultsShowFileExtensions, [NSNumber numberWithBool:NO]);
     [defaults registerDefaults:appDefaults];
 }
 

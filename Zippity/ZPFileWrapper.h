@@ -25,7 +25,6 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 @interface ZPFileWrapper : NSObject {
     NSDictionary * _attributes;
     NSString * _name;
-    NSString * _displayName;
     NSString * _humanFileSize;
     NSURL * _url;
     BOOL _visited;

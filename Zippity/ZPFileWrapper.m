@@ -147,10 +147,11 @@ static NSArray * SupportedArchiveTypes;
 
 - (NSString*)displayName
 {
-    if (_displayName == nil) {
-        _displayName = [self.name stringByDeletingPathExtension];
+    BOOL showFileExtensions = [[NSUserDefaults standardUserDefaults] boolForKey:kZPDefaultsShowFileExtensions];
+    if (showFileExtensions) {
+        return self.name;
     }
-    return _displayName;
+    return [self.name stringByDeletingPathExtension];
 }
 
 - (UIImage*)displayImage
