@@ -16,7 +16,7 @@
 #define kBytesInKilobyte 1024
 #define kDisplayImageMaxDimension 1250.0
 
-NSString * const ZPFileWrapperGeneratedPreviewImage = @"ZPFileWrapperGeneratedPreviewImage";
+NSString * const ZPFileWrapperGeneratedPreviewImageNotification = @"ZPFileWrapperGeneratedPreviewImageNotification";
 
 //------------------------------------------------------------
 // Public class interface: ZPFileWrapper
@@ -486,7 +486,7 @@ static NSArray * SupportedArchiveTypes;
         if (error) {
             // TODO: send error notification
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImage
+            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
                                                                 object:self];
         }
         NSLog(@"Finished resizing %@", self.url.lastPathComponent);

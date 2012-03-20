@@ -79,6 +79,6 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 - (ZPFileWrapper*)fileWrapperAtIndex:(NSUInteger)index;
 - (BOOL)removeItemAtIndex:(NSUInteger)index error:(NSError**)error;
 
-extern NSString * const ZPFileWrapperGeneratedPreviewImage;
+extern NSString * const ZPFileWrapperGeneratedPreviewImageNotification;
 
 @end

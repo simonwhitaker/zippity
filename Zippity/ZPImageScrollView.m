@@ -43,14 +43,14 @@
         // Remove any existing notifications
         if (_imageFileWrapper) {
             [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:ZPFileWrapperGeneratedPreviewImage
+                                                            name:ZPFileWrapperGeneratedPreviewImageNotification
                                                           object:_imageFileWrapper];
         }
         
         // Flip self.imageFileWrapper to point to the new value
         _imageFileWrapper = imageFileWrapper;
         
-        // Set up a notification on ZPFileWrapperGeneratedPreviewImage for
+        // Set up a notification on ZPFileWrapperGeneratedPreviewImageNotification for
         // the new image file before we call displayImage on it, since there's
         // otherwise a race condition where by the time displayImage returns nil 
         // it's already created the preview image, so we never get the
@@ -58,7 +58,7 @@
         if (_imageFileWrapper) {
             [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(displayImage) 
-                                                         name:ZPFileWrapperGeneratedPreviewImage
+                                                         name:ZPFileWrapperGeneratedPreviewImageNotification
                                                        object:_imageFileWrapper];
         }
         [self displayImage];
