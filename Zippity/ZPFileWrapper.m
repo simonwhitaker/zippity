@@ -12,8 +12,6 @@
 #import "ZPAppDelegate.h"
 #import "ZPArchive.h"
 #import "ZPFileWrapper.h"
-#import "NSArray+ZPAdditions.h"
-
 
 #define kBytesInKilobyte 1024
 #define kDisplayImageMaxDimension 1250.0
@@ -71,7 +69,6 @@ NSString * const ZPFileWrapperGeneratedPreviewImage = @"ZPFileWrapperGeneratedPr
 
 @synthesize name=_name;
 @synthesize url=_url;
-@synthesize sortOrder=_sortOrder;
 @synthesize visited=_visited;
 @synthesize parent=_parent;
 
@@ -225,17 +222,6 @@ static NSArray * SupportedArchiveTypes;
 }
 
 #pragma mark - Container methods
-
-- (void)setSortOrder:(ZPFileWrapperSortOrder)sortOrder
-{
-    if (_sortOrder != sortOrder) {
-        _sortOrder = sortOrder;
-        
-        if (_fileWrappers) {
-            _fileWrappers = [_fileWrappers sortedArrayUsingFileWrapperSortOrder:sortOrder];
-        }
-    }
-}
 
 - (void)setContainerStatus:(ZPFileWrapperContainerStatus)containerStatus
 {
@@ -393,11 +379,12 @@ static NSArray * SupportedArchiveTypes;
                 [tempArray addObject:wrapper];
                 wrapper.parent = self;
             }
-            if (self.sortOrder) {
-                _fileWrappers = [tempArray sortedArrayUsingFileWrapperSortOrder:self.sortOrder];
-            } else {
-                _fileWrappers = [NSArray arrayWithArray:tempArray];
-            }
+
+            // Sort by display name, case insensitive
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"displayName" 
+                                                                             ascending:YES
+                                                                              selector:@selector(caseInsensitiveCompare:)];
+            _fileWrappers = [tempArray sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
             
             // Flatten nested folders. If we encounter folders
             // that contain only a single entity which is also a folder,
@@ -608,11 +595,6 @@ static NSArray * SupportedArchiveTypes;
 
 - (BOOL)isArchive { 
     return YES; 
-}
-
-- (void)setSortOrder:(ZPFileWrapperSortOrder)sortOrder
-{
-    _cacheDirectory.sortOrder = sortOrder;
 }
 
 - (NSArray*)fileWrappers

@@ -17,12 +17,6 @@ typedef enum {
     ZPFileWrapperContainerStatusError
 } ZPFileWrapperContainerStatus;
 
-typedef enum {
-    ZPFileWrapperSortOrderUnspecified,
-    ZPFileWrapperSortOrderByName,
-    ZPFileWrapperSortOrderByModificationDateNewestFirst
-} ZPFileWrapperSortOrder;
-
 // NSNotification names for notifications raised on completion
 // of asynchronous loading of container contents
 extern NSString * const ZPFileWrapperContainerDidReloadContents;
@@ -77,7 +71,6 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 @property (readonly) BOOL isImageFile; // YES if the file is an image that can be displayed in a UIImage
 
 // Container methods: only have effect where isContainer == YES
-@property (nonatomic) ZPFileWrapperSortOrder sortOrder;
 @property (readonly) ZPFileWrapperContainerStatus containerStatus;
 @property (readonly) NSArray * fileWrappers;
 @property (readonly) NSArray * imageFileWrappers;
