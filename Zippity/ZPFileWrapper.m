@@ -611,6 +611,10 @@ static NSArray * SupportedArchiveTypes;
 
 - (BOOL)remove:(NSError *__autoreleasing *)error
 {
+    // Remove cache directory. Ignore errors - the OS will clean up the
+    // cache directory if needed anyway
+    [_cacheDirectory remove:nil];
+    
     return [super remove:error];
 }
 
