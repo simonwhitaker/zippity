@@ -255,7 +255,7 @@ static NSArray * SupportedArchiveTypes;
 {
     if (self.isContainer) {
         if (self.containerStatus == ZPFileWrapperContainerStatusInitialised) {
-            [self _fetchContainerContents];
+            [self performSelectorInBackground:@selector(_fetchContainerContents) withObject:nil];
         }
         return _fileWrappers;
     }
