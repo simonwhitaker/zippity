@@ -246,24 +246,6 @@
     return _cacheDirectory;
 }
 
-- (NSString*)visitedMarkersDirectory
-{
-    if (!_visitedMarkersDirectory) {
-        NSString *dir = [self.documentsDirectory stringByAppendingPathComponent:@"zippity-visited-markers"];
-        NSError *error = nil;
-        [[NSFileManager defaultManager] createDirectoryAtPath:dir
-                                  withIntermediateDirectories:YES
-                                                   attributes:nil
-                                                        error:&error];
-        if (error) {
-            NSLog(@"Error on creating visited markers directory (%@): %@, %@", dir, error, error.userInfo);
-        } else {
-            _visitedMarkersDirectory = dir;
-        }
-    }
-    return _visitedMarkersDirectory;
-}
-
 - (NSString*)archiveFilesDirectory
 {
     if (!_archiveFilesDirectory) {

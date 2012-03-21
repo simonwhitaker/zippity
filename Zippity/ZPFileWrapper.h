@@ -27,7 +27,6 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
     NSString * _name;
     NSString * _humanFileSize;
     NSURL * _url;
-    BOOL _visited;
     
     // iVars for containers
     NSArray * _fileWrappers;
@@ -48,7 +47,6 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 
 // Settable properties
 @property (nonatomic, copy) NSString * name;
-@property (nonatomic) BOOL visited;
 @property (nonatomic, assign) ZPFileWrapper * parent;
 
 // Materialised properties

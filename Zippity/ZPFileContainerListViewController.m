@@ -193,7 +193,6 @@ enum {
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.container.visited = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification

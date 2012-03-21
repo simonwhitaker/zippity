@@ -55,10 +55,8 @@ NSString * const ZPFileWrapperGeneratedPreviewImageNotification = @"ZPFileWrappe
 @interface ZPArchiveFileWrapper : ZPRegularFileWrapper {
     ZPFileWrapper * _cacheDirectory;
     NSString * _cachePath;
-    NSString * _visitedMarkerPath;
 }
 @property (readonly) NSString * cachePath;
-@property (readonly) NSString * visitedMarkerPath;
 @end
 
 //------------------------------------------------------------
@@ -69,7 +67,6 @@ NSString * const ZPFileWrapperGeneratedPreviewImageNotification = @"ZPFileWrappe
 
 @synthesize name=_name;
 @synthesize url=_url;
-@synthesize visited=_visited;
 @synthesize parent=_parent;
 
 NSString * const ZPFileWrapperContainerDidReloadContents = @"ZPFileWrapperContainerDidReloadContents";
@@ -188,11 +185,6 @@ static NSArray * SupportedArchiveTypes;
         _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:self.url];
     }
     return _documentInteractionController;
-}
-
-- (BOOL)visited
-{
-    return NO;
 }
 
 #pragma mark - Functionality properties
@@ -619,7 +611,6 @@ static NSArray * SupportedArchiveTypes;
 
 - (BOOL)remove:(NSError *__autoreleasing *)error
 {
-    [[NSFileManager defaultManager] removeItemAtPath:self.visitedMarkerPath error:nil];
     return [super remove:error];
 }
 
@@ -641,33 +632,6 @@ static NSArray * SupportedArchiveTypes;
         _cachePath = [NSString pathWithComponents:pathComponents];
     }
     return _cachePath;
-}
-
-- (BOOL)visited
-{
-    return [[NSFileManager defaultManager] fileExistsAtPath:self.visitedMarkerPath];
-}
-
-- (void)setVisited:(BOOL)visited
-{
-    if (visited) {
-        [[[NSDate date] description] writeToFile:self.visitedMarkerPath
-                                      atomically:NO 
-                                        encoding:NSUTF8StringEncoding
-                                           error:nil];
-    } else {
-        [[NSFileManager defaultManager] removeItemAtPath:self.visitedMarkerPath
-                                                   error:nil];
-    }
-}
-
-- (NSString*)visitedMarkerPath
-{
-    if (_visitedMarkerPath == nil) {
-        ZPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        _visitedMarkerPath = [[appDelegate visitedMarkersDirectory] stringByAppendingPathComponent:self.url.lastPathComponent];
-    }
-    return _visitedMarkerPath;
 }
 
 - (void)_fetchContainerContents
