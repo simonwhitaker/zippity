@@ -702,6 +702,7 @@ static NSArray * SupportedArchiveTypes;
         }
         
         _cacheDirectory = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.cachePath] error:&error];
+        [_cacheDirectory _fetchContainerContents];
         self.containerStatus = ZPFileWrapperContainerStatusReady;
     }
 }
