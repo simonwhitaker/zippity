@@ -12,13 +12,11 @@
 #import "ZPAppDelegate.h"
 #import "ZPArchive.h"
 #import "ZPFileWrapper.h"
-#import "NSArray+ZPAdditions.h"
-
 
 #define kBytesInKilobyte 1024
 #define kDisplayImageMaxDimension 1250.0
 
-NSString * const ZPFileWrapperGeneratedPreviewImage = @"ZPFileWrapperGeneratedPreviewImage";
+NSString * const ZPFileWrapperGeneratedPreviewImageNotification = @"ZPFileWrapperGeneratedPreviewImageNotification";
 
 //------------------------------------------------------------
 // Public class interface: ZPFileWrapper
@@ -57,10 +55,8 @@ NSString * const ZPFileWrapperGeneratedPreviewImage = @"ZPFileWrapperGeneratedPr
 @interface ZPArchiveFileWrapper : ZPRegularFileWrapper {
     ZPFileWrapper * _cacheDirectory;
     NSString * _cachePath;
-    NSString * _visitedMarkerPath;
 }
 @property (readonly) NSString * cachePath;
-@property (readonly) NSString * visitedMarkerPath;
 @end
 
 //------------------------------------------------------------
@@ -71,8 +67,6 @@ NSString * const ZPFileWrapperGeneratedPreviewImage = @"ZPFileWrapperGeneratedPr
 
 @synthesize name=_name;
 @synthesize url=_url;
-@synthesize sortOrder=_sortOrder;
-@synthesize visited=_visited;
 @synthesize parent=_parent;
 
 NSString * const ZPFileWrapperContainerDidReloadContents = @"ZPFileWrapperContainerDidReloadContents";
@@ -150,10 +144,11 @@ static NSArray * SupportedArchiveTypes;
 
 - (NSString*)displayName
 {
-    if (_displayName == nil) {
-        _displayName = [self.name stringByDeletingPathExtension];
+    BOOL showFileExtensions = [[NSUserDefaults standardUserDefaults] boolForKey:kZPDefaultsShowFileExtensions];
+    if (showFileExtensions) {
+        return self.name;
     }
-    return _displayName;
+    return [self.name stringByDeletingPathExtension];
 }
 
 - (UIImage*)displayImage
@@ -192,11 +187,6 @@ static NSArray * SupportedArchiveTypes;
     return _documentInteractionController;
 }
 
-- (BOOL)visited
-{
-    return NO;
-}
-
 #pragma mark - Functionality properties
 
 - (BOOL)isDirectory
@@ -225,17 +215,6 @@ static NSArray * SupportedArchiveTypes;
 }
 
 #pragma mark - Container methods
-
-- (void)setSortOrder:(ZPFileWrapperSortOrder)sortOrder
-{
-    if (_sortOrder != sortOrder) {
-        _sortOrder = sortOrder;
-        
-        if (_fileWrappers) {
-            _fileWrappers = [_fileWrappers sortedArrayUsingFileWrapperSortOrder:sortOrder];
-        }
-    }
-}
 
 - (void)setContainerStatus:(ZPFileWrapperContainerStatus)containerStatus
 {
@@ -276,7 +255,7 @@ static NSArray * SupportedArchiveTypes;
 {
     if (self.isContainer) {
         if (self.containerStatus == ZPFileWrapperContainerStatusInitialised) {
-            [self _fetchContainerContents];
+            [self performSelectorInBackground:@selector(_fetchContainerContents) withObject:nil];
         }
         return _fileWrappers;
     }
@@ -393,11 +372,12 @@ static NSArray * SupportedArchiveTypes;
                 [tempArray addObject:wrapper];
                 wrapper.parent = self;
             }
-            if (self.sortOrder) {
-                _fileWrappers = [tempArray sortedArrayUsingFileWrapperSortOrder:self.sortOrder];
-            } else {
-                _fileWrappers = [NSArray arrayWithArray:tempArray];
-            }
+
+            // Sort by display name, case insensitive
+            NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"displayName" 
+                                                                             ascending:YES
+                                                                              selector:@selector(caseInsensitiveCompare:)];
+            _fileWrappers = [tempArray sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
             
             // Flatten nested folders. If we encounter folders
             // that contain only a single entity which is also a folder,
@@ -499,7 +479,7 @@ static NSArray * SupportedArchiveTypes;
         if (error) {
             // TODO: send error notification
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImage
+            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
                                                                 object:self];
         }
         NSLog(@"Finished resizing %@", self.url.lastPathComponent);
@@ -610,11 +590,6 @@ static NSArray * SupportedArchiveTypes;
     return YES; 
 }
 
-- (void)setSortOrder:(ZPFileWrapperSortOrder)sortOrder
-{
-    _cacheDirectory.sortOrder = sortOrder;
-}
-
 - (NSArray*)fileWrappers
 {
     if (self.containerStatus == ZPFileWrapperContainerStatusReady) {
@@ -636,7 +611,10 @@ static NSArray * SupportedArchiveTypes;
 
 - (BOOL)remove:(NSError *__autoreleasing *)error
 {
-    [[NSFileManager defaultManager] removeItemAtPath:self.visitedMarkerPath error:nil];
+    // Remove cache directory. Ignore errors - the OS will clean up the
+    // cache directory if needed anyway
+    [_cacheDirectory remove:nil];
+    
     return [super remove:error];
 }
 
@@ -658,33 +636,6 @@ static NSArray * SupportedArchiveTypes;
         _cachePath = [NSString pathWithComponents:pathComponents];
     }
     return _cachePath;
-}
-
-- (BOOL)visited
-{
-    return [[NSFileManager defaultManager] fileExistsAtPath:self.visitedMarkerPath];
-}
-
-- (void)setVisited:(BOOL)visited
-{
-    if (visited) {
-        [[[NSDate date] description] writeToFile:self.visitedMarkerPath
-                                      atomically:NO 
-                                        encoding:NSUTF8StringEncoding
-                                           error:nil];
-    } else {
-        [[NSFileManager defaultManager] removeItemAtPath:self.visitedMarkerPath
-                                                   error:nil];
-    }
-}
-
-- (NSString*)visitedMarkerPath
-{
-    if (_visitedMarkerPath == nil) {
-        ZPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-        _visitedMarkerPath = [[appDelegate visitedMarkersDirectory] stringByAppendingPathComponent:self.url.lastPathComponent];
-    }
-    return _visitedMarkerPath;
 }
 
 - (void)_fetchContainerContents
@@ -751,6 +702,7 @@ static NSArray * SupportedArchiveTypes;
         }
         
         _cacheDirectory = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.cachePath] error:&error];
+        [_cacheDirectory _fetchContainerContents];
         self.containerStatus = ZPFileWrapperContainerStatusReady;
     }
 }

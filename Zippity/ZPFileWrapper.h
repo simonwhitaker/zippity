@@ -17,12 +17,6 @@ typedef enum {
     ZPFileWrapperContainerStatusError
 } ZPFileWrapperContainerStatus;
 
-typedef enum {
-    ZPFileWrapperSortOrderUnspecified,
-    ZPFileWrapperSortOrderByName,
-    ZPFileWrapperSortOrderByModificationDateNewestFirst
-} ZPFileWrapperSortOrder;
-
 // NSNotification names for notifications raised on completion
 // of asynchronous loading of container contents
 extern NSString * const ZPFileWrapperContainerDidReloadContents;
@@ -31,10 +25,8 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 @interface ZPFileWrapper : NSObject {
     NSDictionary * _attributes;
     NSString * _name;
-    NSString * _displayName;
     NSString * _humanFileSize;
     NSURL * _url;
-    BOOL _visited;
     
     // iVars for containers
     NSArray * _fileWrappers;
@@ -55,7 +47,6 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 
 // Settable properties
 @property (nonatomic, copy) NSString * name;
-@property (nonatomic) BOOL visited;
 @property (nonatomic, assign) ZPFileWrapper * parent;
 
 // Materialised properties
@@ -77,7 +68,6 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 @property (readonly) BOOL isImageFile; // YES if the file is an image that can be displayed in a UIImage
 
 // Container methods: only have effect where isContainer == YES
-@property (nonatomic) ZPFileWrapperSortOrder sortOrder;
 @property (readonly) ZPFileWrapperContainerStatus containerStatus;
 @property (readonly) NSArray * fileWrappers;
 @property (readonly) NSArray * imageFileWrappers;
@@ -86,6 +76,6 @@ extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
 - (ZPFileWrapper*)fileWrapperAtIndex:(NSUInteger)index;
 - (BOOL)removeItemAtIndex:(NSUInteger)index error:(NSError**)error;
 
-extern NSString * const ZPFileWrapperGeneratedPreviewImage;
+extern NSString * const ZPFileWrapperGeneratedPreviewImageNotification;
 
 @end

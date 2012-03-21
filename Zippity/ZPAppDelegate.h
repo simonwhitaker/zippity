@@ -12,14 +12,12 @@
 @interface ZPAppDelegate : UIResponder <UIApplicationDelegate> {
     NSString * _documentsDirectory;
     NSString * _archiveFilesDirectory;
-    NSString * _visitedMarkersDirectory;
     NSString * _cacheDirectory;
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) ZPFileContainerListViewController *rootListViewController;
 @property (readonly) NSString *archiveFilesDirectory;
-@property (readonly) NSString *visitedMarkersDirectory;
 @property (readonly) NSString *documentsDirectory;
 @property (readonly) NSString *cacheDirectory;
 @property (assign, nonatomic) UINavigationController *navigationController;

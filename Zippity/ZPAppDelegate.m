@@ -27,7 +27,8 @@
 + (void)initialize
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *appDefaults = DICT(kZPDefaultsFirstLaunchKey, [NSNumber numberWithBool:YES]);
+    NSDictionary *appDefaults = DICT(kZPDefaultsFirstLaunchKey, [NSNumber numberWithBool:YES],
+                                     kZPDefaultsShowFileExtensions, [NSNumber numberWithBool:NO]);
     [defaults registerDefaults:appDefaults];
 }
 
@@ -243,24 +244,6 @@
         }
     }
     return _cacheDirectory;
-}
-
-- (NSString*)visitedMarkersDirectory
-{
-    if (!_visitedMarkersDirectory) {
-        NSString *dir = [self.documentsDirectory stringByAppendingPathComponent:@"zippity-visited-markers"];
-        NSError *error = nil;
-        [[NSFileManager defaultManager] createDirectoryAtPath:dir
-                                  withIntermediateDirectories:YES
-                                                   attributes:nil
-                                                        error:&error];
-        if (error) {
-            NSLog(@"Error on creating visited markers directory (%@): %@, %@", dir, error, error.userInfo);
-        } else {
-            _visitedMarkersDirectory = dir;
-        }
-    }
-    return _visitedMarkersDirectory;
 }
 
 - (NSString*)archiveFilesDirectory
