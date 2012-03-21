@@ -278,7 +278,10 @@ enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.container.fileWrappers.count;
+    if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
+        return self.container.fileWrappers.count;
+    }
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -289,24 +292,33 @@ enum {
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    
-    ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-    cell.textLabel.text = wrapper.displayName;
-    cell.textLabel.accessibilityLabel = wrapper.name;
-    if (wrapper.isDirectory) {
-        cell.textLabel.accessibilityLabel = [cell.textLabel.accessibilityLabel stringByAppendingString:@", folder"];
-    }
-    
-    if (wrapper.isRegularFile) {
-        if (self.isRoot) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"Added on %@", [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
-        } else {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, last modified on %@", wrapper.humanFileSize, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+
+    if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
+        ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+        cell.textLabel.text = wrapper.displayName;
+        cell.textLabel.accessibilityLabel = wrapper.name;
+        if (wrapper.isDirectory) {
+            cell.textLabel.accessibilityLabel = [cell.textLabel.accessibilityLabel stringByAppendingString:@", folder"];
         }
+        
+        if (wrapper.isRegularFile) {
+            if (self.isRoot) {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"Added on %@", [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+            } else {
+                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, last modified on %@", wrapper.humanFileSize, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+            }
+        }
+        
+        cell.accessoryView = nil;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.imageView.image = wrapper.icon;
+    } else {
+        cell.textLabel.text = @"Unpacking contents...";
+        UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        cell.accessoryView = aiv;
+        [aiv startAnimating];
     }
-    
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.imageView.image = wrapper.icon;
+
     
     return cell;
 }
