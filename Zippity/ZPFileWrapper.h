@@ -13,6 +13,7 @@
 typedef enum {
     ZPFileWrapperContainerStatusUnknown,
     ZPFileWrapperContainerStatusInitialised,
+    ZPFileWrapperContainerStatusFetchingContents,
     ZPFileWrapperContainerStatusReady,
     ZPFileWrapperContainerStatusError
 } ZPFileWrapperContainerStatus;
@@ -21,6 +22,15 @@ typedef enum {
 // of asynchronous loading of container contents
 extern NSString * const ZPFileWrapperContainerDidReloadContents;
 extern NSString * const ZPFileWrapperContainerDidFailToReloadContents;
+
+extern NSString * const ZPFileWrapperErrorDomain;
+
+typedef enum {
+    ZPContainerReloadErrorUnknown = 0, 
+    ZPFileWrapperErrorFailedToDeleteCacheDirectory, 
+    ZPFileWrapperErrorFailedToCreateCacheDirectory,
+    ZPFileWrapperErrorFailedToExtractArchive,
+} ZPFileWrapperErrorCode;
 
 @interface ZPFileWrapper : NSObject {
     NSDictionary * _attributes;

@@ -611,6 +611,15 @@ enum {
     [as showFromToolbar:self.navigationController.toolbar];
 }
 
+#pragma mark - UIAlertView delegate methods
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if (!self.isRoot) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 #pragma mark - Notification handlers
 
 - (void)handleContentsReloaded:(NSNotification *)notification
@@ -620,8 +629,21 @@ enum {
 
 - (void)handleContentsFailedToReload:(NSNotification *)notification
 {
-    NSLog(@"Contents failed to reload");
+    NSError *error = [[notification userInfo] objectForKey:kErrorKey];
+    NSString *errorMessage;
+    if (error.domain == ZPFileWrapperErrorDomain && error.code == ZPFileWrapperErrorFailedToExtractArchive) {
+        errorMessage = @"Zippity couldn't open that archive file. It might be corrupt.";
+    } else {
+        errorMessage = @"Zippity can't list the files in this folder.";
+    }
+
     // TODO: show error to user
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                 message:errorMessage
+                                                delegate:self
+                                       cancelButtonTitle:nil
+                                       otherButtonTitles:@"OK", nil];
+    [av show];
 }
 
 - (void)handleApplicationDidBecomeActiveNotification:(NSNotification *)notification
