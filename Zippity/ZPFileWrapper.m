@@ -15,8 +15,14 @@
 
 #define kBytesInKilobyte 1024
 #define kDisplayImageMaxDimension 1250.0
+#define kSuccessfullyExtractedMarkerFile @".successfullyExtracted"
 
 NSString * const ZPFileWrapperGeneratedPreviewImageNotification = @"ZPFileWrapperGeneratedPreviewImageNotification";
+NSString * const ZPFileWrapperContainerDidReloadContents = @"ZPFileWrapperContainerDidReloadContents";
+NSString * const ZPFileWrapperContainerDidFailToReloadContents = @"ZPFileWrapperContainerDidFailToReloadContents";
+
+NSString * const ZPFileWrapperErrorDomain = @"ZPFileWrapperErrorDomain";
+
 
 //------------------------------------------------------------
 // Public class interface: ZPFileWrapper
@@ -68,9 +74,6 @@ NSString * const ZPFileWrapperGeneratedPreviewImageNotification = @"ZPFileWrappe
 @synthesize name=_name;
 @synthesize url=_url;
 @synthesize parent=_parent;
-
-NSString * const ZPFileWrapperContainerDidReloadContents = @"ZPFileWrapperContainerDidReloadContents";
-NSString * const ZPFileWrapperContainerDidFailToReloadContents = @"ZPFileWrapperContainerDidFailToReloadContents";
 
 #pragma mark - Object lifecycle
 
@@ -254,7 +257,8 @@ static NSArray * SupportedArchiveTypes;
 - (NSArray*)fileWrappers
 {
     if (self.isContainer) {
-        if (self.containerStatus == ZPFileWrapperContainerStatusInitialised) {
+        if (self.containerStatus == ZPFileWrapperContainerStatusInitialised || self.containerStatus == ZPFileWrapperContainerStatusError) {
+            self.containerStatus = ZPFileWrapperContainerStatusFetchingContents;
             [self performSelectorInBackground:@selector(_fetchContainerContents) withObject:nil];
         }
         return _fileWrappers;
@@ -644,66 +648,88 @@ static NSArray * SupportedArchiveTypes;
         // Get the cache directory for this zip file, ensure it's
         // available and newer than the zip file it represents
         NSError * error = nil;
+        NSError * underlyingError = nil;
+        NSString *successMarkerPath = [self.cachePath stringByAppendingPathComponent:kSuccessfullyExtractedMarkerFile];
         
         BOOL requiresUnzipping = YES;
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:self.cachePath]) {
-            NSDictionary *cacheAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.cachePath error:&error];
-            if (error) {
-                NSLog(@"Error on getting attributes for cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
-                self.containerStatus = ZPFileWrapperContainerStatusError;
-                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                    object:self
-                                                                  userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
-                return;
+            // Not a fatal error if this fails, we only want the attributes to see if we can skip 
+            // unarchiving. If this fails, we'll just go ahead and unarchive anyway.
+            NSDictionary *cacheAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:self.cachePath error:nil];
+            if (cacheAttributes) {
+                // We need to re-unzip if the cache directory was last modified before
+                // the zip file was last modified, or if the last unzip effort didn't work
+                // (signified by lack of a marker file)
+                requiresUnzipping = [cacheAttributes.fileModificationDate isEarlierThanDate:_attributes.fileModificationDate]
+                                 || ![[NSFileManager defaultManager] fileExistsAtPath:successMarkerPath];
             }
-            
-            // We need to re-unzip if the cache directory was last modified before
-            // the zip file was last modified
-            requiresUnzipping = [cacheAttributes.fileModificationDate isEarlierThanDate:_attributes.fileModificationDate];
         }
         
         if (requiresUnzipping) {
             // Delete any current directory contents
-            error = nil;
+            underlyingError = nil;
             if ([[NSFileManager defaultManager] fileExistsAtPath:self.cachePath]) {
-                [[NSFileManager defaultManager] removeItemAtPath:self.cachePath error:&error];
-                if (error) {
-                    NSLog(@"Error on deleting existing cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
-                    self.containerStatus = ZPFileWrapperContainerStatusError;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                        object:self
-                                                                      userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
-                    return;
+                [[NSFileManager defaultManager] removeItemAtPath:self.cachePath error:&underlyingError];
+                if (underlyingError) {
+                    error = [NSError errorWithDomain:ZPFileWrapperErrorDomain
+                                                code:ZPFileWrapperErrorFailedToDeleteCacheDirectory
+                                            userInfo:[NSDictionary dictionaryWithObject:underlyingError 
+                                                                                 forKey:NSUnderlyingErrorKey]];
+                    
+                    NSLog(@"Error on deleting existing cache directory (%@): %@, %@", self.cachePath, underlyingError, underlyingError.userInfo);
                 }
             }
 
-            // (Re-)create cache directory
-            error = nil;
-            [[NSFileManager defaultManager] createDirectoryAtPath:self.cachePath
-                                      withIntermediateDirectories:YES
-                                                       attributes:nil
-                                                            error:&error];
-            if (error) {
-                NSLog(@"Error on creating cache directory (%@): %@, %@", self.cachePath, error, error.userInfo);
-                self.containerStatus = ZPFileWrapperContainerStatusError;
-                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                    object:self
-                                                                  userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];;
-                return;
-            }
-            
-            ZPArchive *archive = [[ZPArchive alloc] initWithPath:self.url.path];
-            NSError *error = nil;
-            BOOL success = [archive extractToDirectory:self.cachePath overwrite:YES error:&error];
-            if (!success) {
-                NSLog(@"Error on extracting archive (%@) to cache directory (%@): %@, %@", self.url.path, self.cachePath, error, [error userInfo]);
+            if (error == nil) {
+                // (Re-)create cache directory
+                underlyingError = nil;
+                [[NSFileManager defaultManager] createDirectoryAtPath:self.cachePath
+                                          withIntermediateDirectories:YES
+                                                           attributes:nil
+                                                                error:&underlyingError];
+                if (underlyingError) {
+                    error = [NSError errorWithDomain:ZPFileWrapperErrorDomain
+                                                code:ZPFileWrapperErrorFailedToCreateCacheDirectory
+                                            userInfo:[NSDictionary dictionaryWithObject:underlyingError
+                                                                                 forKey:NSUnderlyingErrorKey]];
+
+                    NSLog(@"Error on creating cache directory (%@): %@, %@", self.cachePath, underlyingError, underlyingError.userInfo);
+                }
+                
+                if (error == nil) {
+                    underlyingError = nil;
+                    ZPArchive *archive = [[ZPArchive alloc] initWithPath:self.url.path];
+                    BOOL success = [archive extractToDirectory:self.cachePath overwrite:YES error:&underlyingError];
+                    if (!success) {
+                        error = [NSError errorWithDomain:ZPFileWrapperErrorDomain
+                                                    code:ZPFileWrapperErrorFailedToExtractArchive
+                                                userInfo:[NSDictionary dictionaryWithObject:underlyingError
+                                                                                     forKey:NSUnderlyingErrorKey]];
+                        
+                        NSLog(@"Error on extracting archive (%@) to cache directory (%@): %@, %@", self.url.path, self.cachePath, error, [error userInfo]);
+                    }
+                }
             }
         }
-        
-        _cacheDirectory = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.cachePath] error:&error];
-        [_cacheDirectory _fetchContainerContents];
-        self.containerStatus = ZPFileWrapperContainerStatusReady;
+
+        if (error) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                object:self
+                                                              userInfo:[NSDictionary dictionaryWithObject:error
+                                                                                                   forKey:kErrorKey]];
+            self.containerStatus = ZPFileWrapperContainerStatusError;
+        } else {
+            // All went well, so write a success marker file
+            [[[NSDate date] description] writeToFile:successMarkerPath
+                                          atomically:YES
+                                            encoding:NSUTF8StringEncoding
+                                               error:nil];
+            
+            _cacheDirectory = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:self.cachePath] error:&error];
+            [_cacheDirectory _fetchContainerContents];
+            self.containerStatus = ZPFileWrapperContainerStatusReady;
+        }
     }
 }
 

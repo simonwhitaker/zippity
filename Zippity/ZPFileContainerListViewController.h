@@ -10,7 +10,12 @@
 #import "ZPFileWrapper.h"
 #import <MessageUI/MessageUI.h>
 
-@interface ZPFileContainerListViewController : UITableViewController <UIDocumentInteractionControllerDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
+@interface ZPFileContainerListViewController : UITableViewController <
+UIDocumentInteractionControllerDelegate, 
+UIActionSheetDelegate, 
+UIAlertViewDelegate,
+MFMailComposeViewControllerDelegate
+> {
     NSDateFormatter * _subtitleDateFormatter;
     BOOL _isRoot;
 }
