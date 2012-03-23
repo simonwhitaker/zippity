@@ -45,6 +45,11 @@
 		F47F536314ECCC82009BF6FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536214ECCC82009BF6FE /* main.m */; };
 		F47F536714ECCC82009BF6FE /* ZPAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */; };
 		F47F537914ECD062009BF6FE /* ZPFileContainerListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */; };
+		F4827897151D29CB00E62CD0 /* Hicksdesign-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F4827895151D29CB00E62CD0 /* Hicksdesign-logo.png */; };
+		F4827898151D29CB00E62CD0 /* Hicksdesign-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4827896151D29CB00E62CD0 /* Hicksdesign-logo@2x.png */; };
+		F482789D151D2B2600E62CD0 /* Document-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F482789A151D2B2600E62CD0 /* Document-icon.png */; };
+		F482789E151D2B2600E62CD0 /* Document-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F482789B151D2B2600E62CD0 /* Document-icon@2x.png */; };
+		F482789F151D2B2600E62CD0 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = F482789C151D2B2600E62CD0 /* iTunesArtwork */; };
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
@@ -122,6 +127,11 @@
 		F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZPAppDelegate.m; sourceTree = "<group>"; };
 		F47F537714ECD062009BF6FE /* ZPFileContainerListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPFileContainerListViewController.h; sourceTree = "<group>"; };
 		F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPFileContainerListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F4827895151D29CB00E62CD0 /* Hicksdesign-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hicksdesign-logo.png"; sourceTree = "<group>"; };
+		F4827896151D29CB00E62CD0 /* Hicksdesign-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hicksdesign-logo@2x.png"; sourceTree = "<group>"; };
+		F482789A151D2B2600E62CD0 /* Document-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Document-icon.png"; sourceTree = "<group>"; };
+		F482789B151D2B2600E62CD0 /* Document-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Document-icon@2x.png"; sourceTree = "<group>"; };
+		F482789C151D2B2600E62CD0 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
@@ -321,10 +331,15 @@
 			isa = PBXGroup;
 			children = (
 				F4D34833151C9EC6008B706A /* Glyphish Pro icons */,
+				F482789C151D2B2600E62CD0 /* iTunesArtwork */,
 				F4413931150BC4DB007F5E03 /* Default.png */,
 				F4413930150BC4DB007F5E03 /* Default@2x.png */,
+				F482789A151D2B2600E62CD0 /* Document-icon.png */,
+				F482789B151D2B2600E62CD0 /* Document-icon@2x.png */,
 				F4876C3C14F05D2B00A95302 /* folder-icon.png */,
 				F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */,
+				F4827895151D29CB00E62CD0 /* Hicksdesign-logo.png */,
+				F4827896151D29CB00E62CD0 /* Hicksdesign-logo@2x.png */,
 				F47DFD7B14ED4E32007F7443 /* Icon-Small.png */,
 				F47DFD7C14ED4E32007F7443 /* Icon-Small@2x.png */,
 				F47DFD7D14ED4E32007F7443 /* Icon.png */,
@@ -460,6 +475,11 @@
 				F4D34832151C9EBA008B706A /* 210-twitterbird@2x.png in Resources */,
 				F4D3483C151CA992008B706A /* 98-palette.png in Resources */,
 				F4D3483D151CA992008B706A /* 98-palette@2x.png in Resources */,
+				F4827897151D29CB00E62CD0 /* Hicksdesign-logo.png in Resources */,
+				F4827898151D29CB00E62CD0 /* Hicksdesign-logo@2x.png in Resources */,
+				F482789D151D2B2600E62CD0 /* Document-icon.png in Resources */,
+				F482789E151D2B2600E62CD0 /* Document-icon@2x.png in Resources */,
+				F482789F151D2B2600E62CD0 /* iTunesArtwork in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
