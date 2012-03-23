@@ -52,6 +52,7 @@ enum {
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
 - (void)handleApplicationDidBecomeActiveNotification:(NSNotification*)notification;
 
+- (void)showInfoView:(id)sender;
 - (void)shareSelectedItems;
 - (void)deleteSelectedItems;
 - (void)saveSelectedImages;
@@ -146,6 +147,11 @@ enum {
     self.navigationItem.rightBarButtonItem = self.editButton;
     
     if (self.isRoot) {
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info-button-icon.png"]
+                                                                   landscapeImagePhone:[UIImage imageNamed:@"info-button-icon.png"]
+                                                                                 style:UIBarButtonItemStyleBordered
+                                                                                target:self
+                                                                                action:@selector(showInfoView:)];
         // Add a version number header
         UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 
                                                              0 - self.view.frame.size.height, 
@@ -427,6 +433,13 @@ enum {
     }
 }
 
+#pragma mark - ZPAboutViewController delegate
+
+- (void)aboutViewControllerShouldDismiss:(ZPAboutViewController *)aboutViewController
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark - UIDocumentInteractionController delegate
 
 - (UIViewController*)documentInteractionControllerViewControllerForPreview:(UIDocumentInteractionController *)controller
@@ -532,6 +545,14 @@ enum {
 }
 
 #pragma mark - UI event handlers
+
+- (void)showInfoView:(id)sender
+{
+    ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:@"ZPAboutViewController" bundle:nil];
+    vc.delegate = self;
+    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentModalViewController:vc animated:YES];
+}
 
 - (void)toggleEditMode
 {
