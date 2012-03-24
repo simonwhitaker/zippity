@@ -454,7 +454,8 @@ static NSArray * SupportedArchiveTypes;
     NSString *itemPath = [self.url.path stringByDeletingLastPathComponent];
     NSString *filename = [[self.url.path lastPathComponent] stringByDeletingPathExtension];
     
-    NSString *previewImageFilename = [NSString stringWithFormat:@".preview_%@.png", filename];
+    NSString *previewImageFilename = [NSString stringWithFormat:@".%@_preview.png", filename];
+    previewImageFilename = [previewImageFilename stringByReplacingOccurrencesOfString:@"@2x" withString:@"___2x"];
     return [itemPath stringByAppendingPathComponent:previewImageFilename];
 }
 
@@ -496,6 +497,21 @@ static NSArray * SupportedArchiveTypes;
 - (BOOL)isRegularFile 
 {
     return YES; 
+}
+
+- (BOOL)isRetinaImageFile
+{
+    if (![self isImageFile])
+        return NO;
+    
+    NSString *filenameMinusExtension = [[self.url.path lastPathComponent] stringByDeletingPathExtension];
+    
+    if ([filenameMinusExtension length] < 3)
+        return NO;
+    
+    NSString *lastThreeChars = [filenameMinusExtension substringFromIndex:[filenameMinusExtension length] - 3];
+    
+    return [lastThreeChars isEqualToString:@"@2x"];
 }
 
 - (BOOL)isImageFile
@@ -540,15 +556,17 @@ static NSArray * SupportedArchiveTypes;
     }
     
     UIImage *image = [UIImage imageWithContentsOfFile:self.url.path];
-    if (image.size.width <= kDisplayImageMaxDimension && image.size.height <= kDisplayImageMaxDimension) {
+    
+    BOOL needsResizing = image.size.width > kDisplayImageMaxDimension || image.size.height > kDisplayImageMaxDimension;
+    
+    if (!needsResizing && ![self isRetinaImageFile]) {
         return image;
     }
     
     NSString *displayImageCachePath = [self _displayImageCachePath];
     if ([[NSFileManager defaultManager] fileExistsAtPath:displayImageCachePath]) {
-        NSLog(@"Found cached, resized image: %@", [displayImageCachePath lastPathComponent]);
         return [UIImage imageWithContentsOfFile:displayImageCachePath];
-    } else {
+    } else if (needsResizing) {
         if (!self.isQueuedForImageResizing) {
             [[ZPRegularFileWrapper _resizeQueue] addOperation:[NSBlockOperation blockOperationWithBlock:^{
                 [self _generateDisplayImage];
@@ -556,6 +574,20 @@ static NSArray * SupportedArchiveTypes;
             self.isQueuedForImageResizing = YES;
         }
         return nil;
+    } else {
+        // Just copy the image to its display image cache path. Used for rendering
+        // non-retina version of retina images
+        
+        NSLog(@"Copying %@ to %@", self.url.path, displayImageCachePath);
+        BOOL copied = [[NSFileManager defaultManager] copyItemAtPath:self.url.path 
+                                                              toPath:displayImageCachePath
+                                                               error:nil];
+        if (copied) {
+            NSLog(@"Generated display image at %@", displayImageCachePath);
+            return [UIImage imageWithContentsOfFile:displayImageCachePath];
+        } else {
+            return image;
+        }
     }
 }
 
