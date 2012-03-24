@@ -258,7 +258,6 @@
 		F47F534714ECCC82009BF6FE = {
 			isa = PBXGroup;
 			children = (
-				F4D34834151CA000008B706A /* Accounts.framework */,
 				F47F535C14ECCC82009BF6FE /* Zippity */,
 				F47F535514ECCC82009BF6FE /* Frameworks */,
 				F47F535314ECCC82009BF6FE /* Products */,
@@ -276,9 +275,10 @@
 		F47F535514ECCC82009BF6FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
+				F4D34834151CA000008B706A /* Accounts.framework */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
 				F47F535814ECCC82009BF6FE /* Foundation.framework */,
-				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F43352E414F3C41600082527 /* MessageUI.framework */,
 				F43352E714F3C80000082527 /* MobileCoreServices.framework */,
 				F41385B515134AF80087B896 /* QuartzCore.framework */,
