@@ -159,6 +159,9 @@
 {
     NSLog(@"Opening URL: %@", url);
     
+    // Dismiss the info view if it's visible
+    [self.navigationController dismissModalViewControllerAnimated:NO];
+    
     NSString *incomingPath = [url path];
     NSString *filename = [incomingPath lastPathComponent];
     NSString *targetPath = [self.archiveFilesDirectory stringByAppendingPathComponent:filename];

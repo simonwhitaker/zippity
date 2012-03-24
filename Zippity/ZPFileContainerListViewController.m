@@ -551,7 +551,7 @@ enum {
     ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:@"ZPAboutViewController" bundle:nil];
     vc.delegate = self;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self presentModalViewController:vc animated:YES];
+    [self.navigationController presentModalViewController:vc animated:YES];
 }
 
 - (void)toggleEditMode
