@@ -11,8 +11,11 @@
 		<dict>
 			<key>CFBundleTypeName</key>
 			<string>Archive file</string>
-			<key>CFBundleTypeIconFile</key>
-			<string>Document-icon.png</string>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>Document-icon.png</string>
+				<string>Document-icon@2x.png</string>
+			</array>
 			<key>LSHandlerRank</key>
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
