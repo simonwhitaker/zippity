@@ -317,11 +317,13 @@ enum {
         
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.imageView.image = wrapper.icon;
     } else {
         cell.textLabel.text = @"Unpacking contents...";
         UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         cell.accessoryView = aiv;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [aiv startAnimating];
     }
 
@@ -376,7 +378,7 @@ enum {
             [tableView deselectRowAtIndexPath:indexPath animated:YES];
         }
         [self updateToolbarButtons];
-    } else {
+    } else if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
         ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
         
         if (wrapper.isImageFile) {
@@ -399,6 +401,8 @@ enum {
             ZPUnrecognisedFileTypeViewController *vc = [[ZPUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
             [self.navigationController pushViewController:vc animated:YES];
         }
+    } else {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
