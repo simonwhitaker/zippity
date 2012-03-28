@@ -574,7 +574,7 @@
 		F40FDBAD14F289DB008BF9C8 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Goo Software Ltd";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 20;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -587,7 +587,7 @@
 					"\"$(SRCROOT)/Zippity/libarchive\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0EE7DAD9-F677-4A21-825B-DEF7BB8147E9";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad Hoc";
