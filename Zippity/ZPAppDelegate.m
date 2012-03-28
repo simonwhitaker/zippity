@@ -8,7 +8,6 @@
 
 #import "ZPAppDelegate.h"
 #import "TestFlight.h"
-#import "MACollectionUtilities.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -27,8 +26,9 @@
 + (void)initialize
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *appDefaults = DICT(kZPDefaultsFirstLaunchKey, [NSNumber numberWithBool:YES],
-                                     kZPDefaultsShowFileExtensions, [NSNumber numberWithBool:NO]);
+    NSMutableDictionary *appDefaults = [NSMutableDictionary dictionary];
+    [appDefaults setObject:[NSNumber numberWithBool:YES] forKey:kZPDefaultsFirstLaunchKey];
+    [appDefaults setObject:[NSNumber numberWithBool:NO] forKey:kZPDefaultsShowFileExtensions];
     [defaults registerDefaults:appDefaults];
 }
 

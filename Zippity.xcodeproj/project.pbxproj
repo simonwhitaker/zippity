@@ -31,7 +31,6 @@
 		F441B49C14F3765D0067A4FC /* ZPFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* ZPFileWrapper.m */; };
 		F442747F14F85C9B00C84A0B /* ZPImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */; };
 		F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F45DA71C150FA05500C40E63 /* Settings.bundle */; };
-		F4653839151267B800EE9461 /* MACollectionUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = F4653838151267B800EE9461 /* MACollectionUtilities.m */; };
 		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
 		F476B0D614FB81B700E653E1 /* ZPImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
@@ -103,8 +102,6 @@
 		F442747D14F85C9B00C84A0B /* ZPImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImagePreviewController.h; sourceTree = "<group>"; };
 		F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImagePreviewController.m; sourceTree = "<group>"; };
 		F45DA71C150FA05500C40E63 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		F4653837151267B800EE9461 /* MACollectionUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MACollectionUtilities.h; sourceTree = "<group>"; };
-		F4653838151267B800EE9461 /* MACollectionUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MACollectionUtilities.m; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
 		F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImageScrollView.h; sourceTree = "<group>"; };
 		F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImageScrollView.m; sourceTree = "<group>"; };
@@ -214,15 +211,6 @@
 			name = "Image gallery";
 			sourceTree = "<group>";
 		};
-		F4653836151267B800EE9461 /* MACollectionUtilities */ = {
-			isa = PBXGroup;
-			children = (
-				F4653837151267B800EE9461 /* MACollectionUtilities.h */,
-				F4653838151267B800EE9461 /* MACollectionUtilities.m */,
-			);
-			path = MACollectionUtilities;
-			sourceTree = "<group>";
-		};
 		F47DFD8B14ED5581007F7443 /* Views and controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,7 +232,6 @@
 			children = (
 				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
 				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
-				F4653836151267B800EE9461 /* MACollectionUtilities */,
 				F4F62C1E14FFBE7600AB0C8C /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
@@ -522,7 +509,6 @@
 				F476B0D614FB81B700E653E1 /* ZPImageScrollView.m in Sources */,
 				F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */,
 				F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */,
-				F4653839151267B800EE9461 /* MACollectionUtilities.m in Sources */,
 				F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */,
 				F4D34821151C90B8008B706A /* ZPAboutViewController.m in Sources */,
 			);
