@@ -132,7 +132,6 @@
         return;
     }
     
-    NSLog(@"Zooming to new zoom scale factor: %.2f", newZoomFactor);
     CGRect zoomRect = [self zoomRectForScale:newZoomFactor withCenter:point];
     [self zoomToRect:zoomRect animated:YES];
 }

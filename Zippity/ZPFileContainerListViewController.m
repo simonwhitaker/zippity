@@ -489,9 +489,7 @@ enum {
                     if (!mimeType) {
                         mimeType = @"application/octet-stream";
                     }
-                    
-                    NSLog(@"Attaching %@ to email with MIME type %@", wrapper.name, mimeType);
-                    
+                                        
                     [mailComposer addAttachmentData:[NSData dataWithContentsOfURL:wrapper.url]
                                            mimeType:mimeType
                                            fileName:wrapper.name];

@@ -107,9 +107,6 @@ NSString * const ActionMenuCancelButtonTitle = @"Cancel";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
-    ZPFileWrapper * container = [(ZPFileWrapper*)[self.imageFileWrappers objectAtIndex:0] parent];
-    NSLog(@"Viewing a set of %u image(s) from a total container size of %u file(s)", self.imageFileWrappers.count, container.fileWrappers.count);
     [TestFlight passCheckpoint:@"Opened an image preview view"];
 }
 
@@ -170,7 +167,6 @@ NSString * const ActionMenuCancelButtonTitle = @"Cancel";
     // Recycle no-longer-needed pages
     for (ZPImageScrollView* page in self.visiblePages) {
         if (page.index < firstNeededPageIndex || page.index > lastNeededPageIndex) {
-            NSLog(@"Recycling page at index %u", page.index);
             page.imageFileWrapper = nil;
             [self.reusablePages addObject:page];
             [page removeFromSuperview];
@@ -184,7 +180,6 @@ NSString * const ActionMenuCancelButtonTitle = @"Cancel";
     // Add any missing pages
     for (NSInteger index = firstNeededPageIndex; index <= lastNeededPageIndex; index++) {
         if (![self isDisplayingPageAtIndex:index]) {
-            NSLog(@"Populating page at index %u", index);
             ZPImageScrollView *page = [self dequeueReusablePage];
             if (page == nil) {
                 page = [[ZPImageScrollView alloc] initWithFrame:[self frameForPageAtIndex:index]];

@@ -51,9 +51,6 @@
     if ([self.fileWrapper.documentInteractionController presentOptionsMenuFromRect:CGRectZero
                                                                             inView:self.view
                                                                           animated:YES]) {
-        NSLog(@"Showed options menu");
-    } else {
-        NSLog(@"Didn't show options menu");
     }
     
 }

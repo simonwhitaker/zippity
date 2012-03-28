@@ -41,8 +41,6 @@
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
         if (error) {
             NSLog(@"Error deleting %@: %@, %@", filePath, error, error.userInfo);
-        } else {
-            NSLog(@"Deleted %@", filePath);
         }
     }
 }
@@ -54,9 +52,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    
-    NSLog(@"Zip files directory: %@", self.archiveFilesDirectory);
-    
+        
     // First run: add a sample zip file
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults boolForKey:kZPDefaultsFirstLaunchKey]) {
@@ -134,7 +130,6 @@
         } else {
             for (NSString *filename in cacheContents) {
                 NSString *path = [self.cacheDirectory stringByAppendingPathComponent:filename];
-                NSLog(@"Deleting %@", path);
                 [fm removeItemAtPath:path error:&error];
                 if (error) {
                     NSLog(@"Error on deleting %@: %@, %@", path, error, error.userInfo);
@@ -156,9 +151,7 @@
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    NSLog(@"Opening URL: %@", url);
-    
+{    
     // Dismiss the info view if it's visible
     [self.navigationController dismissModalViewControllerAnimated:NO];
     
@@ -189,8 +182,6 @@
     if (error) {
         NSLog(@"Error copying zip file (%@) to document directory (%@): %@, %@", incomingPath, targetPath, error, error.userInfo);
     } else {
-        NSLog(@"Copied %@ to %@", incomingPath, targetPath);
-
         // Set file's last modified date
         NSDictionary *attrs = [NSDictionary dictionaryWithObject:[NSDate date] forKey:NSFileModificationDate];
         [[NSFileManager defaultManager] setAttributes:attrs
@@ -202,8 +193,6 @@
                                                    error:&error];
         if (error) {
             NSLog(@"Error deleting %@: %@, %@", incomingPath, error, error.userInfo);
-        } else {
-            NSLog(@"Deleted %@", incomingPath);
         }
         
         [self.navigationController popToRootViewControllerAnimated:NO];

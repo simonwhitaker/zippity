@@ -464,7 +464,6 @@ static NSArray * SupportedArchiveTypes;
     @autoreleasepool {
         UIImage *result;
         
-        NSLog(@"Starting to resize %@", self.url.lastPathComponent);
         UIImage *image = [UIImage imageWithContentsOfFile:self.url.path];
         CGFloat scale = MAX(image.size.width / kDisplayImageMaxDimension, image.size.height / kDisplayImageMaxDimension);
         CGSize newSize = image.size;
@@ -487,7 +486,6 @@ static NSArray * SupportedArchiveTypes;
             [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
                                                                 object:self];
         }
-        NSLog(@"Finished resizing %@", self.url.lastPathComponent);
         self.isQueuedForImageResizing = NO;
     }
 }
@@ -578,12 +576,10 @@ static NSArray * SupportedArchiveTypes;
         // Just copy the image to its display image cache path. Used for rendering
         // non-retina version of retina images
         
-        NSLog(@"Copying %@ to %@", self.url.path, displayImageCachePath);
         BOOL copied = [[NSFileManager defaultManager] copyItemAtPath:self.url.path 
                                                               toPath:displayImageCachePath
                                                                error:nil];
         if (copied) {
-            NSLog(@"Generated display image at %@", displayImageCachePath);
             return [UIImage imageWithContentsOfFile:displayImageCachePath];
         } else {
             return image;
