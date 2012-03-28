@@ -1,0 +1,25 @@
+//
+//  GSAppDelegate.h
+//  Zippity
+//
+//  Created by Simon Whitaker on 16/02/2012.
+//  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "ZPFileContainerListViewController.h"
+
+@interface ZPAppDelegate : UIResponder <UIApplicationDelegate> {
+    NSString * _documentsDirectory;
+    NSString * _archiveFilesDirectory;
+    NSString * _cacheDirectory;
+}
+
+@property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) ZPFileContainerListViewController *rootListViewController;
+@property (readonly) NSString *archiveFilesDirectory;
+@property (readonly) NSString *documentsDirectory;
+@property (readonly) NSString *cacheDirectory;
+@property (assign, nonatomic) UINavigationController *navigationController;
+
+@end
