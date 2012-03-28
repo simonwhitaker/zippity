@@ -23,6 +23,7 @@
 @synthesize delegate = _delegate;
 @synthesize navigationBar = _navigationBar;
 @synthesize contactOptionsTable = _contactOptionsTable;
+@synthesize versionLabel = _versionLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,6 +40,12 @@
     // Do any additional setup after loading the view from its nib.
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"rough_diagonal.png"]];
+    
+    NSDictionary *appInfo = [[NSBundle mainBundle] infoDictionary];
+    NSString *versionStr = [NSString stringWithFormat:@"Version %@ (%@)", 
+                            [appInfo objectForKey:@"CFBundleShortVersionString"], 
+                            [appInfo objectForKey:@"CFBundleVersion"]];
+    self.versionLabel.text = versionStr;
 }
 
 - (void)viewDidUnload

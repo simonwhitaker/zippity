@@ -28,6 +28,8 @@ enum {
 @property (nonatomic, weak) id<ZPAboutViewControllerDelegate> delegate;
 @property (nonatomic, weak) IBOutlet UINavigationBar *navigationBar;
 @property (nonatomic, weak) IBOutlet UITableView *contactOptionsTable;
+@property (nonatomic, weak) IBOutlet UILabel *versionLabel;
+           
 - (IBAction)handleCloseButton:(id)sender;
 - (IBAction)visitHicksDesign:(id)sender;
 @end

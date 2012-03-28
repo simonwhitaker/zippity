@@ -152,32 +152,6 @@ enum {
                                                                                  style:UIBarButtonItemStyleBordered
                                                                                 target:self
                                                                                 action:@selector(showInfoView:)];
-        // Add a version number header
-        UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0, 
-                                                             0 - self.view.frame.size.height, 
-                                                             self.view.frame.size.width, 
-                                                             self.view.frame.size.height)];
-        v.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-        v.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [self.view insertSubview:v belowSubview:self.tableView];
-                     
-        NSDictionary *appInfo = [[NSBundle mainBundle] infoDictionary];
-        NSString *versionStr = [NSString stringWithFormat:@"Version %@ (%@)", 
-                                [appInfo objectForKey:@"CFBundleShortVersionString"], 
-                                [appInfo objectForKey:@"CFBundleVersion"]];
-        UILabel * l = [[UILabel alloc] initWithFrame:CGRectMake(0, 
-                                                                v.frame.size.height - self.tableView.rowHeight, 
-                                                                v.frame.size.width, 
-                                                                self.tableView.rowHeight)];
-        l.text = versionStr;
-        l.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        l.textAlignment = UITextAlignmentCenter;
-        l.font = [UIFont boldSystemFontOfSize:16.0];
-        l.textColor = [UIColor colorWithWhite:0.5 alpha:1.0];
-        l.backgroundColor = [UIColor clearColor];
-        l.shadowColor = [UIColor colorWithWhite:1.0 alpha:0.7];
-        l.shadowOffset = CGSizeMake(0, 1);
-        [v addSubview:l];
     }
 }
 
