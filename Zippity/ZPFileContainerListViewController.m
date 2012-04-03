@@ -489,8 +489,11 @@ enum {
                     [self toggleEditMode];
                 }
             } else {
+                NSString *message = NSLocalizedString(@"You don't have an email account configured. You can set one up in the main Settings app.", 
+                                                      @"Message shown to a user when they try to email a file but have not set up an email account on their iPhone.");
+
                 UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Error" value:nil table:nil]
-                                                             message:NSLocalizedString(@"You can't send mail on this device - maybe you need to set up an email account?", @"Message shown to a user when they try to email a file but have not set up an email account on their iPhone.")
+                                                             message:message
                                                             delegate:nil
                                                    cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"OK" value:nil table:nil]
                                                    otherButtonTitles:nil];

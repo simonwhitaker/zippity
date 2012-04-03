@@ -42,7 +42,7 @@
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"rough_diagonal.png"]];
     
     NSDictionary *appInfo = [[NSBundle mainBundle] infoDictionary];
-    NSString *versionStr = [NSString stringWithFormat:@"Version %@ (%@)", 
+    NSString *versionStr = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"Version string. Placeholders are replaced by version number and build number."), 
                             [appInfo objectForKey:@"CFBundleShortVersionString"], 
                             [appInfo objectForKey:@"CFBundleVersion"]];
     self.versionLabel.text = versionStr;
@@ -62,14 +62,16 @@
 
 - (void)followOnTwitterDidSucceed 
 {
-    GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:@"You're now following @zippityapp!"
+    GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:NSLocalizedString(@"You're now following @zippityapp!",
+                                                                                       @"Message shown when the user successfully follows @zippityapp on Twitter")
                                                           andTimeout:2.0];
     [iv show];
 }
 
 - (void)followOnTwitterDidFail
 {
-    GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:@"Error following @zippityapp"
+    GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:NSLocalizedString(@"Error following @zippityapp",
+                                                                                       @"Message shown when there's an error following @zippityapp on Twitter")
                                                           andTimeout:2.0];
     [iv show];
 }
@@ -91,8 +93,9 @@
     } else if (accounts.count == 1) {
         [self followOnTwitterUsingAccount:[accounts objectAtIndex:0]];
     } else {
-        UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Choose account"
-                                                     message:@"Which Twitter account do you want to follow @zippityapp from?"
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Choose account", @"Title for a message box prompting the user to choose a Twitter account from which to follow @zippityapp")
+                                                     message:NSLocalizedString(@"Which Twitter account do you want to follow @zippityapp from?", 
+                                                                               @"Message asking the user which of their Twitter accounts they'd like to follow @zippityapp from")
                                                     delegate:self
                                            cancelButtonTitle:nil
                                            otherButtonTitles:nil];
@@ -154,10 +157,12 @@
                 [vc setToRecipients:[NSArray arrayWithObject:@"info@goosoftware.co.uk"]];
                 [self presentModalViewController:vc animated:YES];
             } else {
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Email Not Configured"
-                                                             message:@"You don't have an email account configured. You can set one up in the main Settings app"
+                NSString *message = NSLocalizedString(@"You don't have an email account configured. You can set one up in the main Settings app.", 
+                                                      @"Message shown to a user when they try to email a file but have not set up an email account on their iPhone.");
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Error" value:nil table:nil]
+                                                             message:message
                                                             delegate:nil
-                                                   cancelButtonTitle:@"Cancel"
+                                                   cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
                                                    otherButtonTitles:nil];
                 [av show];
             }
@@ -212,18 +217,18 @@
     switch (indexPath.row) {
         case ZPContactOptionsTwitter:
             cell.imageView.image = [UIImage imageNamed:@"210-twitterbird.png"];
-            cell.textLabel.text = @"Follow @zippityapp";
-            cell.textLabel.accessibilityLabel = @"Follow @zippityapp on Twitter";
+            cell.textLabel.text = NSLocalizedString(@"Follow @zippityapp", @"Button prompting the user to follow @zippityapp on Twitter");
+            cell.textLabel.accessibilityLabel = NSLocalizedString(@"Follow @zippityapp on Twitter", @"Accessibility text for visually impaired users, prompting the user to follow @zippityapp on Twitter");
             break;
         case ZPContactOptionsEmail:
             cell.imageView.image = [UIImage imageNamed:@"18-envelope.png"];
             cell.textLabel.text = @"info@goosoftware.co.uk";
-            cell.textLabel.accessibilityLabel = @"Email info@goosoftware.co.uk";
+            cell.textLabel.accessibilityLabel = NSLocalizedString(@"Email info@goosoftware.co.uk", @"Accessibility text for visually impaired users, prompting the user to email us");
             break;
         case ZPContactOptionsWebsite:
             cell.imageView.image = [UIImage imageNamed:@"71-compass.png"];
             cell.textLabel.text = @"www.zippityapp.co.uk";
-            cell.textLabel.accessibilityLabel = @"Visit www.zippity.co.uk";
+            cell.textLabel.accessibilityLabel = NSLocalizedString(@"Visit www.zippity.co.uk", @"Accessibility text for visually impaired users, the user to visit Zippity's website");
             break;
     }
     
