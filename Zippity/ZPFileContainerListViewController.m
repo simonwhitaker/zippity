@@ -166,6 +166,8 @@ enum {
                                                                                  style:UIBarButtonItemStyleBordered
                                                                                 target:self
                                                                                 action:@selector(showInfoView:)];
+        self.navigationItem.leftBarButtonItem.accessibilityLabel = NSLocalizedString(@"About Zippity", 
+                                                                                     @"Accessibility label for the About button on the Zippity home view");
     }
 }
 
