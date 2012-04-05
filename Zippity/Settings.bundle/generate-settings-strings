@@ -1,0 +1,18 @@
+#!/bin/bash
+
+base_dir=$(dirname $0)
+
+for plist in *.plist; do
+    # Generate the name of the matching .strings file
+    outfile=en.lproj/${plist%.*}.strings
+    
+    echo "Generating $outfile from $plist"
+    
+    # Step 1: convert plist to formatted JSON for easy parsing
+    # Step 2: use Perl (old skool!) to pick out the values for the Title keys
+    # Step 3: convert output to UTF-16
+    plutil -convert json -r -o - $base_dir/Root.plist \
+    | perl -ne '/"Title" : (.+)/ && print "$1 = $1\n"' \
+    | iconv -t UTF-16 > $base_dir/$outfile
+done
+
