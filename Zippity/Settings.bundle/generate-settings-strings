@@ -12,7 +12,7 @@ for plist in *.plist; do
     # Step 2: use Perl (old skool!) to pick out the values for the Title keys
     # Step 3: convert output to UTF-16
     plutil -convert json -r -o - $base_dir/Root.plist \
-    | perl -ne '/"Title" : (.+)/ && print "$1 = $1\n"' \
+    | perl -ne '/"Title" : (.+)/ && print "$1 = $1;\n"' \
     | iconv -t UTF-16 > $base_dir/$outfile
 done
 
