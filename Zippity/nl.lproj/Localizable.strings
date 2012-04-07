@@ -88,3 +88,20 @@
 /* Error message to display when a zip file can't be opened. */
 "Zippity couldn't open that archive file. It might be corrupt." = "Zippity kan dit archief niet openen. Het kan beschadigd zijn.";
 
+/* ------------------- ADDED 7th April 2012 ------------------- */
+
+/* Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation */
+"%u of %u" = "%1$u of %2$u";                                                                                                                       
+
+/* Error mesage shown in a temporary dialog if the app fails to save photos to the user's camera roll */          
+"Error: couldn't save image to Photos" = "Error: couldn't save image to Photos";
+
+/* Message shown in a temporary dialog when the app has successfully saved photos to the user's camera roll */          
+"Image saved to Photos!" = "Image saved to Photos!";
+
+/* Label for the Open In button in the image gallery action sheet */                                   
+"Open In..." = "Open In...";
+
+/* Label for the Save To Photos button in the image gallery action sheet */                                  
+"Save To Photos" = "Save To Photos";
+

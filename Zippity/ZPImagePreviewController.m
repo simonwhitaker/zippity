@@ -10,9 +10,9 @@
 #import "ZPImagePreviewController.h"
 #import "ZPImageScrollView.h"
 
-NSString * const ActionMenuSaveToPhotosButtonTitle = @"Save To Photos";
-NSString * const ActionMenuOpenInButtonTitle = @"Open In...";
-NSString * const ActionMenuCancelButtonTitle = @"Cancel";
+static NSString * ActionMenuSaveToPhotosButtonTitle; // = @"Save To Photos";
+static NSString * ActionMenuOpenInButtonTitle; // = @"Open In...";
+static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 #define kPagePaddingWidth 10.0
 
@@ -43,6 +43,15 @@ NSString * const ActionMenuCancelButtonTitle = @"Cancel";
 @synthesize currentIndex=_currentIndex;
 @synthesize visiblePages=_visiblePages;
 @synthesize reusablePages=_reusablePages;
+
++ (void)initialize
+{
+    // Cancel is already translated in ZPFileContainerListViewController, so
+    // we'll just use NSBundle's -localizedStringForKey:value:table: here
+    ActionMenuCancelButtonTitle = [[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil];
+    ActionMenuOpenInButtonTitle = NSLocalizedString(@"Open In...", @"Label for the Open In button in the image gallery action sheet");
+    ActionMenuSaveToPhotosButtonTitle = NSLocalizedString(@"Save To Photos", @"Label for the Save To Photos button in the image gallery action sheet");
+}
 
 #pragma mark - Object lifecycle
 
@@ -223,7 +232,8 @@ NSString * const ActionMenuCancelButtonTitle = @"Cancel";
 {
     if (currentIndex != _currentIndex) {
         _currentIndex = currentIndex;
-        self.title = [NSString stringWithFormat:@"%u of %u", _currentIndex + 1, self.imageFileWrappers.count];
+        NSString *formatString = NSLocalizedString(@"%u of %u", @"Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation");
+        self.title = [NSString stringWithFormat:formatString, _currentIndex + 1, self.imageFileWrappers.count];
     }
 }
 
@@ -277,10 +287,14 @@ NSString * const ActionMenuCancelButtonTitle = @"Cancel";
 {
     if (error) {
         NSLog(@"Error on saving image: %@, %@", error, [error userInfo]);
-        GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:@"Error: couldn't save image to Photos" andTimeout:2.0];
+        NSString *message = NSLocalizedString(@"Error: couldn't save image to Photos",
+                                              @"Error mesage shown in a temporary dialog if the app fails to save photos to the user's camera roll");
+        GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:message andTimeout:2.0];
         [iv show];
     } else {
-        GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:@"Image saved to Photos!" andTimeout:2.0];
+        NSString *message = NSLocalizedString(@"Image saved to Photos!",
+                                              @"Message shown in a temporary dialog when the app has successfully saved photos to the user's camera roll");
+        GSSmokedInfoView *iv = [[GSSmokedInfoView alloc] initWithMessage:message andTimeout:2.0];
         [iv show];
     }
 }
@@ -336,7 +350,10 @@ NSString * const ActionMenuCancelButtonTitle = @"Cancel";
 - (void)handleActionButton:(id)sender
 {
     ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
-    NSString *actionSheetTitle = [NSString stringWithFormat:@"Share %@", currentPhoto.name];
+    
+    // "Share @%" already localized in ZPFileListViewController.m
+    NSString *formatString = [[NSBundle mainBundle] localizedStringForKey:@"Share %@" value:nil table:nil];
+    NSString *actionSheetTitle = [NSString stringWithFormat:formatString, currentPhoto.name];
 
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:actionSheetTitle
                                                     delegate:self
