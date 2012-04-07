@@ -126,7 +126,6 @@ enum {
                                                   style:UIBarButtonItemStyleBordered
                                                  target:self
                                                  action:@selector(shareSelectedItems)];
-    tempButton.width = 80.0;
     [toolbarButtons addObject:tempButton];
     self.shareButton = tempButton;
     
@@ -136,7 +135,6 @@ enum {
                                                      target:self 
                                                      action:@selector(deleteSelectedItems)];
         tempButton.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
-        tempButton.width = 80.0;
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
     } else {
@@ -144,7 +142,6 @@ enum {
                                                       style:UIBarButtonItemStyleBordered
                                                      target:self
                                                      action:@selector(saveSelectedImages)];
-        tempButton.width = 120.0;
         [toolbarButtons addObject:tempButton];
         self.saveImagesButton = tempButton;
     }
