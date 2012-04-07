@@ -1,0 +1,90 @@
+/* Subtitle for a table cell showing a specific file from within a zip file. The placeholders are %1$@: filename, %2$@: file's last modified date. */
+"%@, last modified on %@" = "%1$@, laatst gewijzigd op %2$@";
+
+/* Accessibility label for the About button on the Zippity home view */
+"About Zippity" = "Over Zippity";
+
+/* Subtitle for table cells in the home view. %@ is replaced with the date the file was added. */
+"Added on %@" = "Toegevoegd op %@";
+
+/* The text for a button that will cancel an action when tapped */
+"Cancel" = "Annuleer";
+
+/* Title for a message box prompting the user to choose a Twitter account from which to follow @zippityapp */
+"Choose account" = "Kies gebruiker";
+
+/* The text for a button that will delete files when tapped */
+"Delete" = "Verwijderen";
+
+/* The title for a confirmation dialog shown when deleting a file. %@ is replaced by the filename of a single selected file. */
+"Delete %@" = "Verwijder %@";
+
+/* The title for a confirmation dialog shown when deleting files. %@ is replaced by the number of selected files. */
+"Delete %u files" = "Verwijder %u bestanden";
+
+/* The text for a button that will start composing an email when tapped */
+"Email" = "Email";
+
+/* Accessibility text for visually impaired users, prompting the user to email us */
+"Email info@goosoftware.co.uk" = "Email info@goosoftware.co.uk";
+
+/* The title for a message box shown when an error occurs */
+"Error" = "Fout";
+
+/* Message shown when there's an error following @zippityapp on Twitter */
+"Error following @zippityapp" = "Fout bij volgen @zippityapp";
+
+/* Button prompting the user to follow @zippityapp on Twitter */
+"Follow @zippityapp" = "Volg @zippityapp";
+
+/* Accessibility text for visually impaired users, prompting the user to follow @zippityapp on Twitter */
+"Follow @zippityapp on Twitter" = "Volg @zippityapp op Twitter";
+
+/* The text for a button that confirms a message has been received when tapped */
+"OK" = "OK";
+
+/* The title for a confirmation dialog shown when saving a file. %@ is replaced by the filename of the file. */
+"Save %@" = "Bewaar %@";
+
+/* The title for a confirmation dialog shown when saving files. %u is replaced by the number of files being saved. */
+"Save %u images" = "Bewaar %u beelden";
+
+/* The text for a button that will save image files to the camera roll when tapped */
+"Save Images" = "Bewaar beelden";
+
+/* Button text for Save to Photos button in action sheet */
+"Save to Photos" = "Bewaar naar fotos";
+
+/* The text for a button that will share files when tapped, for example by email */
+"Share" = "Deel";
+
+/* The title for a confirmation dialog shown when sharing a file. %@ is replaced by the filename of a single selected file. */
+"Share %@" = "Deel %@";
+
+/* The title for a confirmation dialog shown when sharing files. %u is replaced by the number of selected files. */
+"Share %u files" = "Deel %u bestanden";
+
+/* Short message shown while unpacking a zip file */
+"Unpacking contents..." = "Inhoud wordt uitgepakt...";
+
+/* Version string. Placeholders are replaced by version number and build number. */
+"Version %@ (%@)" = "Versie %1$@ (%2$@)";
+
+/* Accessibility text for visually impaired users, the user to visit Zippity's website */
+"Visit www.zippity.co.uk" = "Bezoek www.zippity.co.uk";
+
+/* Message asking the user which of their Twitter accounts they'd like to follow @zippityapp from */
+"Which Twitter account do you want to follow @zippityapp from?" = "Met welke Twitter gebruiker wilt u @zippityapp volgen?";
+
+/* Message shown to a user when they try to email a file but have not set up an email account on their iPhone. */
+"You don't have an email account configured. You can set one up in the main Settings app." = "U heeft geen emailgebruiker geconfigureerd. U kunt een emailgebruiker aanmaken in de algemene Instellingen app.";
+
+/* Message shown when the user successfully follows @zippityapp on Twitter */
+"You're now following @zippityapp!" = "U volgt nu @zippityapp!";
+
+/* Error message to display when the contents of a zip file can't be displayed for some unknown reason. */
+"Zippity can't list the files in this folder." = "Zippity kan de bestanden in deze map niet tonen.";
+
+/* Error message to display when a zip file can't be opened. */
+"Zippity couldn't open that archive file. It might be corrupt." = "Zippity kan dit archief niet openen. Het kan beschadigd zijn.";
+

@@ -52,7 +52,6 @@
 		F482789F151D2B2600E62CD0 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = F482789C151D2B2600E62CD0 /* iTunesArtwork */; };
 		F482B0EB152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F482B0ED152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib */; };
 		F482B10A152BA43100E8965B /* ZPAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F482B10C152BA43100E8965B /* ZPAboutViewController.xib */; };
-		F482B10E152BA49200E8965B /* en.lproj in Resources */ = {isa = PBXBuildFile; fileRef = F482B10D152BA49200E8965B /* en.lproj */; };
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
@@ -67,6 +66,8 @@
 		F4D34832151C9EBA008B706A /* 210-twitterbird@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D34830151C9EBA008B706A /* 210-twitterbird@2x.png */; };
 		F4D34835151CA000008B706A /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D34834151CA000008B706A /* Accounts.framework */; };
 		F4E1905514F946EF0098D5BB /* ZPImagePreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E1905414F946EF0098D5BB /* ZPImagePreviewController.xib */; };
+		F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
+		F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
 		F4F62C2414FFBE7600AB0C8C /* libarc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F62C2214FFBE7600AB0C8C /* libarc.a */; };
 		F4F62C2514FFBE7600AB0C8C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4F62C2314FFBE7600AB0C8C /* README.md */; };
 		F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */; };
@@ -131,7 +132,6 @@
 		F482789C151D2B2600E62CD0 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		F482B0EC152B916C00E8965B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
 		F482B10B152BA43100E8965B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
-		F482B10D152BA49200E8965B /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; name = en.lproj; path = Zippity/en.lproj; sourceTree = "<group>"; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
@@ -147,6 +147,10 @@
 		F4D34830151C9EBA008B706A /* 210-twitterbird@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "210-twitterbird@2x.png"; sourceTree = "<group>"; };
 		F4D34834151CA000008B706A /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		F4E1905414F946EF0098D5BB /* ZPImagePreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPImagePreviewController.xib; sourceTree = "<group>"; };
+		F4F5DB581530C71B00D6F45C /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = nl.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
+		F4F5DB591530C72200D6F45C /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = nl.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
+		F4F5DB5D1530CA6900D6F45C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F4F5DB5F1530CA7C00D6F45C /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F4F62C1F14FFBE7600AB0C8C /* archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive.h; sourceTree = "<group>"; };
 		F4F62C2014FFBE7600AB0C8C /* archive_entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive_entry.h; sourceTree = "<group>"; };
 		F4F62C2114FFBE7600AB0C8C /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
@@ -243,7 +247,6 @@
 		F47F534714ECCC82009BF6FE = {
 			isa = PBXGroup;
 			children = (
-				F482B10D152BA49200E8965B /* en.lproj */,
 				F47F535C14ECCC82009BF6FE /* Zippity */,
 				F47F535514ECCC82009BF6FE /* Frameworks */,
 				F47F535314ECCC82009BF6FE /* Products */,
@@ -291,6 +294,7 @@
 		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F4F5DB5C1530CA6900D6F45C /* Localizable.strings */,
 				F4B9909E14EE820C00F8FBD8 /* Images */,
 				F46921A214F7F00500669E7E /* Welcome to Zippity.zip */,
 				F47F535F14ECCC82009BF6FE /* InfoPlist.strings */,
@@ -417,6 +421,7 @@
 				en,
 				"fr-FR",
 				fr,
+				nl,
 			);
 			mainGroup = F47F534714ECCC82009BF6FE;
 			productRefGroup = F47F535314ECCC82009BF6FE /* Products */;
@@ -472,7 +477,8 @@
 				F482789F151D2B2600E62CD0 /* iTunesArtwork in Resources */,
 				F41113A1152341270052E1B3 /* info.png in Resources */,
 				F41113A2152341270052E1B3 /* info@2x.png in Resources */,
-				F482B10E152BA49200E8965B /* en.lproj in Resources */,
+				F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */,
+				F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +549,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F482B0EC152B916C00E8965B /* en */,
+				F4F5DB591530C72200D6F45C /* nl */,
 			);
 			name = ZPUnrecognisedFileTypeViewController.xib;
 			sourceTree = "<group>";
@@ -551,8 +558,18 @@
 			isa = PBXVariantGroup;
 			children = (
 				F482B10B152BA43100E8965B /* en */,
+				F4F5DB581530C71B00D6F45C /* nl */,
 			);
 			name = ZPAboutViewController.xib;
+			sourceTree = "<group>";
+		};
+		F4F5DB5C1530CA6900D6F45C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4F5DB5D1530CA6900D6F45C /* en */,
+				F4F5DB5F1530CA7C00D6F45C /* nl */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
