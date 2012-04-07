@@ -151,6 +151,9 @@
 		F4F5DB591530C72200D6F45C /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = nl.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
 		F4F5DB5D1530CA6900D6F45C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F4F5DB5F1530CA7C00D6F45C /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F4F5DB611530E40700D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = hu; path = hu.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
+		F4F5DB621530E40C00D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = hu; path = hu.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
+		F4F5DB631530E41100D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F4F62C1F14FFBE7600AB0C8C /* archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive.h; sourceTree = "<group>"; };
 		F4F62C2014FFBE7600AB0C8C /* archive_entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive_entry.h; sourceTree = "<group>"; };
 		F4F62C2114FFBE7600AB0C8C /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
@@ -422,6 +425,7 @@
 				"fr-FR",
 				fr,
 				nl,
+				hu,
 			);
 			mainGroup = F47F534714ECCC82009BF6FE;
 			productRefGroup = F47F535314ECCC82009BF6FE /* Products */;
@@ -550,6 +554,7 @@
 			children = (
 				F482B0EC152B916C00E8965B /* en */,
 				F4F5DB591530C72200D6F45C /* nl */,
+				F4F5DB621530E40C00D6F45C /* hu */,
 			);
 			name = ZPUnrecognisedFileTypeViewController.xib;
 			sourceTree = "<group>";
@@ -559,6 +564,7 @@
 			children = (
 				F482B10B152BA43100E8965B /* en */,
 				F4F5DB581530C71B00D6F45C /* nl */,
+				F4F5DB611530E40700D6F45C /* hu */,
 			);
 			name = ZPAboutViewController.xib;
 			sourceTree = "<group>";
@@ -568,6 +574,7 @@
 			children = (
 				F4F5DB5D1530CA6900D6F45C /* en */,
 				F4F5DB5F1530CA7C00D6F45C /* nl */,
+				F4F5DB631530E41100D6F45C /* hu */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
