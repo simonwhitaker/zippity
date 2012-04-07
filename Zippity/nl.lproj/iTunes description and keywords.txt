@@ -1,16 +1,16 @@
-DESCRIPTION
+BESCHRIJVING
 
-Zippity is the easiest way to handle zip files on your iPhone. It can open
-zip files received in emails or downloaded from the web, allowing you to
-preview the contents, forward them by email and so on.
+Zippity is de makkelijkste manier om zip bestanden te gebruiken op uw iPhone. Het kan
+zipbestanden openen die u ontvangt in emails or download van het internet, zodat u de
+inhoud kan bekijken en de zip bestanden per email kan doorsturen enz.
 
-Once you've installed Zippity simply open an email with a zip file attachment
-and tap on the file attachment to open in Zippity. If you've browsed to a Zip
-file on the web, tap the "Open in..." button at the top of the Safari window
-to open the zip file in Zippity.
+Als u Zippity geinstalleerd heeft kunt u eenvoudig email met een zipbestand als bijlage
+openen en met een toets op de bijlage opent het zipbestand in Zippity. Als u op het web
+een zipbestand vindt toets de "Open in..." knop bovenin het Safarischerm om het bestand
+te openen in Zippity.
 
-Zippity also handles .tar and .gz files.
+Zippity kan ook .tar en .gz bestanden openen.
 
-KEYWORDS 
+TREFWOORDEN 
 
-zip tar gz gzip archive file
+zip tar gz gzip archief bestand
