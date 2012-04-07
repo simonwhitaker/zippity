@@ -1,5 +1,5 @@
 # Zippity i18n TODOs
 
-* Internationalize image gallery
-* Toolbar buttons need resizing based on language
+* [DONE] Internationalize image gallery
+* [DONE] Toolbar buttons need resizing based on language
 * Dutch: Settings labels too long (see screenshot in Photo Stream)
