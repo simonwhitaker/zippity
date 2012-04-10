@@ -114,18 +114,15 @@ static NSArray * SupportedArchiveTypes;
             result = [[ZPDirectoryWrapper alloc] initWithURL:url error:error];
         } else {
             UIDocumentInteractionController *ic = [UIDocumentInteractionController interactionControllerWithURL:url];
-            BOOL isArchiveType = NO;
-            for (NSString * uti in SupportedArchiveTypes) {
-                if (UTTypeConformsTo((__bridge CFStringRef)ic.UTI, (__bridge CFStringRef)uti)) {
-                    isArchiveType = YES;
-                    break;
-                }
-            }
-            if (isArchiveType) {
+
+            if ([SupportedArchiveTypes containsObject:ic.UTI]) {
+                // It's an archive file type
                 result = [[ZPArchiveFileWrapper alloc] initWithURL:url error:error];
             } else {
+                // It's a regular file type
                 result = [[ZPRegularFileWrapper alloc] initWithURL:url error:error];
             }
+            
             // Save the document interaction controller - no point re-generating it later
             result->_documentInteractionController = ic;
         }
