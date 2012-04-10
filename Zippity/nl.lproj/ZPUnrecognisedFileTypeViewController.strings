@@ -1,0 +1,4 @@
+
+
+/* A message shown to users when viewing a file that can't be previewed within Zippity */
+"7.text" = "Zippity kan dit formaat bestand niet openen. Probeer het te openen in een andere app doormiddel van de actie knop hierboven.";

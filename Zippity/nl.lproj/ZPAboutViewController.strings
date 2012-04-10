@@ -1,0 +1,15 @@
+
+/* Class = "IBUINavigationItem"; title = "About Zippity"; ObjectID = "5"; */
+"5.title" = "Over Zippity";
+
+/* Class = "IBUILabel"; text = "Zippity is crafted with care by Goo Software Ltd. We'd love to hear from you!"; ObjectID = "14"; */
+"14.text" = "Zippity is met zorg gebouwd door Goo Software Ltd. We zouden zeer graag van u horen!";
+
+/* Class = "IBUILabel"; text = "Zippity icon created by hicksdesign."; ObjectID = "20"; */
+"20.text" = "Zippity pictogram gecreëerd door hicksdesign.";
+
+/* Class = "IBUIButton"; normalTitle = "  Visit hicksdesign.co.uk"; ObjectID = "21"; */
+"21.normalTitle" = "  Bezoek hicksdesign.co.uk";
+
+/* Class = "IBUILabel"; text = "Version info"; ObjectID = "23"; */
+"23.text" = "Versieinformatie";

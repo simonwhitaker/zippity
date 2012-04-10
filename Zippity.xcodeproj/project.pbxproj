@@ -17,7 +17,6 @@
 		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
 		F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41385B515134AF80087B896 /* QuartzCore.framework */; };
 		F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */; };
-		F417C78C150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F417C78B150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib */; };
 		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
 		F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E714F3C80000082527 /* MobileCoreServices.framework */; };
 		F4413929150BBEC0007F5E03 /* nav-bar-title.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413927150BBEC0007F5E03 /* nav-bar-title.png */; };
@@ -51,11 +50,12 @@
 		F482789D151D2B2600E62CD0 /* Document-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F482789A151D2B2600E62CD0 /* Document-icon.png */; };
 		F482789E151D2B2600E62CD0 /* Document-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F482789B151D2B2600E62CD0 /* Document-icon@2x.png */; };
 		F482789F151D2B2600E62CD0 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = F482789C151D2B2600E62CD0 /* iTunesArtwork */; };
+		F482B0EB152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F482B0ED152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib */; };
+		F482B10A152BA43100E8965B /* ZPAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F482B10C152BA43100E8965B /* ZPAboutViewController.xib */; };
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
 		F4D34821151C90B8008B706A /* ZPAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D3481F151C90B8008B706A /* ZPAboutViewController.m */; };
-		F4D34822151C90B8008B706A /* ZPAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4D34820151C90B8008B706A /* ZPAboutViewController.xib */; };
 		F4D34824151C9906008B706A /* rough_diagonal.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D34823151C9906008B706A /* rough_diagonal.png */; };
 		F4D34826151C9B38008B706A /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D34825151C9B38008B706A /* Twitter.framework */; };
 		F4D34829151C9E8F008B706A /* 18-envelope.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D34827151C9E8F008B706A /* 18-envelope.png */; };
@@ -66,6 +66,8 @@
 		F4D34832151C9EBA008B706A /* 210-twitterbird@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D34830151C9EBA008B706A /* 210-twitterbird@2x.png */; };
 		F4D34835151CA000008B706A /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D34834151CA000008B706A /* Accounts.framework */; };
 		F4E1905514F946EF0098D5BB /* ZPImagePreviewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F4E1905414F946EF0098D5BB /* ZPImagePreviewController.xib */; };
+		F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
+		F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
 		F4F62C2414FFBE7600AB0C8C /* libarc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F62C2214FFBE7600AB0C8C /* libarc.a */; };
 		F4F62C2514FFBE7600AB0C8C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4F62C2314FFBE7600AB0C8C /* README.md */; };
 		F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */; };
@@ -86,7 +88,6 @@
 		F41385B515134AF80087B896 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		F417C78B150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
 		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F43352E714F3C80000082527 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F4413927150BBEC0007F5E03 /* nav-bar-title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title.png"; sourceTree = "<group>"; };
@@ -129,12 +130,13 @@
 		F482789A151D2B2600E62CD0 /* Document-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Document-icon.png"; sourceTree = "<group>"; };
 		F482789B151D2B2600E62CD0 /* Document-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Document-icon@2x.png"; sourceTree = "<group>"; };
 		F482789C151D2B2600E62CD0 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
+		F482B0EC152B916C00E8965B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
+		F482B10B152BA43100E8965B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		F4D3481E151C90B8008B706A /* ZPAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPAboutViewController.h; sourceTree = "<group>"; };
 		F4D3481F151C90B8008B706A /* ZPAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPAboutViewController.m; sourceTree = "<group>"; };
-		F4D34820151C90B8008B706A /* ZPAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPAboutViewController.xib; sourceTree = "<group>"; };
 		F4D34823151C9906008B706A /* rough_diagonal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rough_diagonal.png; sourceTree = "<group>"; };
 		F4D34825151C9B38008B706A /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		F4D34827151C9E8F008B706A /* 18-envelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "18-envelope.png"; sourceTree = "<group>"; };
@@ -145,6 +147,13 @@
 		F4D34830151C9EBA008B706A /* 210-twitterbird@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "210-twitterbird@2x.png"; sourceTree = "<group>"; };
 		F4D34834151CA000008B706A /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		F4E1905414F946EF0098D5BB /* ZPImagePreviewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPImagePreviewController.xib; sourceTree = "<group>"; };
+		F4F5DB581530C71B00D6F45C /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = nl.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
+		F4F5DB591530C72200D6F45C /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = nl.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
+		F4F5DB5D1530CA6900D6F45C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F4F5DB5F1530CA7C00D6F45C /* nl */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F4F5DB611530E40700D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = hu; path = hu.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
+		F4F5DB621530E40C00D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = hu; path = hu.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
+		F4F5DB631530E41100D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F4F62C1F14FFBE7600AB0C8C /* archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive.h; sourceTree = "<group>"; };
 		F4F62C2014FFBE7600AB0C8C /* archive_entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive_entry.h; sourceTree = "<group>"; };
 		F4F62C2114FFBE7600AB0C8C /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
@@ -218,10 +227,10 @@
 				F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */,
 				F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */,
 				F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */,
-				F417C78B150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib */,
+				F482B0ED152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib */,
 				F4D3481E151C90B8008B706A /* ZPAboutViewController.h */,
 				F4D3481F151C90B8008B706A /* ZPAboutViewController.m */,
-				F4D34820151C90B8008B706A /* ZPAboutViewController.xib */,
+				F482B10C152BA43100E8965B /* ZPAboutViewController.xib */,
 				F42E46101505E01900DBAF17 /* Image gallery */,
 			);
 			name = "Views and controllers";
@@ -275,7 +284,7 @@
 		F47F535C14ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXGroup;
 			children = (
-				F45DA71C150FA05500C40E63 /* Settings.bundle */,
+				F482B0F5152B936D00E8965B /* App core */,
 				F42D56E41508B013000D89A2 /* Models */,
 				F4B9909914EE66F200F8FBD8 /* Categories */,
 				F47DFDA214ED5709007F7443 /* Third-party libraries */,
@@ -288,17 +297,26 @@
 		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				F47F536514ECCC82009BF6FE /* ZPAppDelegate.h */,
-				F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */,
+				F4F5DB5C1530CA6900D6F45C /* Localizable.strings */,
 				F4B9909E14EE820C00F8FBD8 /* Images */,
-				F47F535F14ECCC82009BF6FE /* InfoPlist.strings */,
-				F47F536214ECCC82009BF6FE /* main.m */,
 				F46921A214F7F00500669E7E /* Welcome to Zippity.zip */,
+				F47F535F14ECCC82009BF6FE /* InfoPlist.strings */,
 				F47F535E14ECCC82009BF6FE /* Zippity-Info.plist */,
 				F47F536414ECCC82009BF6FE /* Zippity-Prefix.pch */,
-				F40144F4151263690036AF48 /* ZPDefaultsKeys.h */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F482B0F5152B936D00E8965B /* App core */ = {
+			isa = PBXGroup;
+			children = (
+				F45DA71C150FA05500C40E63 /* Settings.bundle */,
+				F47F536514ECCC82009BF6FE /* ZPAppDelegate.h */,
+				F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */,
+				F47F536214ECCC82009BF6FE /* main.m */,
+				F40144F4151263690036AF48 /* ZPDefaultsKeys.h */,
+			);
+			name = "App core";
 			sourceTree = "<group>";
 		};
 		F4B9909914EE66F200F8FBD8 /* Categories */ = {
@@ -404,6 +422,10 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"fr-FR",
+				fr,
+				nl,
+				hu,
 			);
 			mainGroup = F47F534714ECCC82009BF6FE;
 			productRefGroup = F47F535314ECCC82009BF6FE /* Products */;
@@ -432,7 +454,7 @@
 				F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */,
 				F4E1905514F946EF0098D5BB /* ZPImagePreviewController.xib in Resources */,
 				F4F62C2514FFBE7600AB0C8C /* README.md in Resources */,
-				F417C78C150A31F20035CACD /* ZPUnrecognisedFileTypeViewController.xib in Resources */,
+				F482B0EB152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib in Resources */,
 				F4413929150BBEC0007F5E03 /* nav-bar-title.png in Resources */,
 				F441392A150BBEC0007F5E03 /* nav-bar-title@2x.png in Resources */,
 				F441392E150BC158007F5E03 /* nav-bar-background.png in Resources */,
@@ -444,7 +466,7 @@
 				F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */,
 				F404A4DF1513DEC300C5D59F /* nav-bar-background-landscape.png in Resources */,
 				F404A4E01513DEC300C5D59F /* nav-bar-background-landscape@2x.png in Resources */,
-				F4D34822151C90B8008B706A /* ZPAboutViewController.xib in Resources */,
+				F482B10A152BA43100E8965B /* ZPAboutViewController.xib in Resources */,
 				F4D34824151C9906008B706A /* rough_diagonal.png in Resources */,
 				F4D34829151C9E8F008B706A /* 18-envelope.png in Resources */,
 				F4D3482A151C9E8F008B706A /* 18-envelope@2x.png in Resources */,
@@ -459,6 +481,8 @@
 				F482789F151D2B2600E62CD0 /* iTunesArtwork in Resources */,
 				F41113A1152341270052E1B3 /* info.png in Resources */,
 				F41113A2152341270052E1B3 /* info@2x.png in Resources */,
+				F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */,
+				F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,6 +549,36 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		F482B0ED152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F482B0EC152B916C00E8965B /* en */,
+				F4F5DB591530C72200D6F45C /* nl */,
+				F4F5DB621530E40C00D6F45C /* hu */,
+			);
+			name = ZPUnrecognisedFileTypeViewController.xib;
+			sourceTree = "<group>";
+		};
+		F482B10C152BA43100E8965B /* ZPAboutViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F482B10B152BA43100E8965B /* en */,
+				F4F5DB581530C71B00D6F45C /* nl */,
+				F4F5DB611530E40700D6F45C /* hu */,
+			);
+			name = ZPAboutViewController.xib;
+			sourceTree = "<group>";
+		};
+		F4F5DB5C1530CA6900D6F45C /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F4F5DB5D1530CA6900D6F45C /* en */,
+				F4F5DB5F1530CA7C00D6F45C /* nl */,
+				F4F5DB631530E41100D6F45C /* hu */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -554,7 +608,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Goo Software Ltd";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
@@ -620,7 +674,7 @@
 		F47F536B14ECCC82009BF6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
@@ -639,7 +693,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 21;
+				CURRENT_PROJECT_VERSION = 22;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";

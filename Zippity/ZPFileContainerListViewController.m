@@ -6,6 +6,20 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
+/*
+ Common localised strings. If a string is localised more than once, put the
+ appropriate translation macro here for genstrings to find, then use
+ [[NSBundle mainBundle] localizedStringForKey:] in the code.
+ 
+ NSLocalizedString("Cancel",        "The text for a button that will cancel an action when tapped")
+ NSLocalizedString("Delete",        "The text for a button that will delete files when tapped")
+ NSLocalizedString("Email",         "The text for a button that will start composing an email when tapped")
+ NSLocalizedString("OK",            "The text for a button that confirms a message has been received when tapped")
+ NSLocalizedString("Error",         "The title for a message box shown when an error occurs")
+ NSLocalizedString("Share",         "The text for a button that will share files when tapped, for example by email")
+ NSLocalizedString("Save Images",   "The text for a button that will save image files to the camera roll when tapped")
+ */
+
 #import "ZPFileContainerListViewController.h"
 #import "ZPAppDelegate.h"
 #import <QuickLook/QuickLook.h>
@@ -108,29 +122,26 @@ enum {
     
     NSMutableArray * toolbarButtons = [NSMutableArray array];
     UIBarButtonItem * tempButton;
-    tempButton = [[UIBarButtonItem alloc] initWithTitle:@"Share"
+    tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Share" value:nil table:nil]
                                                   style:UIBarButtonItemStyleBordered
                                                  target:self
                                                  action:@selector(shareSelectedItems)];
-    tempButton.width = 80.0;
     [toolbarButtons addObject:tempButton];
     self.shareButton = tempButton;
     
     if (self.isRoot) {
-        tempButton = [[UIBarButtonItem alloc] initWithTitle:@"Delete" 
+        tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Delete" value:nil table:nil]
                                                       style:UIBarButtonItemStyleBordered 
                                                      target:self 
                                                      action:@selector(deleteSelectedItems)];
         tempButton.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
-        tempButton.width = 80.0;
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
     } else {
-        tempButton = [[UIBarButtonItem alloc] initWithTitle:@"Save Images"
+        tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Save Images" value:nil table:nil]
                                                       style:UIBarButtonItemStyleBordered
                                                      target:self
                                                      action:@selector(saveSelectedImages)];
-        tempButton.width = 120.0;
         [toolbarButtons addObject:tempButton];
         self.saveImagesButton = tempButton;
     }
@@ -152,6 +163,8 @@ enum {
                                                                                  style:UIBarButtonItemStyleBordered
                                                                                 target:self
                                                                                 action:@selector(showInfoView:)];
+        self.navigationItem.leftBarButtonItem.accessibilityLabel = NSLocalizedString(@"About Zippity", 
+                                                                                     @"Accessibility label for the About button on the Zippity home view");
     }
 }
 
@@ -232,9 +245,9 @@ enum {
     
     self.selectedImageFileWrappers = [NSArray arrayWithArray:tempArray];
     
-    [self.deleteButton updateWithLabel:@"Delete" andCount:numSelected];
-    [self.shareButton updateWithLabel:@"Share" andCount:numSelected];
-    [self.saveImagesButton updateWithLabel:@"Save Images" andCount:[self.selectedImageFileWrappers count]];
+    [self.deleteButton updateWithLabel:[[NSBundle mainBundle] localizedStringForKey:@"Delete" value:nil table:nil] andCount:numSelected];
+    [self.shareButton updateWithLabel:[[NSBundle mainBundle] localizedStringForKey:@"Share" value:nil table:nil] andCount:numSelected];
+    [self.saveImagesButton updateWithLabel:[[NSBundle mainBundle] localizedStringForKey:@"Save Images" value:nil table:nil] andCount:[self.selectedImageFileWrappers count]];
 }
 
 #pragma mark - Custom accessors
@@ -283,9 +296,11 @@ enum {
         
         if (wrapper.isRegularFile) {
             if (self.isRoot) {
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"Added on %@", [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+                NSString *formatString = NSLocalizedString(@"Added on %@", @"Subtitle for table cells in the home view. %@ is replaced with the date the file was added.");
+                cell.detailTextLabel.text = [NSString stringWithFormat:formatString, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
             } else {
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%@, last modified on %@", wrapper.humanFileSize, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
+                NSString *formatString = NSLocalizedString(@"%@, last modified on %@", @"Subtitle for a table cell showing a specific file from within a zip file. The placeholders are %1$@: filename, %2$@: file's last modified date.");
+                cell.detailTextLabel.text = [NSString stringWithFormat:formatString, wrapper.humanFileSize, [self.subtitleDateFormatter stringFromDate:wrapper.attributes.fileModificationDate]];
             }
         }
         
@@ -294,7 +309,7 @@ enum {
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         cell.imageView.image = wrapper.icon;
     } else {
-        cell.textLabel.text = @"Unpacking contents...";
+        cell.textLabel.text = NSLocalizedString(@"Unpacking contents...", @"Short message shown while unpacking a zip file");
         UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         cell.accessoryView = aiv;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -437,12 +452,12 @@ enum {
 
 #pragma mark - UIActionSheet delegate methods
 
-#define kEmailButtonLabel @"Email"
-
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (actionSheet.tag == GSFileContainerListViewActionSheetShare) {
-        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:NSLocalizedString(kEmailButtonLabel, nil)]) {
+        NSString * emailLabel = [[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil];
+        
+        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:emailLabel]) {
             if ([MFMailComposeViewController canSendMail]) {
                 MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
                 mailComposer.mailComposeDelegate = self;
@@ -473,10 +488,13 @@ enum {
                     [self toggleEditMode];
                 }
             } else {
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Oops"
-                                                             message:@"You can't send mail on this device - maybe you need to set up an email account?"
+                NSString *message = NSLocalizedString(@"You don't have an email account configured. You can set one up in the main Settings app.", 
+                                                      @"Message shown to a user when they try to email a file but have not set up an email account on their iPhone.");
+
+                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Error" value:nil table:nil]
+                                                             message:message
                                                             delegate:nil
-                                                   cancelButtonTitle:@"OK"
+                                                   cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"OK" value:nil table:nil]
                                                    otherButtonTitles:nil];
                 [av show];
             }
@@ -557,15 +575,19 @@ enum {
     NSString *title;
     if (self.selectedImageFileWrappers.count == 1) {
         ZPFileWrapper *imageFileWrapper = [self.selectedImageFileWrappers objectAtIndex:0];
-        title = [NSString stringWithFormat:@"Save %@", imageFileWrapper.name];
+        NSString * formatString = NSLocalizedString(@"Save %@", 
+                                                    @"The title for a confirmation dialog shown when saving a file. %@ is replaced by the filename of the file.");
+        title = [NSString stringWithFormat:formatString, imageFileWrapper.name];
     } else {
-        title = [NSString stringWithFormat:@"Save %u images", self.selectedImageFileWrappers.count];
+        NSString * formatString = NSLocalizedString(@"Save %u images", 
+                                                    @"The title for a confirmation dialog shown when saving files. %u is replaced by the number of files being saved.");
+        title = [NSString stringWithFormat:formatString, self.selectedImageFileWrappers.count];
     }
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
                                                     delegate:self
-                                           cancelButtonTitle:@"Cancel"
+                                           cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
                                       destructiveButtonTitle:nil
-                                           otherButtonTitles:@"Save to Photos", nil];
+                                           otherButtonTitles:NSLocalizedString(@"Save to Photos", @"Button text for Save to Photos button in action sheet"), nil];
     as.tag = GSFileContainerListViewActionSaveImages;
     [as showFromToolbar:self.navigationController.toolbar];
 }
@@ -576,15 +598,19 @@ enum {
     if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
         NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
         ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
-        title = [NSString stringWithFormat:@"Share %@", fileWrapper.name];
+        NSString *formatString = NSLocalizedString(@"Share %@", 
+                                                   @"The title for a confirmation dialog shown when sharing a file. %@ is replaced by the filename of a single selected file.");
+        title = [NSString stringWithFormat:formatString, fileWrapper.name];
     } else {
-        title = [NSString stringWithFormat:@"Share %u files", [[self.tableView indexPathsForSelectedRows] count]];
+        NSString *formatString = NSLocalizedString(@"Share %u files", 
+                                                   @"The title for a confirmation dialog shown when sharing files. %u is replaced by the number of selected files.");
+        title = [NSString stringWithFormat:formatString, [[self.tableView indexPathsForSelectedRows] count]];
     }
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
                                                     delegate:self
-                                           cancelButtonTitle:@"Cancel"
+                                           cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
                                       destructiveButtonTitle:nil
-                                           otherButtonTitles:@"Email", nil];
+                                           otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], nil];
     as.tag = GSFileContainerListViewActionSheetShare;
     [as showFromToolbar:self.navigationController.toolbar];
 }
@@ -595,14 +621,18 @@ enum {
     if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
         NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
         ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
-        title = [NSString stringWithFormat:@"Delete %@", fileWrapper.name];
+        NSString * formatString = NSLocalizedString(@"Delete %@", 
+                                                    @"The title for a confirmation dialog shown when deleting a file. %@ is replaced by the filename of a single selected file.");
+        title = [NSString stringWithFormat:formatString, fileWrapper.name];
     } else {
-        title = [NSString stringWithFormat:@"Delete %u files", [[self.tableView indexPathsForSelectedRows] count]];
+        NSString * formatString = NSLocalizedString(@"Delete %u files",
+                                                    @"The title for a confirmation dialog shown when deleting files. %@ is replaced by the number of selected files.");
+        title = [NSString stringWithFormat:formatString, [[self.tableView indexPathsForSelectedRows] count]];
     }
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
                                                     delegate:self
-                                           cancelButtonTitle:@"Cancel"
-                                      destructiveButtonTitle:@"Delete"
+                                           cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
+                                      destructiveButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Delete" value:nil table:nil]
                                            otherButtonTitles:nil];
     as.tag = GSFileContainerListViewActionSheetDelete;
     [as showFromToolbar:self.navigationController.toolbar];
@@ -629,17 +659,19 @@ enum {
     NSError *error = [[notification userInfo] objectForKey:kErrorKey];
     NSString *errorMessage;
     if (error.domain == ZPFileWrapperErrorDomain && error.code == ZPFileWrapperErrorFailedToExtractArchive) {
-        errorMessage = @"Zippity couldn't open that archive file. It might be corrupt.";
+        errorMessage = NSLocalizedString(@"Zippity couldn't open that archive file. It might be corrupt.", 
+                                         @"Error message to display when a zip file can't be opened.");
     } else {
-        errorMessage = @"Zippity can't list the files in this folder.";
+        errorMessage = NSLocalizedString(@"Zippity can't list the files in this folder.",
+                                         @"Error message to display when the contents of a zip file can't be displayed for some unknown reason.");
     }
 
     // TODO: show error to user
-    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"Error"
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Error" value:nil table:nil]
                                                  message:errorMessage
                                                 delegate:self
                                        cancelButtonTitle:nil
-                                       otherButtonTitles:@"OK", nil];
+                                       otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"OK" value:nil table:nil], nil];
     [av show];
 }
 

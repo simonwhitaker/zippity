@@ -1,0 +1,11 @@
+LEÍRÁS
+
+A Zippity a legegyszerűbb módja a zip fájlok megnyitásának iPhone-on. Ezeket a típusú fájlokat emailekből, vagy akár közvetlenül a webről letöltve is megnyithatjuk. A Zippity előre megmutatja a fájl tartalmát, az egyes elemeket, vagy az egészet pedig elküldhetjük másnak emailen stb.
+
+Miután feltelepítetted a Zippity-t, egyszerűen csak nyiss meg egy olyan emailt a levelezőben, amihez csatoltak valamilyen zip fájlt, a Zippity onnan fogja megnyitni. Ha a weben böngészés közben találtál volna egy zip-et, akkor a "Megnyitás ezzel: 'Zippity'" gombra koppintva tudod hívni a Zippity-t.
+
+A Zippity megnyitja még a .tar és .gz kiterjesztésű fájlokat is.
+
+KULCSSZAVAK
+
+zip tar gz gzip archive file archív fájl
