@@ -11,16 +11,20 @@
 		<dict>
 			<key>CFBundleTypeName</key>
 			<string>Archive file</string>
-			<key>CFBundleTypeIconFile</key>
-			<string>Document-icon.png</string>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>Document-icon.png</string>
+				<string>Document-icon@2x.png</string>
+			</array>
 			<key>LSHandlerRank</key>
 			<string>Default</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.zip-archive</string>
-				<string>org.gnu.gnu-zip-archive</string>
 				<string>org.gnu.gnu-zip-tar-archive</string>
 				<string>public.tar-archive</string>
+				<string>public.tar-bzip2-archive</string>
+				<string>org.gnu.gnu-zip-archive</string>
 				<string>public.bzip2-archive</string>
 			</array>
 		</dict>
@@ -47,7 +51,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>20</string>
+	<string>22</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIPrerenderedIcon</key>

@@ -9,10 +9,13 @@
 #endif
 
 #ifdef __OBJC__
-    #import <UIKit/UIKit.h>
-    #import <Foundation/Foundation.h>
-    #import "NSDate+GSAdditions.h"
-    #import "TestFlight.h"
-    #import "ZPDefaultsKeys.h"
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "NSDate+GSAdditions.h"
+#import "TestFlight.h"
+#import "ZPDefaultsKeys.h"
+
+#define isIpad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
 #endif
+
 #define HELLO NSLog(@"--TRACE-- %s (%s:%d)", __PRETTY_FUNCTION__, __FILE__, __LINE__);

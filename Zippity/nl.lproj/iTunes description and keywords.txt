@@ -1,0 +1,16 @@
+BESCHRIJVING
+
+Zippity is de makkelijkste manier om zip bestanden te gebruiken op uw iPhone. Het kan
+zipbestanden openen die u ontvangt in emails or download van het internet, zodat u de
+inhoud kan bekijken en de zip bestanden per email kan doorsturen enz.
+
+Als u Zippity geinstalleerd heeft kunt u eenvoudig email met een zipbestand als bijlage
+openen en met een toets op de bijlage opent het zipbestand in Zippity. Als u op het web
+een zipbestand vindt toets de "Open in..." knop bovenin het Safarischerm om het bestand
+te openen in Zippity.
+
+Zippity kan ook .tar en .gz bestanden openen.
+
+TREFWOORDEN 
+
+zip tar gz gzip archief bestand

@@ -40,6 +40,14 @@
                                                                                            action:@selector(handleActionButton)];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (isIpad) {
+        return YES;
+    }
+    return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
@@ -51,9 +59,6 @@
     if ([self.fileWrapper.documentInteractionController presentOptionsMenuFromRect:CGRectZero
                                                                             inView:self.view
                                                                           animated:YES]) {
-        NSLog(@"Showed options menu");
-    } else {
-        NSLog(@"Didn't show options menu");
     }
     
 }

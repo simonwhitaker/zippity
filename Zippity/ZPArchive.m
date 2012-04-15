@@ -43,6 +43,12 @@ static int copy_data(struct archive *ar, struct archive *aw) {
     return 0;
 }
 
+@interface ZPArchive()
+
+- (NSString*)filenameForPseudoArchiveContents;
+
+@end
+
 @implementation ZPArchive
 
 @synthesize path=_path;
@@ -56,6 +62,50 @@ static int copy_data(struct archive *ar, struct archive *aw) {
     return self;
 }
 
+- (BOOL)isPseudoArchive
+{
+    if (_isPseudoArchiveObj == nil) {
+        BOOL result = NO;
+        NSString *filename = [[self.path lastPathComponent] lowercaseString];
+        
+        static NSRegularExpression *PlainGzRegex;
+        static NSRegularExpression *PlainBz2Regex;
+        
+        if (PlainGzRegex == nil) {
+            // Construct a regex looking for .gz with a negative look-behind
+            // assertion to exclude .tar.gz files
+            PlainGzRegex = [NSRegularExpression regularExpressionWithPattern:@"(?<!\\.tar)\\.gz$"
+                                                                     options:NSRegularExpressionCaseInsensitive
+                                                                       error:nil];
+        }
+        
+        if (PlainBz2Regex == nil) {
+            // Construct a regex looking for .bz / .bz2 with a negative look-behind
+            // assertion to exclude .tar.bz2 / .tar.bz files
+            PlainBz2Regex = [NSRegularExpression regularExpressionWithPattern:@"(?<!\\.tar)\\.bz2?$"
+                                                                      options:NSRegularExpressionCaseInsensitive
+                                                                        error:nil];
+        }
+        
+        NSRange r = NSMakeRange(0, [filename length]);
+        if (PlainGzRegex && [PlainGzRegex numberOfMatchesInString:filename options:0 range:r] > 0) {
+            result = YES;
+        } else if (PlainBz2Regex && [PlainBz2Regex numberOfMatchesInString:filename options:0 range:r] > 0) {
+            result = YES;
+        }
+        _isPseudoArchiveObj = [NSNumber numberWithBool:result];
+    }
+    return [_isPseudoArchiveObj boolValue];
+}
+
+- (NSString*)filenameForPseudoArchiveContents
+{
+    // For now our only valid cases are somefile.gz and somefile.bz[2]. In
+    // either case we can get the filename by just stripping off the
+    // file extension.
+    return [[self.path lastPathComponent] stringByDeletingPathExtension];
+}
+
 - (BOOL)extractToDirectory:(NSString *)directoryPath overwrite:(BOOL)shouldOverwrite error:(NSError *__autoreleasing *)error
 {
     struct archive *a;
@@ -63,7 +113,7 @@ static int copy_data(struct archive *ar, struct archive *aw) {
     struct archive_entry *entry;
     
     const char * filename = [self.path UTF8String];
-    
+        
     int flags;
     int r;
     
@@ -73,15 +123,21 @@ static int copy_data(struct archive *ar, struct archive *aw) {
     archive_read_support_format_all(a);
     archive_read_support_compression_all(a);
     
+    // Support files that aren't actually "archives", such as
+    // plain .gz and .bz2 files
+    archive_read_support_format_raw(a);
+    
     ext = archive_write_disk_new();
     archive_write_disk_set_options(ext, flags);
     archive_write_disk_set_standard_lookup(ext);
     
     r = archive_read_open_filename(a, filename, 10240);
     if (r != ARCHIVE_OK) {
-        *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
-                                            code:GSArchiveFileReadError
-                                        userInfo:errorInfoForArchive(a)];
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                code:GSArchiveFileReadError
+                                            userInfo:errorInfoForArchive(a)];
+        }
         return NO;
     }
     
@@ -92,39 +148,54 @@ static int copy_data(struct archive *ar, struct archive *aw) {
             break;
         }
         if (r < ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
-                                                code:GSArchiveEntryReadError
-                                            userInfo:errorInfoForArchive(a)];
+            if (error) {
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                    code:GSArchiveEntryReadError
+                                                userInfo:errorInfoForArchive(a)];
+            }
             return NO;
         }
         
         const char * cPath = archive_entry_pathname(entry);
         NSString *path = [NSString stringWithCString:cPath encoding:NSUTF8StringEncoding];
+
+        if ([self isPseudoArchive]) {
+            path = [self filenameForPseudoArchiveContents];
+            // Set standard permissions, otherwise it gets
+            // perms of 0000.
+            archive_entry_set_perm(entry, S_IRWXU);
+        }
         NSString *fullPath = [directoryPath stringByAppendingPathComponent:path];
         const char * cFullPath = [fullPath UTF8String];
         archive_entry_set_pathname(entry, cFullPath);
         
         r = archive_write_header(ext, entry);
         if (r != ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
-                                                code:GSArchiveEntryWriteError
-                                            userInfo:errorInfoForArchive(a)];
+            if (error) {
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                    code:GSArchiveEntryWriteError
+                                                userInfo:errorInfoForArchive(a)];
+            }
             return NO;
         } else if (archive_entry_size(entry) > 0 || !archive_entry_size_is_set(entry)) {
             r = copy_data(a, ext);
             if (r != ARCHIVE_OK) {
-                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
-                                                    code:GSArchiveEntryWriteError
-                                                userInfo:errorInfoForArchive(a)];
+                if (error) {
+                    *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                        code:GSArchiveEntryWriteError
+                                                    userInfo:errorInfoForArchive(a)];
+                }
                 return NO;
             }
         }
         
         r = archive_write_finish_entry(ext);
         if (r != ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
-                                                code:GSArchiveEntryWriteError
-                                            userInfo:errorInfoForArchive(a)];
+            if (error) {
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                    code:GSArchiveEntryWriteError
+                                                userInfo:errorInfoForArchive(a)];
+            }
             return NO;
         }
     }

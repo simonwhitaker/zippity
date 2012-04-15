@@ -114,18 +114,15 @@ static NSArray * SupportedArchiveTypes;
             result = [[ZPDirectoryWrapper alloc] initWithURL:url error:error];
         } else {
             UIDocumentInteractionController *ic = [UIDocumentInteractionController interactionControllerWithURL:url];
-            BOOL isArchiveType = NO;
-            for (NSString * uti in SupportedArchiveTypes) {
-                if (UTTypeConformsTo((__bridge CFStringRef)ic.UTI, (__bridge CFStringRef)uti)) {
-                    isArchiveType = YES;
-                    break;
-                }
-            }
-            if (isArchiveType) {
+
+            if ([SupportedArchiveTypes containsObject:ic.UTI]) {
+                // It's an archive file type
                 result = [[ZPArchiveFileWrapper alloc] initWithURL:url error:error];
             } else {
+                // It's a regular file type
                 result = [[ZPRegularFileWrapper alloc] initWithURL:url error:error];
             }
+            
             // Save the document interaction controller - no point re-generating it later
             result->_documentInteractionController = ic;
         }
@@ -225,8 +222,12 @@ static NSArray * SupportedArchiveTypes;
         _containerStatus = containerStatus;
         
         if (_containerStatus == ZPFileWrapperContainerStatusReady) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidReloadContents
-                                                                object:self];
+            
+            // Send notification on the main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidReloadContents
+                                                                    object:self];
+            });
         }
     }
 }
@@ -353,9 +354,11 @@ static NSArray * SupportedArchiveTypes;
                                                                            error:&error];
         if (error) {
             self.containerStatus = ZPFileWrapperContainerStatusError;
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                object:self
-                                                              userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                    object:self
+                                                                  userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];
+            });
         } else {
             NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:urls.count];
             for (NSURL *url in urls) {
@@ -368,9 +371,11 @@ static NSArray * SupportedArchiveTypes;
                 ZPFileWrapper *wrapper = [ZPFileWrapper fileWrapperWithURL:url error:&initError];
                 if (initError) {
                     self.containerStatus = ZPFileWrapperContainerStatusError;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                        object:self
-                                                                      userInfo:[NSDictionary dictionaryWithObject:initError forKey:kErrorKey]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                            object:self
+                                                                          userInfo:[NSDictionary dictionaryWithObject:initError forKey:kErrorKey]];
+                    });
                     return;
                 }
                 [tempArray addObject:wrapper];
@@ -454,7 +459,8 @@ static NSArray * SupportedArchiveTypes;
     NSString *itemPath = [self.url.path stringByDeletingLastPathComponent];
     NSString *filename = [[self.url.path lastPathComponent] stringByDeletingPathExtension];
     
-    NSString *previewImageFilename = [NSString stringWithFormat:@".preview_%@.png", filename];
+    NSString *previewImageFilename = [NSString stringWithFormat:@".%@_preview.png", filename];
+    previewImageFilename = [previewImageFilename stringByReplacingOccurrencesOfString:@"@2x" withString:@"___2x"];
     return [itemPath stringByAppendingPathComponent:previewImageFilename];
 }
 
@@ -463,7 +469,6 @@ static NSArray * SupportedArchiveTypes;
     @autoreleasepool {
         UIImage *result;
         
-        NSLog(@"Starting to resize %@", self.url.lastPathComponent);
         UIImage *image = [UIImage imageWithContentsOfFile:self.url.path];
         CGFloat scale = MAX(image.size.width / kDisplayImageMaxDimension, image.size.height / kDisplayImageMaxDimension);
         CGSize newSize = image.size;
@@ -483,10 +488,11 @@ static NSArray * SupportedArchiveTypes;
         if (error) {
             // TODO: send error notification
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
-                                                                object:self];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
+                                                                    object:self];
+            });
         }
-        NSLog(@"Finished resizing %@", self.url.lastPathComponent);
         self.isQueuedForImageResizing = NO;
     }
 }
@@ -496,6 +502,21 @@ static NSArray * SupportedArchiveTypes;
 - (BOOL)isRegularFile 
 {
     return YES; 
+}
+
+- (BOOL)isRetinaImageFile
+{
+    if (![self isImageFile])
+        return NO;
+    
+    NSString *filenameMinusExtension = [[self.url.path lastPathComponent] stringByDeletingPathExtension];
+    
+    if ([filenameMinusExtension length] < 3)
+        return NO;
+    
+    NSString *lastThreeChars = [filenameMinusExtension substringFromIndex:[filenameMinusExtension length] - 3];
+    
+    return [lastThreeChars isEqualToString:@"@2x"];
 }
 
 - (BOOL)isImageFile
@@ -540,15 +561,17 @@ static NSArray * SupportedArchiveTypes;
     }
     
     UIImage *image = [UIImage imageWithContentsOfFile:self.url.path];
-    if (image.size.width <= kDisplayImageMaxDimension && image.size.height <= kDisplayImageMaxDimension) {
+    
+    BOOL needsResizing = image.size.width > kDisplayImageMaxDimension || image.size.height > kDisplayImageMaxDimension;
+    
+    if (!needsResizing && ![self isRetinaImageFile]) {
         return image;
     }
     
     NSString *displayImageCachePath = [self _displayImageCachePath];
     if ([[NSFileManager defaultManager] fileExistsAtPath:displayImageCachePath]) {
-        NSLog(@"Found cached, resized image: %@", [displayImageCachePath lastPathComponent]);
         return [UIImage imageWithContentsOfFile:displayImageCachePath];
-    } else {
+    } else if (needsResizing) {
         if (!self.isQueuedForImageResizing) {
             [[ZPRegularFileWrapper _resizeQueue] addOperation:[NSBlockOperation blockOperationWithBlock:^{
                 [self _generateDisplayImage];
@@ -556,6 +579,18 @@ static NSArray * SupportedArchiveTypes;
             self.isQueuedForImageResizing = YES;
         }
         return nil;
+    } else {
+        // Just copy the image to its display image cache path. Used for rendering
+        // non-retina version of retina images
+        
+        BOOL copied = [[NSFileManager defaultManager] copyItemAtPath:self.url.path 
+                                                              toPath:displayImageCachePath
+                                                               error:nil];
+        if (copied) {
+            return [UIImage imageWithContentsOfFile:displayImageCachePath];
+        } else {
+            return image;
+        }
     }
 }
 
@@ -625,7 +660,7 @@ static NSArray * SupportedArchiveTypes;
 - (NSString*)cachePath
 {
     if (_cachePath == nil) {
-        ZPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        ZPAppDelegate *appDelegate = (ZPAppDelegate*)[[UIApplication sharedApplication] delegate];
         NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.archiveFilesDirectory
                                                                           withString:@""
                                                                              options:0 
@@ -714,10 +749,12 @@ static NSArray * SupportedArchiveTypes;
         }
 
         if (error) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                object:self
-                                                              userInfo:[NSDictionary dictionaryWithObject:error
-                                                                                                   forKey:kErrorKey]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                    object:self
+                                                                  userInfo:[NSDictionary dictionaryWithObject:error
+                                                                                                       forKey:kErrorKey]];
+            });
             self.containerStatus = ZPFileWrapperContainerStatusError;
         } else {
             // All went well, so write a success marker file

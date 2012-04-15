@@ -8,7 +8,8 @@
 
 #import "ZPAppDelegate.h"
 #import "TestFlight.h"
-#import "MACollectionUtilities.h"
+#import "ZPEmptyViewController.h"
+#import "ZPImagePreviewController.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -20,15 +21,19 @@
 
 @implementation ZPAppDelegate
 
-@synthesize window=_window;
-@synthesize rootListViewController=_rootListViewController;
-@synthesize navigationController=_navigationController;
+@synthesize window = _window;
+@synthesize rootListViewController = _rootListViewController;
+@synthesize navigationController = _navigationController;
+@synthesize splitViewController = _splitViewController;
+@synthesize detailViewNavigationController = _detailViewNavigationController;
+@synthesize masterPopoverController = _masterPopoverController;
 
 + (void)initialize
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *appDefaults = DICT(kZPDefaultsFirstLaunchKey, [NSNumber numberWithBool:YES],
-                                     kZPDefaultsShowFileExtensions, [NSNumber numberWithBool:NO]);
+    NSMutableDictionary *appDefaults = [NSMutableDictionary dictionary];
+    [appDefaults setObject:[NSNumber numberWithBool:YES] forKey:kZPDefaultsFirstLaunchKey];
+    [appDefaults setObject:[NSNumber numberWithBool:NO] forKey:kZPDefaultsShowFileExtensions];
     [defaults registerDefaults:appDefaults];
 }
 
@@ -41,8 +46,6 @@
         [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
         if (error) {
             NSLog(@"Error deleting %@: %@, %@", filePath, error, error.userInfo);
-        } else {
-            NSLog(@"Deleted %@", filePath);
         }
     }
 }
@@ -54,9 +57,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-    
-    NSLog(@"Zip files directory: %@", self.archiveFilesDirectory);
-    
+        
     // First run: add a sample zip file
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults boolForKey:kZPDefaultsFirstLaunchKey]) {
@@ -82,9 +83,21 @@
     self.rootListViewController.isRoot = YES;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
-
-    self.window.rootViewController = nc;
     self.navigationController = nc;
+
+    if (isIpad) {
+        ZPEmptyViewController * evc = [[ZPEmptyViewController alloc] init];
+        self.detailViewNavigationController = [[UINavigationController alloc] initWithRootViewController:evc];
+        
+        [self applyTintToDetailViewNavigationController];
+        
+        self.splitViewController = [[UISplitViewController alloc] init];
+        self.splitViewController.delegate = self;
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:nc, self.detailViewNavigationController, nil];
+        self.window.rootViewController = self.splitViewController;
+    } else {
+        self.window.rootViewController = nc;
+    }
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -134,7 +147,6 @@
         } else {
             for (NSString *filename in cacheContents) {
                 NSString *path = [self.cacheDirectory stringByAppendingPathComponent:filename];
-                NSLog(@"Deleting %@", path);
                 [fm removeItemAtPath:path error:&error];
                 if (error) {
                     NSLog(@"Error on deleting %@: %@, %@", path, error, error.userInfo);
@@ -156,8 +168,9 @@
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    NSLog(@"Opening URL: %@", url);
+{    
+    // Dismiss the info view if it's visible
+    [self.navigationController dismissModalViewControllerAnimated:NO];
     
     NSString *incomingPath = [url path];
     NSString *filename = [incomingPath lastPathComponent];
@@ -186,8 +199,6 @@
     if (error) {
         NSLog(@"Error copying zip file (%@) to document directory (%@): %@, %@", incomingPath, targetPath, error, error.userInfo);
     } else {
-        NSLog(@"Copied %@ to %@", incomingPath, targetPath);
-
         // Set file's last modified date
         NSDictionary *attrs = [NSDictionary dictionaryWithObject:[NSDate date] forKey:NSFileModificationDate];
         [[NSFileManager defaultManager] setAttributes:attrs
@@ -199,8 +210,6 @@
                                                    error:&error];
         if (error) {
             NSLog(@"Error deleting %@: %@, %@", incomingPath, error, error.userInfo);
-        } else {
-            NSLog(@"Deleted %@", incomingPath);
         }
         
         [self.navigationController popToRootViewControllerAnimated:NO];
@@ -262,6 +271,62 @@
         }
     }
     return _archiveFilesDirectory;
+}
+
+#pragma mark - iPad-only methods
+
+- (void)applyTintToDetailViewNavigationController
+{
+    [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    self.detailViewNavigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+    self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+}
+
+- (void)setDetailViewController:(UIViewController *)viewController
+{
+    UIViewController *currentViewController = self.detailViewNavigationController.topViewController;
+    if (viewController != currentViewController) {
+        UIBarButtonItem *button = currentViewController.navigationItem.leftBarButtonItem;
+        
+        [self.detailViewNavigationController setViewControllers:[NSArray arrayWithObject:viewController] animated:NO];
+
+        if (![viewController isKindOfClass:[ZPImagePreviewController class]]) {
+            // Re-apply the Zippity branding
+            [self applyTintToDetailViewNavigationController];
+        }
+
+        viewController.navigationItem.leftBarButtonItem = button;
+        
+        if ([viewController respondsToSelector:@selector(setLeftBarButtonItem:)]) {
+            [(id)viewController setLeftBarButtonItem:button];
+        }
+        
+        NSLog(@"leftBarButtonItem: %@", viewController.navigationItem.leftBarButtonItem);
+    }
+}
+
+- (void)dismissMasterPopover
+{
+    [self.masterPopoverController dismissPopoverAnimated:YES];
+}
+
+#pragma mark - UISplitViewController delegate methods
+
+- (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
+{
+    [self.detailViewNavigationController.topViewController.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    self.masterPopoverController = pc;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    self.detailViewNavigationController.topViewController.navigationItem.leftBarButtonItem = nil;
+    self.masterPopoverController = nil;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController
+{
+
 }
 
 @end
