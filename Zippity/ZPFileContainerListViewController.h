@@ -6,16 +6,18 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "ZPFileWrapper.h"
 #import <MessageUI/MessageUI.h>
+#import <QuickLook/QuickLook.h>
+#import <UIKit/UIKit.h>
 #import "ZPAboutViewController.h"
+#import "ZPFileWrapper.h"
 
 @interface ZPFileContainerListViewController : UITableViewController <
+MFMailComposeViewControllerDelegate,
+QLPreviewControllerDataSource,
 UIDocumentInteractionControllerDelegate, 
 UIActionSheetDelegate, 
 UIAlertViewDelegate,
-MFMailComposeViewControllerDelegate,
 ZPAboutViewControllerDelegate
 > {
     NSDateFormatter * _subtitleDateFormatter;
@@ -27,6 +29,7 @@ ZPAboutViewControllerDelegate
 @property (nonatomic, retain) ZPFileWrapper * container;
 @property (readonly) NSDateFormatter * subtitleDateFormatter;
 @property (nonatomic) BOOL isRoot;
+@property NSInteger previewControllerFileWrapperIndex;
 
 @property (nonatomic, assign) UIBarButtonItem * shareButton;
 @property (nonatomic, assign) UIBarButtonItem * deleteButton;

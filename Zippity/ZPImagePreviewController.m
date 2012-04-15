@@ -147,7 +147,10 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    if (isIpad) {
+        return YES;
+    }
+    return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

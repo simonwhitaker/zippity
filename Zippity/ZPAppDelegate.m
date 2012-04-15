@@ -8,6 +8,7 @@
 
 #import "ZPAppDelegate.h"
 #import "TestFlight.h"
+#import "ZPEmptyViewController.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -19,9 +20,11 @@
 
 @implementation ZPAppDelegate
 
-@synthesize window=_window;
-@synthesize rootListViewController=_rootListViewController;
-@synthesize navigationController=_navigationController;
+@synthesize window = _window;
+@synthesize rootListViewController = _rootListViewController;
+@synthesize navigationController = _navigationController;
+@synthesize splitViewController = _splitViewController;
+@synthesize detailViewNavigationController = _detailViewNavigationController;
 
 + (void)initialize
 {
@@ -78,9 +81,23 @@
     self.rootListViewController.isRoot = YES;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
-
-    self.window.rootViewController = nc;
     self.navigationController = nc;
+
+    if (isIpad) {
+        ZPEmptyViewController * evc = [[ZPEmptyViewController alloc] init];
+        self.detailViewNavigationController = [[UINavigationController alloc] initWithRootViewController:evc];
+        
+        [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+        self.detailViewNavigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+        self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+
+        
+        self.splitViewController = [[UISplitViewController alloc] init];
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:nc, self.detailViewNavigationController, nil];
+        self.window.rootViewController = self.splitViewController;
+    } else {
+        self.window.rootViewController = nc;
+    }
     
     [self.window makeKeyAndVisible];
     return YES;

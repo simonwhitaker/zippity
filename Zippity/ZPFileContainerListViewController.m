@@ -22,7 +22,6 @@
 
 #import "ZPFileContainerListViewController.h"
 #import "ZPAppDelegate.h"
-#import <QuickLook/QuickLook.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "ZPImagePreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
@@ -77,12 +76,13 @@ enum {
 
 @implementation ZPFileContainerListViewController
 
-@synthesize container=_container;
-@synthesize isRoot=isRoot;
-@synthesize shareButton=_shareButton;
-@synthesize deleteButton=_deleteButton;
-@synthesize saveImagesButton=_saveImagesButton;
-@synthesize selectedImageFileWrappers=_selectedImageFileWrappers;
+@synthesize container = _container;
+@synthesize isRoot = isRoot;
+@synthesize shareButton = _shareButton;
+@synthesize deleteButton = _deleteButton;
+@synthesize saveImagesButton = _saveImagesButton;
+@synthesize selectedImageFileWrappers = _selectedImageFileWrappers;
+@synthesize previewControllerFileWrapperIndex = _previewControllerFileWrapperIndex;
 
 @synthesize editButton=_editButton;
 @synthesize doneButton=_doneButton;
@@ -220,6 +220,9 @@ enum {
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    if (isIpad) {
+        return YES;
+    }
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
@@ -370,25 +373,44 @@ enum {
     } else if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
         ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
         
-        if (wrapper.isImageFile) {
-            ZPImagePreviewController *vc = [[ZPImagePreviewController alloc] init];
-            NSArray *imageFileWrappers = self.container.imageFileWrappers;
-            NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
-            
-            vc.imageFileWrappers = imageFileWrappers;
-            vc.initialIndex = initialIndex;
-            
-            [self.navigationController pushViewController:vc animated:YES];
-        } else if (wrapper.isContainer) {
+        if (wrapper.isContainer) {
             ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:wrapper];
             vc.tableView.delegate = vc;
             [self.navigationController pushViewController:vc animated:YES];
-        } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
-            wrapper.documentInteractionController.delegate = self;
-            [wrapper.documentInteractionController presentPreviewAnimated:YES];
         } else {
-            ZPUnrecognisedFileTypeViewController *vc = [[ZPUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
-            [self.navigationController pushViewController:vc animated:YES];
+            UIViewController *vc = nil;
+            
+            if (wrapper.isImageFile) {
+                ZPImagePreviewController *ipc = [[ZPImagePreviewController alloc] init];
+                NSArray *imageFileWrappers = self.container.imageFileWrappers;
+                NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
+                
+                ipc.imageFileWrappers = imageFileWrappers;
+                ipc.initialIndex = initialIndex;
+                
+                vc = ipc;
+            } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
+                if (isIpad) {
+                    self.previewControllerFileWrapperIndex = indexPath.row;
+                    QLPreviewController *pc = [[QLPreviewController alloc] init];
+                    pc.dataSource = self;
+                    vc = pc;
+                } else {
+                    wrapper.documentInteractionController.delegate = self;
+                    [wrapper.documentInteractionController presentPreviewAnimated:YES];
+                }
+            } else {
+                vc = [[ZPUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
+            }
+            
+            if (vc) {
+                if (isIpad) {
+                    UINavigationController *nc = [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] detailViewNavigationController];
+                    [nc setViewControllers:[NSArray arrayWithObject:vc] animated:NO];
+                } else {
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+            }
         }
     } else {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -431,6 +453,22 @@ enum {
 - (void)aboutViewControllerShouldDismiss:(ZPAboutViewController *)aboutViewController
 {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - QLPreviewController data source
+
+- (NSInteger) numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller
+{
+    // We're not supporting paging through previews, so we'll always just return
+    // a preview controller with a single item. We'll use self.previewControllerFileWrapperIndex
+    // to track the index of the file wrapper we need to show.
+    return 1;
+}
+
+- (id<QLPreviewItem>) previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
+{
+    ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:self.previewControllerFileWrapperIndex];
+    return wrapper.url;
 }
 
 #pragma mark - UIDocumentInteractionController delegate

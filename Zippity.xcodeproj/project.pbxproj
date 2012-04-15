@@ -29,6 +29,8 @@
 		F4413937150BC691007F5E03 /* nav-bar-title-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413935150BC691007F5E03 /* nav-bar-title-landscape@2x.png */; };
 		F441B49C14F3765D0067A4FC /* ZPFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* ZPFileWrapper.m */; };
 		F442747F14F85C9B00C84A0B /* ZPImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */; };
+		F453B8F3153AA5AF00C60685 /* ZPEmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */; };
+		F453B8F4153AA5AF00C60685 /* ZPEmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */; };
 		F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F45DA71C150FA05500C40E63 /* Settings.bundle */; };
 		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
 		F476B0D614FB81B700E653E1 /* ZPImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */; };
@@ -102,6 +104,9 @@
 		F441B49B14F3765D0067A4FC /* ZPFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPFileWrapper.h; sourceTree = "<group>"; };
 		F442747D14F85C9B00C84A0B /* ZPImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImagePreviewController.h; sourceTree = "<group>"; };
 		F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImagePreviewController.m; sourceTree = "<group>"; };
+		F453B8F0153AA5AF00C60685 /* ZPEmptyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPEmptyViewController.h; sourceTree = "<group>"; };
+		F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPEmptyViewController.m; sourceTree = "<group>"; };
+		F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPEmptyViewController.xib; sourceTree = "<group>"; };
 		F45DA71C150FA05500C40E63 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
 		F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImageScrollView.h; sourceTree = "<group>"; };
@@ -232,6 +237,9 @@
 				F4D3481F151C90B8008B706A /* ZPAboutViewController.m */,
 				F482B10C152BA43100E8965B /* ZPAboutViewController.xib */,
 				F42E46101505E01900DBAF17 /* Image gallery */,
+				F453B8F0153AA5AF00C60685 /* ZPEmptyViewController.h */,
+				F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */,
+				F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */,
 			);
 			name = "Views and controllers";
 			sourceTree = "<group>";
@@ -483,6 +491,7 @@
 				F41113A2152341270052E1B3 /* info@2x.png in Resources */,
 				F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */,
 				F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */,
+				F453B8F4153AA5AF00C60685 /* ZPEmptyViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,6 +544,7 @@
 				F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */,
 				F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */,
 				F4D34821151C90B8008B706A /* ZPAboutViewController.m in Sources */,
+				F453B8F3153AA5AF00C60685 /* ZPEmptyViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,7 +622,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
@@ -620,6 +630,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0EE7DAD9-F677-4A21-825B-DEF7BB8147E9";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = "Ad Hoc";
@@ -678,13 +689,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
 					"\"$(SRCROOT)/Zippity/libarchive\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -697,7 +709,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
@@ -705,6 +717,7 @@
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

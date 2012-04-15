@@ -20,6 +20,10 @@
 @property (readonly) NSString *archiveFilesDirectory;
 @property (readonly) NSString *documentsDirectory;
 @property (readonly) NSString *cacheDirectory;
-@property (assign, nonatomic) UINavigationController *navigationController;
+@property (weak, nonatomic) UINavigationController *navigationController;
+
+// iPad-only stuff
+@property (strong, nonatomic) UISplitViewController *splitViewController;
+@property (strong, nonatomic) UINavigationController *detailViewNavigationController;
 
 @end
