@@ -133,9 +133,11 @@ static int copy_data(struct archive *ar, struct archive *aw) {
     
     r = archive_read_open_filename(a, filename, 10240);
     if (r != ARCHIVE_OK) {
-        *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
-                                            code:GSArchiveFileReadError
-                                        userInfo:errorInfoForArchive(a)];
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                code:GSArchiveFileReadError
+                                            userInfo:errorInfoForArchive(a)];
+        }
         return NO;
     }
     
@@ -146,9 +148,11 @@ static int copy_data(struct archive *ar, struct archive *aw) {
             break;
         }
         if (r < ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
-                                                code:GSArchiveEntryReadError
-                                            userInfo:errorInfoForArchive(a)];
+            if (error) {
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                    code:GSArchiveEntryReadError
+                                                userInfo:errorInfoForArchive(a)];
+            }
             return NO;
         }
         
@@ -167,25 +171,31 @@ static int copy_data(struct archive *ar, struct archive *aw) {
         
         r = archive_write_header(ext, entry);
         if (r != ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
-                                                code:GSArchiveEntryWriteError
-                                            userInfo:errorInfoForArchive(a)];
+            if (error) {
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                    code:GSArchiveEntryWriteError
+                                                userInfo:errorInfoForArchive(a)];
+            }
             return NO;
         } else if (archive_entry_size(entry) > 0 || !archive_entry_size_is_set(entry)) {
             r = copy_data(a, ext);
             if (r != ARCHIVE_OK) {
-                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
-                                                    code:GSArchiveEntryWriteError
-                                                userInfo:errorInfoForArchive(a)];
+                if (error) {
+                    *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain 
+                                                        code:GSArchiveEntryWriteError
+                                                    userInfo:errorInfoForArchive(a)];
+                }
                 return NO;
             }
         }
         
         r = archive_write_finish_entry(ext);
         if (r != ARCHIVE_OK) {
-            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
-                                                code:GSArchiveEntryWriteError
-                                            userInfo:errorInfoForArchive(a)];
+            if (error) {
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                    code:GSArchiveEntryWriteError
+                                                userInfo:errorInfoForArchive(a)];
+            }
             return NO;
         }
     }
