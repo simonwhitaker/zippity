@@ -310,7 +310,19 @@ enum {
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        cell.imageView.image = wrapper.icon;
+        
+        if (isIpad) {
+            UIImage *rawIcon = wrapper.icon;
+            UIImage *resizedIcon;
+            UIGraphicsBeginImageContext(CGSizeMake(32, 32));
+            [rawIcon drawInRect:CGRectMake(0, 0, 32, 32)];
+            resizedIcon = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            cell.imageView.image = resizedIcon;
+        } else {
+            cell.imageView.image = wrapper.icon;
+        }
     } else {
         cell.textLabel.text = NSLocalizedString(@"Unpacking contents...", @"Short message shown while unpacking a zip file");
         UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -405,6 +417,10 @@ enum {
             
             if (vc) {
                 if (isIpad) {
+                    if (![vc isKindOfClass:[ZPImagePreviewController class]]) {
+                        // Re-apply the Zippity branding
+                        [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] applyTintToDetailViewNavigationController];
+                    }
                     UINavigationController *nc = [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] detailViewNavigationController];
                     [nc setViewControllers:[NSArray arrayWithObject:vc] animated:NO];
                 } else {
