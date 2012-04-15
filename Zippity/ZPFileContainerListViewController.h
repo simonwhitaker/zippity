@@ -35,4 +35,13 @@ ZPAboutViewControllerDelegate
 @property (nonatomic, assign) UIBarButtonItem * deleteButton;
 @property (nonatomic, assign) UIBarButtonItem * saveImagesButton;
 
+
+// Prior to iOS 5.1, split view controller popovers shown in
+// standard UIPopoverController views. From iOS 5.1 onwards they're
+// shown as panels that slide in from the left. If we're showing an
+// "old-style" popover we need to make sure we don't apply
+// styling to the navigation controller, otherwise it messes up
+// the navigation bar.
+@property (readonly) BOOL isInOldStylePopover;
+
 @end

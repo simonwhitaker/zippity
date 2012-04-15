@@ -174,11 +174,15 @@ enum {
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+
+    if (self.isInOldStylePopover) {
+        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.tintColor = nil;
+    } else {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+    }
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
     
     [self.tableView reloadData];
@@ -206,12 +210,25 @@ enum {
     [super viewWillDisappear:animated];
 }
 
+- (BOOL)isInOldStylePopover
+{
+    // YES if we're on an iPad, in portrait orientation and running iOS <= 5.0
+    BOOL result = isIpad && UIInterfaceOrientationIsPortrait(self.interfaceOrientation);
+    
+    // Check whether UISplitViewController instances support pressentsWithGesture - new in iOS 5.1
+    result = result && ![UISplitViewController instancesRespondToSelector:@selector(presentsWithGesture)];
+    
+    return result;
+}
+
 #pragma mark - UI orientation methods
 
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation
 {
     if (self.isRoot) {
-        if (UIInterfaceOrientationIsPortrait(orientation)) {
+        if ([self isInOldStylePopover]) {
+            self.navigationItem.titleView = nil;
+        } else if (isIpad || UIInterfaceOrientationIsPortrait(orientation)) {
             self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
         } else {
             self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
