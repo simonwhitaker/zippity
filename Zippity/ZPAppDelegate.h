@@ -26,4 +26,6 @@
 @property (strong, nonatomic) UISplitViewController *splitViewController;
 @property (strong, nonatomic) UINavigationController *detailViewNavigationController;
 
+- (void)applyTintToDetailViewNavigationController;
+
 @end

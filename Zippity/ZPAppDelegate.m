@@ -87,10 +87,7 @@
         ZPEmptyViewController * evc = [[ZPEmptyViewController alloc] init];
         self.detailViewNavigationController = [[UINavigationController alloc] initWithRootViewController:evc];
         
-        [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-        self.detailViewNavigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
-        self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
-
+        [self applyTintToDetailViewNavigationController];
         
         self.splitViewController = [[UISplitViewController alloc] init];
         self.splitViewController.viewControllers = [NSArray arrayWithObjects:nc, self.detailViewNavigationController, nil];
@@ -271,6 +268,13 @@
         }
     }
     return _archiveFilesDirectory;
+}
+
+- (void)applyTintToDetailViewNavigationController
+{
+    [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    self.detailViewNavigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+    self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
 }
 
 @end
