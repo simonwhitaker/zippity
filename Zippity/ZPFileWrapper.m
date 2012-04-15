@@ -222,8 +222,12 @@ static NSArray * SupportedArchiveTypes;
         _containerStatus = containerStatus;
         
         if (_containerStatus == ZPFileWrapperContainerStatusReady) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidReloadContents
-                                                                object:self];
+            
+            // Send notification on the main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidReloadContents
+                                                                    object:self];
+            });
         }
     }
 }
@@ -350,9 +354,11 @@ static NSArray * SupportedArchiveTypes;
                                                                            error:&error];
         if (error) {
             self.containerStatus = ZPFileWrapperContainerStatusError;
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                object:self
-                                                              userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                    object:self
+                                                                  userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];
+            });
         } else {
             NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:urls.count];
             for (NSURL *url in urls) {
@@ -365,9 +371,11 @@ static NSArray * SupportedArchiveTypes;
                 ZPFileWrapper *wrapper = [ZPFileWrapper fileWrapperWithURL:url error:&initError];
                 if (initError) {
                     self.containerStatus = ZPFileWrapperContainerStatusError;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                        object:self
-                                                                      userInfo:[NSDictionary dictionaryWithObject:initError forKey:kErrorKey]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                            object:self
+                                                                          userInfo:[NSDictionary dictionaryWithObject:initError forKey:kErrorKey]];
+                    });
                     return;
                 }
                 [tempArray addObject:wrapper];
@@ -480,8 +488,10 @@ static NSArray * SupportedArchiveTypes;
         if (error) {
             // TODO: send error notification
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
-                                                                object:self];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
+                                                                    object:self];
+            });
         }
         self.isQueuedForImageResizing = NO;
     }
@@ -739,10 +749,12 @@ static NSArray * SupportedArchiveTypes;
         }
 
         if (error) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                object:self
-                                                              userInfo:[NSDictionary dictionaryWithObject:error
-                                                                                                   forKey:kErrorKey]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                    object:self
+                                                                  userInfo:[NSDictionary dictionaryWithObject:error
+                                                                                                       forKey:kErrorKey]];
+            });
             self.containerStatus = ZPFileWrapperContainerStatusError;
         } else {
             // All went well, so write a success marker file
