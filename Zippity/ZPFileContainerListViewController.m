@@ -25,6 +25,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "ZPImagePreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
+#import "ZPPreviewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
@@ -401,10 +402,10 @@ enum {
                 ipc.initialIndex = initialIndex;
                 
                 vc = ipc;
-            } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
+            } else if (wrapper.documentInteractionController && [ZPPreviewController canPreviewItem:wrapper.url]) {
                 if (isIpad) {
                     self.previewControllerFileWrapperIndex = indexPath.row;
-                    QLPreviewController *pc = [[QLPreviewController alloc] init];
+                    ZPPreviewController *pc = [[ZPPreviewController alloc] init];
                     pc.dataSource = self;
                     vc = pc;
                 } else {
@@ -417,18 +418,14 @@ enum {
             
             if (vc) {
                 if (isIpad) {
-                    if (![vc isKindOfClass:[ZPImagePreviewController class]]) {
-                        // Re-apply the Zippity branding
-                        [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] applyTintToDetailViewNavigationController];
-                    }
-                    UINavigationController *nc = [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] detailViewNavigationController];
-                    [nc setViewControllers:[NSArray arrayWithObject:vc] animated:NO];
+                    [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] setDetailViewController:vc];
                 } else {
                     [self.navigationController pushViewController:vc animated:YES];
                 }
             }
+            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
         }
-    } else {
+        
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }

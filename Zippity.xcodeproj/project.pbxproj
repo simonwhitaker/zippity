@@ -17,6 +17,7 @@
 		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
 		F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41385B515134AF80087B896 /* QuartzCore.framework */; };
 		F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */; };
+		F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */; };
 		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
 		F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E714F3C80000082527 /* MobileCoreServices.framework */; };
 		F4413929150BBEC0007F5E03 /* nav-bar-title.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413927150BBEC0007F5E03 /* nav-bar-title.png */; };
@@ -94,6 +95,8 @@
 		F41385B515134AF80087B896 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F418A5B3153B17D5005F83A9 /* ZPPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPPreviewController.h; sourceTree = "<group>"; };
+		F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPPreviewController.m; sourceTree = "<group>"; };
 		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F43352E714F3C80000082527 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F4413927150BBEC0007F5E03 /* nav-bar-title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title.png"; sourceTree = "<group>"; };
@@ -249,6 +252,8 @@
 				F453B8F0153AA5AF00C60685 /* ZPEmptyViewController.h */,
 				F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */,
 				F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */,
+				F418A5B3153B17D5005F83A9 /* ZPPreviewController.h */,
+				F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */,
 			);
 			name = "Views and controllers";
 			sourceTree = "<group>";
@@ -561,6 +566,7 @@
 				F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */,
 				F4D34821151C90B8008B706A /* ZPAboutViewController.m in Sources */,
 				F453B8F3153AA5AF00C60685 /* ZPEmptyViewController.m in Sources */,
+				F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
