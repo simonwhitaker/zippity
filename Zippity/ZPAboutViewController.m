@@ -42,6 +42,10 @@
     
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"rough_diagonal.png"]];
     
+    // Set contactOptionsTable background view to nil, otherwise
+    // it gets a plain grey background on iPad (iOS 5.0+)
+    self.contactOptionsTable.backgroundView = nil;
+    
     NSDictionary *appInfo = [[NSBundle mainBundle] infoDictionary];
     NSString *versionStr = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"Version string. Placeholders are replaced by version number and build number."), 
                             [appInfo objectForKey:@"CFBundleShortVersionString"], 
