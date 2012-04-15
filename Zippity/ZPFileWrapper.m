@@ -660,7 +660,7 @@ static NSArray * SupportedArchiveTypes;
 - (NSString*)cachePath
 {
     if (_cachePath == nil) {
-        ZPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        ZPAppDelegate *appDelegate = (ZPAppDelegate*)[[UIApplication sharedApplication] delegate];
         NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.archiveFilesDirectory
                                                                           withString:@""
                                                                              options:0 

@@ -8,6 +8,8 @@
 
 #import "ZPAppDelegate.h"
 #import "TestFlight.h"
+#import "ZPEmptyViewController.h"
+#import "ZPImagePreviewController.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -19,9 +21,12 @@
 
 @implementation ZPAppDelegate
 
-@synthesize window=_window;
-@synthesize rootListViewController=_rootListViewController;
-@synthesize navigationController=_navigationController;
+@synthesize window = _window;
+@synthesize rootListViewController = _rootListViewController;
+@synthesize navigationController = _navigationController;
+@synthesize splitViewController = _splitViewController;
+@synthesize detailViewNavigationController = _detailViewNavigationController;
+@synthesize masterPopoverController = _masterPopoverController;
 
 + (void)initialize
 {
@@ -78,9 +83,21 @@
     self.rootListViewController.isRoot = YES;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
-
-    self.window.rootViewController = nc;
     self.navigationController = nc;
+
+    if (isIpad) {
+        ZPEmptyViewController * evc = [[ZPEmptyViewController alloc] init];
+        self.detailViewNavigationController = [[UINavigationController alloc] initWithRootViewController:evc];
+        
+        [self applyTintToDetailViewNavigationController];
+        
+        self.splitViewController = [[UISplitViewController alloc] init];
+        self.splitViewController.delegate = self;
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:nc, self.detailViewNavigationController, nil];
+        self.window.rootViewController = self.splitViewController;
+    } else {
+        self.window.rootViewController = nc;
+    }
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -254,6 +271,62 @@
         }
     }
     return _archiveFilesDirectory;
+}
+
+#pragma mark - iPad-only methods
+
+- (void)applyTintToDetailViewNavigationController
+{
+    [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    self.detailViewNavigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+    self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+}
+
+- (void)setDetailViewController:(UIViewController *)viewController
+{
+    UIViewController *currentViewController = self.detailViewNavigationController.topViewController;
+    if (viewController != currentViewController) {
+        UIBarButtonItem *button = currentViewController.navigationItem.leftBarButtonItem;
+        
+        [self.detailViewNavigationController setViewControllers:[NSArray arrayWithObject:viewController] animated:NO];
+
+        if (![viewController isKindOfClass:[ZPImagePreviewController class]]) {
+            // Re-apply the Zippity branding
+            [self applyTintToDetailViewNavigationController];
+        }
+
+        viewController.navigationItem.leftBarButtonItem = button;
+        
+        if ([viewController respondsToSelector:@selector(setLeftBarButtonItem:)]) {
+            [(id)viewController setLeftBarButtonItem:button];
+        }
+        
+        NSLog(@"leftBarButtonItem: %@", viewController.navigationItem.leftBarButtonItem);
+    }
+}
+
+- (void)dismissMasterPopover
+{
+    [self.masterPopoverController dismissPopoverAnimated:YES];
+}
+
+#pragma mark - UISplitViewController delegate methods
+
+- (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
+{
+    [self.detailViewNavigationController.topViewController.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    self.masterPopoverController = pc;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    self.detailViewNavigationController.topViewController.navigationItem.leftBarButtonItem = nil;
+    self.masterPopoverController = nil;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController
+{
+
 }
 
 @end

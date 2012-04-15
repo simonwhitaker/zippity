@@ -22,10 +22,10 @@
 
 #import "ZPFileContainerListViewController.h"
 #import "ZPAppDelegate.h"
-#import <QuickLook/QuickLook.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "ZPImagePreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
+#import "ZPPreviewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
@@ -77,12 +77,13 @@ enum {
 
 @implementation ZPFileContainerListViewController
 
-@synthesize container=_container;
-@synthesize isRoot=isRoot;
-@synthesize shareButton=_shareButton;
-@synthesize deleteButton=_deleteButton;
-@synthesize saveImagesButton=_saveImagesButton;
-@synthesize selectedImageFileWrappers=_selectedImageFileWrappers;
+@synthesize container = _container;
+@synthesize isRoot = isRoot;
+@synthesize shareButton = _shareButton;
+@synthesize deleteButton = _deleteButton;
+@synthesize saveImagesButton = _saveImagesButton;
+@synthesize selectedImageFileWrappers = _selectedImageFileWrappers;
+@synthesize previewControllerFileWrapperIndex = _previewControllerFileWrapperIndex;
 
 @synthesize editButton=_editButton;
 @synthesize doneButton=_doneButton;
@@ -173,11 +174,15 @@ enum {
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+
+    if (self.isInOldStylePopover) {
+        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.tintColor = nil;
+    } else {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
+        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+    }
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
     
     [self.tableView reloadData];
@@ -205,12 +210,25 @@ enum {
     [super viewWillDisappear:animated];
 }
 
+- (BOOL)isInOldStylePopover
+{
+    // YES if we're on an iPad, in portrait orientation and running iOS <= 5.0
+    BOOL result = isIpad && UIInterfaceOrientationIsPortrait(self.interfaceOrientation);
+    
+    // Check whether UISplitViewController instances support pressentsWithGesture - new in iOS 5.1
+    result = result && ![UISplitViewController instancesRespondToSelector:@selector(presentsWithGesture)];
+    
+    return result;
+}
+
 #pragma mark - UI orientation methods
 
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation
 {
     if (self.isRoot) {
-        if (UIInterfaceOrientationIsPortrait(orientation)) {
+        if ([self isInOldStylePopover]) {
+            self.navigationItem.titleView = nil;
+        } else if (isIpad || UIInterfaceOrientationIsPortrait(orientation)) {
             self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
         } else {
             self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
@@ -220,6 +238,9 @@ enum {
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    if (isIpad) {
+        return YES;
+    }
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
@@ -307,7 +328,19 @@ enum {
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        cell.imageView.image = wrapper.icon;
+        
+        if (isIpad) {
+            UIImage *rawIcon = wrapper.icon;
+            UIImage *resizedIcon;
+            UIGraphicsBeginImageContext(CGSizeMake(32, 32));
+            [rawIcon drawInRect:CGRectMake(0, 0, 32, 32)];
+            resizedIcon = UIGraphicsGetImageFromCurrentImageContext();
+            UIGraphicsEndImageContext();
+            
+            cell.imageView.image = resizedIcon;
+        } else {
+            cell.imageView.image = wrapper.icon;
+        }
     } else {
         cell.textLabel.text = NSLocalizedString(@"Unpacking contents...", @"Short message shown while unpacking a zip file");
         UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -370,27 +403,46 @@ enum {
     } else if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
         ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
         
-        if (wrapper.isImageFile) {
-            ZPImagePreviewController *vc = [[ZPImagePreviewController alloc] init];
-            NSArray *imageFileWrappers = self.container.imageFileWrappers;
-            NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
-            
-            vc.imageFileWrappers = imageFileWrappers;
-            vc.initialIndex = initialIndex;
-            
-            [self.navigationController pushViewController:vc animated:YES];
-        } else if (wrapper.isContainer) {
+        if (wrapper.isContainer) {
             ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:wrapper];
             vc.tableView.delegate = vc;
             [self.navigationController pushViewController:vc animated:YES];
-        } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
-            wrapper.documentInteractionController.delegate = self;
-            [wrapper.documentInteractionController presentPreviewAnimated:YES];
         } else {
-            ZPUnrecognisedFileTypeViewController *vc = [[ZPUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
-            [self.navigationController pushViewController:vc animated:YES];
+            UIViewController *vc = nil;
+            
+            if (wrapper.isImageFile) {
+                ZPImagePreviewController *ipc = [[ZPImagePreviewController alloc] init];
+                NSArray *imageFileWrappers = self.container.imageFileWrappers;
+                NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
+                
+                ipc.imageFileWrappers = imageFileWrappers;
+                ipc.initialIndex = initialIndex;
+                
+                vc = ipc;
+            } else if (wrapper.documentInteractionController && [ZPPreviewController canPreviewItem:wrapper.url]) {
+                if (isIpad) {
+                    self.previewControllerFileWrapperIndex = indexPath.row;
+                    ZPPreviewController *pc = [[ZPPreviewController alloc] init];
+                    pc.dataSource = self;
+                    vc = pc;
+                } else {
+                    wrapper.documentInteractionController.delegate = self;
+                    [wrapper.documentInteractionController presentPreviewAnimated:YES];
+                }
+            } else {
+                vc = [[ZPUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
+            }
+            
+            if (vc) {
+                if (isIpad) {
+                    [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] setDetailViewController:vc];
+                } else {
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+            }
+            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
         }
-    } else {
+        
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
@@ -431,6 +483,22 @@ enum {
 - (void)aboutViewControllerShouldDismiss:(ZPAboutViewController *)aboutViewController
 {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - QLPreviewController data source
+
+- (NSInteger) numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller
+{
+    // We're not supporting paging through previews, so we'll always just return
+    // a preview controller with a single item. We'll use self.previewControllerFileWrapperIndex
+    // to track the index of the file wrapper we need to show.
+    return 1;
+}
+
+- (id<QLPreviewItem>) previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
+{
+    ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:self.previewControllerFileWrapperIndex];
+    return wrapper.url;
 }
 
 #pragma mark - UIDocumentInteractionController delegate
@@ -542,7 +610,8 @@ enum {
 
 - (void)showInfoView:(id)sender
 {
-    ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:@"ZPAboutViewController" bundle:nil];
+    NSString *nibName = isIpad ? @"ZPAboutViewController-iPad" : @"ZPAboutViewController";
+    ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:nibName bundle:nil];
     vc.delegate = self;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self.navigationController presentModalViewController:vc animated:YES];
