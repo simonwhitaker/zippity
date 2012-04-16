@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "ZPAboutViewController.h"
 #import "ZPFileWrapper.h"
+#import "ZPImagePreviewController.h"
 
 @interface ZPFileContainerListViewController : UITableViewController <
 MFMailComposeViewControllerDelegate,
@@ -18,7 +19,8 @@ QLPreviewControllerDataSource,
 UIDocumentInteractionControllerDelegate, 
 UIActionSheetDelegate, 
 UIAlertViewDelegate,
-ZPAboutViewControllerDelegate
+ZPAboutViewControllerDelegate,
+ZPImagePreviewControllerDelegate
 > {
     NSDateFormatter * _subtitleDateFormatter;
     BOOL _isRoot;

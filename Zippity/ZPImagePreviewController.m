@@ -43,6 +43,7 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 @synthesize currentIndex=_currentIndex;
 @synthesize visiblePages=_visiblePages;
 @synthesize reusablePages=_reusablePages;
+@synthesize delegate = _delegate;
 
 + (void)initialize
 {
@@ -254,6 +255,10 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
     // Don't call in scrollViewDidScroll; causes problems on rotation
     // when the delegate method gets called when the bounds change
     self.currentIndex = roundf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+    
+    if ([self.delegate respondsToSelector:@selector(imagePreviewControllerDidShowImageForFileWrapper:)]) {
+        [self.delegate imagePreviewControllerDidShowImageForFileWrapper:[self.imageFileWrappers objectAtIndex:self.currentIndex]];
+    }
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView

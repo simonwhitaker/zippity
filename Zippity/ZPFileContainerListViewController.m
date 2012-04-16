@@ -23,7 +23,6 @@
 #import "ZPFileContainerListViewController.h"
 #import "ZPAppDelegate.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "ZPImagePreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
 #import "ZPPreviewController.h"
 
@@ -412,6 +411,7 @@ enum {
             
             if (wrapper.isImageFile) {
                 ZPImagePreviewController *ipc = [[ZPImagePreviewController alloc] init];
+                ipc.delegate = self;
                 NSArray *imageFileWrappers = self.container.imageFileWrappers;
                 NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
                 
@@ -442,8 +442,6 @@ enum {
             }
             [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
         }
-        
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
 
@@ -483,6 +481,18 @@ enum {
 - (void)aboutViewControllerShouldDismiss:(ZPAboutViewController *)aboutViewController
 {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - ZPImagePreviewController delegate
+
+- (void)imagePreviewControllerDidShowImageForFileWrapper:(ZPFileWrapper *)fileWrapper
+{
+    NSInteger index = [self.container.fileWrappers indexOfObject:fileWrapper];
+    if (index != NSNotFound) {
+        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]
+                                    animated:YES 
+                              scrollPosition:UITableViewScrollPositionMiddle];
+    }
 }
 
 #pragma mark - QLPreviewController data source
