@@ -648,7 +648,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Goo Software Ltd";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
@@ -659,7 +659,7 @@
 					"\"$(SRCROOT)/Zippity/libarchive\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "0EE7DAD9-F677-4A21-825B-DEF7BB8147E9";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08C12AC2-03DA-4A42-B994-527A8F6FEC08";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -715,7 +715,7 @@
 		F47F536B14ECCC82009BF6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
@@ -735,7 +735,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 23;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
