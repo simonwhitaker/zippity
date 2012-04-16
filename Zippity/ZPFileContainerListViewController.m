@@ -326,7 +326,7 @@ enum {
         
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         
         if (isIpad) {
             UIImage *rawIcon = wrapper.icon;
