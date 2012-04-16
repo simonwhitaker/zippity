@@ -18,6 +18,7 @@
 @property (nonatomic) NSUInteger initialIndex;
 @property (nonatomic, weak) IBOutlet UIScrollView * scrollView;
 @property (nonatomic, weak) id<ZPImagePreviewControllerDelegate> delegate;
+@property (nonatomic, weak) UIActionSheet * actionSheet;
 
 - (ZPImageScrollView*)dequeueReusablePage;
 

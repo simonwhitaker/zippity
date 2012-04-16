@@ -44,6 +44,7 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 @synthesize visiblePages=_visiblePages;
 @synthesize reusablePages=_reusablePages;
 @synthesize delegate = _delegate;
+@synthesize actionSheet = _actionSheet;
 
 + (void)initialize
 {
@@ -289,6 +290,8 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
                                                                          inView:self.view
                                                                        animated:YES];
     }
+    
+    self.actionSheet = nil;
 }
 
 - (void)image:(UIImage*)image didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo
@@ -357,13 +360,14 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 - (void)handleActionButton:(id)sender
 {
-    ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
+    if (self.actionSheet) {
+        [self.actionSheet dismissWithClickedButtonIndex:self.actionSheet.cancelButtonIndex animated:YES];
+        return;
+    }
     
-    // "Share @%" already localized in ZPFileListViewController.m
-    NSString *formatString = [[NSBundle mainBundle] localizedStringForKey:@"Share %@" value:nil table:nil];
-    NSString *actionSheetTitle = [NSString stringWithFormat:formatString, currentPhoto.name];
+    ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
 
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:actionSheetTitle
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
                                                     delegate:self
                                            cancelButtonTitle:nil
                                       destructiveButtonTitle:nil
@@ -388,7 +392,9 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
     [as setCancelButtonIndex:[as numberOfButtons] - 1];
 
     // Show the action sheet
-    [as showFromRect:CGRectZero inView:self.view animated:YES];
+    [as showFromBarButtonItem:sender animated:YES];
+
+    self.actionSheet = as;
 }
 
 @end
