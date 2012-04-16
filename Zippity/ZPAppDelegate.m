@@ -57,7 +57,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-        
+    
     // First run: add a sample zip file
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults boolForKey:kZPDefaultsFirstLaunchKey]) {
@@ -278,7 +278,7 @@
 - (void)applyTintToDetailViewNavigationController
 {
     [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-    self.detailViewNavigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+    self.detailViewNavigationController.navigationBar.tintColor = kZippityRed;
     self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
 }
 
@@ -300,8 +300,6 @@
         if ([viewController respondsToSelector:@selector(setLeftBarButtonItem:)]) {
             [(id)viewController setLeftBarButtonItem:button];
         }
-        
-        NSLog(@"leftBarButtonItem: %@", viewController.navigationItem.leftBarButtonItem);
     }
 }
 

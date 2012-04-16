@@ -23,14 +23,13 @@
 #import "ZPFileContainerListViewController.h"
 #import "ZPAppDelegate.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "ZPImagePreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
 #import "ZPPreviewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
     GSFileContainerListViewActionSheetDelete,
-    GSFileContainerListViewActionSaveImages,
+    GSFileContainerListViewActionSheetSaveImages,
 };
 
 @interface UIBarItem(ZPAdditions)
@@ -67,9 +66,9 @@ enum {
 - (void)handleApplicationDidBecomeActiveNotification:(NSNotification*)notification;
 
 - (void)showInfoView:(id)sender;
-- (void)shareSelectedItems;
-- (void)deleteSelectedItems;
-- (void)saveSelectedImages;
+- (void)shareSelectedItems:(id)sender;
+- (void)deleteSelectedItems:(id)sender;
+- (void)saveSelectedImages:(id)sender;
 - (void)updateToolbarButtons;
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
 
@@ -85,8 +84,10 @@ enum {
 @synthesize selectedImageFileWrappers = _selectedImageFileWrappers;
 @synthesize previewControllerFileWrapperIndex = _previewControllerFileWrapperIndex;
 
-@synthesize editButton=_editButton;
-@synthesize doneButton=_doneButton;
+@synthesize editButton = _editButton;
+@synthesize doneButton = _doneButton;
+@synthesize selectedLeafNodeIndexPath = _selectedIndexPath;
+@synthesize currentActionSheet = _currentActionSheet;
 
 - (id)initWithContainer:(ZPFileWrapper*)container
 {    
@@ -126,7 +127,7 @@ enum {
     tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Share" value:nil table:nil]
                                                   style:UIBarButtonItemStyleBordered
                                                  target:self
-                                                 action:@selector(shareSelectedItems)];
+                                                 action:@selector(shareSelectedItems:)];
     [toolbarButtons addObject:tempButton];
     self.shareButton = tempButton;
     
@@ -134,7 +135,7 @@ enum {
         tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Delete" value:nil table:nil]
                                                       style:UIBarButtonItemStyleBordered 
                                                      target:self 
-                                                     action:@selector(deleteSelectedItems)];
+                                                     action:@selector(deleteSelectedItems:)];
         tempButton.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
@@ -142,7 +143,7 @@ enum {
         tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Save Images" value:nil table:nil]
                                                       style:UIBarButtonItemStyleBordered
                                                      target:self
-                                                     action:@selector(saveSelectedImages)];
+                                                     action:@selector(saveSelectedImages:)];
         [toolbarButtons addObject:tempButton];
         self.saveImagesButton = tempButton;
     }
@@ -181,11 +182,17 @@ enum {
     } else {
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
         [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
-        self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+        self.navigationController.navigationBar.tintColor = kZippityRed;
     }
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
-    
+
     [self.tableView reloadData];
+
+    if (self.selectedLeafNodeIndexPath) {
+        [self.tableView selectRowAtIndexPath:self.selectedLeafNodeIndexPath
+                                    animated:NO 
+                              scrollPosition:UITableViewScrollPositionNone];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -327,7 +334,7 @@ enum {
         
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
         
         if (isIpad) {
             UIImage *rawIcon = wrapper.icon;
@@ -390,6 +397,8 @@ enum {
 {
     if (tableView.isEditing) {
         [self updateToolbarButtons];
+    } else {
+        self.selectedLeafNodeIndexPath = nil;
     }
 }
 
@@ -408,10 +417,13 @@ enum {
             vc.tableView.delegate = vc;
             [self.navigationController pushViewController:vc animated:YES];
         } else {
+            self.selectedLeafNodeIndexPath = indexPath;
+
             UIViewController *vc = nil;
             
             if (wrapper.isImageFile) {
                 ZPImagePreviewController *ipc = [[ZPImagePreviewController alloc] init];
+                ipc.delegate = self;
                 NSArray *imageFileWrappers = self.container.imageFileWrappers;
                 NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
                 
@@ -442,10 +454,10 @@ enum {
             }
             [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
         }
-        
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
+
+#pragma mark - Custom accessors
 
 - (void)setContainer:(ZPFileWrapper*)container
 {
@@ -485,6 +497,20 @@ enum {
     [self dismissModalViewControllerAnimated:YES];
 }
 
+#pragma mark - ZPImagePreviewController delegate
+
+- (void)imagePreviewControllerDidShowImageForFileWrapper:(ZPFileWrapper *)fileWrapper
+{
+    NSInteger index = [self.container.fileWrappers indexOfObject:fileWrapper];
+    if (index != NSNotFound) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.tableView selectRowAtIndexPath:indexPath
+                                    animated:YES 
+                              scrollPosition:UITableViewScrollPositionMiddle];
+        self.selectedLeafNodeIndexPath = indexPath;
+    }
+}
+
 #pragma mark - QLPreviewController data source
 
 - (NSInteger) numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller
@@ -522,6 +548,8 @@ enum {
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    self.currentActionSheet = nil;
+
     if (actionSheet.tag == GSFileContainerListViewActionSheetShare) {
         NSString * emailLabel = [[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil];
         
@@ -593,15 +621,15 @@ enum {
                 [self toggleEditMode];
             }
         }
-    } else if (actionSheet.tag == GSFileContainerListViewActionSaveImages) {
+    } else if (actionSheet.tag == GSFileContainerListViewActionSheetSaveImages) {
         if (buttonIndex == actionSheet.firstOtherButtonIndex) {
             for (ZPFileWrapper *wrapper in self.selectedImageFileWrappers) {
                 UIImage *image = [UIImage imageWithContentsOfFile:wrapper.url.path];
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
             }
-        }
-        if (self.tableView.editing) {
-            [self toggleEditMode];
+            if (self.tableView.editing) {
+                [self toggleEditMode];
+            }
         }
     }
 }
@@ -629,6 +657,7 @@ enum {
     [self.tableView setEditing:editing animated:YES];
     
     if (editing) {
+        self.selectedLeafNodeIndexPath = nil;
         [TestFlight passCheckpoint:@"Entered edit mode"];
         [self updateToolbarButtons];
         self.navigationItem.rightBarButtonItem = self.doneButton;
@@ -639,8 +668,16 @@ enum {
     [self.navigationController setToolbarHidden:!editing animated:YES];
 }
 
-- (void)saveSelectedImages
+- (void)saveSelectedImages:(id)sender
 {
+    if (self.currentActionSheet) {
+        BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetSaveImages;
+        [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
+        if (wasShowing) {
+            return;
+        }
+    }
+    
     NSString *title;
     if (self.selectedImageFileWrappers.count == 1) {
         ZPFileWrapper *imageFileWrapper = [self.selectedImageFileWrappers objectAtIndex:0];
@@ -657,12 +694,22 @@ enum {
                                            cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:NSLocalizedString(@"Save to Photos", @"Button text for Save to Photos button in action sheet"), nil];
-    as.tag = GSFileContainerListViewActionSaveImages;
-    [as showFromToolbar:self.navigationController.toolbar];
+    as.tag = GSFileContainerListViewActionSheetSaveImages;
+    [as showFromBarButtonItem:sender animated:YES];
+    
+    self.currentActionSheet = as;
 }
 
-- (void)shareSelectedItems
+- (void)shareSelectedItems:(id)sender
 {
+    if (self.currentActionSheet) {
+        BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetShare;
+        [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
+        if (wasShowing) {
+            return;
+        }
+    }
+
     NSString *title;
     if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
         NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
@@ -681,11 +728,21 @@ enum {
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], nil];
     as.tag = GSFileContainerListViewActionSheetShare;
-    [as showFromToolbar:self.navigationController.toolbar];
+    [as showFromBarButtonItem:sender animated:YES];
+    
+    self.currentActionSheet = as;
 }
 
-- (void)deleteSelectedItems
+- (void)deleteSelectedItems:(id)sender
 {
+    if (self.currentActionSheet) {
+        BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetDelete;
+        [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
+        if (wasShowing) {
+            return;
+        }
+    }
+
     NSString *title;
     if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
         NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
@@ -704,7 +761,9 @@ enum {
                                       destructiveButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Delete" value:nil table:nil]
                                            otherButtonTitles:nil];
     as.tag = GSFileContainerListViewActionSheetDelete;
-    [as showFromToolbar:self.navigationController.toolbar];
+    [as showFromBarButtonItem:sender animated:YES];
+    
+    self.currentActionSheet = as;
 }
 
 #pragma mark - UIAlertView delegate methods

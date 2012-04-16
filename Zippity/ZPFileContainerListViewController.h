@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "ZPAboutViewController.h"
 #import "ZPFileWrapper.h"
+#import "ZPImagePreviewController.h"
 
 @interface ZPFileContainerListViewController : UITableViewController <
 MFMailComposeViewControllerDelegate,
@@ -18,7 +19,8 @@ QLPreviewControllerDataSource,
 UIDocumentInteractionControllerDelegate, 
 UIActionSheetDelegate, 
 UIAlertViewDelegate,
-ZPAboutViewControllerDelegate
+ZPAboutViewControllerDelegate,
+ZPImagePreviewControllerDelegate
 > {
     NSDateFormatter * _subtitleDateFormatter;
     BOOL _isRoot;
@@ -31,10 +33,14 @@ ZPAboutViewControllerDelegate
 @property (nonatomic) BOOL isRoot;
 @property NSInteger previewControllerFileWrapperIndex;
 
-@property (nonatomic, assign) UIBarButtonItem * shareButton;
-@property (nonatomic, assign) UIBarButtonItem * deleteButton;
-@property (nonatomic, assign) UIBarButtonItem * saveImagesButton;
+@property (nonatomic, weak) UIBarButtonItem * shareButton;
+@property (nonatomic, weak) UIBarButtonItem * deleteButton;
+@property (nonatomic, weak) UIBarButtonItem * saveImagesButton;
 
+// Keep track of the selected index path so that we can 
+// highlight it when displaying the view, e.g. in a popover
+// on iPad.
+@property (nonatomic, strong) NSIndexPath * selectedLeafNodeIndexPath;
 
 // Prior to iOS 5.1, split view controller popovers shown in
 // standard UIPopoverController views. From iOS 5.1 onwards they're
@@ -43,5 +49,7 @@ ZPAboutViewControllerDelegate
 // styling to the navigation controller, otherwise it messes up
 // the navigation bar.
 @property (readonly) BOOL isInOldStylePopover;
+
+@property (nonatomic, weak) UIActionSheet *currentActionSheet;
 
 @end

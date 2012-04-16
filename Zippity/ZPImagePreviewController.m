@@ -37,12 +37,14 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 @implementation ZPImagePreviewController
 
-@synthesize imageFileWrappers=_imageFileWrappers;
-@synthesize initialIndex=_initialIndex;
-@synthesize scrollView=_scrollView;
-@synthesize currentIndex=_currentIndex;
-@synthesize visiblePages=_visiblePages;
-@synthesize reusablePages=_reusablePages;
+@synthesize imageFileWrappers = _imageFileWrappers;
+@synthesize initialIndex = _initialIndex;
+@synthesize scrollView = _scrollView;
+@synthesize currentIndex = _currentIndex;
+@synthesize visiblePages = _visiblePages;
+@synthesize reusablePages = _reusablePages;
+@synthesize delegate = _delegate;
+@synthesize actionSheet = _actionSheet;
 
 + (void)initialize
 {
@@ -89,12 +91,16 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 {
     [super viewWillAppear:animated];
 
+
     [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.tintColor = nil;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
 
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+    if (!isIpad) {
+        // UIStatusBarStyleBlackTranslucent only available on iPhone
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+    }
     
     self.currentIndex = self.initialIndex;
     
@@ -235,8 +241,13 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 {
     if (currentIndex != _currentIndex) {
         _currentIndex = currentIndex;
-        NSString *formatString = NSLocalizedString(@"%u of %u", @"Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation");
-        self.title = [NSString stringWithFormat:formatString, _currentIndex + 1, self.imageFileWrappers.count];
+        if (isIpad) {
+            ZPFileWrapper *wrapper = [self.imageFileWrappers objectAtIndex:_currentIndex];
+            self.title = wrapper.name;
+        } else {
+            NSString *formatString = NSLocalizedString(@"%u of %u", @"Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation");
+            self.title = [NSString stringWithFormat:formatString, _currentIndex + 1, self.imageFileWrappers.count];
+        }
     }
 }
 
@@ -254,6 +265,10 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
     // Don't call in scrollViewDidScroll; causes problems on rotation
     // when the delegate method gets called when the bounds change
     self.currentIndex = roundf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+    
+    if ([self.delegate respondsToSelector:@selector(imagePreviewControllerDidShowImageForFileWrapper:)]) {
+        [self.delegate imagePreviewControllerDidShowImageForFileWrapper:[self.imageFileWrappers objectAtIndex:self.currentIndex]];
+    }
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -284,6 +299,8 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
                                                                          inView:self.view
                                                                        animated:YES];
     }
+    
+    self.actionSheet = nil;
 }
 
 - (void)image:(UIImage*)image didFinishSavingWithError:(NSError*)error contextInfo:(void*)contextInfo
@@ -306,24 +323,31 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 - (void)toggleChromeVisibility {
     CGFloat alpha;
-    BOOL shouldShow = [[UIApplication sharedApplication] isStatusBarHidden];
-    [[UIApplication sharedApplication] setStatusBarHidden:!shouldShow withAnimation:UIStatusBarAnimationFade];
+    BOOL shouldShow = self.navigationController.navigationBar.alpha < 0.05;
+    BOOL statusBarWasHidden = [[UIApplication sharedApplication] isStatusBarHidden];
+    
+    if (!isIpad) {
+        // Don't toggle status bar visibility on iPad
+        [[UIApplication sharedApplication] setStatusBarHidden:!shouldShow withAnimation:UIStatusBarAnimationFade];
+    }
 
     if (shouldShow) {
         // Make sure navigation bar is correctly placed - it will move to the top of 
         // the screen on rotation once the status bar is hidden and doesn't automatically
-        // move back whent the status bar reappears.
+        // move back when the status bar reappears.
         CGSize s = [[UIApplication sharedApplication] statusBarFrame].size;
         CGFloat statusBarHeight = UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? s.height : s.width;
         CGRect f = self.navigationController.navigationBar.frame;
-        f.origin.y = statusBarHeight;
-        self.navigationController.navigationBar.frame = f;
+        if (statusBarWasHidden) {
+            f.origin.y = statusBarHeight;
+            self.navigationController.navigationBar.frame = f;
+        }
         
         alpha = 1.0;
     } else {
         alpha = 0.0;
     }
-
+    
     [UIView animateWithDuration:0.35 animations:^{
         self.navigationController.navigationBar.alpha = alpha;
     }];
@@ -352,13 +376,14 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 - (void)handleActionButton:(id)sender
 {
+    if (self.actionSheet) {
+        [self.actionSheet dismissWithClickedButtonIndex:self.actionSheet.cancelButtonIndex animated:YES];
+        return;
+    }
+    
     ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
     
-    // "Share @%" already localized in ZPFileListViewController.m
-    NSString *formatString = [[NSBundle mainBundle] localizedStringForKey:@"Share %@" value:nil table:nil];
-    NSString *actionSheetTitle = [NSString stringWithFormat:formatString, currentPhoto.name];
-
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:actionSheetTitle
+    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
                                                     delegate:self
                                            cancelButtonTitle:nil
                                       destructiveButtonTitle:nil
@@ -383,7 +408,9 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
     [as setCancelButtonIndex:[as numberOfButtons] - 1];
 
     // Show the action sheet
-    [as showFromRect:CGRectZero inView:self.view animated:YES];
+    [as showFromBarButtonItem:sender animated:YES];
+
+    self.actionSheet = as;
 }
 
 @end
