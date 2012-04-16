@@ -37,12 +37,12 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 @implementation ZPImagePreviewController
 
-@synthesize imageFileWrappers=_imageFileWrappers;
-@synthesize initialIndex=_initialIndex;
-@synthesize scrollView=_scrollView;
-@synthesize currentIndex=_currentIndex;
-@synthesize visiblePages=_visiblePages;
-@synthesize reusablePages=_reusablePages;
+@synthesize imageFileWrappers = _imageFileWrappers;
+@synthesize initialIndex = _initialIndex;
+@synthesize scrollView = _scrollView;
+@synthesize currentIndex = _currentIndex;
+@synthesize visiblePages = _visiblePages;
+@synthesize reusablePages = _reusablePages;
 @synthesize delegate = _delegate;
 @synthesize actionSheet = _actionSheet;
 
@@ -314,24 +314,31 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 - (void)toggleChromeVisibility {
     CGFloat alpha;
-    BOOL shouldShow = [[UIApplication sharedApplication] isStatusBarHidden];
-    [[UIApplication sharedApplication] setStatusBarHidden:!shouldShow withAnimation:UIStatusBarAnimationFade];
+    BOOL shouldShow = self.navigationController.navigationBar.alpha < 0.05;
+    BOOL statusBarWasHidden = [[UIApplication sharedApplication] isStatusBarHidden];
+    
+    if (!isIpad) {
+        // Don't toggle status bar visibility on iPad
+        [[UIApplication sharedApplication] setStatusBarHidden:!shouldShow withAnimation:UIStatusBarAnimationFade];
+    }
 
     if (shouldShow) {
         // Make sure navigation bar is correctly placed - it will move to the top of 
         // the screen on rotation once the status bar is hidden and doesn't automatically
-        // move back whent the status bar reappears.
+        // move back when the status bar reappears.
         CGSize s = [[UIApplication sharedApplication] statusBarFrame].size;
         CGFloat statusBarHeight = UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ? s.height : s.width;
         CGRect f = self.navigationController.navigationBar.frame;
-        f.origin.y = statusBarHeight;
-        self.navigationController.navigationBar.frame = f;
+        if (statusBarWasHidden) {
+            f.origin.y = statusBarHeight;
+            self.navigationController.navigationBar.frame = f;
+        }
         
         alpha = 1.0;
     } else {
         alpha = 0.0;
     }
-
+    
     [UIView animateWithDuration:0.35 animations:^{
         self.navigationController.navigationBar.alpha = alpha;
     }];
@@ -366,7 +373,7 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
     }
     
     ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
-
+    
     UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
                                                     delegate:self
                                            cancelButtonTitle:nil
