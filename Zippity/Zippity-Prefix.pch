@@ -16,6 +16,7 @@
 #import "ZPDefaultsKeys.h"
 
 #define isIpad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#define kZippityRed [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0]
 #endif
 
 #define HELLO NSLog(@"--TRACE-- %s (%s:%d)", __PRETTY_FUNCTION__, __FILE__, __LINE__);
