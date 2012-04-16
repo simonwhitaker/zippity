@@ -237,9 +237,14 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 {
     if (currentIndex != _currentIndex) {
         _currentIndex = currentIndex;
+        if (isIpad) {
+            ZPFileWrapper *wrapper = [self.imageFileWrappers objectAtIndex:_currentIndex];
+            self.title = wrapper.name;
+        } else {
         NSString *formatString = NSLocalizedString(@"%u of %u", @"Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation");
         self.title = [NSString stringWithFormat:formatString, _currentIndex + 1, self.imageFileWrappers.count];
     }
+}
 }
 
 #pragma mark - UIScrollView delegate methods
