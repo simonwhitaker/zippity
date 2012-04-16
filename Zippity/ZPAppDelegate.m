@@ -57,7 +57,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-        
+    
     // First run: add a sample zip file
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults boolForKey:kZPDefaultsFirstLaunchKey]) {
@@ -300,8 +300,6 @@
         if ([viewController respondsToSelector:@selector(setLeftBarButtonItem:)]) {
             [(id)viewController setLeftBarButtonItem:button];
         }
-        
-        NSLog(@"leftBarButtonItem: %@", viewController.navigationItem.leftBarButtonItem);
     }
 }
 

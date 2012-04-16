@@ -91,12 +91,16 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 {
     [super viewWillAppear:animated];
 
+
     [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     self.navigationController.navigationBar.tintColor = nil;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
 
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+    if (!isIpad) {
+        // UIStatusBarStyleBlackTranslucent only available on iPhone
+        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+    }
     
     self.currentIndex = self.initialIndex;
     
@@ -241,10 +245,10 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
             ZPFileWrapper *wrapper = [self.imageFileWrappers objectAtIndex:_currentIndex];
             self.title = wrapper.name;
         } else {
-        NSString *formatString = NSLocalizedString(@"%u of %u", @"Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation");
-        self.title = [NSString stringWithFormat:formatString, _currentIndex + 1, self.imageFileWrappers.count];
+            NSString *formatString = NSLocalizedString(@"%u of %u", @"Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation");
+            self.title = [NSString stringWithFormat:formatString, _currentIndex + 1, self.imageFileWrappers.count];
+        }
     }
-}
 }
 
 #pragma mark - UIScrollView delegate methods
