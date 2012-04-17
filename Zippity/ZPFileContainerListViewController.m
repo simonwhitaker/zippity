@@ -20,11 +20,12 @@
  NSLocalizedString("Save Images",   "The text for a button that will save image files to the camera roll when tapped")
  */
 
-#import "ZPFileContainerListViewController.h"
-#import "ZPAppDelegate.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "ZPUnrecognisedFileTypeViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "ZPAppDelegate.h"
+#import "ZPFileContainerListViewController.h"
 #import "ZPPreviewController.h"
+#import "ZPUnrecognisedFileTypeViewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
@@ -202,6 +203,29 @@ enum {
                                              selector:@selector(handleApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+
+    // self.isMovingToParentViewController is YES if the view appears because it's
+    // been pushed, NO if it appears because the next node down was popped. We only
+    // want to auto-select the first leaf node when we move down the navigation
+    // chain, not when we're moving back up.
+    if (isIpad && self.isMovingToParentViewController) {
+        // If there's a plain file among the container's file 
+        // wrappers, display it.
+        NSInteger fileIndex = NSNotFound;
+        for (NSInteger i = 0; i < self.container.fileWrappers.count; i++) {
+            ZPFileWrapper *wrapper = [self.container.fileWrappers objectAtIndex:i];
+            if (!wrapper.isContainer) {
+                fileIndex = i;
+                break;
+            }
+        }
+        
+        if (fileIndex != NSNotFound) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:fileIndex inSection:0];
+            [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+            [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+        }
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -312,6 +336,19 @@ enum {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
+        // Set custom selected cell background
+        CGRect cellFrame = CGRectMake(0, 0, tableView.frame.size.width, [self tableView:tableView heightForRowAtIndexPath:indexPath]);
+        UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = selectedBackgroundView.frame;
+        gradient.colors = [NSArray arrayWithObjects:
+                           (id)[[UIColor colorWithWhite:0.6 alpha:1.0] CGColor], 
+                           (id)[[UIColor colorWithWhite:0.35 alpha:1.0] CGColor], 
+                           nil];
+        [selectedBackgroundView.layer addSublayer:gradient];
+        
+        cell.selectedBackgroundView = selectedBackgroundView;
     }
 
     if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
@@ -334,7 +371,7 @@ enum {
         
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         
         if (isIpad) {
             UIImage *rawIcon = wrapper.icon;
