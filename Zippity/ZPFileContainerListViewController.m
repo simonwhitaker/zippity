@@ -20,11 +20,12 @@
  NSLocalizedString("Save Images",   "The text for a button that will save image files to the camera roll when tapped")
  */
 
-#import "ZPFileContainerListViewController.h"
-#import "ZPAppDelegate.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "ZPUnrecognisedFileTypeViewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "ZPAppDelegate.h"
+#import "ZPFileContainerListViewController.h"
 #import "ZPPreviewController.h"
+#import "ZPUnrecognisedFileTypeViewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
@@ -331,6 +332,19 @@ enum {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
+        // Set custom selected cell background
+        CGRect cellFrame = CGRectMake(0, 0, tableView.frame.size.width, [self tableView:tableView heightForRowAtIndexPath:indexPath]);
+        UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = selectedBackgroundView.frame;
+        gradient.colors = [NSArray arrayWithObjects:
+                           (id)[[UIColor colorWithWhite:0.6 alpha:1.0] CGColor], 
+                           (id)[[UIColor colorWithWhite:0.35 alpha:1.0] CGColor], 
+                           nil];
+        [selectedBackgroundView.layer addSublayer:gradient];
+        
+        cell.selectedBackgroundView = selectedBackgroundView;
     }
 
     if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
@@ -353,7 +367,7 @@ enum {
         
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         
         if (isIpad) {
             UIImage *rawIcon = wrapper.icon;
