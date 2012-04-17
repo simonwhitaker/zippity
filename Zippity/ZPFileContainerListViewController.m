@@ -203,8 +203,12 @@ enum {
                                              selector:@selector(handleApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
-    
-    if (isIpad) {
+
+    // self.isMovingToParentViewController is YES if the view appears because it's
+    // been pushed, NO if it appears because the next node down was popped. We only
+    // want to auto-select the first leaf node when we move down the navigation
+    // chain, not when we're moving back up.
+    if (isIpad && self.isMovingToParentViewController) {
         // If there's a plain file among the container's file 
         // wrappers, display it.
         NSInteger fileIndex = NSNotFound;
