@@ -202,6 +202,25 @@ enum {
                                              selector:@selector(handleApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
+    
+    if (isIpad) {
+        // If there's a plain file among the container's file 
+        // wrappers, display it.
+        NSInteger fileIndex = NSNotFound;
+        for (NSInteger i = 0; i < self.container.fileWrappers.count; i++) {
+            ZPFileWrapper *wrapper = [self.container.fileWrappers objectAtIndex:i];
+            if (!wrapper.isContainer) {
+                fileIndex = i;
+                break;
+            }
+        }
+        
+        if (fileIndex != NSNotFound) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:fileIndex inSection:0];
+            [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+            [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+        }
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
