@@ -224,6 +224,8 @@ enum {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:fileIndex inSection:0];
             [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
             [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+        } else {
+            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] setDetailViewController:nil];
         }
     }
 }
