@@ -284,6 +284,9 @@
 
 - (void)setDetailViewController:(UIViewController *)viewController
 {
+    if (viewController == nil) {
+        viewController = [[ZPEmptyViewController alloc] init];
+    }
     UIViewController *currentViewController = self.detailViewNavigationController.topViewController;
     if (viewController != currentViewController) {
         UIBarButtonItem *button = currentViewController.navigationItem.leftBarButtonItem;

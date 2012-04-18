@@ -28,6 +28,9 @@
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 
 - (void)applyTintToDetailViewNavigationController;
+
+// Set the view controller for the detail view. If viewController is nil,
+// shows an instance of ZPEmptyViewController
 - (void)setDetailViewController:(UIViewController*)viewController;
 - (void)dismissMasterPopover;
 

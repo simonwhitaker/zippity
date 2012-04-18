@@ -61,6 +61,7 @@ enum {
 @property (nonatomic, retain) UIBarButtonItem *editButton;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
 @property (nonatomic, retain) NSArray *selectedImageFileWrappers;
+@property BOOL shouldKeepPopoverInView;
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
@@ -72,6 +73,14 @@ enum {
 - (void)saveSelectedImages:(id)sender;
 - (void)updateToolbarButtons;
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
+
+// Prior to iOS 5.1, split view controller popovers shown in
+// standard UIPopoverController views. From iOS 5.1 onwards they're
+// shown as panels that slide in from the left. If we're showing an
+// "old-style" popover we need to make sure we don't apply
+// styling to the navigation controller, otherwise it messes up
+// the navigation bar.
+- (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
 @end
 
@@ -89,6 +98,7 @@ enum {
 @synthesize doneButton = _doneButton;
 @synthesize selectedLeafNodeIndexPath = _selectedIndexPath;
 @synthesize currentActionSheet = _currentActionSheet;
+@synthesize shouldKeepPopoverInView = _shouldKeepPopoverInView;
 
 - (id)initWithContainer:(ZPFileWrapper*)container
 {    
@@ -97,6 +107,7 @@ enum {
         self.container = container;
         self.isRoot = NO;
         self.wantsFullScreenLayout = NO;
+        self.shouldKeepPopoverInView = NO;
     }
     return self;
 }
@@ -177,19 +188,15 @@ enum {
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
 
-    if (self.isInOldStylePopover) {
-        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.tintColor = nil;
-    } else {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
-        self.navigationController.navigationBar.tintColor = kZippityRed;
-    }
+    [self updateUIForOrientation:self.interfaceOrientation];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
 
     [self.tableView reloadData];
 
-    if (self.selectedLeafNodeIndexPath) {
+    // On iPad in portrait mode, the current selection will be deselected when
+    // the popover goes out of view. We want it to remain selected, as it does
+    // in Mail.app.
+    if (isIpad && self.selectedLeafNodeIndexPath) {
         [self.tableView selectRowAtIndexPath:self.selectedLeafNodeIndexPath
                                     animated:NO 
                               scrollPosition:UITableViewScrollPositionNone];
@@ -223,7 +230,12 @@ enum {
         if (fileIndex != NSNotFound) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:fileIndex inSection:0];
             [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+
+            self.shouldKeepPopoverInView = YES;
             [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+            self.shouldKeepPopoverInView = NO;
+        } else {
+            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] setDetailViewController:nil];
         }
     }
 }
@@ -241,30 +253,40 @@ enum {
     [super viewWillDisappear:animated];
 }
 
-- (BOOL)isInOldStylePopover
+- (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // YES if we're on an iPad, in portrait orientation and running iOS <= 5.0
-    BOOL result = isIpad && UIInterfaceOrientationIsPortrait(self.interfaceOrientation);
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(interfaceOrientation);
     
     // Check whether UISplitViewController instances support pressentsWithGesture - new in iOS 5.1
-    result = result && ![UISplitViewController instancesRespondToSelector:@selector(presentsWithGesture)];
-    
-    return result;
+    BOOL isUsingOldStylePopover = ![UISplitViewController instancesRespondToSelector:@selector(presentsWithGesture)];
+
+    if (isIpad && isPortrait && isUsingOldStylePopover) {
+        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.tintColor = nil;
+        if (self.isRoot) {
+            self.navigationItem.titleView = nil;
+        }
+    } else {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
+        self.navigationController.navigationBar.tintColor = kZippityRed;
+
+        if (self.isRoot) {
+            if (isIpad || UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+            } else {
+                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
+            }
+        }
+    }
 }
 
 #pragma mark - UI orientation methods
 
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation
 {
-    if (self.isRoot) {
-        if ([self isInOldStylePopover]) {
-            self.navigationItem.titleView = nil;
-        } else if (isIpad || UIInterfaceOrientationIsPortrait(orientation)) {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-        } else {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
-        }
-    }
+    [self applyNavigationBarStylingForOrientation:orientation];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -489,7 +511,9 @@ enum {
                     [self.navigationController pushViewController:vc animated:YES];
                 }
             }
-            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
+            if (!self.shouldKeepPopoverInView) {
+                [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
+            }
         }
     }
 }
