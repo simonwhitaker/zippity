@@ -193,7 +193,10 @@ enum {
 
     [self.tableView reloadData];
 
-    if (self.selectedLeafNodeIndexPath) {
+    // On iPad in portrait mode, the current selection will be deselected when
+    // the popover goes out of view. We want it to remain selected, as it does
+    // in Mail.app.
+    if (isIpad && self.selectedLeafNodeIndexPath) {
         [self.tableView selectRowAtIndexPath:self.selectedLeafNodeIndexPath
                                     animated:NO 
                               scrollPosition:UITableViewScrollPositionNone];
@@ -509,10 +512,10 @@ enum {
                 }
             }
             if (!self.shouldKeepPopoverInView) {
-            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
+                [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
+            }
         }
     }
-}
 }
 
 #pragma mark - Custom accessors
