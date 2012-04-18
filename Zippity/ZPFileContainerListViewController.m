@@ -61,6 +61,7 @@ enum {
 @property (nonatomic, retain) UIBarButtonItem *editButton;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
 @property (nonatomic, retain) NSArray *selectedImageFileWrappers;
+@property BOOL shouldKeepPopoverInView;
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
@@ -97,6 +98,7 @@ enum {
 @synthesize doneButton = _doneButton;
 @synthesize selectedLeafNodeIndexPath = _selectedIndexPath;
 @synthesize currentActionSheet = _currentActionSheet;
+@synthesize shouldKeepPopoverInView = _shouldKeepPopoverInView;
 
 - (id)initWithContainer:(ZPFileWrapper*)container
 {    
@@ -105,6 +107,7 @@ enum {
         self.container = container;
         self.isRoot = NO;
         self.wantsFullScreenLayout = NO;
+        self.shouldKeepPopoverInView = NO;
     }
     return self;
 }
@@ -224,7 +227,10 @@ enum {
         if (fileIndex != NSNotFound) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:fileIndex inSection:0];
             [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+
+            self.shouldKeepPopoverInView = YES;
             [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
+            self.shouldKeepPopoverInView = NO;
         } else {
             [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] setDetailViewController:nil];
         }
@@ -502,9 +508,11 @@ enum {
                     [self.navigationController pushViewController:vc animated:YES];
                 }
             }
+            if (!self.shouldKeepPopoverInView) {
             [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
         }
     }
+}
 }
 
 #pragma mark - Custom accessors
