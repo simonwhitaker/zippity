@@ -73,6 +73,14 @@ enum {
 - (void)updateToolbarButtons;
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
 
+// Prior to iOS 5.1, split view controller popovers shown in
+// standard UIPopoverController views. From iOS 5.1 onwards they're
+// shown as panels that slide in from the left. If we're showing an
+// "old-style" popover we need to make sure we don't apply
+// styling to the navigation controller, otherwise it messes up
+// the navigation bar.
+- (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation;
+
 @end
 
 @implementation ZPFileContainerListViewController
@@ -177,14 +185,7 @@ enum {
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
 
-    if (self.isInOldStylePopover) {
-        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.tintColor = nil;
-    } else {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
-        self.navigationController.navigationBar.tintColor = kZippityRed;
-    }
+    [self updateUIForOrientation:self.interfaceOrientation];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
 
     [self.tableView reloadData];
@@ -243,30 +244,40 @@ enum {
     [super viewWillDisappear:animated];
 }
 
-- (BOOL)isInOldStylePopover
+- (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // YES if we're on an iPad, in portrait orientation and running iOS <= 5.0
-    BOOL result = isIpad && UIInterfaceOrientationIsPortrait(self.interfaceOrientation);
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(interfaceOrientation);
     
     // Check whether UISplitViewController instances support pressentsWithGesture - new in iOS 5.1
-    result = result && ![UISplitViewController instancesRespondToSelector:@selector(presentsWithGesture)];
-    
-    return result;
+    BOOL isUsingOldStylePopover = ![UISplitViewController instancesRespondToSelector:@selector(presentsWithGesture)];
+
+    if (isIpad && isPortrait && isUsingOldStylePopover) {
+        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.tintColor = nil;
+        if (self.isRoot) {
+            self.navigationItem.titleView = nil;
+        }
+    } else {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
+        self.navigationController.navigationBar.tintColor = kZippityRed;
+
+        if (self.isRoot) {
+            if (isIpad || UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+            } else {
+                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
+            }
+        }
+    }
 }
 
 #pragma mark - UI orientation methods
 
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation
 {
-    if (self.isRoot) {
-        if ([self isInOldStylePopover]) {
-            self.navigationItem.titleView = nil;
-        } else if (isIpad || UIInterfaceOrientationIsPortrait(orientation)) {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-        } else {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
-        }
-    }
+    [self applyNavigationBarStylingForOrientation:orientation];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
