@@ -61,7 +61,6 @@ enum {
 @property (nonatomic, retain) UIBarButtonItem *editButton;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
 @property (nonatomic, retain) NSArray *selectedImageFileWrappers;
-@property BOOL shouldKeepPopoverInView;
 
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
@@ -98,7 +97,6 @@ enum {
 @synthesize doneButton = _doneButton;
 @synthesize selectedLeafNodeIndexPath = _selectedIndexPath;
 @synthesize currentActionSheet = _currentActionSheet;
-@synthesize shouldKeepPopoverInView = _shouldKeepPopoverInView;
 
 - (id)initWithContainer:(ZPFileWrapper*)container
 {    
@@ -107,7 +105,6 @@ enum {
         self.container = container;
         self.isRoot = NO;
         self.wantsFullScreenLayout = NO;
-        self.shouldKeepPopoverInView = NO;
     }
     return self;
 }
@@ -210,34 +207,6 @@ enum {
                                              selector:@selector(handleApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
-
-    // self.isMovingToParentViewController is YES if the view appears because it's
-    // been pushed, NO if it appears because the next node down was popped. We only
-    // want to auto-select the first leaf node when we move down the navigation
-    // chain, not when we're moving back up.
-    if (isIpad && self.isMovingToParentViewController) {
-        // If there's a plain file among the container's file 
-        // wrappers, display it.
-        NSInteger fileIndex = NSNotFound;
-        for (NSInteger i = 0; i < self.container.fileWrappers.count; i++) {
-            ZPFileWrapper *wrapper = [self.container.fileWrappers objectAtIndex:i];
-            if (!wrapper.isContainer) {
-                fileIndex = i;
-                break;
-            }
-        }
-        
-        if (fileIndex != NSNotFound) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:fileIndex inSection:0];
-            [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
-
-            self.shouldKeepPopoverInView = YES;
-            [self tableView:self.tableView didSelectRowAtIndexPath:indexPath];
-            self.shouldKeepPopoverInView = NO;
-        } else {
-            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] setDetailViewController:nil];
-        }
-    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -511,9 +480,7 @@ enum {
                     [self.navigationController pushViewController:vc animated:YES];
                 }
             }
-            if (!self.shouldKeepPopoverInView) {
-                [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
-            }
+            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
         }
     }
 }
