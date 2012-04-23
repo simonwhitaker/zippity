@@ -365,13 +365,21 @@ enum {
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         
         if (isIpad) {
+            // For icon images derived from document icons, we need
+            // to size them down on iPad.
             UIImage *rawIcon = wrapper.icon;
-            UIImage *resizedIcon;
-            UIGraphicsBeginImageContext(CGSizeMake(32, 32));
-            [rawIcon drawInRect:CGRectMake(0, 0, 32, 32)];
-            resizedIcon = UIGraphicsGetImageFromCurrentImageContext();
-            UIGraphicsEndImageContext();
+            UIImage *resizedIcon = rawIcon;
             
+            if (rawIcon.size.width > 32.0) {
+                CGFloat newWidth = rawIcon.size.width / 2;
+                CGFloat newHeight = rawIcon.size.height / 2;
+                
+                UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, newHeight), NO, rawIcon.scale);
+                [rawIcon drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                resizedIcon = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+            }
             cell.imageView.image = resizedIcon;
         } else {
             cell.imageView.image = wrapper.icon;
