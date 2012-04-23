@@ -23,10 +23,11 @@
 
 @synthesize window = _window;
 @synthesize rootListViewController = _rootListViewController;
-@synthesize navigationController = _navigationController;
+@synthesize masterViewNavigationController = _navigationController;
 @synthesize splitViewController = _splitViewController;
 @synthesize detailViewNavigationController = _detailViewNavigationController;
 @synthesize masterPopoverController = _masterPopoverController;
+@synthesize masterPopoverButton = _masterPopoverButton;
 
 + (void)initialize
 {
@@ -103,7 +104,8 @@
     self.rootListViewController.isRoot = YES;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
-    self.navigationController = nc;
+    self.masterViewNavigationController = nc;
+    nc.delegate = self;
 
     if (isIpad) {
         ZPEmptyViewController * evc = [[ZPEmptyViewController alloc] init];
@@ -190,7 +192,7 @@
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {    
     // Dismiss the info view if it's visible
-    [self.navigationController dismissModalViewControllerAnimated:NO];
+    [self.masterViewNavigationController dismissModalViewControllerAnimated:NO];
     
     NSString *incomingPath = [url path];
     NSString *filename = [incomingPath lastPathComponent];
@@ -232,7 +234,7 @@
             NSLog(@"Error deleting %@: %@, %@", incomingPath, error, error.userInfo);
         }
         
-        [self.navigationController popToRootViewControllerAnimated:NO];
+        [self.masterViewNavigationController popToRootViewControllerAnimated:NO];
         [self.rootListViewController.container reloadContainerContents];
         
         NSError * error = nil;
@@ -242,7 +244,17 @@
             NSLog(@"Error on creating temp file wrapper for newly-arrived zip (%@): %@, %@", targetPath, error, error.userInfo);
         } else {
             ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:newFileWrapper];
-            [self.navigationController pushViewController:vc animated:NO];
+            [self.masterViewNavigationController pushViewController:vc animated:NO];
+            
+            // Load the blank view up in the detail view controller
+            [self setDetailViewController:nil];
+            
+            if (isIpad && UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation])) {
+                // Show the master view popover in portrait mode
+                [self.masterPopoverController presentPopoverFromBarButtonItem:self.masterPopoverButton
+                                                     permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                                     animated:NO];
+            }
         }
     }
     return YES;
@@ -337,17 +349,22 @@
 {
     [self.detailViewNavigationController.topViewController.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
     self.masterPopoverController = pc;
+    self.masterPopoverButton = barButtonItem;
+    self.masterPopoverButton.title = self.masterViewNavigationController.topViewController.title;
 }
 
 - (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
     self.detailViewNavigationController.topViewController.navigationItem.leftBarButtonItem = nil;
     self.masterPopoverController = nil;
+    self.masterPopoverButton = nil;
 }
 
-- (void)splitViewController:(UISplitViewController *)svc popoverController:(UIPopoverController *)pc willPresentViewController:(UIViewController *)aViewController
-{
+#pragma mark - UINavigationController delegate methods
 
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    self.masterPopoverButton.title = viewController.title;
 }
 
 @end
