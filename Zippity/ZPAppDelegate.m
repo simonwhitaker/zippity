@@ -245,6 +245,9 @@
         } else {
             ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:newFileWrapper];
             [self.masterViewNavigationController pushViewController:vc animated:NO];
+            
+            // Load the blank view up in the detail view controller
+            [self setDetailViewController:nil];
         }
     }
     return YES;
