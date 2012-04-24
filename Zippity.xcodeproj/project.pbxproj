@@ -117,6 +117,8 @@
 		F43EC9E11547360D00E083FF /* Icon-72@2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2.png"; sourceTree = "<group>"; };
 		F43EC9E21547360D00E083FF /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		F43EC9E31547360D00E083FF /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
+		F43EC9F215473A9E00E083FF /* nl */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = nl; path = "nl.lproj/ZPAboutViewController-iPad.xib"; sourceTree = "<group>"; };
+		F43EC9F315473A9E00E083FF /* hu */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = hu; path = "hu.lproj/ZPAboutViewController-iPad.xib"; sourceTree = "<group>"; };
 		F4413927150BBEC0007F5E03 /* nav-bar-title.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title.png"; sourceTree = "<group>"; };
 		F4413928150BBEC0007F5E03 /* nav-bar-title@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-title@2x.png"; sourceTree = "<group>"; };
 		F441392C150BC158007F5E03 /* nav-bar-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-background.png"; sourceTree = "<group>"; };
@@ -617,6 +619,8 @@
 			isa = PBXVariantGroup;
 			children = (
 				F453B8F6153ADDBA00C60685 /* en */,
+				F43EC9F215473A9E00E083FF /* nl */,
+				F43EC9F315473A9E00E083FF /* hu */,
 			);
 			name = "ZPAboutViewController-iPad.xib";
 			sourceTree = "<group>";
