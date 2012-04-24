@@ -80,7 +80,7 @@
 						<array key="IBUIItems">
 							<object class="IBUINavigationItem" id="637547779">
 								<reference key="IBUINavigationBar" ref="35230158"/>
-								<string key="IBUITitle">About Zippity</string>
+								<string key="IBUITitle">Over Zippity</string>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="1002940782">
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 									<int key="IBUIStyle">1</int>
@@ -104,7 +104,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Zippity is crafted with care by Goo Software Ltd. We'd love to hear from you!</string>
+						<string key="IBUIText">Zippity is met zorg gebouwd door Goo Software Ltd. We zouden zeer graag van u horen!</string>
 						<object class="NSColor" key="IBUITextColor" id="283909696">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -129,7 +129,7 @@
 					<object class="IBUILabel" id="1053764669">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{250, 385}, {261, 30}}</string>
+						<string key="NSFrame">{{250, 370}, {261, 45}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="38609283"/>
@@ -139,7 +139,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Zippity icon created by hicksdesign.</string>
+						<string key="IBUIText">Zippity pictogram gecreëerd door hicksdesign.</string>
 						<reference key="IBUITextColor" ref="283909696"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
@@ -162,7 +162,7 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Version info</string>
+						<string key="IBUIText">Versieinformatie</string>
 						<reference key="IBUITextColor" ref="283909696"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">0</int>
@@ -187,7 +187,7 @@
 						<double key="IBUIContentEdgeInsets.bottom">0.0</double>
 						<double key="IBUIContentEdgeInsets.left">11</double>
 						<double key="IBUIContentEdgeInsets.right">0.0</double>
-						<string key="IBUINormalTitle">  Visit hicksdesign.co.uk</string>
+						<string key="IBUINormalTitle">  Bezoek hicksdesign.co.uk</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MQA</bytes>
