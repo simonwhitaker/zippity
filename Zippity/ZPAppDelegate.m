@@ -248,13 +248,6 @@
             
             // Load the blank view up in the detail view controller
             [self setDetailViewController:nil];
-            
-            if (isIpad && UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation])) {
-                // Show the master view popover in portrait mode
-                [self.masterPopoverController presentPopoverFromBarButtonItem:self.masterPopoverButton
-                                                     permittedArrowDirections:UIPopoverArrowDirectionAny
-                                                                     animated:NO];
-            }
         }
     }
     return YES;
