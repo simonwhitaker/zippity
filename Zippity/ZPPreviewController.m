@@ -14,12 +14,12 @@
 
 @implementation ZPPreviewController
 
-@synthesize leftBarButtonItem = _leftBarButtonItem;
+@synthesize previewControllerLeftBarButtonItem = _previewControllerLeftBarButtonItem;
 
 - (void)viewDidLayoutSubviews
 {
-    if (self.leftBarButtonItem && UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-        self.navigationItem.leftBarButtonItem = self.leftBarButtonItem;
+    if (self.previewControllerLeftBarButtonItem && UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        self.navigationItem.leftBarButtonItem = self.previewControllerLeftBarButtonItem;
     }
 }
 

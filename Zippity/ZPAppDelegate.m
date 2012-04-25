@@ -10,6 +10,7 @@
 #import "TestFlight.h"
 #import "ZPEmptyViewController.h"
 #import "ZPImagePreviewController.h"
+#import "ZPPreviewController.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -315,24 +316,45 @@
 
 - (void)setDetailViewController:(UIViewController *)viewController
 {
+    // Set the detail view controller for the split view controller.
+    // If the old detail view controller has a button for opening
+    // the popover controller, transfer that button to the new
+    // detail view controller, setting its title to the title of
+    // the top-most view controller in the master navigation controller
+    
+    UIViewController *currentViewController = self.detailViewNavigationController.topViewController;
+
     if (viewController == nil) {
+        if ([currentViewController isKindOfClass:[ZPEmptyViewController class]]) {
+            // Nothing to do here
+            return;
+        }
         viewController = [[ZPEmptyViewController alloc] init];
     }
-    UIViewController *currentViewController = self.detailViewNavigationController.topViewController;
     if (viewController != currentViewController) {
-        UIBarButtonItem *button = currentViewController.navigationItem.leftBarButtonItem;
+        UIBarButtonItem *button;
         
-        [self.detailViewNavigationController setViewControllers:[NSArray arrayWithObject:viewController] animated:NO];
-
-        if (![viewController isKindOfClass:[ZPImagePreviewController class]]) {
-            // Re-apply the Zippity branding
-            [self applyTintToDetailViewNavigationController];
+        if ([currentViewController isKindOfClass:[ZPPreviewController class]]) {
+            button = [(ZPPreviewController*)currentViewController previewControllerLeftBarButtonItem];
+        } else {
+            button = currentViewController.navigationItem.leftBarButtonItem;
         }
-
-        viewController.navigationItem.leftBarButtonItem = button;
         
-        if ([viewController respondsToSelector:@selector(setLeftBarButtonItem:)]) {
-            [(id)viewController setLeftBarButtonItem:button];
+        if (button) {
+            button.title = self.masterViewNavigationController.topViewController.title;
+            
+            [self.detailViewNavigationController setViewControllers:[NSArray arrayWithObject:viewController] animated:NO];
+
+            if (![viewController isKindOfClass:[ZPImagePreviewController class]]) {
+                // Re-apply the Zippity branding
+                [self applyTintToDetailViewNavigationController];
+            }
+
+            viewController.navigationItem.leftBarButtonItem = button;
+            
+            if ([viewController respondsToSelector:@selector(setPreviewControllerLeftBarButtonItem:)]) {
+                [(id)viewController setPreviewControllerLeftBarButtonItem:button];
+            }
         }
     }
 }
