@@ -625,6 +625,17 @@ static NSArray * SupportedArchiveTypes;
 
 @implementation ZPArchiveFileWrapper
 
+- (UIImage*)icon
+{
+    if (isIpad) {
+        // Use the pre-rendered iPhone document icon on the iPad
+        // Looks a bit better than the iPad document icon scaled 
+        // down
+        return [UIImage imageNamed:@"Doc-Icon-iPhone-rendered.png"];
+    }
+    return [super icon];
+}
+
 - (BOOL)isArchive { 
     return YES; 
 }
