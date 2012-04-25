@@ -378,7 +378,9 @@
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    self.masterPopoverButton.title = viewController.title;
+    if (isIpad && navigationController == self.masterViewNavigationController) {
+        self.masterPopoverButton.title = viewController.title;
+    }
 }
 
 @end
