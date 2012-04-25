@@ -235,7 +235,6 @@
         }
         
         [self.masterViewNavigationController popToRootViewControllerAnimated:NO];
-        [self.rootListViewController.container reloadContainerContents];
         
         NSError * error = nil;
         ZPFileWrapper *newFileWrapper = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:targetPath]
