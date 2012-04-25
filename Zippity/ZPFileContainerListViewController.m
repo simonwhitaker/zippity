@@ -741,7 +741,15 @@ enum {
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:NSLocalizedString(@"Save to Photos", @"Button text for Save to Photos button in action sheet"), nil];
     as.tag = GSFileContainerListViewActionSheetSaveImages;
-    [as showFromBarButtonItem:sender animated:YES];
+
+    if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        // Presenting an alert view from a button in a popover on iPad running 
+        // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
+        // So we'll show the alert view from the window instead.
+        [as showInView:self.view.window];
+    } else {
+        [as showFromBarButtonItem:sender animated:YES];
+    }
     
     self.currentActionSheet = as;
 }
@@ -774,7 +782,15 @@ enum {
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], nil];
     as.tag = GSFileContainerListViewActionSheetShare;
-    [as showFromBarButtonItem:sender animated:YES];
+    
+    if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        // Presenting an alert view from a button in a popover on iPad running 
+        // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
+        // So we'll show the alert view from the window instead.
+        [as showInView:self.view.window];
+    } else {
+        [as showFromBarButtonItem:sender animated:YES];
+    }
     
     self.currentActionSheet = as;
 }
@@ -807,7 +823,15 @@ enum {
                                       destructiveButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Delete" value:nil table:nil]
                                            otherButtonTitles:nil];
     as.tag = GSFileContainerListViewActionSheetDelete;
-    [as showFromBarButtonItem:sender animated:YES];
+    
+    if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        // Presenting an alert view from a button in a popover on iPad running 
+        // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
+        // So we'll show the alert view from the window instead.
+        [as showInView:self.view.window];
+    } else {
+        [as showFromBarButtonItem:sender animated:YES];
+    }
     
     self.currentActionSheet = as;
 }
