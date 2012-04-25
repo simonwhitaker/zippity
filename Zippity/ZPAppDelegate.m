@@ -240,7 +240,7 @@
         NSError * error = nil;
         ZPFileWrapper *newFileWrapper = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:targetPath]
                                                                     error:&error];
-        if (error) {
+        if (!newFileWrapper) {
             NSLog(@"Error on creating temp file wrapper for newly-arrived zip (%@): %@, %@", targetPath, error, error.userInfo);
         } else {
             ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:newFileWrapper];
