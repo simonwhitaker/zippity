@@ -636,10 +636,29 @@ enum {
             NSMutableArray * successfullyDeleted = [NSMutableArray array];
             NSMutableArray * failedToDelete = [NSMutableArray array];
             
-            for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
+            // First get the list of selected index paths and sort it in descending order.
+            // If we don't do this then we'll cause problems if we want to delete, e.g., 
+            // items at indices 3 and 4 of a 5-item list. After deleting list[3] the list
+            // only has 4 elements remaining, so trying to delete list[4] will generate
+            // an index-out-of-bounds exception.
+            NSArray * sortedPathsDescending = [[self.tableView indexPathsForSelectedRows] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                NSInteger row1 = [(NSIndexPath*)obj1 row];
+                NSInteger row2 = [(NSIndexPath*)obj2 row];
+                
+                if (row1 > row2) {
+                    return NSOrderedAscending;
+                } else if (row1 < row2) {
+                    return NSOrderedDescending;
+                }
+                return NSOrderedSame;
+            }];
+            
+            // Now delete the objects we need to delete in reverse index
+            // order, highest index first.
+            for (NSIndexPath *indexPath in sortedPathsDescending) {
                 NSError *error = nil;
-                [self.container removeItemAtIndex:indexPath.row error:&error];
-                if (error) {
+                BOOL removed = [self.container removeItemAtIndex:indexPath.row error:&error];
+                if (!removed) {
                     NSLog(@"Error on deleting object at row %u of %@: %@, %@", indexPath.row, self, error, error.userInfo);
                     [failedToDelete addObject:indexPath];
                 } else {
