@@ -102,9 +102,12 @@ enum {
 {    
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        self.container = container;
+        _container = container;
+        
         self.isRoot = NO;
         self.wantsFullScreenLayout = NO;
+        self.title = self.container.name;
+
     }
     return self;
 }
@@ -188,8 +191,6 @@ enum {
     [self updateUIForOrientation:self.interfaceOrientation];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
 
-    [self.tableView reloadData];
-
     // On iPad in portrait mode, the current selection will be deselected when
     // the popover goes out of view. We want it to remain selected, as it does
     // in Mail.app.
@@ -203,6 +204,21 @@ enum {
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
+    if (self.container.containerStatus != ZPFileWrapperContainerStatusReady) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleContentsReloaded:)
+                                                     name:ZPFileWrapperContainerDidReloadContents
+                                                   object:self.container];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleContentsFailedToReload:)
+                                                     name:ZPFileWrapperContainerDidFailToReloadContents
+                                                   object:self.container];
+    }
+    
+    [self.tableView reloadData];
+
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification
@@ -218,6 +234,14 @@ enum {
     [[NSNotificationCenter defaultCenter] removeObserver:self 
                                                     name:UIApplicationDidBecomeActiveNotification 
                                                   object:nil];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:ZPFileWrapperContainerDidReloadContents
+                                                  object:self.container];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:ZPFileWrapperContainerDidFailToReloadContents
+                                                  object:self.container];
+
     
     [super viewWillDisappear:animated];
 }
@@ -489,39 +513,6 @@ enum {
                 }
             }
             [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
-        }
-    }
-}
-
-#pragma mark - Custom accessors
-
-- (void)setContainer:(ZPFileWrapper*)container
-{
-    if (_container != container) {
-        // Remove old notification observers
-        if (_container) {
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:ZPFileWrapperContainerDidReloadContents
-                                                          object:_container];
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:ZPFileWrapperContainerDidFailToReloadContents
-                                                          object:_container];
-        }
-        
-        // Switch container ivar to new container
-        _container = container;
-
-        // Set up new notification observers
-        if (_container) {
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(handleContentsReloaded:)
-                                                         name:ZPFileWrapperContainerDidReloadContents
-                                                       object:_container];
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(handleContentsFailedToReload:)
-                                                         name:ZPFileWrapperContainerDidFailToReloadContents
-                                                       object:_container];
-            self.title = container.name;
         }
     }
 }

@@ -24,11 +24,12 @@ ZPImagePreviewControllerDelegate
 > {
     NSDateFormatter * _subtitleDateFormatter;
     BOOL _isRoot;
+    ZPFileWrapper * _container;
 }
 
 - (id)initWithContainer:(ZPFileWrapper*)container;
 
-@property (nonatomic, retain) ZPFileWrapper * container;
+@property (readonly) ZPFileWrapper * container;
 @property (readonly) NSDateFormatter * subtitleDateFormatter;
 @property (nonatomic) BOOL isRoot;
 @property NSInteger previewControllerFileWrapperIndex;
