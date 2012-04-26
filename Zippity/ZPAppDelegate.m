@@ -10,6 +10,7 @@
 #import "TestFlight.h"
 #import "ZPEmptyViewController.h"
 #import "ZPImagePreviewController.h"
+#import "ZPPreviewController.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -235,12 +236,11 @@
         }
         
         [self.masterViewNavigationController popToRootViewControllerAnimated:NO];
-        [self.rootListViewController.container reloadContainerContents];
         
         NSError * error = nil;
         ZPFileWrapper *newFileWrapper = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:targetPath]
                                                                     error:&error];
-        if (error) {
+        if (!newFileWrapper) {
             NSLog(@"Error on creating temp file wrapper for newly-arrived zip (%@): %@, %@", targetPath, error, error.userInfo);
         } else {
             ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:newFileWrapper];
@@ -248,13 +248,6 @@
             
             // Load the blank view up in the detail view controller
             [self setDetailViewController:nil];
-            
-            if (isIpad && UIInterfaceOrientationIsPortrait([[UIDevice currentDevice] orientation])) {
-                // Show the master view popover in portrait mode
-                [self.masterPopoverController presentPopoverFromBarButtonItem:self.masterPopoverButton
-                                                     permittedArrowDirections:UIPopoverArrowDirectionAny
-                                                                     animated:NO];
-            }
         }
     }
     return YES;
@@ -316,24 +309,37 @@
 
 - (void)setDetailViewController:(UIViewController *)viewController
 {
+    // Set the detail view controller for the split view controller.
+    // If the old detail view controller has a button for opening
+    // the popover controller, transfer that button to the new
+    // detail view controller, setting its title to the title of
+    // the top-most view controller in the master navigation controller
+    
+    UIViewController *currentViewController = self.detailViewNavigationController.topViewController;
+
     if (viewController == nil) {
+        if ([currentViewController isKindOfClass:[ZPEmptyViewController class]]) {
+            // Nothing to do here
+            return;
+        }
         viewController = [[ZPEmptyViewController alloc] init];
     }
-    UIViewController *currentViewController = self.detailViewNavigationController.topViewController;
     if (viewController != currentViewController) {
-        UIBarButtonItem *button = currentViewController.navigationItem.leftBarButtonItem;
-        
+        if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]))
+        {
+            self.masterPopoverButton.title = self.masterViewNavigationController.topViewController.title;
+            viewController.navigationItem.leftBarButtonItem = self.masterPopoverButton;
+            
+            if ([viewController respondsToSelector:@selector(setPreviewControllerLeftBarButtonItem:)]) {
+                [(id)viewController setPreviewControllerLeftBarButtonItem:self.masterPopoverButton];
+            }
+        }
+            
         [self.detailViewNavigationController setViewControllers:[NSArray arrayWithObject:viewController] animated:NO];
 
         if (![viewController isKindOfClass:[ZPImagePreviewController class]]) {
             // Re-apply the Zippity branding
             [self applyTintToDetailViewNavigationController];
-        }
-
-        viewController.navigationItem.leftBarButtonItem = button;
-        
-        if ([viewController respondsToSelector:@selector(setLeftBarButtonItem:)]) {
-            [(id)viewController setLeftBarButtonItem:button];
         }
     }
 }
@@ -364,7 +370,9 @@
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    self.masterPopoverButton.title = viewController.title;
+    if (isIpad && navigationController == self.masterViewNavigationController) {
+        self.masterPopoverButton.title = viewController.title;
+    }
 }
 
 @end

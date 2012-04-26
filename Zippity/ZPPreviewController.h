@@ -10,6 +10,6 @@
 
 @interface ZPPreviewController : QLPreviewController
 
-@property (nonatomic, strong) UIBarButtonItem * leftBarButtonItem;
+@property (nonatomic, strong) UIBarButtonItem * previewControllerLeftBarButtonItem;
 
 @end

@@ -26,7 +26,7 @@
 @property (strong, nonatomic) UISplitViewController *splitViewController;
 @property (strong, nonatomic) UINavigationController *detailViewNavigationController;
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
-@property (weak, nonatomic) UIBarButtonItem *masterPopoverButton;
+@property (strong, nonatomic) UIBarButtonItem *masterPopoverButton;
 
 - (void)applyTintToDetailViewNavigationController;
 
