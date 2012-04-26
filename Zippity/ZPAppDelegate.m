@@ -325,29 +325,21 @@
         viewController = [[ZPEmptyViewController alloc] init];
     }
     if (viewController != currentViewController) {
-        UIBarButtonItem *button;
-        
-        if ([currentViewController isKindOfClass:[ZPPreviewController class]]) {
-            button = [(ZPPreviewController*)currentViewController previewControllerLeftBarButtonItem];
-        } else {
-            button = currentViewController.navigationItem.leftBarButtonItem;
-        }
-        
-        if (button) {
-            button.title = self.masterViewNavigationController.topViewController.title;
-            
-            [self.detailViewNavigationController setViewControllers:[NSArray arrayWithObject:viewController] animated:NO];
-
-            if (![viewController isKindOfClass:[ZPImagePreviewController class]]) {
-                // Re-apply the Zippity branding
-                [self applyTintToDetailViewNavigationController];
-            }
-
-            viewController.navigationItem.leftBarButtonItem = button;
+        if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]))
+        {
+            self.masterPopoverButton.title = self.masterViewNavigationController.topViewController.title;
+            viewController.navigationItem.leftBarButtonItem = self.masterPopoverButton;
             
             if ([viewController respondsToSelector:@selector(setPreviewControllerLeftBarButtonItem:)]) {
-                [(id)viewController setPreviewControllerLeftBarButtonItem:button];
+                [(id)viewController setPreviewControllerLeftBarButtonItem:self.masterPopoverButton];
             }
+        }
+            
+        [self.detailViewNavigationController setViewControllers:[NSArray arrayWithObject:viewController] animated:NO];
+
+        if (![viewController isKindOfClass:[ZPImagePreviewController class]]) {
+            // Re-apply the Zippity branding
+            [self applyTintToDetailViewNavigationController];
         }
     }
 }
