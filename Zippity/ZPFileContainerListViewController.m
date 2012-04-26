@@ -352,8 +352,10 @@ enum {
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
         
+        CGFloat maxTableWidth = isIpad ? 320.0 : 480.0;
+        
         // Set custom selected cell background
-        CGRect cellFrame = CGRectMake(0, 0, tableView.frame.size.width, [self tableView:tableView heightForRowAtIndexPath:indexPath]);
+        CGRect cellFrame = CGRectMake(0, 0, maxTableWidth, [self tableView:tableView heightForRowAtIndexPath:indexPath]);
         UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
         CAGradientLayer *gradient = [CAGradientLayer layer];
         gradient.frame = selectedBackgroundView.frame;
