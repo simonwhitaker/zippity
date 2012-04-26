@@ -364,6 +364,11 @@ enum {
         [selectedBackgroundView.layer addSublayer:gradient];
         
         cell.selectedBackgroundView = selectedBackgroundView;
+        
+        UIView *multipleSelectionBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
+        multipleSelectionBackgroundView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+        cell.multipleSelectionBackgroundView = multipleSelectionBackgroundView;
+
     }
 
     if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
