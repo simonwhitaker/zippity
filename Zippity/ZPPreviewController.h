@@ -10,6 +10,11 @@
 
 @interface ZPPreviewController : QLPreviewController
 
+// QLPreviewController sets its own navigation item buttons once it's rendered
+// its content. Using previewControllerLeftBarButtonItem, we'll store a copy
+// of the left bar button item (the button to launch the popover controller
+// on iPad in portrait mode) and re-add it to the navigation item once the
+// preview view is rendered, in [self viewDidLayoutSubviews].
 @property (nonatomic, strong) UIBarButtonItem * previewControllerLeftBarButtonItem;
 
 @end
