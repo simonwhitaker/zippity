@@ -330,8 +330,8 @@
             self.masterPopoverButton.title = self.masterViewNavigationController.topViewController.title;
             viewController.navigationItem.leftBarButtonItem = self.masterPopoverButton;
             
-            if ([viewController respondsToSelector:@selector(setPreviewControllerLeftBarButtonItem:)]) {
-                [(id)viewController setPreviewControllerLeftBarButtonItem:self.masterPopoverButton];
+            if ([viewController respondsToSelector:@selector(setOriginalLeftBarButtonItem:)]) {
+                [(id)viewController setOriginalLeftBarButtonItem:self.masterPopoverButton];
             }
         }
             
@@ -353,7 +353,14 @@
 
 - (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
 {
+    // Set the navigation item's left bar button
     [self.detailViewNavigationController.topViewController.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    
+    // If this is a ZPPreviewController object, or anything else with an 
+    // originalLeftBarButtonItem property, set that too.
+    if ([aViewController respondsToSelector:@selector(setOriginalLeftBarButtonItem:)]) {
+        [(id)aViewController setOriginalLeftBarButtonItem:self.masterPopoverButton];
+    }
     self.masterPopoverController = pc;
     self.masterPopoverButton = barButtonItem;
     self.masterPopoverButton.title = self.masterViewNavigationController.topViewController.title;
