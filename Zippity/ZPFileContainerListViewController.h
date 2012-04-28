@@ -6,30 +6,42 @@
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "ZPFileWrapper.h"
 #import <MessageUI/MessageUI.h>
+#import <QuickLook/QuickLook.h>
+#import <UIKit/UIKit.h>
 #import "ZPAboutViewController.h"
+#import "ZPFileWrapper.h"
+#import "ZPImagePreviewController.h"
 
 @interface ZPFileContainerListViewController : UITableViewController <
+MFMailComposeViewControllerDelegate,
+QLPreviewControllerDataSource,
 UIDocumentInteractionControllerDelegate, 
 UIActionSheetDelegate, 
 UIAlertViewDelegate,
-MFMailComposeViewControllerDelegate,
-ZPAboutViewControllerDelegate
+ZPAboutViewControllerDelegate,
+ZPImagePreviewControllerDelegate
 > {
     NSDateFormatter * _subtitleDateFormatter;
     BOOL _isRoot;
+    ZPFileWrapper * _container;
 }
 
 - (id)initWithContainer:(ZPFileWrapper*)container;
 
-@property (nonatomic, retain) ZPFileWrapper * container;
+@property (readonly) ZPFileWrapper * container;
 @property (readonly) NSDateFormatter * subtitleDateFormatter;
 @property (nonatomic) BOOL isRoot;
+@property NSInteger previewControllerFileWrapperIndex;
 
-@property (nonatomic, assign) UIBarButtonItem * shareButton;
-@property (nonatomic, assign) UIBarButtonItem * deleteButton;
-@property (nonatomic, assign) UIBarButtonItem * saveImagesButton;
+@property (nonatomic, weak) UIBarButtonItem * shareButton;
+@property (nonatomic, weak) UIBarButtonItem * deleteButton;
+@property (nonatomic, weak) UIBarButtonItem * saveImagesButton;
+
+// Keep track of the selected index path so that we can 
+// highlight it when displaying the view, e.g. in a popover
+// on iPad.
+@property (nonatomic, strong) NSIndexPath * selectedLeafNodeIndexPath;
+@property (nonatomic, weak) UIActionSheet *currentActionSheet;
 
 @end

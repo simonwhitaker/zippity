@@ -8,6 +8,9 @@
 
 #import "ZPAppDelegate.h"
 #import "TestFlight.h"
+#import "ZPEmptyViewController.h"
+#import "ZPImagePreviewController.h"
+#import "ZPPreviewController.h"
 
 #define kMaxSuffixesToTry 100
 
@@ -19,9 +22,13 @@
 
 @implementation ZPAppDelegate
 
-@synthesize window=_window;
-@synthesize rootListViewController=_rootListViewController;
-@synthesize navigationController=_navigationController;
+@synthesize window = _window;
+@synthesize rootListViewController = _rootListViewController;
+@synthesize masterViewNavigationController = _navigationController;
+@synthesize splitViewController = _splitViewController;
+@synthesize detailViewNavigationController = _detailViewNavigationController;
+@synthesize masterPopoverController = _masterPopoverController;
+@synthesize masterPopoverButton = _masterPopoverButton;
 
 + (void)initialize
 {
@@ -48,11 +55,31 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [TestFlight takeOff:@"c9a1cdc85d251c1574f49750c3db2a52_NzcyMzIwMTEtMDktMTYgMDU6MTI6MTkuOTU1OTM3"];
+
+#if defined (DEBUG) || defined (ADHOC)
+    /*
+     Disable deprecated-declarations warning.
+     See http://clang.llvm.org/docs/UsersManual.html#diagnostics_pragmas
+     
+     Basic workflow:
+     
+        1. push current warnings onto stack
+        2. ignore warning we know will get thrown
+        3. do dodgy thing that causes warning
+        4. pop warnings - go back to what we had before we started dicking around with them
+     
+     */
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
+#pragma clang diagnostic pop
+#endif
+
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
-        
+    
     // First run: add a sample zip file
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if ([defaults boolForKey:kZPDefaultsFirstLaunchKey]) {
@@ -78,9 +105,22 @@
     self.rootListViewController.isRoot = YES;
     
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
+    self.masterViewNavigationController = nc;
+    nc.delegate = self;
 
-    self.window.rootViewController = nc;
-    self.navigationController = nc;
+    if (isIpad) {
+        ZPEmptyViewController * evc = [[ZPEmptyViewController alloc] init];
+        self.detailViewNavigationController = [[UINavigationController alloc] initWithRootViewController:evc];
+        
+        [self applyTintToDetailViewNavigationController];
+        
+        self.splitViewController = [[UISplitViewController alloc] init];
+        self.splitViewController.delegate = self;
+        self.splitViewController.viewControllers = [NSArray arrayWithObjects:nc, self.detailViewNavigationController, nil];
+        self.window.rootViewController = self.splitViewController;
+    } else {
+        self.window.rootViewController = nc;
+    }
     
     [self.window makeKeyAndVisible];
     return YES;
@@ -153,7 +193,7 @@
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {    
     // Dismiss the info view if it's visible
-    [self.navigationController dismissModalViewControllerAnimated:NO];
+    [self.masterViewNavigationController dismissModalViewControllerAnimated:NO];
     
     NSString *incomingPath = [url path];
     NSString *filename = [incomingPath lastPathComponent];
@@ -195,17 +235,19 @@
             NSLog(@"Error deleting %@: %@, %@", incomingPath, error, error.userInfo);
         }
         
-        [self.navigationController popToRootViewControllerAnimated:NO];
-        [self.rootListViewController.container reloadContainerContents];
+        [self.masterViewNavigationController popToRootViewControllerAnimated:NO];
         
         NSError * error = nil;
         ZPFileWrapper *newFileWrapper = [ZPFileWrapper fileWrapperWithURL:[NSURL fileURLWithPath:targetPath]
                                                                     error:&error];
-        if (error) {
+        if (!newFileWrapper) {
             NSLog(@"Error on creating temp file wrapper for newly-arrived zip (%@): %@, %@", targetPath, error, error.userInfo);
         } else {
             ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:newFileWrapper];
-            [self.navigationController pushViewController:vc animated:NO];
+            [self.masterViewNavigationController pushViewController:vc animated:NO];
+            
+            // Load the blank view up in the detail view controller
+            [self setDetailViewController:nil];
         }
     }
     return YES;
@@ -254,6 +296,90 @@
         }
     }
     return _archiveFilesDirectory;
+}
+
+#pragma mark - iPad-only methods
+
+- (void)applyTintToDetailViewNavigationController
+{
+    [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    self.detailViewNavigationController.navigationBar.tintColor = kZippityRed;
+    self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+}
+
+- (void)setDetailViewController:(UIViewController *)viewController
+{
+    // Set the detail view controller for the split view controller.
+    // If the old detail view controller has a button for opening
+    // the popover controller, transfer that button to the new
+    // detail view controller, setting its title to the title of
+    // the top-most view controller in the master navigation controller
+    
+    UIViewController *currentViewController = self.detailViewNavigationController.topViewController;
+
+    if (viewController == nil) {
+        if ([currentViewController isKindOfClass:[ZPEmptyViewController class]]) {
+            // Nothing to do here
+            return;
+        }
+        viewController = [[ZPEmptyViewController alloc] init];
+    }
+    if (viewController != currentViewController) {
+        if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]))
+        {
+            self.masterPopoverButton.title = self.masterViewNavigationController.topViewController.title;
+            viewController.navigationItem.leftBarButtonItem = self.masterPopoverButton;
+            
+            if ([viewController respondsToSelector:@selector(setOriginalLeftBarButtonItem:)]) {
+                [(id)viewController setOriginalLeftBarButtonItem:self.masterPopoverButton];
+            }
+        }
+            
+        [self.detailViewNavigationController setViewControllers:[NSArray arrayWithObject:viewController] animated:NO];
+
+        if (![viewController isKindOfClass:[ZPImagePreviewController class]]) {
+            // Re-apply the Zippity branding
+            [self applyTintToDetailViewNavigationController];
+        }
+    }
+}
+
+- (void)dismissMasterPopover
+{
+    [self.masterPopoverController dismissPopoverAnimated:YES];
+}
+
+#pragma mark - UISplitViewController delegate methods
+
+- (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
+{
+    // Set the navigation item's left bar button
+    [self.detailViewNavigationController.topViewController.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+    
+    // If this is a ZPPreviewController object, or anything else with an 
+    // originalLeftBarButtonItem property, set that too.
+    if ([aViewController respondsToSelector:@selector(setOriginalLeftBarButtonItem:)]) {
+        [(id)aViewController setOriginalLeftBarButtonItem:self.masterPopoverButton];
+    }
+    self.masterPopoverController = pc;
+    self.masterPopoverButton = barButtonItem;
+    self.masterPopoverButton.title = self.masterViewNavigationController.topViewController.title;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
+{
+    self.detailViewNavigationController.topViewController.navigationItem.leftBarButtonItem = nil;
+    self.masterPopoverController = nil;
+    self.masterPopoverButton = nil;
+}
+
+#pragma mark - UINavigationController delegate methods
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if (isIpad && navigationController == self.masterViewNavigationController) {
+        self.masterPopoverButton.title = viewController.title;
+    }
 }
 
 @end

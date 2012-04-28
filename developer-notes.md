@@ -15,3 +15,9 @@ For XIBs:
     cd Zippity
     ibtool --generate-strings-file en.lproj/ZPAboutViewController.strings en.lproj/ZPAboutViewController.xib 
 
+# Get the UTI for a given file
+
+Use mdls, part of Spotlight:
+
+    mdls foo.ext
+    

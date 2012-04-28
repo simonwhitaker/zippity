@@ -114,18 +114,15 @@ static NSArray * SupportedArchiveTypes;
             result = [[ZPDirectoryWrapper alloc] initWithURL:url error:error];
         } else {
             UIDocumentInteractionController *ic = [UIDocumentInteractionController interactionControllerWithURL:url];
-            BOOL isArchiveType = NO;
-            for (NSString * uti in SupportedArchiveTypes) {
-                if (UTTypeConformsTo((__bridge CFStringRef)ic.UTI, (__bridge CFStringRef)uti)) {
-                    isArchiveType = YES;
-                    break;
-                }
-            }
-            if (isArchiveType) {
+
+            if ([SupportedArchiveTypes containsObject:ic.UTI]) {
+                // It's an archive file type
                 result = [[ZPArchiveFileWrapper alloc] initWithURL:url error:error];
             } else {
+                // It's a regular file type
                 result = [[ZPRegularFileWrapper alloc] initWithURL:url error:error];
             }
+            
             // Save the document interaction controller - no point re-generating it later
             result->_documentInteractionController = ic;
         }
@@ -225,8 +222,12 @@ static NSArray * SupportedArchiveTypes;
         _containerStatus = containerStatus;
         
         if (_containerStatus == ZPFileWrapperContainerStatusReady) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidReloadContents
-                                                                object:self];
+            
+            // Send notification on the main thread
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidReloadContents
+                                                                    object:self];
+            });
         }
     }
 }
@@ -353,9 +354,11 @@ static NSArray * SupportedArchiveTypes;
                                                                            error:&error];
         if (error) {
             self.containerStatus = ZPFileWrapperContainerStatusError;
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                object:self
-                                                              userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                    object:self
+                                                                  userInfo:[NSDictionary dictionaryWithObject:error forKey:kErrorKey]];
+            });
         } else {
             NSMutableArray *tempArray = [NSMutableArray arrayWithCapacity:urls.count];
             for (NSURL *url in urls) {
@@ -368,9 +371,11 @@ static NSArray * SupportedArchiveTypes;
                 ZPFileWrapper *wrapper = [ZPFileWrapper fileWrapperWithURL:url error:&initError];
                 if (initError) {
                     self.containerStatus = ZPFileWrapperContainerStatusError;
-                    [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                        object:self
-                                                                      userInfo:[NSDictionary dictionaryWithObject:initError forKey:kErrorKey]];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                            object:self
+                                                                          userInfo:[NSDictionary dictionaryWithObject:initError forKey:kErrorKey]];
+                    });
                     return;
                 }
                 [tempArray addObject:wrapper];
@@ -483,8 +488,10 @@ static NSArray * SupportedArchiveTypes;
         if (error) {
             // TODO: send error notification
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
-                                                                object:self];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperGeneratedPreviewImageNotification
+                                                                    object:self];
+            });
         }
         self.isQueuedForImageResizing = NO;
     }
@@ -618,6 +625,17 @@ static NSArray * SupportedArchiveTypes;
 
 @implementation ZPArchiveFileWrapper
 
+- (UIImage*)icon
+{
+    if (isIpad) {
+        // Use the pre-rendered iPhone document icon on the iPad
+        // Looks a bit better than the iPad document icon scaled 
+        // down
+        return [UIImage imageNamed:@"Doc-Icon-iPhone-rendered.png"];
+    }
+    return [super icon];
+}
+
 - (BOOL)isArchive { 
     return YES; 
 }
@@ -653,7 +671,7 @@ static NSArray * SupportedArchiveTypes;
 - (NSString*)cachePath
 {
     if (_cachePath == nil) {
-        ZPAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        ZPAppDelegate *appDelegate = (ZPAppDelegate*)[[UIApplication sharedApplication] delegate];
         NSString *relativePath = [self.url.path stringByReplacingOccurrencesOfString:appDelegate.archiveFilesDirectory
                                                                           withString:@""
                                                                              options:0 
@@ -742,10 +760,12 @@ static NSArray * SupportedArchiveTypes;
         }
 
         if (error) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
-                                                                object:self
-                                                              userInfo:[NSDictionary dictionaryWithObject:error
-                                                                                                   forKey:kErrorKey]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:ZPFileWrapperContainerDidFailToReloadContents
+                                                                    object:self
+                                                                  userInfo:[NSDictionary dictionaryWithObject:error
+                                                                                                       forKey:kErrorKey]];
+            });
             self.containerStatus = ZPFileWrapperContainerStatusError;
         } else {
             // All went well, so write a success marker file

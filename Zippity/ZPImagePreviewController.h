@@ -10,12 +10,22 @@
 #import "ZPFileWrapper.h"
 #import "ZPImageScrollView.h"
 
+@protocol ZPImagePreviewControllerDelegate;
+
 @interface ZPImagePreviewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
 
-@property (nonatomic, retain) NSArray * imageFileWrappers;
+@property (nonatomic, strong) NSArray * imageFileWrappers;
 @property (nonatomic) NSUInteger initialIndex;
-@property (nonatomic, assign) IBOutlet UIScrollView * scrollView;
+@property (nonatomic, weak) IBOutlet UIScrollView * scrollView;
+@property (nonatomic, weak) id<ZPImagePreviewControllerDelegate> delegate;
+@property (nonatomic, weak) UIActionSheet * actionSheet;
 
 - (ZPImageScrollView*)dequeueReusablePage;
+
+@end
+
+@protocol ZPImagePreviewControllerDelegate <NSObject>
+
+- (void)imagePreviewControllerDidShowImageForFileWrapper:(ZPFileWrapper*)fileWrapper;
 
 @end

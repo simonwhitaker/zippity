@@ -13,8 +13,10 @@
 			<string>Archive file</string>
 			<key>CFBundleTypeIconFiles</key>
 			<array>
-				<string>Document-icon.png</string>
-				<string>Document-icon@2x.png</string>
+				<string>Doc-Icon-iPhone.png</string>
+				<string>Doc-Icon-iPhone@2x.png</string>
+				<string>Doc-Icon-iPad.png</string>
+				<string>Doc-Icon-iPad@2x.png</string>
 			</array>
 			<key>LSHandlerRank</key>
 			<string>Default</string>
@@ -37,6 +39,8 @@
 	<array>
 		<string>Icon</string>
 		<string>Icon-Small</string>
+		<string>Icon-Small-50</string>
+		<string>Icon-72</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>co.uk.goosoftware.${PRODUCT_NAME:rfc1034identifier}</string>
@@ -51,7 +55,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>22</string>
+	<string>31</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIPrerenderedIcon</key>

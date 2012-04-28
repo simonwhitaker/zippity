@@ -20,17 +20,17 @@
  NSLocalizedString("Save Images",   "The text for a button that will save image files to the camera roll when tapped")
  */
 
-#import "ZPFileContainerListViewController.h"
-#import "ZPAppDelegate.h"
-#import <QuickLook/QuickLook.h>
 #import <MobileCoreServices/MobileCoreServices.h>
-#import "ZPImagePreviewController.h"
+#import <QuartzCore/QuartzCore.h>
+#import "ZPAppDelegate.h"
+#import "ZPFileContainerListViewController.h"
+#import "ZPPreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
     GSFileContainerListViewActionSheetDelete,
-    GSFileContainerListViewActionSaveImages,
+    GSFileContainerListViewActionSheetSaveImages,
 };
 
 @interface UIBarItem(ZPAdditions)
@@ -67,33 +67,47 @@ enum {
 - (void)handleApplicationDidBecomeActiveNotification:(NSNotification*)notification;
 
 - (void)showInfoView:(id)sender;
-- (void)shareSelectedItems;
-- (void)deleteSelectedItems;
-- (void)saveSelectedImages;
+- (void)shareSelectedItems:(id)sender;
+- (void)deleteSelectedItems:(id)sender;
+- (void)saveSelectedImages:(id)sender;
 - (void)updateToolbarButtons;
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
+
+// Prior to iOS 5.1, split view controller popovers shown in
+// standard UIPopoverController views. From iOS 5.1 onwards they're
+// shown as panels that slide in from the left. If we're showing an
+// "old-style" popover we need to make sure we don't apply
+// styling to the navigation controller, otherwise it messes up
+// the navigation bar.
+- (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
 @end
 
 @implementation ZPFileContainerListViewController
 
-@synthesize container=_container;
-@synthesize isRoot=isRoot;
-@synthesize shareButton=_shareButton;
-@synthesize deleteButton=_deleteButton;
-@synthesize saveImagesButton=_saveImagesButton;
-@synthesize selectedImageFileWrappers=_selectedImageFileWrappers;
+@synthesize container = _container;
+@synthesize isRoot = isRoot;
+@synthesize shareButton = _shareButton;
+@synthesize deleteButton = _deleteButton;
+@synthesize saveImagesButton = _saveImagesButton;
+@synthesize selectedImageFileWrappers = _selectedImageFileWrappers;
+@synthesize previewControllerFileWrapperIndex = _previewControllerFileWrapperIndex;
 
-@synthesize editButton=_editButton;
-@synthesize doneButton=_doneButton;
+@synthesize editButton = _editButton;
+@synthesize doneButton = _doneButton;
+@synthesize selectedLeafNodeIndexPath = _selectedIndexPath;
+@synthesize currentActionSheet = _currentActionSheet;
 
 - (id)initWithContainer:(ZPFileWrapper*)container
 {    
     self = [super initWithStyle:UITableViewStylePlain];
     if (self) {
-        self.container = container;
+        _container = container;
+        
         self.isRoot = NO;
         self.wantsFullScreenLayout = NO;
+        self.title = self.container.name;
+
     }
     return self;
 }
@@ -125,7 +139,7 @@ enum {
     tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Share" value:nil table:nil]
                                                   style:UIBarButtonItemStyleBordered
                                                  target:self
-                                                 action:@selector(shareSelectedItems)];
+                                                 action:@selector(shareSelectedItems:)];
     [toolbarButtons addObject:tempButton];
     self.shareButton = tempButton;
     
@@ -133,7 +147,7 @@ enum {
         tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Delete" value:nil table:nil]
                                                       style:UIBarButtonItemStyleBordered 
                                                      target:self 
-                                                     action:@selector(deleteSelectedItems)];
+                                                     action:@selector(deleteSelectedItems:)];
         tempButton.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
@@ -141,7 +155,7 @@ enum {
         tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Save Images" value:nil table:nil]
                                                       style:UIBarButtonItemStyleBordered
                                                      target:self
-                                                     action:@selector(saveSelectedImages)];
+                                                     action:@selector(saveSelectedImages:)];
         [toolbarButtons addObject:tempButton];
         self.saveImagesButton = tempButton;
     }
@@ -173,19 +187,38 @@ enum {
     [super viewWillAppear:animated];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
-    self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
-    
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
-    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0];
+
+    [self updateUIForOrientation:self.interfaceOrientation];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
-    
-    [self.tableView reloadData];
+
+    // On iPad in portrait mode, the current selection will be deselected when
+    // the popover goes out of view. We want it to remain selected, as it does
+    // in Mail.app.
+    if (isIpad && self.selectedLeafNodeIndexPath) {
+        [self.tableView selectRowAtIndexPath:self.selectedLeafNodeIndexPath
+                                    animated:NO 
+                              scrollPosition:UITableViewScrollPositionNone];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+
+    if (self.container.containerStatus != ZPFileWrapperContainerStatusReady) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleContentsReloaded:)
+                                                     name:ZPFileWrapperContainerDidReloadContents
+                                                   object:self.container];
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleContentsFailedToReload:)
+                                                     name:ZPFileWrapperContainerDidFailToReloadContents
+                                                   object:self.container];
+    }
+    
+    [self.tableView reloadData];
+
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification
@@ -202,24 +235,58 @@ enum {
                                                     name:UIApplicationDidBecomeActiveNotification 
                                                   object:nil];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:ZPFileWrapperContainerDidReloadContents
+                                                  object:self.container];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:ZPFileWrapperContainerDidFailToReloadContents
+                                                  object:self.container];
+
+    
     [super viewWillDisappear:animated];
+}
+
+- (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    BOOL isPortrait = UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    
+    // Check whether UISplitViewController instances support pressentsWithGesture - new in iOS 5.1
+    BOOL isUsingOldStylePopover = ![UISplitViewController instancesRespondToSelector:@selector(presentsWithGesture)];
+
+    if (isIpad && isPortrait && isUsingOldStylePopover) {
+        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+        self.navigationController.navigationBar.tintColor = nil;
+        if (self.isRoot) {
+            self.navigationItem.titleView = nil;
+        }
+    } else {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
+        self.navigationController.navigationBar.tintColor = kZippityRed;
+
+        if (self.isRoot) {
+            if (isIpad || UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+            } else {
+                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
+            }
+        }
+    }
 }
 
 #pragma mark - UI orientation methods
 
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation
 {
-    if (self.isRoot) {
-        if (UIInterfaceOrientationIsPortrait(orientation)) {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-        } else {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
-        }
-    }
+    [self applyNavigationBarStylingForOrientation:orientation];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
+    if (isIpad) {
+        return YES;
+    }
     return interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
@@ -284,6 +351,26 @@ enum {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
+        CGFloat maxTableWidth = isIpad ? 320.0 : 480.0;
+        
+        // Set custom selected cell background
+        CGRect cellFrame = CGRectMake(0, 0, maxTableWidth, [self tableView:tableView heightForRowAtIndexPath:indexPath]);
+        UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        gradient.frame = selectedBackgroundView.frame;
+        gradient.colors = [NSArray arrayWithObjects:
+                           (id)[[UIColor colorWithWhite:0.6 alpha:1.0] CGColor], 
+                           (id)[[UIColor colorWithWhite:0.35 alpha:1.0] CGColor], 
+                           nil];
+        [selectedBackgroundView.layer addSublayer:gradient];
+        
+        cell.selectedBackgroundView = selectedBackgroundView;
+        
+        UIView *multipleSelectionBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
+        multipleSelectionBackgroundView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+        cell.multipleSelectionBackgroundView = multipleSelectionBackgroundView;
+
     }
 
     if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
@@ -307,7 +394,27 @@ enum {
         cell.accessoryView = nil;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        cell.imageView.image = wrapper.icon;
+        
+        if (isIpad) {
+            // For icon images derived from document icons, we need
+            // to size them down on iPad.
+            UIImage *rawIcon = wrapper.icon;
+            UIImage *resizedIcon = rawIcon;
+            
+            if (rawIcon.size.width > 32.0) {
+                CGFloat newWidth = rawIcon.size.width / 2;
+                CGFloat newHeight = rawIcon.size.height / 2;
+                
+                UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, newHeight), NO, rawIcon.scale);
+                [rawIcon drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+                resizedIcon = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                
+            }
+            cell.imageView.image = resizedIcon;
+        } else {
+            cell.imageView.image = wrapper.icon;
+        }
     } else {
         cell.textLabel.text = NSLocalizedString(@"Unpacking contents...", @"Short message shown while unpacking a zip file");
         UIActivityIndicatorView *aiv = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -357,6 +464,8 @@ enum {
 {
     if (tableView.isEditing) {
         [self updateToolbarButtons];
+    } else {
+        self.selectedLeafNodeIndexPath = nil;
     }
 }
 
@@ -370,58 +479,47 @@ enum {
     } else if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
         ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
         
-        if (wrapper.isImageFile) {
-            ZPImagePreviewController *vc = [[ZPImagePreviewController alloc] init];
-            NSArray *imageFileWrappers = self.container.imageFileWrappers;
-            NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
-            
-            vc.imageFileWrappers = imageFileWrappers;
-            vc.initialIndex = initialIndex;
-            
-            [self.navigationController pushViewController:vc animated:YES];
-        } else if (wrapper.isContainer) {
+        if (wrapper.isContainer) {
             ZPFileContainerListViewController *vc = [[ZPFileContainerListViewController alloc] initWithContainer:wrapper];
             vc.tableView.delegate = vc;
             [self.navigationController pushViewController:vc animated:YES];
-        } else if (wrapper.documentInteractionController && [QLPreviewController canPreviewItem:wrapper.url]) {
-            wrapper.documentInteractionController.delegate = self;
-            [wrapper.documentInteractionController presentPreviewAnimated:YES];
         } else {
-            ZPUnrecognisedFileTypeViewController *vc = [[ZPUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
-            [self.navigationController pushViewController:vc animated:YES];
-        }
-    } else {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
-}
+            self.selectedLeafNodeIndexPath = indexPath;
 
-- (void)setContainer:(ZPFileWrapper*)container
-{
-    if (_container != container) {
-        // Remove old notification observers
-        if (_container) {
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:ZPFileWrapperContainerDidReloadContents
-                                                          object:_container];
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:ZPFileWrapperContainerDidFailToReloadContents
-                                                          object:_container];
-        }
-        
-        // Switch container ivar to new container
-        _container = container;
-
-        // Set up new notification observers
-        if (_container) {
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(handleContentsReloaded:)
-                                                         name:ZPFileWrapperContainerDidReloadContents
-                                                       object:_container];
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(handleContentsFailedToReload:)
-                                                         name:ZPFileWrapperContainerDidFailToReloadContents
-                                                       object:_container];
-            self.title = container.name;
+            UIViewController *vc = nil;
+            
+            if (wrapper.isImageFile) {
+                ZPImagePreviewController *ipc = [[ZPImagePreviewController alloc] init];
+                ipc.delegate = self;
+                NSArray *imageFileWrappers = self.container.imageFileWrappers;
+                NSUInteger initialIndex = [imageFileWrappers indexOfObject:wrapper];
+                
+                ipc.imageFileWrappers = imageFileWrappers;
+                ipc.initialIndex = initialIndex;
+                
+                vc = ipc;
+            } else if (wrapper.documentInteractionController && [ZPPreviewController canPreviewItem:wrapper.url]) {
+                if (isIpad) {
+                    self.previewControllerFileWrapperIndex = indexPath.row;
+                    ZPPreviewController *pc = [[ZPPreviewController alloc] init];
+                    pc.dataSource = self;
+                    vc = pc;
+                } else {
+                    wrapper.documentInteractionController.delegate = self;
+                    [wrapper.documentInteractionController presentPreviewAnimated:YES];
+                }
+            } else {
+                vc = [[ZPUnrecognisedFileTypeViewController alloc] initWithFileWrapper:wrapper];
+            }
+            
+            if (vc) {
+                if (isIpad) {
+                    [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] setDetailViewController:vc];
+                } else {
+                    [self.navigationController pushViewController:vc animated:YES];
+                }
+            }
+            [(ZPAppDelegate*)[[UIApplication sharedApplication] delegate] dismissMasterPopover];
         }
     }
 }
@@ -431,6 +529,36 @@ enum {
 - (void)aboutViewControllerShouldDismiss:(ZPAboutViewController *)aboutViewController
 {
     [self dismissModalViewControllerAnimated:YES];
+}
+
+#pragma mark - ZPImagePreviewController delegate
+
+- (void)imagePreviewControllerDidShowImageForFileWrapper:(ZPFileWrapper *)fileWrapper
+{
+    NSInteger index = [self.container.fileWrappers indexOfObject:fileWrapper];
+    if (index != NSNotFound) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        [self.tableView selectRowAtIndexPath:indexPath
+                                    animated:YES 
+                              scrollPosition:UITableViewScrollPositionMiddle];
+        self.selectedLeafNodeIndexPath = indexPath;
+    }
+}
+
+#pragma mark - QLPreviewController data source
+
+- (NSInteger) numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller
+{
+    // We're not supporting paging through previews, so we'll always just return
+    // a preview controller with a single item. We'll use self.previewControllerFileWrapperIndex
+    // to track the index of the file wrapper we need to show.
+    return 1;
+}
+
+- (id<QLPreviewItem>) previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index
+{
+    ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:self.previewControllerFileWrapperIndex];
+    return wrapper.url;
 }
 
 #pragma mark - UIDocumentInteractionController delegate
@@ -454,6 +582,8 @@ enum {
 
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    self.currentActionSheet = nil;
+
     if (actionSheet.tag == GSFileContainerListViewActionSheetShare) {
         NSString * emailLabel = [[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil];
         
@@ -504,10 +634,29 @@ enum {
             NSMutableArray * successfullyDeleted = [NSMutableArray array];
             NSMutableArray * failedToDelete = [NSMutableArray array];
             
-            for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
+            // First get the list of selected index paths and sort it in descending order.
+            // If we don't do this then we'll cause problems if we want to delete, e.g., 
+            // items at indices 3 and 4 of a 5-item list. After deleting list[3] the list
+            // only has 4 elements remaining, so trying to delete list[4] will generate
+            // an index-out-of-bounds exception.
+            NSArray * sortedPathsDescending = [[self.tableView indexPathsForSelectedRows] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                NSInteger row1 = [(NSIndexPath*)obj1 row];
+                NSInteger row2 = [(NSIndexPath*)obj2 row];
+                
+                if (row1 > row2) {
+                    return NSOrderedAscending;
+                } else if (row1 < row2) {
+                    return NSOrderedDescending;
+                }
+                return NSOrderedSame;
+            }];
+            
+            // Now delete the objects we need to delete in reverse index
+            // order, highest index first.
+            for (NSIndexPath *indexPath in sortedPathsDescending) {
                 NSError *error = nil;
-                [self.container removeItemAtIndex:indexPath.row error:&error];
-                if (error) {
+                BOOL removed = [self.container removeItemAtIndex:indexPath.row error:&error];
+                if (!removed) {
                     NSLog(@"Error on deleting object at row %u of %@: %@, %@", indexPath.row, self, error, error.userInfo);
                     [failedToDelete addObject:indexPath];
                 } else {
@@ -525,15 +674,15 @@ enum {
                 [self toggleEditMode];
             }
         }
-    } else if (actionSheet.tag == GSFileContainerListViewActionSaveImages) {
+    } else if (actionSheet.tag == GSFileContainerListViewActionSheetSaveImages) {
         if (buttonIndex == actionSheet.firstOtherButtonIndex) {
             for (ZPFileWrapper *wrapper in self.selectedImageFileWrappers) {
                 UIImage *image = [UIImage imageWithContentsOfFile:wrapper.url.path];
                 UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
             }
-        }
-        if (self.tableView.editing) {
-            [self toggleEditMode];
+            if (self.tableView.editing) {
+                [self toggleEditMode];
+            }
         }
     }
 }
@@ -542,7 +691,8 @@ enum {
 
 - (void)showInfoView:(id)sender
 {
-    ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:@"ZPAboutViewController" bundle:nil];
+    NSString *nibName = isIpad ? @"ZPAboutViewController-iPad" : @"ZPAboutViewController";
+    ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:nibName bundle:nil];
     vc.delegate = self;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self.navigationController presentModalViewController:vc animated:YES];
@@ -560,6 +710,7 @@ enum {
     [self.tableView setEditing:editing animated:YES];
     
     if (editing) {
+        self.selectedLeafNodeIndexPath = nil;
         [TestFlight passCheckpoint:@"Entered edit mode"];
         [self updateToolbarButtons];
         self.navigationItem.rightBarButtonItem = self.doneButton;
@@ -570,8 +721,16 @@ enum {
     [self.navigationController setToolbarHidden:!editing animated:YES];
 }
 
-- (void)saveSelectedImages
+- (void)saveSelectedImages:(id)sender
 {
+    if (self.currentActionSheet) {
+        BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetSaveImages;
+        [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
+        if (wasShowing) {
+            return;
+        }
+    }
+    
     NSString *title;
     if (self.selectedImageFileWrappers.count == 1) {
         ZPFileWrapper *imageFileWrapper = [self.selectedImageFileWrappers objectAtIndex:0];
@@ -588,12 +747,30 @@ enum {
                                            cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:NSLocalizedString(@"Save to Photos", @"Button text for Save to Photos button in action sheet"), nil];
-    as.tag = GSFileContainerListViewActionSaveImages;
-    [as showFromToolbar:self.navigationController.toolbar];
+    as.tag = GSFileContainerListViewActionSheetSaveImages;
+
+    if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        // Presenting an alert view from a button in a popover on iPad running 
+        // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
+        // So we'll show the alert view from the window instead.
+        [as showInView:self.view.window];
+    } else {
+        [as showFromBarButtonItem:sender animated:YES];
+    }
+    
+    self.currentActionSheet = as;
 }
 
-- (void)shareSelectedItems
+- (void)shareSelectedItems:(id)sender
 {
+    if (self.currentActionSheet) {
+        BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetShare;
+        [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
+        if (wasShowing) {
+            return;
+        }
+    }
+
     NSString *title;
     if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
         NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
@@ -612,11 +789,29 @@ enum {
                                       destructiveButtonTitle:nil
                                            otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], nil];
     as.tag = GSFileContainerListViewActionSheetShare;
-    [as showFromToolbar:self.navigationController.toolbar];
+    
+    if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        // Presenting an alert view from a button in a popover on iPad running 
+        // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
+        // So we'll show the alert view from the window instead.
+        [as showInView:self.view.window];
+    } else {
+        [as showFromBarButtonItem:sender animated:YES];
+    }
+    
+    self.currentActionSheet = as;
 }
 
-- (void)deleteSelectedItems
+- (void)deleteSelectedItems:(id)sender
 {
+    if (self.currentActionSheet) {
+        BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetDelete;
+        [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
+        if (wasShowing) {
+            return;
+        }
+    }
+
     NSString *title;
     if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
         NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
@@ -635,7 +830,17 @@ enum {
                                       destructiveButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Delete" value:nil table:nil]
                                            otherButtonTitles:nil];
     as.tag = GSFileContainerListViewActionSheetDelete;
-    [as showFromToolbar:self.navigationController.toolbar];
+    
+    if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+        // Presenting an alert view from a button in a popover on iPad running 
+        // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
+        // So we'll show the alert view from the window instead.
+        [as showInView:self.view.window];
+    } else {
+        [as showFromBarButtonItem:sender animated:YES];
+    }
+    
+    self.currentActionSheet = as;
 }
 
 #pragma mark - UIAlertView delegate methods

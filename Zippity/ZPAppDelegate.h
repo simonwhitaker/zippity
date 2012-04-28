@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ZPFileContainerListViewController.h"
 
-@interface ZPAppDelegate : UIResponder <UIApplicationDelegate> {
+@interface ZPAppDelegate : UIResponder <UIApplicationDelegate, UISplitViewControllerDelegate, UINavigationControllerDelegate> {
     NSString * _documentsDirectory;
     NSString * _archiveFilesDirectory;
     NSString * _cacheDirectory;
@@ -20,6 +20,19 @@
 @property (readonly) NSString *archiveFilesDirectory;
 @property (readonly) NSString *documentsDirectory;
 @property (readonly) NSString *cacheDirectory;
-@property (assign, nonatomic) UINavigationController *navigationController;
+@property (weak, nonatomic) UINavigationController *masterViewNavigationController;
+
+// iPad-only stuff
+@property (strong, nonatomic) UISplitViewController *splitViewController;
+@property (strong, nonatomic) UINavigationController *detailViewNavigationController;
+@property (strong, nonatomic) UIPopoverController *masterPopoverController;
+@property (strong, nonatomic) UIBarButtonItem *masterPopoverButton;
+
+- (void)applyTintToDetailViewNavigationController;
+
+// Set the view controller for the detail view. If viewController is nil,
+// shows an instance of ZPEmptyViewController
+- (void)setDetailViewController:(UIViewController*)viewController;
+- (void)dismissMasterPopover;
 
 @end
