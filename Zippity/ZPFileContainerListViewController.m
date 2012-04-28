@@ -199,6 +199,11 @@ enum {
                                     animated:NO 
                               scrollPosition:UITableViewScrollPositionNone];
     }
+    
+    if (self.isRoot) {
+        [self.container reloadContainerContents];
+    }
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
