@@ -140,6 +140,10 @@
 		F453B8FA153ADF4200C60685 /* icon-for-about-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-for-about-ipad.png"; sourceTree = "<group>"; };
 		F453B8FC153AE26C00C60685 /* empty-view-background-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "empty-view-background-ipad.png"; sourceTree = "<group>"; };
 		F453B8FD153AE26C00C60685 /* empty-view-background-ipad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "empty-view-background-ipad@2x.png"; sourceTree = "<group>"; };
+		F459E395154DE09D00D1992E /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = "cs.lproj/ZPAboutViewController-iPad.xib"; sourceTree = "<group>"; };
+		F459E396154DE0A300D1992E /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
+		F459E397154DE0A900D1992E /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
+		F459E398154DE0B200D1992E /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F45DA71C150FA05500C40E63 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
 		F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImageScrollView.h; sourceTree = "<group>"; };
@@ -489,6 +493,7 @@
 				fr,
 				nl,
 				hu,
+				cs,
 			);
 			mainGroup = F47F534714ECCC82009BF6FE;
 			productRefGroup = F47F535314ECCC82009BF6FE /* Products */;
@@ -629,6 +634,7 @@
 				F453B8F6153ADDBA00C60685 /* en */,
 				F43EC9F215473A9E00E083FF /* nl */,
 				F43EC9F315473A9E00E083FF /* hu */,
+				F459E395154DE09D00D1992E /* cs */,
 			);
 			name = "ZPAboutViewController-iPad.xib";
 			sourceTree = "<group>";
@@ -647,6 +653,7 @@
 				F482B0EC152B916C00E8965B /* en */,
 				F4F5DB591530C72200D6F45C /* nl */,
 				F4F5DB621530E40C00D6F45C /* hu */,
+				F459E397154DE0A900D1992E /* cs */,
 			);
 			name = ZPUnrecognisedFileTypeViewController.xib;
 			sourceTree = "<group>";
@@ -657,6 +664,7 @@
 				F482B10B152BA43100E8965B /* en */,
 				F4F5DB581530C71B00D6F45C /* nl */,
 				F4F5DB611530E40700D6F45C /* hu */,
+				F459E396154DE0A300D1992E /* cs */,
 			);
 			name = ZPAboutViewController.xib;
 			sourceTree = "<group>";
@@ -667,6 +675,7 @@
 				F4F5DB5D1530CA6900D6F45C /* en */,
 				F4F5DB5F1530CA7C00D6F45C /* nl */,
 				F4F5DB631530E41100D6F45C /* hu */,
+				F459E398154DE0B200D1992E /* cs */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
