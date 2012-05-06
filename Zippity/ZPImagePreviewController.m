@@ -295,9 +295,8 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
         UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
     } else if (buttonTitle == ActionMenuOpenInButtonTitle) {
         ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
-        [[currentPhoto documentInteractionController] presentOpenInMenuFromRect:CGRectZero
-                                                                         inView:self.view
-                                                                       animated:YES];
+        [[currentPhoto documentInteractionController] presentOpenInMenuFromBarButtonItem:self.navigationItem.rightBarButtonItem
+                                                                                animated:YES];
     }
     
     self.actionSheet = nil;
@@ -395,10 +394,14 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
     CGRect frame = self.view.frame;
     frame.origin.x = frame.size.width; // draw the view off-screen
     [tempView setFrame:frame];
+    [self.view addSubview:tempView];
+    
     BOOL hasOpenInMenu = [[currentPhoto documentInteractionController] presentOpenInMenuFromRect:CGRectZero 
                                                                                           inView:tempView
                                                                                         animated:NO];
     [[currentPhoto documentInteractionController] dismissMenuAnimated:NO];
+    [tempView removeFromSuperview];
+    
     if (hasOpenInMenu) {
         [as addButtonWithTitle:ActionMenuOpenInButtonTitle];
     }
