@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		F404A4DF1513DEC300C5D59F /* nav-bar-background-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F404A4DD1513DEC300C5D59F /* nav-bar-background-landscape.png */; };
 		F404A4E01513DEC300C5D59F /* nav-bar-background-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F404A4DE1513DEC300C5D59F /* nav-bar-background-landscape@2x.png */; };
+		F408F438158548D800E1A5B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535814ECCC82009BF6FE /* Foundation.framework */; };
+		F408F43B158548D800E1A5B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F408F43A158548D800E1A5B4 /* main.m */; };
+		F408F43F158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = F408F43E158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 */; };
+		F408F44615854F5700E1A5B4 /* character-encodings.plist in Resources */ = {isa = PBXBuildFile; fileRef = F408F44515854F5700E1A5B4 /* character-encodings.plist */; };
 		F40D71341548263E004FA273 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40D71331548263E004FA273 /* Icon-72@2x.png */; };
 		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
 		F40FDBA914F2889F008BF9C8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA514F2889F008BF9C8 /* README.txt */; };
@@ -92,10 +96,27 @@
 		F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F408F434158548D700E1A5B4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				F408F43F158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F40144F4151263690036AF48 /* ZPDefaultsKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZPDefaultsKeys.h; sourceTree = "<group>"; };
 		F404A4DD1513DEC300C5D59F /* nav-bar-background-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-background-landscape.png"; sourceTree = "<group>"; };
 		F404A4DE1513DEC300C5D59F /* nav-bar-background-landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-background-landscape@2x.png"; sourceTree = "<group>"; };
+		F408F436158548D700E1A5B4 /* Character Encoding Map Generator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Character Encoding Map Generator"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F408F43A158548D800E1A5B4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F408F43D158548D800E1A5B4 /* Character Encoding Map Generator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Character Encoding Map Generator-Prefix.pch"; sourceTree = "<group>"; };
+		F408F43E158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Character_Encoding_Map_Generator.1; sourceTree = "<group>"; };
 		F40D71331548263E004FA273 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		F40FDBA414F2889F008BF9C8 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		F40FDBA514F2889F008BF9C8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
@@ -210,6 +231,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F408F433158548D700E1A5B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F408F438158548D800E1A5B4 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F47F534F14ECCC82009BF6FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -232,6 +261,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F408F439158548D800E1A5B4 /* Character Encoding Map Generator */ = {
+			isa = PBXGroup;
+			children = (
+				F408F43A158548D800E1A5B4 /* main.m */,
+				F408F43E158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 */,
+				F408F43C158548D800E1A5B4 /* Supporting Files */,
+			);
+			path = "Character Encoding Map Generator";
+			sourceTree = "<group>";
+		};
+		F408F43C158548D800E1A5B4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F408F43D158548D800E1A5B4 /* Character Encoding Map Generator-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		F40FDBA314F2889F008BF9C8 /* TestFlightSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +350,7 @@
 			isa = PBXGroup;
 			children = (
 				F47F535C14ECCC82009BF6FE /* Zippity */,
+				F408F439158548D800E1A5B4 /* Character Encoding Map Generator */,
 				F47F535514ECCC82009BF6FE /* Frameworks */,
 				F47F535314ECCC82009BF6FE /* Products */,
 			);
@@ -312,6 +360,7 @@
 			isa = PBXGroup;
 			children = (
 				F47F535214ECCC82009BF6FE /* Zippity.app */,
+				F408F436158548D700E1A5B4 /* Character Encoding Map Generator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -455,6 +504,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F408F435158548D700E1A5B4 /* Character Encoding Map Generator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F408F443158548D800E1A5B4 /* Build configuration list for PBXNativeTarget "Character Encoding Map Generator" */;
+			buildPhases = (
+				F408F432158548D700E1A5B4 /* Sources */,
+				F408F433158548D700E1A5B4 /* Frameworks */,
+				F408F434158548D700E1A5B4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Character Encoding Map Generator";
+			productName = "Character Encoding Map Generator";
+			productReference = F408F436158548D700E1A5B4 /* Character Encoding Map Generator */;
+			productType = "com.apple.product-type.tool";
+		};
 		F47F535114ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F47F536A14ECCC82009BF6FE /* Build configuration list for PBXNativeTarget "Zippity" */;
@@ -501,6 +567,7 @@
 			projectRoot = "";
 			targets = (
 				F47F535114ECCC82009BF6FE /* Zippity */,
+				F408F435158548D700E1A5B4 /* Character Encoding Map Generator */,
 			);
 		};
 /* End PBXProject section */
@@ -605,6 +672,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F408F432158548D700E1A5B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F408F43B158548D800E1A5B4 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F47F534E14ECCC82009BF6FE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -683,6 +758,54 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F408F440158548D800E1A5B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Character Encoding Map Generator/Character Encoding Map Generator-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F408F441158548D800E1A5B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Character Encoding Map Generator/Character Encoding Map Generator-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F408F442158548D800E1A5B4 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Character Encoding Map Generator/Character Encoding Map Generator-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = "Ad Hoc";
+		};
 		F40FDBAC14F289DB008BF9C8 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -818,6 +941,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F408F443158548D800E1A5B4 /* Build configuration list for PBXNativeTarget "Character Encoding Map Generator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F408F440158548D800E1A5B4 /* Debug */,
+				F408F441158548D800E1A5B4 /* Release */,
+				F408F442158548D800E1A5B4 /* Ad Hoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		F47F534C14ECCC82009BF6FE /* Build configuration list for PBXProject "Zippity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
