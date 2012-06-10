@@ -12,8 +12,10 @@
 #import "ZPAboutViewController.h"
 #import "ZPFileWrapper.h"
 #import "ZPImagePreviewController.h"
+#import "GSDismissableViewControllerDelegate.h"
 
 @interface ZPFileContainerListViewController : UITableViewController <
+GSDismissableViewControllerDelegate,
 MFMailComposeViewControllerDelegate,
 QLPreviewControllerDataSource,
 UIDocumentInteractionControllerDelegate, 

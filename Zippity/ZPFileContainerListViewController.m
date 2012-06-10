@@ -26,6 +26,10 @@
 #import "ZPFileContainerListViewController.h"
 #import "ZPPreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
+#import "ZPEncodingPickerViewController.h"
+
+// ZPArchive.h for the error codes
+#import "ZPArchive.h" 
 
 enum {
     GSFileContainerListViewActionSheetShare = 1,
@@ -868,9 +872,24 @@ enum {
 {
     NSError *error = [[notification userInfo] objectForKey:kErrorKey];
     NSString *errorMessage;
+    
+
     if (error.domain == ZPFileWrapperErrorDomain && error.code == ZPFileWrapperErrorFailedToExtractArchive) {
-        errorMessage = NSLocalizedString(@"Zippity couldn't open that archive file. It might be corrupt.", 
-                                         @"Error message to display when a zip file can't be opened.");
+        NSError * underlyingError = [[error userInfo] objectForKey:NSUnderlyingErrorKey];
+        if (underlyingError && underlyingError.domain == kGSArchiveErrorDomain && underlyingError.code == GSArchiveEntryFilenameEncodingUnknownError) {
+            // TODO: show encoding selection view
+            NSData * samplePathCString = [[underlyingError userInfo] objectForKey:kGSArchiveEntryFilenameCStringAsNSData];
+            ZPEncodingPickerViewController * vc = [[ZPEncodingPickerViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            vc.delegate = self;
+            vc.sampleFilenameCString = samplePathCString;
+            vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            vc.modalPresentationStyle = UIModalPresentationFormSheet;
+            [self presentModalViewController:vc animated:YES];
+            return;
+        } else {
+            errorMessage = NSLocalizedString(@"Zippity couldn't open that archive file. It might be corrupt.", 
+                                             @"Error message to display when a zip file can't be opened.");
+        }
     } else {
         errorMessage = NSLocalizedString(@"Zippity can't list the files in this folder.",
                                          @"Error message to display when the contents of a zip file can't be displayed for some unknown reason.");
@@ -888,6 +907,14 @@ enum {
 - (void)handleApplicationDidBecomeActiveNotification:(NSNotification *)notification
 {
     [self.tableView reloadData];
+}
+
+- (void)viewControllerShouldDismiss:(UIViewController *)viewController wasCancelled:(BOOL)wasCancelled
+{
+    [self dismissModalViewControllerAnimated:YES];
+    if (!wasCancelled) {
+        [self.tableView reloadData];
+    }
 }
 
 @end

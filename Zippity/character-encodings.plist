@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484697</integer>
+		<key>name</key>
+		<string>Arabic (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484166</integer>
+		<key>name</key>
+		<string>Arabic (ISO 8859-6)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483652</integer>
+		<key>name</key>
+		<string>Arabic (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484934</integer>
+		<key>name</key>
+		<string>Arabic (Windows)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483672</integer>
+		<key>name</key>
+		<string>Armenian (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484678</integer>
+		<key>name</key>
+		<string>Baltic (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484173</integer>
+		<key>name</key>
+		<string>Baltic (ISO Latin 7)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484935</integer>
+		<key>name</key>
+		<string>Baltic (Windows)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483661</integer>
+		<key>name</key>
+		<string>Bengali (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483667</integer>
+		<key>name</key>
+		<string>Burmese (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484696</integer>
+		<key>name</key>
+		<string>Canadian French (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484174</integer>
+		<key>name</key>
+		<string>Celtic (ISO Latin 8)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483687</integer>
+		<key>name</key>
+		<string>Celtic (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484690</integer>
+		<key>name</key>
+		<string>Central European (DOS Latin 2)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>9</integer>
+		<key>name</key>
+		<string>Central European (ISO Latin 2)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>9</integer>
+		<key>name</key>
+		<string>Central European (ISO Latin 2)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484164</integer>
+		<key>name</key>
+		<string>Central European (ISO Latin 4)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483677</integer>
+		<key>name</key>
+		<string>Central European (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>15</integer>
+		<key>name</key>
+		<string>Central European (Windows Latin 2)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>15</integer>
+		<key>name</key>
+		<string>Central European (Windows Latin 2)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485234</integer>
+		<key>name</key>
+		<string>Chinese (GB 18030)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485233</integer>
+		<key>name</key>
+		<string>Chinese (GBK)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485744</integer>
+		<key>name</key>
+		<string>Chinese (ISO 2022-CN)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485745</integer>
+		<key>name</key>
+		<string>Chinese (ISO 2022-CN-EXT)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483684</integer>
+		<key>name</key>
+		<string>Croatian (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484691</integer>
+		<key>name</key>
+		<string>Cyrillic (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484165</integer>
+		<key>name</key>
+		<string>Cyrillic (ISO 8859-5)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486210</integer>
+		<key>name</key>
+		<string>Cyrillic (KOI8-R)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483800</integer>
+		<key>name</key>
+		<string>Cyrillic (Mac OS Ukrainian)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483655</integer>
+		<key>name</key>
+		<string>Cyrillic (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>11</integer>
+		<key>name</key>
+		<string>Cyrillic (Windows)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>11</integer>
+		<key>name</key>
+		<string>Cyrillic (Windows)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483657</integer>
+		<key>name</key>
+		<string>Devanagari (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483682</integer>
+		<key>name</key>
+		<string>Dingbats (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483676</integer>
+		<key>name</key>
+		<string>Ethiopic (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483788</integer>
+		<key>name</key>
+		<string>Farsi (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483688</integer>
+		<key>name</key>
+		<string>Gaelic (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483671</integer>
+		<key>name</key>
+		<string>Georgian (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484689</integer>
+		<key>name</key>
+		<string>Greek (DOS Greek 1)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484700</integer>
+		<key>name</key>
+		<string>Greek (DOS Greek 2)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484677</integer>
+		<key>name</key>
+		<string>Greek (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484167</integer>
+		<key>name</key>
+		<string>Greek (ISO 8859-7)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483654</integer>
+		<key>name</key>
+		<string>Greek (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>13</integer>
+		<key>name</key>
+		<string>Greek (Windows)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>13</integer>
+		<key>name</key>
+		<string>Greek (Windows)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483659</integer>
+		<key>name</key>
+		<string>Gujarati (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483658</integer>
+		<key>name</key>
+		<string>Gurmukhi (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484695</integer>
+		<key>name</key>
+		<string>Hebrew (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484168</integer>
+		<key>name</key>
+		<string>Hebrew (ISO 8859-8)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483653</integer>
+		<key>name</key>
+		<string>Hebrew (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484933</integer>
+		<key>name</key>
+		<string>Hebrew (Windows)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484694</integer>
+		<key>name</key>
+		<string>Icelandic (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483685</integer>
+		<key>name</key>
+		<string>Icelandic (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483884</integer>
+		<key>name</key>
+		<string>Inuit (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>3</integer>
+		<key>name</key>
+		<string>Japanese (EUC)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>3</integer>
+		<key>name</key>
+		<string>Japanese (EUC)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>21</integer>
+		<key>name</key>
+		<string>Japanese (ISO 2022-JP)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>21</integer>
+		<key>name</key>
+		<string>Japanese (ISO 2022-JP)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485730</integer>
+		<key>name</key>
+		<string>Japanese (ISO 2022-JP-1)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485729</integer>
+		<key>name</key>
+		<string>Japanese (ISO 2022-JP-2)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485731</integer>
+		<key>name</key>
+		<string>Japanese (ISO 2022-JP-3)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485218</integer>
+		<key>name</key>
+		<string>Japanese (JIS X0208)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483649</integer>
+		<key>name</key>
+		<string>Japanese (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486466</integer>
+		<key>name</key>
+		<string>Japanese (NextStep)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485224</integer>
+		<key>name</key>
+		<string>Japanese (Shift JIS X0213)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486209</integer>
+		<key>name</key>
+		<string>Japanese (Shift JIS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>8</integer>
+		<key>name</key>
+		<string>Japanese (Windows, DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>8</integer>
+		<key>name</key>
+		<string>Japanese (Windows, DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483664</integer>
+		<key>name</key>
+		<string>Kannada (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483668</integer>
+		<key>name</key>
+		<string>Khmer (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486016</integer>
+		<key>name</key>
+		<string>Korean (EUC)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485760</integer>
+		<key>name</key>
+		<string>Korean (ISO 2022-KR)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485248</integer>
+		<key>name</key>
+		<string>Korean (KSC 5601-1987)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483651</integer>
+		<key>name</key>
+		<string>Korean (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484944</integer>
+		<key>name</key>
+		<string>Korean (Windows Johab)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484706</integer>
+		<key>name</key>
+		<string>Korean (Windows, DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483670</integer>
+		<key>name</key>
+		<string>Laotian (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484672</integer>
+		<key>name</key>
+		<string>Latin-US (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483665</integer>
+		<key>name</key>
+		<string>Malayalam (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483675</integer>
+		<key>name</key>
+		<string>Mongolian (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>7</integer>
+		<key>name</key>
+		<string>Non-lossy ASCII</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484698</integer>
+		<key>name</key>
+		<string>Nordic (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484170</integer>
+		<key>name</key>
+		<string>Nordic (ISO Latin 6)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483660</integer>
+		<key>name</key>
+		<string>Oriya (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484693</integer>
+		<key>name</key>
+		<string>Portuguese (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484176</integer>
+		<key>name</key>
+		<string>Romanian (ISO Latin 10)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483686</integer>
+		<key>name</key>
+		<string>Romanian (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484699</integer>
+		<key>name</key>
+		<string>Russian (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486000</integer>
+		<key>name</key>
+		<string>Simplified Chinese (GB 2312)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485232</integer>
+		<key>name</key>
+		<string>Simplified Chinese (GB 2312)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486213</integer>
+		<key>name</key>
+		<string>Simplified Chinese (HZ GB 2312)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483673</integer>
+		<key>name</key>
+		<string>Simplified Chinese (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484705</integer>
+		<key>name</key>
+		<string>Simplified Chinese (Windows, DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483666</integer>
+		<key>name</key>
+		<string>Sinhalese (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>6</integer>
+		<key>name</key>
+		<string>Symbol (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>6</integer>
+		<key>name</key>
+		<string>Symbol (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483662</integer>
+		<key>name</key>
+		<string>Tamil (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483663</integer>
+		<key>name</key>
+		<string>Telugu (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484171</integer>
+		<key>name</key>
+		<string>Thai (ISO 8859-11)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483669</integer>
+		<key>name</key>
+		<string>Thai (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484701</integer>
+		<key>name</key>
+		<string>Thai (Windows, DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483674</integer>
+		<key>name</key>
+		<string>Tibetan (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486214</integer>
+		<key>name</key>
+		<string>Traditional Chinese (Big 5 HKSCS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486211</integer>
+		<key>name</key>
+		<string>Traditional Chinese (Big 5)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486217</integer>
+		<key>name</key>
+		<string>Traditional Chinese (Big 5-E)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486001</integer>
+		<key>name</key>
+		<string>Traditional Chinese (EUC)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483650</integer>
+		<key>name</key>
+		<string>Traditional Chinese (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484707</integer>
+		<key>name</key>
+		<string>Traditional Chinese (Windows, DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484692</integer>
+		<key>name</key>
+		<string>Turkish (DOS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484169</integer>
+		<key>name</key>
+		<string>Turkish (ISO Latin 5)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483683</integer>
+		<key>name</key>
+		<string>Turkish (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>14</integer>
+		<key>name</key>
+		<string>Turkish (Windows Latin 5)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>14</integer>
+		<key>name</key>
+		<string>Turkish (Windows Latin 5)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486216</integer>
+		<key>name</key>
+		<string>Ukrainian (KOI8-U)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>10</integer>
+		<key>name</key>
+		<string>Unicode (UTF-16)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2415919360</integer>
+		<key>name</key>
+		<string>Unicode (UTF-16BE)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2483028224</integer>
+		<key>name</key>
+		<string>Unicode (UTF-16LE)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2348810496</integer>
+		<key>name</key>
+		<string>Unicode (UTF-32)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2550137088</integer>
+		<key>name</key>
+		<string>Unicode (UTF-32BE)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2617245952</integer>
+		<key>name</key>
+		<string>Unicode (UTF-32LE)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2214592768</integer>
+		<key>name</key>
+		<string>Unicode (UTF-7)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>4</integer>
+		<key>name</key>
+		<string>Unicode (UTF-8)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483678</integer>
+		<key>name</key>
+		<string>Vietnamese (Mac OS)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484936</integer>
+		<key>name</key>
+		<string>Vietnamese (Windows)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147485185</integer>
+		<key>name</key>
+		<string>Western (ANSEL)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>1</integer>
+		<key>name</key>
+		<string>Western (ASCII)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>1</integer>
+		<key>name</key>
+		<string>Western (ASCII)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484688</integer>
+		<key>name</key>
+		<string>Western (DOS Latin 1)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486722</integer>
+		<key>name</key>
+		<string>Western (EBCDIC Latin 1)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486721</integer>
+		<key>name</key>
+		<string>Western (EBCDIC Latin Core)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>5</integer>
+		<key>name</key>
+		<string>Western (ISO Latin 1)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>5</integer>
+		<key>name</key>
+		<string>Western (ISO Latin 1)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484163</integer>
+		<key>name</key>
+		<string>Western (ISO Latin 3)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147484175</integer>
+		<key>name</key>
+		<string>Western (ISO Latin 9)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147486212</integer>
+		<key>name</key>
+		<string>Western (Mac Mail)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>30</integer>
+		<key>name</key>
+		<string>Western (Mac OS Roman)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483903</integer>
+		<key>name</key>
+		<string>Western (Mac OS Roman)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>30</integer>
+		<key>name</key>
+		<string>Western (Mac OS Roman)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2147483900</integer>
+		<key>name</key>
+		<string>Western (Mac VT100)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2</integer>
+		<key>name</key>
+		<string>Western (NextStep)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>2</integer>
+		<key>name</key>
+		<string>Western (NextStep)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>12</integer>
+		<key>name</key>
+		<string>Western (Windows Latin 1)</string>
+	</dict>
+	<dict>
+		<key>encoding</key>
+		<integer>12</integer>
+		<key>name</key>
+		<string>Western (Windows Latin 1)</string>
+	</dict>
+</array>
+</plist>
