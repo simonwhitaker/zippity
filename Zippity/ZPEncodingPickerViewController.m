@@ -51,6 +51,10 @@ static NSArray * allEncodings = nil;
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        self.title = @"Choose Encoding";
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                               target:self
+                                                                                               action:@selector(cancel)];
     }
     return self;
 }
@@ -122,6 +126,13 @@ static NSArray * allEncodings = nil;
     
     if ([self.delegate respondsToSelector:@selector(viewControllerShouldDismiss:wasCancelled:)]) {
         [self.delegate viewControllerShouldDismiss:self wasCancelled:NO];
+    }
+}
+
+- (void)cancel
+{
+    if ([self.delegate respondsToSelector:@selector(viewControllerShouldDismiss:wasCancelled:)]) {
+        [self.delegate viewControllerShouldDismiss:self wasCancelled:YES];
     }
 }
 

@@ -14,4 +14,6 @@
 @property (nonatomic, strong) NSData * sampleFilenameCString;
 @property (nonatomic, weak) id<GSDismissableViewControllerDelegate> delegate;
 
+- (void)cancel;
+
 @end

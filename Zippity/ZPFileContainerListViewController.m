@@ -882,9 +882,13 @@ enum {
             ZPEncodingPickerViewController * vc = [[ZPEncodingPickerViewController alloc] initWithStyle:UITableViewStyleGrouped];
             vc.delegate = self;
             vc.sampleFilenameCString = samplePathCString;
-            vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-            vc.modalPresentationStyle = UIModalPresentationFormSheet;
-            [self presentModalViewController:vc animated:YES];
+
+            UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
+            nc.modalPresentationStyle = UIModalPresentationFormSheet;
+            nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            nc.navigationBar.barStyle = UIBarStyleBlackOpaque;
+            
+            [self presentModalViewController:nc animated:YES];
             return;
         } else {
             errorMessage = NSLocalizedString(@"Zippity couldn't open that archive file. It might be corrupt.", 
@@ -911,10 +915,13 @@ enum {
 
 - (void)viewControllerShouldDismiss:(UIViewController *)viewController wasCancelled:(BOOL)wasCancelled
 {
-    [self dismissModalViewControllerAnimated:YES];
-    if (!wasCancelled) {
-        [self.tableView reloadData];
-    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (wasCancelled) {
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [self.tableView reloadData];
+        }
+    }];
 }
 
 @end
