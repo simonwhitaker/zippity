@@ -91,7 +91,6 @@
 		F4EE221F153CC4CF007001D1 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EE221E153CC4CF007001D1 /* Default-Landscape~ipad.png */; };
 		F4EE2221153CC4D4007001D1 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EE2220153CC4D4007001D1 /* Default-Landscape@2x~ipad.png */; };
 		F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
-		F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
 		F4F62C2414FFBE7600AB0C8C /* libarc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F62C2214FFBE7600AB0C8C /* libarc.a */; };
 		F4F62C2514FFBE7600AB0C8C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4F62C2314FFBE7600AB0C8C /* README.md */; };
 		F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */; };
@@ -624,7 +623,6 @@
 				F41113A1152341270052E1B3 /* info.png in Resources */,
 				F41113A2152341270052E1B3 /* info@2x.png in Resources */,
 				F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */,
-				F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */,
 				F453B8F4153AA5AF00C60685 /* ZPEmptyViewController.xib in Resources */,
 				F453B8F7153ADDBA00C60685 /* ZPAboutViewController-iPad.xib in Resources */,
 				F453B8FB153ADF4200C60685 /* icon-for-about-ipad.png in Resources */,
@@ -960,6 +958,7 @@
 				F408F442158548D800E1A5B4 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F47F534C14ECCC82009BF6FE /* Build configuration list for PBXProject "Zippity" */ = {
 			isa = XCConfigurationList;
