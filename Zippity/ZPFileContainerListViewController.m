@@ -877,7 +877,6 @@ enum {
     if (error.domain == ZPFileWrapperErrorDomain && error.code == ZPFileWrapperErrorFailedToExtractArchive) {
         NSError * underlyingError = [[error userInfo] objectForKey:NSUnderlyingErrorKey];
         if (underlyingError && underlyingError.domain == kGSArchiveErrorDomain && underlyingError.code == GSArchiveEntryFilenameEncodingUnknownError) {
-            // TODO: show encoding selection view
             NSData * samplePathCString = [[underlyingError userInfo] objectForKey:kGSArchiveEntryFilenameCStringAsNSData];
             ZPEncodingPickerViewController * vc = [[ZPEncodingPickerViewController alloc] initWithStyle:UITableViewStyleGrouped];
             vc.delegate = self;
@@ -899,7 +898,7 @@ enum {
                                          @"Error message to display when the contents of a zip file can't be displayed for some unknown reason.");
     }
 
-    // TODO: show error to user
+    // Show error to user
     UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Error" value:nil table:nil]
                                                  message:errorMessage
                                                 delegate:self

@@ -172,10 +172,7 @@ static int copy_data(struct archive *ar, struct archive *aw) {
             // Attempt to interpret the filename as a UTF-8 string
             path = [NSString stringWithCString:cPath encoding:NSUTF8StringEncoding];
             
-            // TODO: attempt to determine the filename encoding automatically
-            // (write to temp file then use stringWithContentsOfFile:usedEncoding:error:
-            
-            // Still no path? If we have an alternative that we've determined previously 
+            // Didn't work? If we have an alternative that we've determined previously 
             // for this archive, use that instead.
             if (!path && filenameStringEncoding) {
                 path = [NSString stringWithCString:cPath encoding:filenameStringEncoding];
