@@ -12,10 +12,13 @@
 #define kGSArchiveLowLevelErrorCodeKey @"LowLevelErrorCode"
 #define kGSArchiveLowLevelErrorStringKey @"LowLevelErrorString"
 
+#define kGSArchiveEntryFilenameCStringAsNSData @"ArchiveEntryFilenameCString"
+
 enum {
     GSArchiveFileReadError = 1,
     GSArchiveEntryReadError,
     GSArchiveEntryWriteError,
+    GSArchiveEntryFilenameEncodingUnknownError,
 };
 
 @interface ZPArchive : NSObject {

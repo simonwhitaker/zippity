@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		F404A4DF1513DEC300C5D59F /* nav-bar-background-landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = F404A4DD1513DEC300C5D59F /* nav-bar-background-landscape.png */; };
 		F404A4E01513DEC300C5D59F /* nav-bar-background-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F404A4DE1513DEC300C5D59F /* nav-bar-background-landscape@2x.png */; };
+		F408F438158548D800E1A5B4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F47F535814ECCC82009BF6FE /* Foundation.framework */; };
+		F408F43B158548D800E1A5B4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F408F43A158548D800E1A5B4 /* main.m */; };
+		F408F43F158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = F408F43E158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 */; };
+		F408F44615854F5700E1A5B4 /* character-encodings.plist in Resources */ = {isa = PBXBuildFile; fileRef = F408F44515854F5700E1A5B4 /* character-encodings.plist */; };
 		F40D71341548263E004FA273 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40D71331548263E004FA273 /* Icon-72@2x.png */; };
 		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
 		F40FDBA914F2889F008BF9C8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA514F2889F008BF9C8 /* README.txt */; };
@@ -67,6 +71,7 @@
 		F482B10A152BA43100E8965B /* ZPAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F482B10C152BA43100E8965B /* ZPAboutViewController.xib */; };
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
+		F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
 		F4D064731547DF810016C27B /* Doc-Icon-iPhone-rendered.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D064711547DF810016C27B /* Doc-Icon-iPhone-rendered.png */; };
 		F4D064741547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D064721547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png */; };
@@ -86,16 +91,34 @@
 		F4EE221F153CC4CF007001D1 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EE221E153CC4CF007001D1 /* Default-Landscape~ipad.png */; };
 		F4EE2221153CC4D4007001D1 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EE2220153CC4D4007001D1 /* Default-Landscape@2x~ipad.png */; };
 		F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
-		F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
 		F4F62C2414FFBE7600AB0C8C /* libarc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F62C2214FFBE7600AB0C8C /* libarc.a */; };
 		F4F62C2514FFBE7600AB0C8C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4F62C2314FFBE7600AB0C8C /* README.md */; };
 		F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F408F434158548D700E1A5B4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				F408F43F158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F40144F4151263690036AF48 /* ZPDefaultsKeys.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZPDefaultsKeys.h; sourceTree = "<group>"; };
 		F404A4DD1513DEC300C5D59F /* nav-bar-background-landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-background-landscape.png"; sourceTree = "<group>"; };
 		F404A4DE1513DEC300C5D59F /* nav-bar-background-landscape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav-bar-background-landscape@2x.png"; sourceTree = "<group>"; };
+		F408F436158548D700E1A5B4 /* Character Encoding Map Generator */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Character Encoding Map Generator"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F408F43A158548D800E1A5B4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F408F43D158548D800E1A5B4 /* Character Encoding Map Generator-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Character Encoding Map Generator-Prefix.pch"; sourceTree = "<group>"; };
+		F408F43E158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Character_Encoding_Map_Generator.1; sourceTree = "<group>"; };
+		F408F44515854F5700E1A5B4 /* character-encodings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "character-encodings.plist"; sourceTree = "<group>"; };
+		F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSDismissableViewControllerDelegate.h; sourceTree = "<group>"; };
 		F40D71331548263E004FA273 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		F40FDBA414F2889F008BF9C8 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		F40FDBA514F2889F008BF9C8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
@@ -174,6 +197,8 @@
 		F482B10B152BA43100E8965B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
+		F4A0CE5E1582C314001A2DC2 /* ZPEncodingPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPEncodingPickerViewController.h; sourceTree = "<group>"; };
+		F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPEncodingPickerViewController.m; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		F4D064711547DF810016C27B /* Doc-Icon-iPhone-rendered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Doc-Icon-iPhone-rendered.png"; sourceTree = "<group>"; };
 		F4D064721547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Doc-Icon-iPhone-rendered@2x.png"; sourceTree = "<group>"; };
@@ -210,6 +235,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F408F433158548D700E1A5B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F408F438158548D800E1A5B4 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F47F534F14ECCC82009BF6FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -232,6 +265,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F408F439158548D800E1A5B4 /* Character Encoding Map Generator */ = {
+			isa = PBXGroup;
+			children = (
+				F408F43A158548D800E1A5B4 /* main.m */,
+				F408F43E158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 */,
+				F408F43C158548D800E1A5B4 /* Supporting Files */,
+			);
+			path = "Character Encoding Map Generator";
+			sourceTree = "<group>";
+		};
+		F408F43C158548D800E1A5B4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F408F43D158548D800E1A5B4 /* Character Encoding Map Generator-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		F40FDBA314F2889F008BF9C8 /* TestFlightSDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +320,7 @@
 		F47DFD8B14ED5581007F7443 /* Views and controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
 				F47F537714ECD062009BF6FE /* ZPFileContainerListViewController.h */,
 				F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */,
 				F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */,
@@ -284,6 +336,8 @@
 				F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */,
 				F418A5B3153B17D5005F83A9 /* ZPPreviewController.h */,
 				F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */,
+				F4A0CE5E1582C314001A2DC2 /* ZPEncodingPickerViewController.h */,
+				F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */,
 			);
 			name = "Views and controllers";
 			sourceTree = "<group>";
@@ -303,6 +357,7 @@
 			isa = PBXGroup;
 			children = (
 				F47F535C14ECCC82009BF6FE /* Zippity */,
+				F408F439158548D800E1A5B4 /* Character Encoding Map Generator */,
 				F47F535514ECCC82009BF6FE /* Frameworks */,
 				F47F535314ECCC82009BF6FE /* Products */,
 			);
@@ -312,6 +367,7 @@
 			isa = PBXGroup;
 			children = (
 				F47F535214ECCC82009BF6FE /* Zippity.app */,
+				F408F436158548D700E1A5B4 /* Character Encoding Map Generator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -349,6 +405,7 @@
 		F47F535D14ECCC82009BF6FE /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F408F44515854F5700E1A5B4 /* character-encodings.plist */,
 				F4F5DB5C1530CA6900D6F45C /* Localizable.strings */,
 				F4B9909E14EE820C00F8FBD8 /* Images */,
 				F46921A214F7F00500669E7E /* Welcome to Zippity.zip */,
@@ -455,6 +512,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F408F435158548D700E1A5B4 /* Character Encoding Map Generator */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F408F443158548D800E1A5B4 /* Build configuration list for PBXNativeTarget "Character Encoding Map Generator" */;
+			buildPhases = (
+				F408F432158548D700E1A5B4 /* Sources */,
+				F408F433158548D700E1A5B4 /* Frameworks */,
+				F408F434158548D700E1A5B4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Character Encoding Map Generator";
+			productName = "Character Encoding Map Generator";
+			productReference = F408F436158548D700E1A5B4 /* Character Encoding Map Generator */;
+			productType = "com.apple.product-type.tool";
+		};
 		F47F535114ECCC82009BF6FE /* Zippity */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F47F536A14ECCC82009BF6FE /* Build configuration list for PBXNativeTarget "Zippity" */;
@@ -501,6 +575,7 @@
 			projectRoot = "";
 			targets = (
 				F47F535114ECCC82009BF6FE /* Zippity */,
+				F408F435158548D700E1A5B4 /* Character Encoding Map Generator */,
 			);
 		};
 /* End PBXProject section */
@@ -548,7 +623,6 @@
 				F41113A1152341270052E1B3 /* info.png in Resources */,
 				F41113A2152341270052E1B3 /* info@2x.png in Resources */,
 				F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */,
-				F4F5DB601530CA7C00D6F45C /* Localizable.strings in Resources */,
 				F453B8F4153AA5AF00C60685 /* ZPEmptyViewController.xib in Resources */,
 				F453B8F7153ADDBA00C60685 /* ZPAboutViewController-iPad.xib in Resources */,
 				F453B8FB153ADF4200C60685 /* icon-for-about-ipad.png in Resources */,
@@ -568,6 +642,7 @@
 				F4D064731547DF810016C27B /* Doc-Icon-iPhone-rendered.png in Resources */,
 				F4D064741547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png in Resources */,
 				F40D71341548263E004FA273 /* Icon-72@2x.png in Resources */,
+				F408F44615854F5700E1A5B4 /* character-encodings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -605,6 +680,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F408F432158548D700E1A5B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F408F43B158548D800E1A5B4 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F47F534E14ECCC82009BF6FE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -622,6 +705,7 @@
 				F4D34821151C90B8008B706A /* ZPAboutViewController.m in Sources */,
 				F453B8F3153AA5AF00C60685 /* ZPEmptyViewController.m in Sources */,
 				F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */,
+				F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +767,54 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F408F440158548D800E1A5B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Character Encoding Map Generator/Character Encoding Map Generator-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F408F441158548D800E1A5B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Character Encoding Map Generator/Character Encoding Map Generator-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F408F442158548D800E1A5B4 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Character Encoding Map Generator/Character Encoding Map Generator-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = "Ad Hoc";
+		};
 		F40FDBAC14F289DB008BF9C8 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -818,6 +950,16 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F408F443158548D800E1A5B4 /* Build configuration list for PBXNativeTarget "Character Encoding Map Generator" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F408F440158548D800E1A5B4 /* Debug */,
+				F408F441158548D800E1A5B4 /* Release */,
+				F408F442158548D800E1A5B4 /* Ad Hoc */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F47F534C14ECCC82009BF6FE /* Build configuration list for PBXProject "Zippity" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

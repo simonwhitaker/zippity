@@ -112,6 +112,8 @@ static int copy_data(struct archive *ar, struct archive *aw) {
     struct archive *ext;
     struct archive_entry *entry;
     
+    NSStringEncoding filenameStringEncoding = 0;
+    
     const char * filename = [self.path UTF8String];
         
     int flags;
@@ -157,14 +159,51 @@ static int copy_data(struct archive *ar, struct archive *aw) {
         }
         
         const char * cPath = archive_entry_pathname(entry);
-        NSString *path = [NSString stringWithCString:cPath encoding:NSUTF8StringEncoding];
-
+        
+        NSString *path = nil;
+        NSNumber * encodingObj = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsLastChosenCharacterEncoding];
+        
         if ([self isPseudoArchive]) {
             path = [self filenameForPseudoArchiveContents];
             // Set standard permissions, otherwise it gets
             // perms of 0000.
             archive_entry_set_perm(entry, S_IRWXU);
+        } else {
+            // Attempt to interpret the filename as a UTF-8 string
+            path = [NSString stringWithCString:cPath encoding:NSUTF8StringEncoding];
+            
+            // Didn't work? If we have an alternative that we've determined previously 
+            // for this archive, use that instead.
+            if (!path && filenameStringEncoding) {
+                path = [NSString stringWithCString:cPath encoding:filenameStringEncoding];
+            }
+            
+            // Still no path? See if we've got a user-chosen one.
+            if (!path) {
+                if (encodingObj) {
+                    NSStringEncoding encoding = [encodingObj unsignedLongValue];
+                    path = [NSString stringWithCString:cPath encoding:encoding];
+                }
+            }
+            
+            // Still no path? Throw an error and let the UI decide what to do.
+            if (!path) {
+                NSData * pathData = [NSData dataWithBytes:cPath length:strlen(cPath)];
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                    code:GSArchiveEntryFilenameEncodingUnknownError
+                                                userInfo:[NSDictionary dictionaryWithObject:pathData forKey:kGSArchiveEntryFilenameCStringAsNSData]];
+                return NO;
+            }
         }
+        
+        if (!path) {
+            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                code:GSArchiveEntryReadError
+                                            userInfo:nil];
+            return NO;
+        }
+        
+
         NSString *fullPath = [directoryPath stringByAppendingPathComponent:path];
         const char * cFullPath = [fullPath UTF8String];
         archive_entry_set_pathname(entry, cFullPath);

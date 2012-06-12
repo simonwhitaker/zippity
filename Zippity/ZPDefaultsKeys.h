@@ -12,5 +12,5 @@
 #define kZPDefaultsFirstLaunchKey @"GSZippityIsFirstLaunch"
 #define kZPDefaultsClearCacheKey @"GSZippityClearCacheOnNextRun"
 #define kZPDefaultsShowFileExtensions @"GSZippityShowFileExtensions"
-
+#define kZPDefaultsLastChosenCharacterEncoding @"GSZippityLastChosenCharacterEncoding"
 #endif
