@@ -1,0 +1,104 @@
+/* Subtitle for a table cell showing a specific file from within a zip file. The placeholders are %1$@: filename, %2$@: file's last modified date. */
+"%@, last modified on %@" = "%1$@, 最後に修正された日にち %2$@";
+
+/* Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation */
+"%u of %u" = "%2$uの%1$u";
+
+/* Accessibility label for the About button on the Zippity home view */
+"About Zippity" = "Zippityについて";
+
+/* Subtitle for table cells in the home view. %@ is replaced with the date the file was added. */
+"Added on %@" = "%@に追加";
+
+/* The text for a button that will cancel an action when tapped */
+"Cancel" = "キャンセル";
+
+/* Title for a message box prompting the user to choose a Twitter account from which to follow @zippityapp */
+"Choose account" = "アカウントの選択";
+
+/* The text for a button that will delete files when tapped */
+"Delete" = "削除";
+
+/* The title for a confirmation dialog shown when deleting a file. %@ is replaced by the filename of a single selected file. */
+"Delete %@" = "%@を削除";
+
+/* The title for a confirmation dialog shown when deleting files. %@ is replaced by the number of selected files. */
+"Delete %u files" = "%uのファイルを削除";
+
+/* The text for a button that will start composing an email when tapped */
+"Email" = "メール";
+
+/* Accessibility text for visually impaired users, prompting the user to email us */
+"Email info@goosoftware.co.uk" = "メール info@goosoftware.co.uk";
+
+/* The title for a message box shown when an error occurs */
+"Error" = "エラー";
+
+/* Message shown when there's an error following @zippityapp on Twitter */
+"Error following @zippityapp" = "@zippityappのフォローエラー";
+
+/* Error mesage shown in a temporary dialog if the app fails to save photos to the user's camera roll */
+"Error: couldn't save image to Photos" = "エラー: カメラロールに画像を保存できませんでした";
+
+/* Button prompting the user to follow @zippityapp on Twitter */
+"Follow @zippityapp" = "@zippityappをフォロー";
+
+/* Accessibility text for visually impaired users, prompting the user to follow @zippityapp on Twitter */
+"Follow @zippityapp on Twitter" = "Twitterで@zippityappをフォローする";
+
+/* Message shown in a temporary dialog when the app has successfully saved photos to the user's camera roll */
+"Image saved to Photos!" = "カメラロールに画像が保存されました！";
+
+/* The text for a button that confirms a message has been received when tapped */
+"OK" = "OK";
+
+/* Label for the Open In button in the image gallery action sheet */
+"Open In..." = "…で開く";
+
+/* The title for a confirmation dialog shown when saving a file. %@ is replaced by the filename of the file. */
+"Save %@" = "%@に保存";
+
+/* The title for a confirmation dialog shown when saving files. %u is replaced by the number of files being saved. */
+"Save %u images" = "%uの画像を保存";
+
+/* The text for a button that will save image files to the camera roll when tapped */
+"Save Images" = "画像の保存";
+
+/* Button text for Save to Photos button in action sheet */
+"Save to Photos" = "写真に保存";
+
+/* Label for the Save To Photos button in the image gallery action sheet */
+"Save To Photos" = "写真に保存";
+
+/* The text for a button that will share files when tapped, for example by email */
+"Share" = "シェア";
+
+/* The title for a confirmation dialog shown when sharing a file. %@ is replaced by the filename of a single selected file. */
+"Share %@" = "%@をシェア";
+
+/* The title for a confirmation dialog shown when sharing files. %u is replaced by the number of selected files. */
+"Share %u files" = "%uのファイルをシェア";
+
+/* Short message shown while unpacking a zip file */
+"Unpacking contents..." = "内容をアンパック中…";
+
+/* Version string. Placeholders are replaced by version number and build number. */
+"Version %@ (%@)" = "%1$@ (%2$@) バージョン";
+
+/* Accessibility text for visually impaired users, the user to visit Zippity's website */
+"Visit www.zippity.co.uk" = "www.zippity.co.ukにアクセス";
+
+/* Message asking the user which of their Twitter accounts they'd like to follow @zippityapp from */
+"Which Twitter account do you want to follow @zippityapp from?" = "@zippityapのどのTwitterアカウントをフォローしたいですか？";
+
+/* Message shown to a user when they try to email a file but have not set up an email account on their iPhone. */
+"You don't have an email account configured. You can set one up in the main Settings app." = "設定されているメールアカウントがありません。設定アプリにて設定することができます。";
+
+/* Message shown when the user successfully follows @zippityapp on Twitter */
+"You're now following @zippityapp!" = "@zippityappをフォロー中です！";
+
+/* Error message to display when the contents of a zip file can't be displayed for some unknown reason. */
+"Zippity can't list the files in this folder." = "Zippityはこのフォルダーのファイルを表示することができません。";
+
+/* Error message to display when a zip file can't be opened. */
+"Zippity couldn't open that archive file. It might be corrupt." = "Zippityはアーカイブファイルを開くことができませんでした。データが破損しているかもしれません。";

@@ -1,0 +1,12 @@
+
+/* Class = "IBUINavigationItem"; title = "About Zippity"; ObjectID = "5"; */
+"5.title" = "Zippityについて";
+
+/* Class = "IBUILabel"; text = "Zippity is crafted with care by Goo Software Ltd. We'd love to hear from you!"; ObjectID = "14"; */
+"14.text" = "ZippityはGoo Software Ltd.が一生懸命作りました。ぜひ感想を聞かせて下さい！";
+
+/* Class = "IBUILabel"; text = "Zippity icon created by hicksdesign."; ObjectID = "20"; */
+"20.text" = "Zippityのアイコンはhicksdesignによって作成されました。";
+
+/* Class = "IBUIButton"; normalTitle = "  Visit hicksdesign.co.uk"; ObjectID = "21"; */
+"21.normalTitle" = "hicksdesign.co.ukまでアクセスして下さい";

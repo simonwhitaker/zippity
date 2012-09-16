@@ -15,6 +15,12 @@ For XIBs:
     cd Zippity
     ibtool --generate-strings-file en.lproj/ZPAboutViewController.strings en.lproj/ZPAboutViewController.xib 
 
+# Generating localised XIBs
+
+ZIPPITY_LANG=de
+ibtool --strings-file $ZIPPITY_LANG.lproj/ZPAboutViewController.strings --write $ZIPPITY_LANG.lproj/ZPAboutViewController.xib en.lproj/ZPAboutViewController.xib
+ibtool --strings-file $ZIPPITY_LANG.lproj/ZPUnrecognisedFileTypeViewController.strings --write $ZIPPITY_LANG.lproj/ZPUnrecognisedFileTypeViewController.xib en.lproj/ZPUnrecognisedFileTypeViewController.xib
+
 # Get the UTI for a given file
 
 Use mdls, part of Spotlight:
