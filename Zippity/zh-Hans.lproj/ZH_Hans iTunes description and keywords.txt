@@ -1,0 +1,14 @@
+=====
+DESCRIPTION
+=====
+
+Zippity 是 iPhone 和 iPad 处理 zip 文件最简单的方法。该应用可以打开邮件附件或从网页上下载的 zip 文件，您还可以预览内容，通过邮件转发等。
+
+一旦您安装好 Zippity，便可以轻松打开邮件附件中的 zip 文件，轻敲附件文件在 Zippity 中打开。如您在网页中浏览到 Zip 文档，轻敲 Safari 窗口“打开方式…”按钮，在 Zippity 中打开zip文件。
+
+Zippity 同样处理 .tar, .bz2 和 .gz 文件。
+
+=====
+KEYWORDS
+=====
+zip tar gz gzip bzip bz bz2 bzip2 bunzip bunzip2 tgz tbz 档案文件。

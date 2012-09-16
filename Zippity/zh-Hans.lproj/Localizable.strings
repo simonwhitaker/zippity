@@ -1,0 +1,105 @@
+/* Subtitle for a table cell showing a specific file from within a zip file. The placeholders are %1$@: filename, %2$@: file's last modified date. */
+"%@, last modified on %@" = "%1$@, 最后修改于 %2$@";
+
+/* Label at the top of the image gallery showing the current page, e.g. if on the 2nd of 3 images this reads '2 of 3' in the English translation */
+"%u of %u" = "%1$u / %2$u";
+
+/* Accessibility label for the About button on the Zippity home view */
+"About Zippity" = "关于 Zippity";
+
+/* Subtitle for table cells in the home view. %@ is replaced with the date the file was added. */
+"Added on %@" = "添加于 %@";
+
+/* The text for a button that will cancel an action when tapped */
+"Cancel" = "取消";
+
+/* Title for a message box prompting the user to choose a Twitter account from which to follow @zippityapp */
+"Choose account" = "选择账户";
+
+/* The text for a button that will delete files when tapped */
+"Delete" = "删除";
+
+/* The title for a confirmation dialog shown when deleting a file. %@ is replaced by the filename of a single selected file. */
+"Delete %@" = "删除 %@";
+
+/* The title for a confirmation dialog shown when deleting files. %@ is replaced by the number of selected files. */
+"Delete %u files" = "删除 %u 文件";
+
+/* The text for a button that will start composing an email when tapped */
+"Email" = "邮件";
+
+/* Accessibility text for visually impaired users, prompting the user to email us */
+"Email info@goosoftware.co.uk" = "邮件 info@goosoftware.co.uk";
+
+/* The title for a message box shown when an error occurs */
+"Error" = "错误";
+
+/* Message shown when there's an error following @zippityapp on Twitter */
+"Error following @zippityapp" = "错误关注 @zippityapp";
+
+/* Error mesage shown in a temporary dialog if the app fails to save photos to the user's camera roll */
+"Error: couldn't save image to Photos" = "错误: 不能保存图片至相册";
+
+/* Button prompting the user to follow @zippityapp on Twitter */
+"Follow @zippityapp" = "关注 @zippityapp";
+
+/* Accessibility text for visually impaired users, prompting the user to follow @zippityapp on Twitter */
+"Follow @zippityapp on Twitter" = "在 Twitter 关注 @zippityapp";
+
+/* Message shown in a temporary dialog when the app has successfully saved photos to the user's camera roll */
+"Image saved to Photos!" = "图片保存至相册!";
+
+/* The text for a button that confirms a message has been received when tapped */
+"OK" = "好";
+
+/* Label for the Open In button in the image gallery action sheet */
+"Open In..." = "打开方式…";
+
+/* The title for a confirmation dialog shown when saving a file. %@ is replaced by the filename of the file. */
+"Save %@" = "保存 %@";
+
+/* The title for a confirmation dialog shown when saving files. %u is replaced by the number of files being saved. */
+"Save %u images" = "保存 %u 图片";
+
+/* The text for a button that will save image files to the camera roll when tapped */
+"Save Images" = "保存图片";
+
+/* Button text for Save to Photos button in action sheet */
+"Save to Photos" = "保存至相册";
+
+/* Label for the Save To Photos button in the image gallery action sheet */
+"Save To Photos" = "保存至相册";
+
+/* The text for a button that will share files when tapped, for example by email */
+"Share" = "分享";
+
+/* The title for a confirmation dialog shown when sharing a file. %@ is replaced by the filename of a single selected file. */
+"Share %@" = "分享 %@";
+
+/* The title for a confirmation dialog shown when sharing files. %u is replaced by the number of selected files. */
+"Share %u files" = "分享 %u 文件";
+
+/* Short message shown while unpacking a zip file */
+"Unpacking contents..." = "获取内容…";
+
+/* Version string. Placeholders are replaced by version number and build number. */
+"Version %@ (%@)" = "版本%1$@ (%2$@)";
+
+/* Accessibility text for visually impaired users, the user to visit Zippity's website */
+"Visit www.zippity.co.uk" = "访问 www.zippity.co.uk";
+
+/* Message asking the user which of their Twitter accounts they'd like to follow @zippityapp from */
+"Which Twitter account do you want to follow @zippityapp from?" = "您想要哪个 Twitter 账户关注 @zippityapp?";
+
+/* Message shown to a user when they try to email a file but have not set up an email account on their iPhone. */
+"You don't have an email account configured. You can set one up in the main Settings app." = "您没有配置 email 账户. 您可以在该应用主要设置中建立电子邮件。";
+
+/* Message shown when the user successfully follows @zippityapp on Twitter */
+"You're now following @zippityapp!" = "您现在已经关注了 @zippityapp!";
+
+/* Error message to display when the contents of a zip file can't be displayed for some unknown reason. */
+"Zippity can't list the files in this folder." = "Zippity 不能列出该文件夹中的文档。";
+
+/* Error message to display when a zip file can't be opened. */
+"Zippity couldn't open that archive file. It might be corrupt." = "Zippity不能打开该存档文件。该文件可能已损坏。";
+

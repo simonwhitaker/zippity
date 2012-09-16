@@ -1,0 +1,14 @@
+=====
+DESCRIPTION
+=====
+
+Zippity はiPhoneやiPadでzipファイルを取り扱う最も簡単な方法です。これを使えば、メールで受け取ったりウェブからダウンロードした zipファイルのコンテンツを内覧したりメールで転送することなどが可能になります。
+
+Zippityをインストールした後は、zipファイルが添付されているメールを開き、添付ファイルをタップすればZippityで開くことができます。ウェブ上のzipファイルを閲覧する場合は、サファリウィンドウの１番上にあるボタン”…で開く”をタップしてZippityを使ってzipファイルを開いてください。
+
+Zippity は .tar, .bz2 そして .gz ファイルにも対応しています。
+
+=====
+KEYWORDS 
+=====
+zip tar gz gzip bzip bz bz2 bzip2 bunzip bunzip2 tgz tbz 保管ファイル

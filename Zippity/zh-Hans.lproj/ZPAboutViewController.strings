@@ -1,0 +1,12 @@
+
+/* Class = "IBUINavigationItem"; title = "About Zippity"; ObjectID = "5"; */
+"5.title" = "关于 Zippity";
+
+/* Class = "IBUILabel"; text = "Zippity is crafted with care by Goo Software Ltd. We'd love to hear from you!"; ObjectID = "14"; */
+"14.text" = "Zippity 是由 Goo Software Ltd 精心制作，我们乐意听到你的反馈意见!";
+
+/* Class = "IBUILabel"; text = "Zippity icon created by hicksdesign."; ObjectID = "20"; */
+"20.text" = "Zippity 图标由 hicksdesign 创作。";
+
+/* Class = "IBUIButton"; normalTitle = "  Visit hicksdesign.co.uk"; ObjectID = "21"; */
+"21.normalTitle" = " 访问 hicksdesign.co.uk";

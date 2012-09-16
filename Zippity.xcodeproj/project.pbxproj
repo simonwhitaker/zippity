@@ -197,6 +197,12 @@
 		F482B10B152BA43100E8965B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
+		F49EC9D01606583C006B8CCF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
+		F49EC9D11606583C006B8CCF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = "ja.lproj/ZPAboutViewController-iPad.xib"; sourceTree = "<group>"; };
+		F49EC9D21606583C006B8CCF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
+		F49ECAD916065871006B8CCF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ZPUnrecognisedFileTypeViewController.xib"; sourceTree = "<group>"; };
+		F49ECADA16065871006B8CCF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ZPAboutViewController.xib"; sourceTree = "<group>"; };
+		F49ECADB16065871006B8CCF /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hans"; path = "zh-Hans.lproj/ZPAboutViewController-iPad.xib"; sourceTree = "<group>"; };
 		F4A0CE5E1582C314001A2DC2 /* ZPEncodingPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPEncodingPickerViewController.h; sourceTree = "<group>"; };
 		F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPEncodingPickerViewController.m; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
@@ -568,6 +574,8 @@
 				nl,
 				hu,
 				cs,
+				ja,
+				"zh-Hans",
 			);
 			mainGroup = F47F534714ECCC82009BF6FE;
 			productRefGroup = F47F535314ECCC82009BF6FE /* Products */;
@@ -719,6 +727,8 @@
 				F43EC9F215473A9E00E083FF /* nl */,
 				F43EC9F315473A9E00E083FF /* hu */,
 				F459E395154DE09D00D1992E /* cs */,
+				F49EC9D11606583C006B8CCF /* ja */,
+				F49ECADB16065871006B8CCF /* zh-Hans */,
 			);
 			name = "ZPAboutViewController-iPad.xib";
 			sourceTree = "<group>";
@@ -738,6 +748,8 @@
 				F4F5DB591530C72200D6F45C /* nl */,
 				F4F5DB621530E40C00D6F45C /* hu */,
 				F459E397154DE0A900D1992E /* cs */,
+				F49EC9D01606583C006B8CCF /* ja */,
+				F49ECAD916065871006B8CCF /* zh-Hans */,
 			);
 			name = ZPUnrecognisedFileTypeViewController.xib;
 			sourceTree = "<group>";
@@ -749,6 +761,8 @@
 				F4F5DB581530C71B00D6F45C /* nl */,
 				F4F5DB611530E40700D6F45C /* hu */,
 				F459E396154DE0A300D1992E /* cs */,
+				F49EC9D21606583C006B8CCF /* ja */,
+				F49ECADA16065871006B8CCF /* zh-Hans */,
 			);
 			name = ZPAboutViewController.xib;
 			sourceTree = "<group>";

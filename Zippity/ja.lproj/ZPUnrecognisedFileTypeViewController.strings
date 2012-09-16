@@ -1,0 +1,2 @@
+/* A message shown to users when viewing a file that can't be previewed within Zippity */
+"7.text" = "Zippity はこのタイプのファイルを開くことができません。上記の動作ボタンを使うことで、他のアプリで開くことができるかもしれません。";
