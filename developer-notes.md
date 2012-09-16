@@ -18,10 +18,14 @@ For XIBs:
 # Generating localised XIBs
 
 ZIPPITY_LANG=de
-ibtool --strings-file $ZIPPITY_LANG.lproj/ZPAboutViewController.strings --write $ZIPPITY_LANG.lproj/ZPAboutViewController.xib en.lproj/ZPAboutViewController.xib
-ibtool --strings-file $ZIPPITY_LANG.lproj/ZPUnrecognisedFileTypeViewController.strings --write $ZIPPITY_LANG.lproj/ZPUnrecognisedFileTypeViewController.xib en.lproj/ZPUnrecognisedFileTypeViewController.xib
+ibtool --strings-file $ZIPPITY_LANG.lproj/ZPAboutViewController.strings \
+       --write $ZIPPITY_LANG.lproj/ZPAboutViewController.xib en.lproj/ZPAboutViewController.xib
+ibtool --strings-file $ZIPPITY_LANG.lproj/ZPAboutViewController.strings \
+       --write $ZIPPITY_LANG.lproj/ZPAboutViewController-iPad.xib en.lproj/ZPAboutViewController-iPad.xib
+ibtool --strings-file $ZIPPITY_LANG.lproj/ZPUnrecognisedFileTypeViewController.strings \
+       --write $ZIPPITY_LANG.lproj/ZPUnrecognisedFileTypeViewController.xib en.lproj/ZPUnrecognisedFileTypeViewController.xib
 
-# Get the UTI for a given file
+# Getting the UTI for a given file
 
 Use mdls, part of Spotlight:
 
