@@ -1,0 +1,3 @@
+[submodule "third-party/iOS-libarchive"]
+	path = third-party/iOS-libarchive
+	url = https://github.com/simonwhitaker/iOS-libarchive.git

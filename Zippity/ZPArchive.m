@@ -7,8 +7,8 @@
 //
 
 #import "ZPArchive.h"
-#import "libarchive/archive.h"
-#import "libarchive/archive_entry.h"
+#import "archive.h"
+#import "archive_entry.h"
 
 static NSDictionary * errorInfoForArchive(struct archive *a) {
     NSMutableDictionary *info = [NSMutableDictionary dictionary];

@@ -69,6 +69,9 @@
 		F482B10A152BA43100E8965B /* ZPAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F482B10C152BA43100E8965B /* ZPAboutViewController.xib */; };
 		F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3C14F05D2B00A95302 /* folder-icon.png */; };
 		F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */; };
+		F490E90C1607B58C00C530F8 /* archive_entry.h in Resources */ = {isa = PBXBuildFile; fileRef = F490E90B1607B58C00C530F8 /* archive_entry.h */; };
+		F490E90E1607B59A00C530F8 /* archive.h in Resources */ = {isa = PBXBuildFile; fileRef = F490E90D1607B59A00C530F8 /* archive.h */; };
+		F490E9101607B5ED00C530F8 /* libarc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F490E90F1607B5ED00C530F8 /* libarc.a */; };
 		F49ECAF416065A8A006B8CCF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F49ECAF316065A8A006B8CCF /* Default-568h@2x.png */; };
 		F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
@@ -90,7 +93,6 @@
 		F4EE221F153CC4CF007001D1 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EE221E153CC4CF007001D1 /* Default-Landscape~ipad.png */; };
 		F4EE2221153CC4D4007001D1 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EE2220153CC4D4007001D1 /* Default-Landscape@2x~ipad.png */; };
 		F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
-		F4F62C2414FFBE7600AB0C8C /* libarc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F62C2214FFBE7600AB0C8C /* libarc.a */; };
 		F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */; };
 /* End PBXBuildFile section */
 
@@ -193,6 +195,9 @@
 		F482B10B152BA43100E8965B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
 		F4876C3C14F05D2B00A95302 /* folder-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon.png"; sourceTree = "<group>"; };
 		F4876C3D14F05D2B00A95302 /* folder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "folder-icon@2x.png"; sourceTree = "<group>"; };
+		F490E90B1607B58C00C530F8 /* archive_entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = archive_entry.h; path = "../third-party/iOS-libarchive/libarchive/libarchive/archive_entry.h"; sourceTree = "<group>"; };
+		F490E90D1607B59A00C530F8 /* archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = archive.h; path = "../third-party/iOS-libarchive/libarchive/libarchive/archive.h"; sourceTree = "<group>"; };
+		F490E90F1607B5ED00C530F8 /* libarc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libarc.a; path = "third-party/iOS-libarchive/arc/build/Release-iphoneos/libarc.a"; sourceTree = "<group>"; };
 		F49EC9D01606583C006B8CCF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
 		F49EC9D11606583C006B8CCF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = "ja.lproj/ZPAboutViewController-iPad.xib"; sourceTree = "<group>"; };
 		F49EC9D21606583C006B8CCF /* ja */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ja; path = ja.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
@@ -228,11 +233,6 @@
 		F4F5DB611530E40700D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = hu; path = hu.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
 		F4F5DB621530E40C00D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = hu; path = hu.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
 		F4F5DB631530E41100D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
-		F4F62C1F14FFBE7600AB0C8C /* archive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive.h; sourceTree = "<group>"; };
-		F4F62C2014FFBE7600AB0C8C /* archive_entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = archive_entry.h; sourceTree = "<group>"; };
-		F4F62C2114FFBE7600AB0C8C /* bzlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bzlib.h; sourceTree = "<group>"; };
-		F4F62C2214FFBE7600AB0C8C /* libarc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libarc.a; sourceTree = "<group>"; };
-		F4F62C2314FFBE7600AB0C8C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F4F62C2714FFC3B600AB0C8C /* ZPArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPArchive.h; sourceTree = "<group>"; };
 		F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPArchive.m; sourceTree = "<group>"; };
 		F4FA3C411607398800DA6574 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
@@ -252,6 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F490E9101607B5ED00C530F8 /* libarc.a in Frameworks */,
 				F4D34835151CA000008B706A /* Accounts.framework in Frameworks */,
 				F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */,
 				F4D34826151C9B38008B706A /* Twitter.framework in Frameworks */,
@@ -263,7 +264,6 @@
 				F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */,
 				F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */,
 				F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */,
-				F4F62C2414FFBE7600AB0C8C /* libarc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,9 +350,9 @@
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F490E90A1607B57200C530F8 /* libarchive */,
 				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
 				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
-				F4F62C1E14FFBE7600AB0C8C /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
 			name = "Third-party libraries";
@@ -363,7 +363,7 @@
 			children = (
 				F47F535C14ECCC82009BF6FE /* Zippity */,
 				F408F439158548D800E1A5B4 /* Character Encoding Map Generator */,
-				F47F535514ECCC82009BF6FE /* Frameworks */,
+				F47F535514ECCC82009BF6FE /* Frameworks and Libraries */,
 				F47F535314ECCC82009BF6FE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -377,9 +377,10 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F47F535514ECCC82009BF6FE /* Frameworks */ = {
+		F47F535514ECCC82009BF6FE /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F490E90F1607B5ED00C530F8 /* libarc.a */,
 				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F4D34834151CA000008B706A /* Accounts.framework */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
@@ -391,7 +392,7 @@
 				F4D34825151C9B38008B706A /* Twitter.framework */,
 				F47F535614ECCC82009BF6FE /* UIKit.framework */,
 			);
-			name = Frameworks;
+			name = "Frameworks and Libraries";
 			sourceTree = "<group>";
 		};
 		F47F535C14ECCC82009BF6FE /* Zippity */ = {
@@ -431,6 +432,15 @@
 				F40144F4151263690036AF48 /* ZPDefaultsKeys.h */,
 			);
 			name = "App core";
+			sourceTree = "<group>";
+		};
+		F490E90A1607B57200C530F8 /* libarchive */ = {
+			isa = PBXGroup;
+			children = (
+				F490E90B1607B58C00C530F8 /* archive_entry.h */,
+				F490E90D1607B59A00C530F8 /* archive.h */,
+			);
+			name = libarchive;
 			sourceTree = "<group>";
 		};
 		F4B9909914EE66F200F8FBD8 /* Categories */ = {
@@ -501,18 +511,6 @@
 				F4D3482C151C9EAA008B706A /* 71-compass@2x.png */,
 			);
 			name = "Glyphish Pro icons";
-			sourceTree = "<group>";
-		};
-		F4F62C1E14FFBE7600AB0C8C /* libarchive */ = {
-			isa = PBXGroup;
-			children = (
-				F4F62C1F14FFBE7600AB0C8C /* archive.h */,
-				F4F62C2014FFBE7600AB0C8C /* archive_entry.h */,
-				F4F62C2114FFBE7600AB0C8C /* bzlib.h */,
-				F4F62C2214FFBE7600AB0C8C /* libarc.a */,
-				F4F62C2314FFBE7600AB0C8C /* README.md */,
-			);
-			path = libarchive;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -649,6 +647,8 @@
 				F40D71341548263E004FA273 /* Icon-72@2x.png in Resources */,
 				F408F44615854F5700E1A5B4 /* character-encodings.plist in Resources */,
 				F49ECAF416065A8A006B8CCF /* Default-568h@2x.png in Resources */,
+				F490E90C1607B58C00C530F8 /* archive_entry.h in Resources */,
+				F490E90E1607B59A00C530F8 /* archive.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -667,7 +667,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "${PROJECT_DIR}/version.sh --set --plist-path \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\" --quiet";
+			shellScript = "\"${PROJECT_DIR}\"/version.sh --set --plist-path \"${BUILT_PRODUCTS_DIR}/${INFOPLIST_PATH}\" --quiet";
 		};
 		F4DE424114F99E5B004A996B /* Build Welcome to Zippity.zip */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -811,67 +811,6 @@
 			};
 			name = Release;
 		};
-		F408F442158548D800E1A5B4 /* Ad Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Character Encoding Map Generator/Character Encoding Map Generator-Prefix.pch";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-			};
-			name = "Ad Hoc";
-		};
-		F40FDBAC14F289DB008BF9C8 /* Ad Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = "ADHOC=1";
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				SDKROOT = iphoneos;
-				VALIDATE_PRODUCT = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-			};
-			name = "Ad Hoc";
-		};
-		F40FDBAD14F289DB008BF9C8 /* Ad Hoc */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 34;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/Zippity/TestFlightSDK\"",
-					"\"$(SRCROOT)/Zippity/libarchive\"",
-				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = app;
-			};
-			name = "Ad Hoc";
-		};
 		F47F536814ECCC82009BF6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -969,7 +908,6 @@
 			buildConfigurations = (
 				F408F440158548D800E1A5B4 /* Debug */,
 				F408F441158548D800E1A5B4 /* Release */,
-				F408F442158548D800E1A5B4 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -979,7 +917,6 @@
 			buildConfigurations = (
 				F47F536814ECCC82009BF6FE /* Debug */,
 				F47F536914ECCC82009BF6FE /* Release */,
-				F40FDBAC14F289DB008BF9C8 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -989,7 +926,6 @@
 			buildConfigurations = (
 				F47F536B14ECCC82009BF6FE /* Debug */,
 				F47F536C14ECCC82009BF6FE /* Release */,
-				F40FDBAD14F289DB008BF9C8 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
