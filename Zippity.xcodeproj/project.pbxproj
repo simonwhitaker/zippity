@@ -15,8 +15,6 @@
 		F408F44615854F5700E1A5B4 /* character-encodings.plist in Resources */ = {isa = PBXBuildFile; fileRef = F408F44515854F5700E1A5B4 /* character-encodings.plist */; };
 		F40D71341548263E004FA273 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40D71331548263E004FA273 /* Icon-72@2x.png */; };
 		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
-		F40FDBA914F2889F008BF9C8 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA514F2889F008BF9C8 /* README.txt */; };
-		F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F40FDBA614F2889F008BF9C8 /* release_notes.txt */; };
 		F41113A1152341270052E1B3 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F411139F152341270052E1B3 /* info.png */; };
 		F41113A2152341270052E1B3 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41113A0152341270052E1B3 /* info@2x.png */; };
 		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
@@ -93,7 +91,6 @@
 		F4EE2221153CC4D4007001D1 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4EE2220153CC4D4007001D1 /* Default-Landscape@2x~ipad.png */; };
 		F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F4F5DB5C1530CA6900D6F45C /* Localizable.strings */; };
 		F4F62C2414FFBE7600AB0C8C /* libarc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4F62C2214FFBE7600AB0C8C /* libarc.a */; };
-		F4F62C2514FFBE7600AB0C8C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4F62C2314FFBE7600AB0C8C /* README.md */; };
 		F4F62C2914FFC3B600AB0C8C /* ZPArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */; };
 /* End PBXBuildFile section */
 
@@ -122,8 +119,6 @@
 		F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSDismissableViewControllerDelegate.h; sourceTree = "<group>"; };
 		F40D71331548263E004FA273 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		F40FDBA414F2889F008BF9C8 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		F40FDBA514F2889F008BF9C8 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		F40FDBA614F2889F008BF9C8 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
 		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F411139F152341270052E1B3 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		F41113A0152341270052E1B3 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
@@ -240,6 +235,8 @@
 		F4F62C2314FFBE7600AB0C8C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F4F62C2714FFC3B600AB0C8C /* ZPArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPArchive.h; sourceTree = "<group>"; };
 		F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPArchive.m; sourceTree = "<group>"; };
+		F4FA3C411607398800DA6574 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		F4FA3C421607398800DA6574 /* release_notes.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,9 +291,9 @@
 		F40FDBA314F2889F008BF9C8 /* TestFlightSDK */ = {
 			isa = PBXGroup;
 			children = (
+				F4FA3C411607398800DA6574 /* README.md */,
+				F4FA3C421607398800DA6574 /* release_notes.md */,
 				F40FDBA414F2889F008BF9C8 /* libTestFlight.a */,
-				F40FDBA514F2889F008BF9C8 /* README.txt */,
-				F40FDBA614F2889F008BF9C8 /* release_notes.txt */,
 				F40FDBA714F2889F008BF9C8 /* TestFlight.h */,
 			);
 			path = TestFlightSDK;
@@ -603,11 +600,8 @@
 				F47DFD8214ED4E32007F7443 /* Icon@2x.png in Resources */,
 				F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */,
 				F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */,
-				F40FDBA914F2889F008BF9C8 /* README.txt in Resources */,
-				F40FDBAA14F2889F008BF9C8 /* release_notes.txt in Resources */,
 				F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */,
 				F4E1905514F946EF0098D5BB /* ZPImagePreviewController.xib in Resources */,
-				F4F62C2514FFBE7600AB0C8C /* README.md in Resources */,
 				F482B0EB152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib in Resources */,
 				F4413929150BBEC0007F5E03 /* nav-bar-title.png in Resources */,
 				F441392A150BBEC0007F5E03 /* nav-bar-title@2x.png in Resources */,
@@ -858,7 +852,7 @@
 		F40FDBAD14F289DB008BF9C8 /* Ad Hoc */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Goo Software Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 33;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -872,7 +866,7 @@
 					"\"$(SRCROOT)/Zippity/libarchive\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "55B6E8E5-E23C-4E9F-92B1-CDD87DEE1C3D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -928,6 +922,7 @@
 		F47F536B14ECCC82009BF6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 33;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
@@ -939,6 +934,7 @@
 					"\"$(SRCROOT)/Zippity/libarchive\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
@@ -947,7 +943,7 @@
 		F47F536C14ECCC82009BF6FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Goo Software Ltd";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 33;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
@@ -959,7 +955,7 @@
 					"\"$(SRCROOT)/Zippity/libarchive\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D3C736E0-CBB0-4E53-928E-BDE1B5F4E154";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
