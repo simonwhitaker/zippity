@@ -165,6 +165,8 @@
 		F459E396154DE0A300D1992E /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ZPAboutViewController.xib; sourceTree = "<group>"; };
 		F459E397154DE0A900D1992E /* cs */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = cs; path = cs.lproj/ZPUnrecognisedFileTypeViewController.xib; sourceTree = "<group>"; };
 		F459E398154DE0B200D1992E /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F45CF2DB1608F0F000C0E4A7 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F45CF2DD1608F0F300C0E4A7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F45DA71C150FA05500C40E63 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
 		F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImageScrollView.h; sourceTree = "<group>"; };
@@ -772,6 +774,8 @@
 				F4F5DB5F1530CA7C00D6F45C /* nl */,
 				F4F5DB631530E41100D6F45C /* hu */,
 				F459E398154DE0B200D1992E /* cs */,
+				F45CF2DB1608F0F000C0E4A7 /* ja */,
+				F45CF2DD1608F0F300C0E4A7 /* zh-Hans */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
