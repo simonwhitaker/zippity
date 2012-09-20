@@ -56,7 +56,7 @@
 "Open In..." = "…で開く";
 
 /* The title for a confirmation dialog shown when saving a file. %@ is replaced by the filename of the file. */
-"Save %@" = "%@に保存";
+"Save %@" = "%@を保存";
 
 /* The title for a confirmation dialog shown when saving files. %u is replaced by the number of files being saved. */
 "Save %u images" = "%uの画像を保存";
@@ -65,10 +65,10 @@
 "Save Images" = "画像の保存";
 
 /* Button text for Save to Photos button in action sheet */
-"Save to Photos" = "写真に保存";
+"Save to Photos" = "カメラロールに保存";
 
 /* Label for the Save To Photos button in the image gallery action sheet */
-"Save To Photos" = "写真に保存";
+"Save To Photos" = "カメラロールに保存";
 
 /* The text for a button that will share files when tapped, for example by email */
 "Share" = "シェア";
@@ -89,16 +89,16 @@
 "Visit www.zippity.co.uk" = "www.zippity.co.ukにアクセス";
 
 /* Message asking the user which of their Twitter accounts they'd like to follow @zippityapp from */
-"Which Twitter account do you want to follow @zippityapp from?" = "@zippityapのどのTwitterアカウントをフォローしたいですか？";
+"Which Twitter account do you want to follow @zippityapp from?" = "どのTwitterアカウントより@zippityapをフォローしたいですか？";
 
 /* Message shown to a user when they try to email a file but have not set up an email account on their iPhone. */
-"You don't have an email account configured. You can set one up in the main Settings app." = "設定されているメールアカウントがありません。設定アプリにて設定することができます。";
+"You don't have an email account configured. You can set one up in the main Settings app." = "設定されているメールアカウントがありません。アプリのメイン設定にて設定することができます。";
 
 /* Message shown when the user successfully follows @zippityapp on Twitter */
-"You're now following @zippityapp!" = "@zippityappをフォロー中です！";
+"You're now following @zippityapp!" = "@zippityappをフォローしています！";
 
 /* Error message to display when the contents of a zip file can't be displayed for some unknown reason. */
 "Zippity can't list the files in this folder." = "Zippityはこのフォルダーのファイルを表示することができません。";
 
 /* Error message to display when a zip file can't be opened. */
-"Zippity couldn't open that archive file. It might be corrupt." = "Zippityはアーカイブファイルを開くことができませんでした。データが破損しているかもしれません。";
+"Zippity couldn't open that archive file. It might be corrupt." = "Zippityはそのアーカイブファイルを開くことができませんでした。データがしているかもしれません。";

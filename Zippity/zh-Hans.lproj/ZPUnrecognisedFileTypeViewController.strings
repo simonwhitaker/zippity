@@ -1,2 +1,2 @@
 /* A message shown to users when viewing a file that can't be previewed within Zippity */
-"7.text" = "Zippity 不能打开此类文件. 您或许可以使用以上动作按钮在其他应用中打开该文件。";
+"7.text" = "Zippity 无法打开此类文件。您可以尝试使用上面的动作按钮在其他应用中打开这个文件。";
