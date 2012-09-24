@@ -103,7 +103,8 @@
 						<int key="IBUIContentMode">7</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
-						<string key="IBUIText">Zippity 由 Goo Software Ltd 精心制作。我们乐意听取您的反馈和建议！</string>
+						<string type="base64-UTF8" key="IBUIText">WmlwcGl0eSDnlLEgR29vIFNvZnR3YXJlIEx0ZCDnsr7lv4PliLbkvZzjgIIK5oiR5Lus5LmQ5oSP5ZCs
+5Y+W5oKo55qE5Y+N6aaI5ZKM5bu66K6u77yBA</string>
 						<object class="NSColor" key="IBUITextColor" id="283909696">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
