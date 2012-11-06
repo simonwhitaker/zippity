@@ -45,6 +45,8 @@ ZPImagePreviewControllerDelegate
 // highlight it when displaying the view, e.g. in a popover
 // on iPad.
 @property (nonatomic, strong) NSIndexPath * selectedLeafNodeIndexPath;
+
+@property (nonatomic, strong) NSArray *selectedIndexPathsForDropboxUpload;
 @property (nonatomic, weak) UIActionSheet *currentActionSheet;
 
 @end

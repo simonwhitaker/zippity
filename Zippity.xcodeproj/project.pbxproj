@@ -24,6 +24,7 @@
 		F4209E14164942A50081C111 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4209E13164942A50081C111 /* DropboxSDK.framework */; };
 		F4209E17164942BC0081C111 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4209E16164942BC0081C111 /* Security.framework */; };
 		F4209E1A16494B120081C111 /* ZPDropboxUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = F4209E1916494B120081C111 /* ZPDropboxUploader.m */; };
+		F4209E2B164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4209E2A164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m */; };
 		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
 		F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E714F3C80000082527 /* MobileCoreServices.framework */; };
 		F43EC9E61547360D00E083FF /* Doc-Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = F43EC9DC1547360D00E083FF /* Doc-Icon-iPad.png */; };
@@ -138,6 +139,8 @@
 		F4209E16164942BC0081C111 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F4209E1816494B120081C111 /* ZPDropboxUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPDropboxUploader.h; sourceTree = "<group>"; };
 		F4209E1916494B120081C111 /* ZPDropboxUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPDropboxUploader.m; sourceTree = "<group>"; };
+		F4209E29164954F70081C111 /* ZPDropboxDestinationSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPDropboxDestinationSelectionViewController.h; sourceTree = "<group>"; };
+		F4209E2A164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPDropboxDestinationSelectionViewController.m; sourceTree = "<group>"; };
 		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F43352E714F3C80000082527 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F43EC9DC1547360D00E083FF /* Doc-Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Doc-Icon-iPad.png"; sourceTree = "<group>"; };
@@ -354,6 +357,8 @@
 				F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */,
 				F4A0CE5E1582C314001A2DC2 /* ZPEncodingPickerViewController.h */,
 				F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */,
+				F4209E29164954F70081C111 /* ZPDropboxDestinationSelectionViewController.h */,
+				F4209E2A164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m */,
 			);
 			name = "Views and controllers";
 			sourceTree = "<group>";
@@ -728,6 +733,7 @@
 				F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */,
 				F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */,
 				F4209E1A16494B120081C111 /* ZPDropboxUploader.m in Sources */,
+				F4209E2B164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

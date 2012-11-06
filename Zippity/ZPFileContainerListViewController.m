@@ -28,6 +28,7 @@
 #import "ZPUnrecognisedFileTypeViewController.h"
 #import "ZPEncodingPickerViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "ZPDropboxDestinationSelectionViewController.h"
 
 // ZPArchive.h for the error codes
 #import "ZPArchive.h" 
@@ -61,7 +62,7 @@ enum {
 
 @end
 
-@interface ZPFileContainerListViewController()
+@interface ZPFileContainerListViewController() <ZPDropboxDestinationSelectionViewControllerDelegate>
 
 @property (nonatomic, retain) UIBarButtonItem *editButton;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
@@ -642,16 +643,18 @@ enum {
         }
         else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:dropboxLabel]) {
             /* Handle Dropbox uploads */
+            self.selectedIndexPathsForDropboxUpload = [self.tableView indexPathsForSelectedRows];
             if (![[DBSession sharedSession] isLinked]) {
                 /* TODO: save selection state, restore after authorising Dropbox */
                 [[DBSession sharedSession] linkFromController:self];
             }
-            
-            /* TODO: prompt for upload location */
-            for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
-                ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-                [[ZPDropboxUploader sharedUploader] uploadFileWrapper:wrapper toPath:@"/"];
-            }
+                        
+            ZPDropboxDestinationSelectionViewController *vc = [[ZPDropboxDestinationSelectionViewController alloc] init];
+            vc.delegate = self;
+            vc.rootPath = @"/";
+            UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+            nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+            [self presentViewController:nc animated:YES completion:NULL];
         }
     } else if (actionSheet.tag == GSFileContainerListViewActionSheetDelete) {
         if (buttonIndex == actionSheet.destructiveButtonIndex) {
@@ -709,6 +712,28 @@ enum {
             }
         }
     }
+}
+
+#pragma mark - ZPDropboxDestinationSelection view controller delegate methods
+
+- (void)dropboxDestinationSelectionViewController:(ZPDropboxDestinationSelectionViewController *)viewController
+                         didSelectDestinationPath:(NSString *)destinationPath
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"Uploading files to %@", destinationPath);
+        for (NSIndexPath *indexPath in self.selectedIndexPathsForDropboxUpload) {
+            ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+            [[ZPDropboxUploader sharedUploader] uploadFileWrapper:wrapper toPath:destinationPath];
+        }
+        self.selectedIndexPathsForDropboxUpload = nil;
+    }];
+}
+
+- (void)dropboxDestinationSelectionViewControllerDidCancel:(ZPDropboxDestinationSelectionViewController *)viewController
+{
+    NSLog(@"User cancelled Dropbox destination selection dialog. Nothing to do here.");
+    self.selectedIndexPathsForDropboxUpload = nil;
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - UI event handlers
