@@ -13,6 +13,7 @@
 #import "ZPFileWrapper.h"
 #import "ZPImagePreviewController.h"
 #import "GSDismissableViewControllerDelegate.h"
+#import "ZPDropboxUploader.h"
 
 @interface ZPFileContainerListViewController : UITableViewController <
 GSDismissableViewControllerDelegate,

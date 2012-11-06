@@ -11,6 +11,7 @@
 #import "ZPEmptyViewController.h"
 #import "ZPImagePreviewController.h"
 #import "ZPPreviewController.h"
+#import <DropboxSDK/DropboxSDK.h>
 
 #define kMaxSuffixesToTry 100
 
@@ -75,6 +76,11 @@
 #pragma clang diagnostic pop
 #endif
 
+    /* Initialise Dropbox SDK */
+    DBSession *dbSession = [[DBSession alloc] initWithAppKey:@"3rrp23i61km7y4p"
+                                                   appSecret:@"cz04gux12ldrfua"
+                                                        root:kDBRootDropbox];
+    [DBSession setSharedSession:dbSession];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -190,8 +196,16 @@
      */
 }
 
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{    
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"App linked to Dropbox successfully");
+        } else {
+            NSLog(@"App not linked to Dropbox!");
+        }
+        return YES;
+    }
     // Dismiss the info view if it's visible
     [self.masterViewNavigationController dismissModalViewControllerAnimated:NO];
     

@@ -21,6 +21,9 @@
 		F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41385B515134AF80087B896 /* QuartzCore.framework */; };
 		F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */; };
 		F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */; };
+		F4209E14164942A50081C111 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4209E13164942A50081C111 /* DropboxSDK.framework */; };
+		F4209E17164942BC0081C111 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4209E16164942BC0081C111 /* Security.framework */; };
+		F4209E1A16494B120081C111 /* ZPDropboxUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = F4209E1916494B120081C111 /* ZPDropboxUploader.m */; };
 		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
 		F43352E814F3C80000082527 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E714F3C80000082527 /* MobileCoreServices.framework */; };
 		F43EC9E61547360D00E083FF /* Doc-Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = F43EC9DC1547360D00E083FF /* Doc-Icon-iPad.png */; };
@@ -131,6 +134,10 @@
 		F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F418A5B3153B17D5005F83A9 /* ZPPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPPreviewController.h; sourceTree = "<group>"; };
 		F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPPreviewController.m; sourceTree = "<group>"; };
+		F4209E13164942A50081C111 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
+		F4209E16164942BC0081C111 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		F4209E1816494B120081C111 /* ZPDropboxUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPDropboxUploader.h; sourceTree = "<group>"; };
+		F4209E1916494B120081C111 /* ZPDropboxUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPDropboxUploader.m; sourceTree = "<group>"; };
 		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		F43352E714F3C80000082527 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		F43EC9DC1547360D00E083FF /* Doc-Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Doc-Icon-iPad.png"; sourceTree = "<group>"; };
@@ -254,6 +261,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4209E17164942BC0081C111 /* Security.framework in Frameworks */,
 				F490E9101607B5ED00C530F8 /* libarc.a in Frameworks */,
 				F4D34835151CA000008B706A /* Accounts.framework in Frameworks */,
 				F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */,
@@ -266,6 +274,7 @@
 				F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */,
 				F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */,
 				F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */,
+				F4209E14164942A50081C111 /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,11 +395,13 @@
 				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F4D34834151CA000008B706A /* Accounts.framework */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
+				F4209E13164942A50081C111 /* DropboxSDK.framework */,
 				F47F535814ECCC82009BF6FE /* Foundation.framework */,
 				F43352E414F3C41600082527 /* MessageUI.framework */,
 				F43352E714F3C80000082527 /* MobileCoreServices.framework */,
 				F41385B515134AF80087B896 /* QuartzCore.framework */,
 				F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */,
+				F4209E16164942BC0081C111 /* Security.framework */,
 				F4D34825151C9B38008B706A /* Twitter.framework */,
 				F47F535614ECCC82009BF6FE /* UIKit.framework */,
 			);
@@ -432,6 +443,8 @@
 				F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */,
 				F47F536214ECCC82009BF6FE /* main.m */,
 				F40144F4151263690036AF48 /* ZPDefaultsKeys.h */,
+				F4209E1816494B120081C111 /* ZPDropboxUploader.h */,
+				F4209E1916494B120081C111 /* ZPDropboxUploader.m */,
 			);
 			name = "App core";
 			sourceTree = "<group>";
@@ -714,6 +727,7 @@
 				F453B8F3153AA5AF00C60685 /* ZPEmptyViewController.m in Sources */,
 				F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */,
 				F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */,
+				F4209E1A16494B120081C111 /* ZPDropboxUploader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -867,6 +881,10 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 39;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";
@@ -889,6 +907,10 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 39;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
 				INFOPLIST_FILE = "Zippity/Zippity-Info.plist";

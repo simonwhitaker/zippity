@@ -27,6 +27,7 @@
 #import "ZPPreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
 #import "ZPEncodingPickerViewController.h"
+#import <DropboxSDK/DropboxSDK.h>
 
 // ZPArchive.h for the error codes
 #import "ZPArchive.h" 
@@ -594,7 +595,8 @@ enum {
     self.currentActionSheet = nil;
 
     if (actionSheet.tag == GSFileContainerListViewActionSheetShare) {
-        NSString * emailLabel = [[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil];
+        NSString *emailLabel = [[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil];
+        NSString *dropboxLabel = [[NSBundle mainBundle] localizedStringForKey:@"Dropbox" value:nil table:nil];
         
         if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:emailLabel]) {
             if ([MFMailComposeViewController canSendMail]) {
@@ -636,6 +638,19 @@ enum {
                                                    cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"OK" value:nil table:nil]
                                                    otherButtonTitles:nil];
                 [av show];
+            }
+        }
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:dropboxLabel]) {
+            /* Handle Dropbox uploads */
+            if (![[DBSession sharedSession] isLinked]) {
+                /* TODO: save selection state, restore after authorising Dropbox */
+                [[DBSession sharedSession] linkFromController:self];
+            }
+            
+            /* TODO: prompt for upload location */
+            for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
+                ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+                [[ZPDropboxUploader sharedUploader] uploadFileWrapper:wrapper toPath:@"/"];
             }
         }
     } else if (actionSheet.tag == GSFileContainerListViewActionSheetDelete) {
@@ -796,7 +811,9 @@ enum {
                                                     delegate:self
                                            cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
                                       destructiveButtonTitle:nil
-                                           otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], nil];
+                                           otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil],
+                                                             [[NSBundle mainBundle] localizedStringForKey:@"Dropbox" value:nil table:nil],
+                                                             nil];
     as.tag = GSFileContainerListViewActionSheetShare;
     
     if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
