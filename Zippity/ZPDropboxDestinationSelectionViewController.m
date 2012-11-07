@@ -140,7 +140,7 @@
 {
     NSMutableArray *array = [NSMutableArray array];
     for (DBMetadata *file in metadata.contents) {
-        if (file.isDirectory) {
+        if (file.isDirectory && [file.filename length] > 0 && [file.filename characterAtIndex:0] != '.') {
             [array addObject:file.filename];
         }
     }
