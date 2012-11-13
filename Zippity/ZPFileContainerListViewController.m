@@ -725,6 +725,7 @@ enum {
             ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
             [[ZPDropboxUploader sharedUploader] uploadFileWrapper:wrapper toPath:destinationPath];
         }
+        [[ZPDropboxUploader sharedUploader] start];
         self.selectedIndexPathsForDropboxUpload = nil;
     }];
 }
@@ -927,7 +928,6 @@ enum {
             UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
             nc.modalPresentationStyle = UIModalPresentationFormSheet;
             nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-            nc.navigationBar.barStyle = UIBarStyleBlackOpaque;
             
             [self presentModalViewController:nc animated:YES];
             return;

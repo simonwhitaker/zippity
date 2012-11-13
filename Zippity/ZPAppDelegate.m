@@ -12,12 +12,15 @@
 #import "ZPImagePreviewController.h"
 #import "ZPPreviewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "ZPDropboxUploader.h"
 
 #define kMaxSuffixesToTry 100
 
 @interface ZPAppDelegate()
 
 - (NSString*)documentsDirectory;
+- (void)handleDropboxUploadsStartedNotification:(NSNotification *)notification;
+- (void)updateDropboxUploadStatus;
 
 @end
 
@@ -125,7 +128,11 @@
         self.splitViewController.viewControllers = [NSArray arrayWithObjects:nc, self.detailViewNavigationController, nil];
         self.window.rootViewController = self.splitViewController;
     } else {
-        self.window.rootViewController = nc;
+        GSStatusBarViewController *statusBarViewController = [[GSStatusBarViewController alloc] initWithContentViewController:nc];
+        self.window.rootViewController = statusBarViewController;
+
+        // Store a weak ref to the status bar controller
+        self.statusBarViewController = statusBarViewController;
     }
     
     [self.window makeKeyAndVisible];
@@ -149,6 +156,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -163,6 +171,11 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxUploadsStartedNotification:) name:ZPDropboxUploaderDidStartUploadingFileNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDropboxUploadStatus) name:ZPDropboxUploaderDidFinishUploadingFileNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDropboxUploadStatus) name:ZPDropboxUploaderDidFailNotification object:nil];
+    
+    
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [defaults synchronize];
     BOOL shoudClearCache = [defaults boolForKey:kZPDefaultsClearCacheKey];
@@ -393,6 +406,23 @@
 {
     if (isIpad && navigationController == self.masterViewNavigationController) {
         self.masterPopoverButton.title = viewController.title;
+    }
+}
+
+- (void)handleDropboxUploadsStartedNotification:(NSNotification *)notification
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    NSString *filename = notification.userInfo[ZPDropboxUploaderFilenameKey];
+    NSString *message = [NSString stringWithFormat:@"Uploading %@ to Dropbox", filename];
+    [self.statusBarViewController showMessage:message
+                                  withTimeout:0.0];
+}
+
+- (void)updateDropboxUploadStatus
+{
+    if ([[ZPDropboxUploader sharedUploader] queueSize] == 0) {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        [self.statusBarViewController showMessage:nil withTimeout:0];
     }
 }
 

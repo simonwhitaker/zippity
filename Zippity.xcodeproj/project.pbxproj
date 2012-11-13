@@ -51,6 +51,7 @@
 		F453B8FE153AE26C00C60685 /* empty-view-background-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F453B8FC153AE26C00C60685 /* empty-view-background-ipad.png */; };
 		F453B8FF153AE26C00C60685 /* empty-view-background-ipad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F453B8FD153AE26C00C60685 /* empty-view-background-ipad@2x.png */; };
 		F45DA71D150FA05600C40E63 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F45DA71C150FA05500C40E63 /* Settings.bundle */; };
+		F461C03116529AC200BCB6E6 /* GSStatusBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */; };
 		F46921A314F7F00500669E7E /* Welcome to Zippity.zip in Resources */ = {isa = PBXBuildFile; fileRef = F46921A214F7F00500669E7E /* Welcome to Zippity.zip */; };
 		F476B0D614FB81B700E653E1 /* ZPImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */; };
 		F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = F47DFD7B14ED4E32007F7443 /* Icon-Small.png */; };
@@ -178,6 +179,8 @@
 		F45CF2DB1608F0F000C0E4A7 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F45CF2DD1608F0F300C0E4A7 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		F45DA71C150FA05500C40E63 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSStatusBarViewController.h; sourceTree = "<group>"; };
+		F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSStatusBarViewController.m; sourceTree = "<group>"; };
 		F46921A214F7F00500669E7E /* Welcome to Zippity.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "Welcome to Zippity.zip"; sourceTree = "<group>"; };
 		F476B0D414FB81B700E653E1 /* ZPImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImageScrollView.h; sourceTree = "<group>"; };
 		F476B0D514FB81B700E653E1 /* ZPImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImageScrollView.m; sourceTree = "<group>"; };
@@ -339,6 +342,8 @@
 		F47DFD8B14ED5581007F7443 /* Views and controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
+				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
 				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
 				F47F537714ECD062009BF6FE /* ZPFileContainerListViewController.h */,
 				F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */,
@@ -734,6 +739,7 @@
 				F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */,
 				F4209E1A16494B120081C111 /* ZPDropboxUploader.m in Sources */,
 				F4209E2B164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m in Sources */,
+				F461C03116529AC200BCB6E6 /* GSStatusBarViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

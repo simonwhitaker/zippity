@@ -11,7 +11,16 @@
 
 @interface ZPDropboxUploader : NSObject
 
+extern NSString *const ZPDropboxUploaderDidStartUploadingFileNotification;
+extern NSString *const ZPDropboxUploaderDidFinishUploadingFileNotification;
+extern NSString *const ZPDropboxUploaderDidFailNotification;
+
+// UserInfo dictionary keys
+extern NSString *const ZPDropboxUploaderFilenameKey;
+
 + (ZPDropboxUploader*)sharedUploader;
 - (void)uploadFileWrapper:(ZPFileWrapper*)fileWrapper toPath:(NSString*)destinationPath;
+- (NSUInteger)queueSize;
+- (void)start;
 
 @end
