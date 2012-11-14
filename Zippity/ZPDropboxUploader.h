@@ -13,10 +13,12 @@
 
 extern NSString *const ZPDropboxUploaderDidStartUploadingFileNotification;
 extern NSString *const ZPDropboxUploaderDidFinishUploadingFileNotification;
+extern NSString *const ZPDropboxUploaderDidGetProgressUpdateNotification;
 extern NSString *const ZPDropboxUploaderDidFailNotification;
 
 // UserInfo dictionary keys
-extern NSString *const ZPDropboxUploaderFilenameKey;
+extern NSString *const ZPDropboxUploaderFileWrapperKey;
+extern NSString *const ZPDropboxUploaderProgressKey;
 
 + (ZPDropboxUploader*)sharedUploader;
 - (void)uploadFileWrapper:(ZPFileWrapper*)fileWrapper toPath:(NSString*)destinationPath;

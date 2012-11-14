@@ -16,5 +16,7 @@
 
 /* Set timeout to 0 to have the message persist until the next message arrives. */
 - (void)showMessage:(NSString *)message withTimeout:(NSTimeInterval)timeout;
+- (void)showProgressViewWithProgress:(CGFloat)progress;
+- (void)hideProgressView;
 
 @end

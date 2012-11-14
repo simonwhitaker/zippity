@@ -7,6 +7,7 @@
 
 #import "GSStatusBarViewController.h"
 #import <QuartzCore/QuartzCore.h>
+#import "GSProgressView.h"
 
 /* GSMessage: private class implementing a simple message struct. */
 
@@ -31,6 +32,7 @@
 @interface GSStatusBarViewController ()
 @property (strong, nonatomic) NSMutableArray *messageQueue;
 @property (weak, nonatomic) UILabel *statusLabel;
+@property (weak, nonatomic) GSProgressView *progressView;
 @property (strong, nonatomic) NSTimer *serviceQueueTimer;
 @property (nonatomic) BOOL isDisplayingStatusBar;
 @property (nonatomic) BOOL isServicingQueue;
@@ -43,7 +45,9 @@
 
 const static CGSize kStatusLabelPadding = { 5.0, 5.0 };
 const static CGFloat kStatusLabelHeight = 16.0;
-const static CGFloat kStatusBarShadowOffset = 4.0;
+const static CGSize kStatusProgressIndicatorSize = { 14.0, 14.0 };
+const static CGFloat kStatusBarShadowOffset = 2.0;
+const static CGFloat kStatusBarShadowRadius = 2.0;
 const static CGFloat kStatusMessageFadeOutAnimationDuration = 0.1;
 const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
 
@@ -69,18 +73,41 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
     
     self.view.backgroundColor = [UIColor colorWithWhite:0.2 alpha:1.000];
     
-    CGRect labelFrame = CGRectMake(kStatusLabelPadding.width,
-                                   self.view.frame.size.height - kStatusLabelPadding.height - kStatusLabelHeight,
-                                   self.view.frame.size.width - kStatusLabelPadding.width * 2,
-                                   kStatusLabelHeight);
+    CGFloat containerHeight = kStatusLabelHeight + kStatusLabelPadding.height * 2;
+    UIView *containerView = [[UIView alloc] initWithFrame:CGRectMake(0,
+                                                                     self.view.frame.size.height - containerHeight,
+                                                                     self.view.frame.size.width,
+                                                                     containerHeight)];
+    containerView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    containerView.backgroundColor = [UIColor clearColor];
+    
+    CGFloat originX = kStatusLabelPadding.width * 2 + kStatusProgressIndicatorSize.width;
+    CGRect labelFrame = CGRectMake(originX,
+                                   kStatusLabelPadding.height,
+                                   containerView.frame.size.width - kStatusLabelPadding.width - originX,
+                                   containerView.frame.size.height - kStatusLabelPadding.height * 2);
+
     UILabel *statusLabel = [[UILabel alloc] initWithFrame:labelFrame];
-    statusLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
+    statusLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     statusLabel.backgroundColor = [UIColor clearColor];
     statusLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1.0];
     statusLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
     statusLabel.shadowOffset = CGSizeMake(0.0, 1.0);
     statusLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];
-    [self.view insertSubview:statusLabel atIndex:0];
+    [containerView addSubview:statusLabel];
+    
+    GSProgressView *progressIndicator = [[GSProgressView alloc] initWithFrame:CGRectMake(kStatusLabelPadding.width,
+                                                                                         kStatusLabelPadding.height,
+                                                                                         kStatusProgressIndicatorSize.width,
+                                                                                         kStatusProgressIndicatorSize.height)];
+    progressIndicator.color = statusLabel.textColor;
+    progressIndicator.progress = 0.6;
+    progressIndicator.hidden = YES;
+    [containerView addSubview:progressIndicator];
+    self.progressView = progressIndicator;
+    
+    [self.view insertSubview:containerView atIndex:0];
+    
     self.statusLabel = statusLabel;
 }
 
@@ -107,7 +134,7 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
         v.layer.shadowColor = [[UIColor blackColor] CGColor];
         v.layer.shadowOpacity = 0.5;
         v.layer.shadowOffset = CGSizeMake(0, kStatusBarShadowOffset);
-        v.layer.shadowRadius = 2.0;
+        v.layer.shadowRadius = kStatusBarShadowRadius;
     }
 }
 
@@ -117,6 +144,17 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
     
     if (!self.isServicingQueue && self.serviceQueueTimer == nil)
         [self serviceQueue];
+}
+
+- (void)showProgressViewWithProgress:(CGFloat)progress
+{
+    self.progressView.progress = progress;
+    self.progressView.hidden = NO;
+}
+
+- (void)hideProgressView
+{
+    self.progressView.hidden = YES;
 }
 
 - (void)serviceQueue
@@ -169,6 +207,7 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
         self.contentViewController.view.frame = r;
     } completion:^(BOOL finished) {
         self.isDisplayingStatusBar = YES;
+        self.progressView.hidden = NO;
     }];
 
 }
@@ -178,6 +217,7 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
     if (!self.isDisplayingStatusBar)
         return;
     
+    self.progressView.hidden = YES;
     [UIView animateWithDuration:0.5 animations:^{
         CGRect r = self.contentViewController.view.frame;
         r.size.height = self.view.bounds.size.height;

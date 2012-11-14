@@ -44,6 +44,7 @@
 		F4413937150BC691007F5E03 /* nav-bar-title-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413935150BC691007F5E03 /* nav-bar-title-landscape@2x.png */; };
 		F441B49C14F3765D0067A4FC /* ZPFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* ZPFileWrapper.m */; };
 		F442747F14F85C9B00C84A0B /* ZPImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */; };
+		F44DAC701653A44B00534B1E /* GSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F44DAC6F1653A44B00534B1E /* GSProgressView.m */; };
 		F453B8F3153AA5AF00C60685 /* ZPEmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */; };
 		F453B8F4153AA5AF00C60685 /* ZPEmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */; };
 		F453B8F7153ADDBA00C60685 /* ZPAboutViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F453B8F5153ADDBA00C60685 /* ZPAboutViewController-iPad.xib */; };
@@ -165,6 +166,8 @@
 		F441B49B14F3765D0067A4FC /* ZPFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPFileWrapper.h; sourceTree = "<group>"; };
 		F442747D14F85C9B00C84A0B /* ZPImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImagePreviewController.h; sourceTree = "<group>"; };
 		F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImagePreviewController.m; sourceTree = "<group>"; };
+		F44DAC6E1653A44B00534B1E /* GSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSProgressView.h; sourceTree = "<group>"; };
+		F44DAC6F1653A44B00534B1E /* GSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSProgressView.m; sourceTree = "<group>"; };
 		F453B8F0153AA5AF00C60685 /* ZPEmptyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPEmptyViewController.h; sourceTree = "<group>"; };
 		F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPEmptyViewController.m; sourceTree = "<group>"; };
 		F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPEmptyViewController.xib; sourceTree = "<group>"; };
@@ -342,6 +345,8 @@
 		F47DFD8B14ED5581007F7443 /* Views and controllers */ = {
 			isa = PBXGroup;
 			children = (
+				F44DAC6E1653A44B00534B1E /* GSProgressView.h */,
+				F44DAC6F1653A44B00534B1E /* GSProgressView.m */,
 				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
 				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
 				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
@@ -740,6 +745,7 @@
 				F4209E1A16494B120081C111 /* ZPDropboxUploader.m in Sources */,
 				F4209E2B164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m in Sources */,
 				F461C03116529AC200BCB6E6 /* GSStatusBarViewController.m in Sources */,
+				F44DAC701653A44B00534B1E /* GSProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

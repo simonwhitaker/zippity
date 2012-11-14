@@ -138,7 +138,7 @@
             [array addObject:file.filename];
         }
     }
-    self.subdirectories = [NSArray arrayWithArray:array];
+    self.subdirectories = [array sortedArrayUsingSelector:@selector(compare:)];
     self.isLoading = NO;
 }
 

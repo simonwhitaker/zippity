@@ -11,8 +11,11 @@
 
 NSString *const ZPDropboxUploaderDidStartUploadingFileNotification = @"ZPDropboxUploaderDidStartUploadingFileNotification";
 NSString *const ZPDropboxUploaderDidFinishUploadingFileNotification = @"ZPDropboxUploaderDidFinishUploadingFileNotification";
+NSString *const ZPDropboxUploaderDidGetProgressUpdateNotification = @"ZPDropboxUploaderDidGetProgressUpdateNotification";
 NSString *const ZPDropboxUploaderDidFailNotification = @"ZPDropboxUploaderDidFailNotification";
-NSString *const ZPDropboxUploaderFilenameKey = @"ZPDropboxUploaderFilenameKey";
+
+NSString *const ZPDropboxUploaderFileWrapperKey = @"ZPDropboxUploaderFileWrapperKey";
+NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
 
 @interface ZPDropboxUploadJob : NSObject
 @property (nonatomic, strong) ZPFileWrapper *fileWrapper;
@@ -31,6 +34,9 @@ NSString *const ZPDropboxUploaderFilenameKey = @"ZPDropboxUploaderFilenameKey";
 @end
 
 @interface ZPDropboxUploader() <DBRestClientDelegate>
+
+// inFlightUploadJob: the file wrapper currently being uploaded
+@property (nonatomic, strong) ZPDropboxUploadJob *inFlightUploadJob;
 
 @property (nonatomic, strong) NSMutableArray *uploadQueue;
 @property (nonatomic, strong) DBRestClient *dropboxClient;
@@ -71,21 +77,19 @@ NSString *const ZPDropboxUploaderFilenameKey = @"ZPDropboxUploaderFilenameKey";
 
 - (void)serviceQueue
 {
-    if ([self.uploadQueue count] > 0) {
-        ZPDropboxUploadJob *job;
-        
+    if ([self.uploadQueue count] > 0 && self.inFlightUploadJob == nil) {
         @synchronized(self) {
-            job = [self.uploadQueue objectAtIndex:0];
+            self.inFlightUploadJob = [self.uploadQueue objectAtIndex:0];
             [self.uploadQueue removeObjectAtIndex:0];
         }
 
         [[NSNotificationCenter defaultCenter] postNotificationName:ZPDropboxUploaderDidStartUploadingFileNotification
                                                             object:self
-                                                          userInfo:@{ZPDropboxUploaderFilenameKey: job.fileWrapper.name}];
-        [self.dropboxClient uploadFile:job.fileWrapper.url.lastPathComponent
-                                toPath:job.destinationPath
+                                                          userInfo:@{ZPDropboxUploaderFileWrapperKey: self.inFlightUploadJob.fileWrapper}];
+        [self.dropboxClient uploadFile:self.inFlightUploadJob.fileWrapper.url.lastPathComponent
+                                toPath:self.inFlightUploadJob.destinationPath
                          withParentRev:nil
-                              fromPath:job.fileWrapper.url.path];
+                              fromPath:self.inFlightUploadJob.fileWrapper.url.path];
     }
 }
 
@@ -108,17 +112,31 @@ NSString *const ZPDropboxUploaderFilenameKey = @"ZPDropboxUploaderFilenameKey";
 - (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
     NSLog(@"File uploaded successfully to path: %@", metadata.path);
     [[NSNotificationCenter defaultCenter] postNotificationName:ZPDropboxUploaderDidFinishUploadingFileNotification
-                                                        object:self];
-
+                                                        object:self
+                                                      userInfo:@{ZPDropboxUploaderFileWrapperKey: self.inFlightUploadJob.fileWrapper}];
+    self.inFlightUploadJob = nil;
     [self serviceQueue];
 }
 
 - (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
     NSLog(@"File upload failed with error - %@", error);
     [[NSNotificationCenter defaultCenter] postNotificationName:ZPDropboxUploaderDidFailNotification
-                                                        object:self];
+                                                        object:self
+                                                      userInfo:@{ZPDropboxUploaderFileWrapperKey: self.inFlightUploadJob.fileWrapper}];
+    self.inFlightUploadJob = nil;
     [self serviceQueue];
 }
 
+- (void)restClient:(DBRestClient*)client uploadProgress:(CGFloat)progress
+           forFile:(NSString*)destPath from:(NSString*)srcPath
+{
+    NSDictionary *userInfo = @{
+        ZPDropboxUploaderFileWrapperKey: self.inFlightUploadJob.fileWrapper,
+        ZPDropboxUploaderProgressKey: @(progress),
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:ZPDropboxUploaderDidGetProgressUpdateNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+}
 
 @end

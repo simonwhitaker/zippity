@@ -19,7 +19,8 @@
 @interface ZPAppDelegate()
 
 - (NSString*)documentsDirectory;
-- (void)handleDropboxUploadsStartedNotification:(NSNotification *)notification;
+- (void)handleDropboxUploadStartedNotification:(NSNotification *)notification;
+- (void)handleDropboxUploadProgressNotification:(NSNotification *)notification;
 - (void)updateDropboxUploadStatus;
 
 @end
@@ -171,10 +172,10 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxUploadsStartedNotification:) name:ZPDropboxUploaderDidStartUploadingFileNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxUploadStartedNotification:) name:ZPDropboxUploaderDidStartUploadingFileNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDropboxUploadStatus) name:ZPDropboxUploaderDidFinishUploadingFileNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDropboxUploadStatus) name:ZPDropboxUploaderDidFailNotification object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxUploadProgressNotification:) name:ZPDropboxUploaderDidGetProgressUpdateNotification object:nil];
     
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [defaults synchronize];
@@ -198,6 +199,9 @@
     }
     [defaults setBool:NO forKey:kZPDefaultsClearCacheKey];
     [defaults synchronize];
+    
+    // FIXME: get rid of this - just for testing
+    //[self.statusBarViewController showMessage:@"Foo bar" withTimeout:0];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -409,20 +413,27 @@
     }
 }
 
-- (void)handleDropboxUploadsStartedNotification:(NSNotification *)notification
+- (void)handleDropboxUploadStartedNotification:(NSNotification *)notification
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    NSString *filename = notification.userInfo[ZPDropboxUploaderFilenameKey];
-    NSString *message = [NSString stringWithFormat:@"Uploading %@ to Dropbox", filename];
+    ZPFileWrapper *fileWrapper = notification.userInfo[ZPDropboxUploaderFileWrapperKey];
+    NSString *message = [NSString stringWithFormat:@"Uploading %@ to Dropbox", fileWrapper.name];
     [self.statusBarViewController showMessage:message
                                   withTimeout:0.0];
+}
+
+- (void)handleDropboxUploadProgressNotification:(NSNotification *)notification
+{
+    CGFloat progress = [notification.userInfo[ZPDropboxUploaderProgressKey] floatValue];
+    [self.statusBarViewController showProgressViewWithProgress:progress];
 }
 
 - (void)updateDropboxUploadStatus
 {
     if ([[ZPDropboxUploader sharedUploader] queueSize] == 0) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        [self.statusBarViewController showMessage:nil withTimeout:0];
+        [self.statusBarViewController hideProgressView];
+        [self.statusBarViewController showMessage:@"Upload complete" withTimeout:3.0];
     }
 }
 
