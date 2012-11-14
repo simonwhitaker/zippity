@@ -160,6 +160,8 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
 - (void)serviceQueue
 {
     [self.serviceQueueTimer invalidate];
+    self.serviceQueueTimer = nil;
+    
     self.isServicingQueue = YES;
     
     if ([self.messageQueue count] == 0) {
