@@ -421,6 +421,8 @@
     NSString *message = [NSString stringWithFormat:format, fileWrapper.name];
     [self.statusBarViewController showMessage:message
                                   withTimeout:0.0];
+    [TestFlight passCheckpoint:@"Started uploading a file to Dropbox"];
+
 }
 
 - (void)handleDropboxUploadProgressNotification:(NSNotification *)notification

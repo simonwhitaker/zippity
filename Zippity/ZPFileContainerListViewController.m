@@ -745,6 +745,8 @@ enum {
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     [self presentViewController:nc animated:YES completion:NULL];
+
+    [TestFlight passCheckpoint:@"Showed Dropbox destination selection view"];
 }
 
 - (void)showInfoView:(id)sender
@@ -965,6 +967,9 @@ enum {
     NSData *selectionForDropboxUploadData = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsDropboxUploadSelection];
     NSString *dropboxUploadPreviousContainerPath = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsDropboxUploadCurrentContainerPath];
     if (selectionForDropboxUploadData != nil && [dropboxUploadPreviousContainerPath isEqualToString:self.container.url.absoluteString]) {
+        
+        [TestFlight passCheckpoint:@"Opened app after authenticating with Dropbox"];
+
         NSArray *selectionForDropboxUpload = [NSKeyedUnarchiver unarchiveObjectWithData:selectionForDropboxUploadData];
         if (!self.tableView.isEditing) {
             [self toggleEditMode];
