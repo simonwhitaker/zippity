@@ -46,6 +46,8 @@
     ];
     
     [self.navigationController setToolbarHidden:NO];
+    self.navigationController.navigationBar.tintColor = [UIColor darkGrayColor];
+    self.navigationController.toolbar.tintColor = [UIColor darkGrayColor];
 }
 
 - (void)viewWillAppear:(BOOL)animated
