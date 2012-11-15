@@ -966,7 +966,9 @@ enum {
     /* If we're reappearing after leaving the app to authenticate with Dropbox, pick up where we left off. */
     NSData *selectionForDropboxUploadData = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsDropboxUploadSelection];
     NSString *dropboxUploadPreviousContainerPath = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsDropboxUploadCurrentContainerPath];
-    if (selectionForDropboxUploadData != nil && [dropboxUploadPreviousContainerPath isEqualToString:self.container.url.absoluteString]) {
+    if (selectionForDropboxUploadData != nil
+        && [dropboxUploadPreviousContainerPath isEqualToString:self.container.url.absoluteString]
+        && [[DBSession sharedSession] isLinked]) {
         
         [TestFlight passCheckpoint:@"Opened app after authenticating with Dropbox"];
 
