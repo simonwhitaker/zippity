@@ -39,7 +39,10 @@
     
     self.toolbarItems = @[
         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-        [[UIBarButtonItem alloc] initWithTitle:@"Choose" style:UIBarButtonItemStyleDone target:self action:@selector(handleSelectDestination)]
+        [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Choose", @"Title for button that user taps to specify the current folder as the storage location for uploads.")
+                                         style:UIBarButtonItemStyleDone
+                                        target:self
+                                        action:@selector(handleSelectDestination)]
     ];
     
     [self.navigationController setToolbarHidden:NO];
@@ -54,7 +57,7 @@
     } else {
         self.title = [self.rootPath lastPathComponent];
     }
-    self.navigationItem.prompt = @"Choose a directory";
+    self.navigationItem.prompt = NSLocalizedString(@"Choose a destination for uploads.", @"Prompt asking user to select a destination folder on Dropbox to which uploads will be saved.") ;
     self.isLoading = YES;
     [self.dropboxClient loadMetadata:self.rootPath];
 }
@@ -96,11 +99,11 @@
     // Configure the cell...
     if (self.isLoading) {
         /* TODO: internationalise */
-        cell.textLabel.text = @"Loading...";
+        cell.textLabel.text = NSLocalizedString(@"Loading...", @"Progress message while app is loading a list of folders from Dropbox");
     } else if (self.subdirectories == nil) {
-        cell.textLabel.text = @"Error loading subdirectories";
+        cell.textLabel.text = NSLocalizedString(@"Error loading folder contents", @"Error message if the app couldn't load a list of a folder's contents from Dropbox");
     } else if ([self.subdirectories count] == 0) {
-        cell.textLabel.text = @"No subdirectories";
+        cell.textLabel.text = NSLocalizedString(@"Contains no folders", @"Status message when the current folder contains no sub-folders");
     } else {
         cell.textLabel.text = [[self.subdirectories objectAtIndex:indexPath.row] lastPathComponent];
         cell.imageView.image = [UIImage imageNamed:@"folder-icon.png"];

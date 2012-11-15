@@ -417,7 +417,8 @@
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
     ZPFileWrapper *fileWrapper = notification.userInfo[ZPDropboxUploaderFileWrapperKey];
-    NSString *message = [NSString stringWithFormat:@"Uploading %@ to Dropbox", fileWrapper.name];
+    NSString *format = NSLocalizedString(@"Uploading %@ to Dropbox", @"Message shown while uploading a file to Dropbox. %@ is replaced by the filename.");
+    NSString *message = [NSString stringWithFormat:format, fileWrapper.name];
     [self.statusBarViewController showMessage:message
                                   withTimeout:0.0];
 }
@@ -433,7 +434,7 @@
     if ([[ZPDropboxUploader sharedUploader] queueSize] == 0) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
         [self.statusBarViewController hideProgressView];
-        [self.statusBarViewController showMessage:@"Upload complete" withTimeout:3.0];
+        [self.statusBarViewController showMessage:NSLocalizedString(@"Upload complete", @"Status message shown when Dropbox upload session has completed") withTimeout:3.0];
     }
 }
 
