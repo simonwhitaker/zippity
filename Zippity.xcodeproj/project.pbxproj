@@ -345,30 +345,25 @@
 		F47DFD8B14ED5581007F7443 /* Views and controllers */ = {
 			isa = PBXGroup;
 			children = (
-				F44DAC6E1653A44B00534B1E /* GSProgressView.h */,
-				F44DAC6F1653A44B00534B1E /* GSProgressView.m */,
-				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
-				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
-				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
-				F47F537714ECD062009BF6FE /* ZPFileContainerListViewController.h */,
-				F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */,
-				F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */,
-				F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */,
-				F482B0ED152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib */,
+				F42E46101505E01900DBAF17 /* Image gallery */,
+				F453B8F5153ADDBA00C60685 /* ZPAboutViewController-iPad.xib */,
 				F4D3481E151C90B8008B706A /* ZPAboutViewController.h */,
 				F4D3481F151C90B8008B706A /* ZPAboutViewController.m */,
 				F482B10C152BA43100E8965B /* ZPAboutViewController.xib */,
-				F453B8F5153ADDBA00C60685 /* ZPAboutViewController-iPad.xib */,
-				F42E46101505E01900DBAF17 /* Image gallery */,
+				F4209E29164954F70081C111 /* ZPDropboxDestinationSelectionViewController.h */,
+				F4209E2A164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m */,
 				F453B8F0153AA5AF00C60685 /* ZPEmptyViewController.h */,
 				F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */,
 				F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */,
-				F418A5B3153B17D5005F83A9 /* ZPPreviewController.h */,
-				F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */,
 				F4A0CE5E1582C314001A2DC2 /* ZPEncodingPickerViewController.h */,
 				F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */,
-				F4209E29164954F70081C111 /* ZPDropboxDestinationSelectionViewController.h */,
-				F4209E2A164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m */,
+				F47F537714ECD062009BF6FE /* ZPFileContainerListViewController.h */,
+				F47F537814ECD062009BF6FE /* ZPFileContainerListViewController.m */,
+				F418A5B3153B17D5005F83A9 /* ZPPreviewController.h */,
+				F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */,
+				F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */,
+				F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */,
+				F482B0ED152B916C00E8965B /* ZPUnrecognisedFileTypeViewController.xib */,
 			);
 			name = "Views and controllers";
 			sourceTree = "<group>";
@@ -376,9 +371,14 @@
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
 			isa = PBXGroup;
 			children = (
-				F490E90A1607B57200C530F8 /* libarchive */,
+				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
+				F44DAC6E1653A44B00534B1E /* GSProgressView.h */,
 				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
+				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
+				F44DAC6F1653A44B00534B1E /* GSProgressView.m */,
 				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
+				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
+				F490E90A1607B57200C530F8 /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
 			name = "Third-party libraries";

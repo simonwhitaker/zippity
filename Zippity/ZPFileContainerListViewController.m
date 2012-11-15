@@ -78,6 +78,7 @@ enum {
 - (void)saveSelectedImages:(id)sender;
 - (void)updateToolbarButtons;
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
+- (void)showDropboxDestinationSelectionView:(id)sender;
 
 // Prior to iOS 5.1, split view controller popovers shown in
 // standard UIPopoverController views. From iOS 5.1 onwards they're
@@ -209,7 +210,6 @@ enum {
     if (self.isRoot) {
         [self.container reloadContainerContents];
     }
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -645,16 +645,14 @@ enum {
             /* Handle Dropbox uploads */
             self.selectedIndexPathsForDropboxUpload = [self.tableView indexPathsForSelectedRows];
             if (![[DBSession sharedSession] isLinked]) {
-                /* TODO: save selection state, restore after authorising Dropbox */
+                [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:self.selectedIndexPathsForDropboxUpload]
+                                                          forKey:kZPDefaultsDropboxUploadSelection];
+                [[NSUserDefaults standardUserDefaults] setObject:self.container.url.absoluteString forKey:kZPDefaultsDropboxUploadCurrentContainerPath];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 [[DBSession sharedSession] linkFromController:self];
+            } else {
+                [self showDropboxDestinationSelectionView:nil];
             }
-                        
-            ZPDropboxDestinationSelectionViewController *vc = [[ZPDropboxDestinationSelectionViewController alloc] init];
-            vc.delegate = self;
-            vc.rootPath = @"/";
-            UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
-            nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-            [self presentViewController:nc animated:YES completion:NULL];
         }
     } else if (actionSheet.tag == GSFileContainerListViewActionSheetDelete) {
         if (buttonIndex == actionSheet.destructiveButtonIndex) {
@@ -738,6 +736,16 @@ enum {
 }
 
 #pragma mark - UI event handlers
+
+- (void)showDropboxDestinationSelectionView:(id)sender
+{
+    ZPDropboxDestinationSelectionViewController *vc = [[ZPDropboxDestinationSelectionViewController alloc] init];
+    vc.delegate = self;
+    vc.rootPath = @"/";
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self presentViewController:nc animated:YES completion:NULL];
+}
 
 - (void)showInfoView:(id)sender
 {
@@ -952,6 +960,26 @@ enum {
 - (void)handleApplicationDidBecomeActiveNotification:(NSNotification *)notification
 {
     [self.tableView reloadData];
+        
+    /* If we're reappearing after leaving the app to authenticate with Dropbox, pick up where we left off. */
+    NSData *selectionForDropboxUploadData = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsDropboxUploadSelection];
+    NSString *dropboxUploadPreviousContainerPath = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsDropboxUploadCurrentContainerPath];
+    if (selectionForDropboxUploadData != nil && [dropboxUploadPreviousContainerPath isEqualToString:self.container.url.absoluteString]) {
+        NSArray *selectionForDropboxUpload = [NSKeyedUnarchiver unarchiveObjectWithData:selectionForDropboxUploadData];
+        if (!self.tableView.isEditing) {
+            [self toggleEditMode];
+        }
+        for (NSIndexPath *ip in selectionForDropboxUpload) {
+            NSLog(@"Selecting row at indexPath %@", ip);
+            [self.tableView selectRowAtIndexPath:ip animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [self updateToolbarButtons];
+        }
+        /* Show the Dropbox destination selection dialog, but wait a short while first so that the user sees that their selection's still intact first. */
+        [self performSelector:@selector(showDropboxDestinationSelectionView:) withObject:nil afterDelay:1.0];
+    }
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kZPDefaultsDropboxUploadSelection];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kZPDefaultsDropboxUploadCurrentContainerPath];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)viewControllerShouldDismiss:(UIViewController *)viewController wasCancelled:(BOOL)wasCancelled
