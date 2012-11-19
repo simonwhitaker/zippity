@@ -54,6 +54,9 @@
 {
     [super viewWillAppear:animated];
     
+    if (self.rootPath == nil)
+        self.rootPath = @"/";
+    
     if ([self.rootPath isEqualToString:@"/"]) {
         self.title = @"Dropbox";
     } else {
@@ -61,13 +64,31 @@
     }
     self.navigationItem.prompt = NSLocalizedString(@"Choose a destination for uploads.", @"Prompt asking user to select a destination folder on Dropbox to which uploads will be saved.") ;
     self.isLoading = YES;
-    [self.dropboxClient loadMetadata:self.rootPath];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (![[DBSession sharedSession] isLinked]) {
+        [[DBSession sharedSession] linkFromController:self];
+    } else {
+        [self.dropboxClient loadMetadata:self.rootPath];
+    }
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    if (isIpad)
+        return YES;
+    
+    return toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
 - (DBRestClient *)dropboxClient

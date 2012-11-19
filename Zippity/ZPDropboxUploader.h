@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ZPFileWrapper.h"
 
 @interface ZPDropboxUploader : NSObject
 
@@ -17,11 +16,11 @@ extern NSString *const ZPDropboxUploaderDidGetProgressUpdateNotification;
 extern NSString *const ZPDropboxUploaderDidFailNotification;
 
 // UserInfo dictionary keys
-extern NSString *const ZPDropboxUploaderFileWrapperKey;
+extern NSString *const ZPDropboxUploaderFileURLKey;
 extern NSString *const ZPDropboxUploaderProgressKey;
 
 + (ZPDropboxUploader*)sharedUploader;
-- (void)uploadFileWrapper:(ZPFileWrapper*)fileWrapper toPath:(NSString*)destinationPath;
+- (void)uploadFileWithURL:(NSURL *)fileURL toPath:(NSString*)destinationPath;
 - (NSUInteger)queueSize;
 - (void)start;
 

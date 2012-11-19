@@ -29,6 +29,7 @@
 #import "ZPEncodingPickerViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 #import "ZPDropboxDestinationSelectionViewController.h"
+#import "ZPDropboxActivity.h"
 
 // ZPArchive.h for the error codes
 #import "ZPArchive.h" 
@@ -724,7 +725,7 @@ enum {
         NSLog(@"Uploading files to %@", destinationPath);
         for (NSIndexPath *indexPath in self.selectedIndexPathsForDropboxUpload) {
             ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-            [[ZPDropboxUploader sharedUploader] uploadFileWrapper:wrapper toPath:destinationPath];
+            [[ZPDropboxUploader sharedUploader] uploadFileWithURL:wrapper.url toPath:destinationPath];
         }
         [[ZPDropboxUploader sharedUploader] start];
         self.selectedIndexPathsForDropboxUpload = nil;
@@ -747,6 +748,7 @@ enum {
     vc.rootPath = @"/";
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    nc.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:nc animated:YES completion:NULL];
 
     [TestFlight passCheckpoint:@"Showed Dropbox destination selection view"];
@@ -832,7 +834,16 @@ enum {
         for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
             [itemsToShare addObject:[self.container fileWrapperAtIndex:indexPath.row]];
         }
-        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        NSArray *applicationActivities = @[
+            [[ZPDropboxActivity alloc] init]
+        ];
+        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare
+                                                                         applicationActivities:applicationActivities];
+        vc.completionHandler = ^(NSString *activityType, BOOL completed){
+            // Exit edit mode on completion.
+            if (self.tableView.isEditing)
+                [self toggleEditMode];
+        };
         if ([itemsToShare count] > 1) {
             vc.excludedActivityTypes = @[UIActivityTypeAssignToContact];
         }

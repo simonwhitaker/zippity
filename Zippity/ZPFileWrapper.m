@@ -12,6 +12,7 @@
 #import "ZPAppDelegate.h"
 #import "ZPArchive.h"
 #import "ZPFileWrapper.h"
+#import "ZPDropboxActivity.h"
 
 #define kBytesInKilobyte 1024
 #define kDisplayImageMaxDimension 1250.0
@@ -331,7 +332,14 @@ static NSArray * SupportedArchiveTypes;
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType
 {
-    return [self activityViewControllerPlaceholderItem:activityViewController];
+    // Return a UIImage if this is an image file and we're not looking for the
+    // dropbox activity type. (With Dropbox we treat images just like any other
+    // files.)
+    if (self.isImageFile && ![activityType isEqualToString:[ZPDropboxActivity activityTypeString]]) {
+        return [UIImage imageWithContentsOfFile:self.url.path];
+    } else {
+        return self.url;
+    }
 }
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController

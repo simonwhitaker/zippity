@@ -85,6 +85,9 @@
                                                    appSecret:@"cz04gux12ldrfua"
                                                         root:kDBRootDropbox];
     [DBSession setSharedSession:dbSession];
+
+    // NOTE: for testing only, don't check in!
+    //[[DBSession sharedSession] unlinkAll];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -416,13 +419,12 @@
 - (void)handleDropboxUploadStartedNotification:(NSNotification *)notification
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    ZPFileWrapper *fileWrapper = notification.userInfo[ZPDropboxUploaderFileWrapperKey];
+    NSURL *fileURL = notification.userInfo[ZPDropboxUploaderFileURLKey];
     NSString *format = NSLocalizedString(@"Uploading %@ to Dropbox", @"Message shown while uploading a file to Dropbox. %@ is replaced by the filename.");
-    NSString *message = [NSString stringWithFormat:format, fileWrapper.name];
+    NSString *message = [NSString stringWithFormat:format, fileURL.lastPathComponent];
     [self.statusBarViewController showMessage:message
                                   withTimeout:0.0];
     [TestFlight passCheckpoint:@"Started uploading a file to Dropbox"];
-
 }
 
 - (void)handleDropboxUploadProgressNotification:(NSNotification *)notification

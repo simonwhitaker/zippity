@@ -19,6 +19,11 @@
 		F41113A2152341270052E1B3 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41113A0152341270052E1B3 /* info@2x.png */; };
 		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
 		F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41385B515134AF80087B896 /* QuartzCore.framework */; };
+		F4174E5F165A8A90007A17B4 /* ZPDropboxActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4174E5E165A8A90007A17B4 /* ZPDropboxActivity.m */; };
+		F4174E63165A8F28007A17B4 /* dropbox-activity-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174E61165A8F28007A17B4 /* dropbox-activity-icon.png */; };
+		F4174E64165A8F28007A17B4 /* dropbox-activity-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174E62165A8F28007A17B4 /* dropbox-activity-icon@2x.png */; };
+		F4174E67165A9D6D007A17B4 /* dropbox-activity-icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174E65165A9D6D007A17B4 /* dropbox-activity-icon@2x~ipad.png */; };
+		F4174E68165A9D6D007A17B4 /* dropbox-activity-icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4174E66165A9D6D007A17B4 /* dropbox-activity-icon~ipad.png */; };
 		F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */; };
 		F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */; };
 		F4209E14164942A50081C111 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4209E13164942A50081C111 /* DropboxSDK.framework */; };
@@ -133,6 +138,12 @@
 		F41385B115134AEA0087B896 /* GSSmokedInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSSmokedInfoView.h; sourceTree = "<group>"; };
 		F41385B215134AEA0087B896 /* GSSmokedInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSSmokedInfoView.m; sourceTree = "<group>"; };
 		F41385B515134AF80087B896 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F4174E5D165A8A90007A17B4 /* ZPDropboxActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPDropboxActivity.h; sourceTree = "<group>"; };
+		F4174E5E165A8A90007A17B4 /* ZPDropboxActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPDropboxActivity.m; sourceTree = "<group>"; };
+		F4174E61165A8F28007A17B4 /* dropbox-activity-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox-activity-icon.png"; sourceTree = "<group>"; };
+		F4174E62165A8F28007A17B4 /* dropbox-activity-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox-activity-icon@2x.png"; sourceTree = "<group>"; };
+		F4174E65165A9D6D007A17B4 /* dropbox-activity-icon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox-activity-icon@2x~ipad.png"; sourceTree = "<group>"; };
+		F4174E66165A9D6D007A17B4 /* dropbox-activity-icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox-activity-icon~ipad.png"; sourceTree = "<group>"; };
 		F417C788150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F418A5B3153B17D5005F83A9 /* ZPPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPPreviewController.h; sourceTree = "<group>"; };
@@ -460,6 +471,8 @@
 				F40144F4151263690036AF48 /* ZPDefaultsKeys.h */,
 				F4209E1816494B120081C111 /* ZPDropboxUploader.h */,
 				F4209E1916494B120081C111 /* ZPDropboxUploader.m */,
+				F4174E5D165A8A90007A17B4 /* ZPDropboxActivity.h */,
+				F4174E5E165A8A90007A17B4 /* ZPDropboxActivity.m */,
 			);
 			name = "App core";
 			sourceTree = "<group>";
@@ -485,6 +498,10 @@
 		F4B9909E14EE820C00F8FBD8 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F4174E65165A9D6D007A17B4 /* dropbox-activity-icon@2x~ipad.png */,
+				F4174E66165A9D6D007A17B4 /* dropbox-activity-icon~ipad.png */,
+				F4174E61165A8F28007A17B4 /* dropbox-activity-icon.png */,
+				F4174E62165A8F28007A17B4 /* dropbox-activity-icon@2x.png */,
 				F482789C151D2B2600E62CD0 /* iTunesArtwork */,
 				F4EE2220153CC4D4007001D1 /* Default-Landscape@2x~ipad.png */,
 				F4EE221E153CC4CF007001D1 /* Default-Landscape~ipad.png */,
@@ -679,6 +696,10 @@
 				F49ECAF416065A8A006B8CCF /* Default-568h@2x.png in Resources */,
 				F490E90C1607B58C00C530F8 /* archive_entry.h in Resources */,
 				F490E90E1607B59A00C530F8 /* archive.h in Resources */,
+				F4174E63165A8F28007A17B4 /* dropbox-activity-icon.png in Resources */,
+				F4174E64165A8F28007A17B4 /* dropbox-activity-icon@2x.png in Resources */,
+				F4174E67165A9D6D007A17B4 /* dropbox-activity-icon@2x~ipad.png in Resources */,
+				F4174E68165A9D6D007A17B4 /* dropbox-activity-icon~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -746,6 +767,7 @@
 				F4209E2B164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m in Sources */,
 				F461C03116529AC200BCB6E6 /* GSStatusBarViewController.m in Sources */,
 				F44DAC701653A44B00534B1E /* GSProgressView.m in Sources */,
+				F4174E5F165A8A90007A17B4 /* ZPDropboxActivity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
