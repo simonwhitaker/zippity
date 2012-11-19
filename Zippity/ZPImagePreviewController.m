@@ -21,6 +21,7 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 @property (nonatomic) NSUInteger currentIndex;
 @property (nonatomic, retain) NSMutableSet * visiblePages;
 @property (nonatomic, retain) NSMutableSet * reusablePages;
+@property (nonatomic, retain) UIPopoverController *activityPopoverController;
 
 - (void)handleActionButton:(id)sender;
 
@@ -375,45 +376,63 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 - (void)handleActionButton:(id)sender
 {
-    if (self.actionSheet) {
-        [self.actionSheet dismissWithClickedButtonIndex:self.actionSheet.cancelButtonIndex animated:YES];
-        return;
+    if (NSClassFromString(@"UIActivityViewController") != nil) {
+        ZPFileWrapper *currentWrapper = [self.imageFileWrappers objectAtIndex:self.currentIndex];
+        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[currentWrapper]
+                                                                         applicationActivities:nil];
+        if (isIpad) {
+            if ([self.activityPopoverController isPopoverVisible]) {
+                [self.activityPopoverController dismissPopoverAnimated:YES];
+            } else {
+                self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+                [self.activityPopoverController presentPopoverFromBarButtonItem:sender
+                                                       permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                                       animated:YES];
+            }
+        } else {
+            [self presentViewController:vc animated:YES completion:^{}];
+        }
+    } else {
+        if (self.actionSheet) {
+            [self.actionSheet dismissWithClickedButtonIndex:self.actionSheet.cancelButtonIndex animated:YES];
+            return;
+        }
+        
+        ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
+        
+        UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
+                                                        delegate:self
+                                               cancelButtonTitle:nil
+                                          destructiveButtonTitle:nil
+                                               otherButtonTitles:ActionMenuSaveToPhotosButtonTitle, nil];
+
+
+        // Determine whether we can show an Open In... menu for this image
+        UIView *tempView = [[UIView alloc] init];
+        CGRect frame = self.view.frame;
+        frame.origin.x = frame.size.width; // draw the view off-screen
+        [tempView setFrame:frame];
+        [self.view addSubview:tempView];
+        
+        BOOL hasOpenInMenu = [[currentPhoto documentInteractionController] presentOpenInMenuFromRect:CGRectZero 
+                                                                                              inView:tempView
+                                                                                            animated:NO];
+        [[currentPhoto documentInteractionController] dismissMenuAnimated:NO];
+        [tempView removeFromSuperview];
+        
+        if (hasOpenInMenu) {
+            [as addButtonWithTitle:ActionMenuOpenInButtonTitle];
+        }
+        
+        // Add the cancel button and set its index
+        [as addButtonWithTitle:ActionMenuCancelButtonTitle];
+        [as setCancelButtonIndex:[as numberOfButtons] - 1];
+
+        // Show the action sheet
+        [as showFromBarButtonItem:sender animated:YES];
+
+        self.actionSheet = as;
     }
-    
-    ZPFileWrapper *currentPhoto = [self.imageFileWrappers objectAtIndex:self.currentIndex];
-    
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
-                                                    delegate:self
-                                           cancelButtonTitle:nil
-                                      destructiveButtonTitle:nil
-                                           otherButtonTitles:ActionMenuSaveToPhotosButtonTitle, nil];
-
-
-    // Determine whether we can show an Open In... menu for this image
-    UIView *tempView = [[UIView alloc] init];
-    CGRect frame = self.view.frame;
-    frame.origin.x = frame.size.width; // draw the view off-screen
-    [tempView setFrame:frame];
-    [self.view addSubview:tempView];
-    
-    BOOL hasOpenInMenu = [[currentPhoto documentInteractionController] presentOpenInMenuFromRect:CGRectZero 
-                                                                                          inView:tempView
-                                                                                        animated:NO];
-    [[currentPhoto documentInteractionController] dismissMenuAnimated:NO];
-    [tempView removeFromSuperview];
-    
-    if (hasOpenInMenu) {
-        [as addButtonWithTitle:ActionMenuOpenInButtonTitle];
-    }
-    
-    // Add the cancel button and set its index
-    [as addButtonWithTitle:ActionMenuCancelButtonTitle];
-    [as setCancelButtonIndex:[as numberOfButtons] - 1];
-
-    // Show the action sheet
-    [as showFromBarButtonItem:sender animated:YES];
-
-    self.actionSheet = as;
 }
 
 @end

@@ -327,6 +327,22 @@ static NSArray * SupportedArchiveTypes;
     _attributes = [attributes copy];
 }
 
+#pragma mark - UIActivityDataSource methods
+
+- (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType
+{
+    return [self activityViewControllerPlaceholderItem:activityViewController];
+}
+
+- (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController
+{
+    if (self.isImageFile) {
+        return [UIImage imageWithContentsOfFile:self.url.path];
+    } else {
+        return self.url;
+    }
+}
+
 @end
 
 //------------------------------------------------------------

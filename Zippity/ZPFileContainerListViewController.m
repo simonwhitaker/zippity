@@ -66,6 +66,9 @@ enum {
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
 @property (nonatomic, retain) NSArray *selectedImageFileWrappers;
 
+// Declare a popover controller for showing activity menus in iOS 6 on iPad
+@property (nonatomic, retain) UIPopoverController *activityPopoverController;
+
 - (void)handleContentsReloaded:(NSNotification*)notification;
 - (void)handleContentsFailedToReload:(NSNotification*)notification;
 - (void)handleApplicationDidBecomeActiveNotification:(NSNotification*)notification;
@@ -772,43 +775,68 @@ enum {
 
 - (void)shareSelectedItems:(id)sender
 {
-    if (self.currentActionSheet) {
-        BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetShare;
-        [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
-        if (wasShowing) {
-            return;
+    if (NSClassFromString(@"UIActivityViewController") != nil) {
+        // Use the iOS 6 activity view controller
+        NSMutableArray *itemsToShare = [NSMutableArray array];
+        for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+            [itemsToShare addObject:[self.container fileWrapperAtIndex:indexPath.row]];
         }
-    }
+        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        if ([itemsToShare count] > 1) {
+            vc.excludedActivityTypes = @[UIActivityTypeAssignToContact];
+        }
+        if (isIpad) {
+            // TODO: show in popover controller
+            if ([self.activityPopoverController isPopoverVisible]) {
+                [self.activityPopoverController dismissPopoverAnimated:YES];
+            } else {
+                self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+                [self.activityPopoverController presentPopoverFromBarButtonItem:sender
+                                                       permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                                       animated:YES];
+            }
+        } else {
+            [self presentViewController:vc animated:YES completion:^{}];
+        }
+    } else {
+        if (self.currentActionSheet) {
+            BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetShare;
+            [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
+            if (wasShowing) {
+                return;
+            }
+        }
 
-    NSString *title;
-    if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
-        NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
-        ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
-        NSString *formatString = NSLocalizedString(@"Share %@", 
-                                                   @"The title for a confirmation dialog shown when sharing a file. %@ is replaced by the filename of a single selected file.");
-        title = [NSString stringWithFormat:formatString, fileWrapper.name];
-    } else {
-        NSString *formatString = NSLocalizedString(@"Share %u files", 
-                                                   @"The title for a confirmation dialog shown when sharing files. %u is replaced by the number of selected files.");
-        title = [NSString stringWithFormat:formatString, [[self.tableView indexPathsForSelectedRows] count]];
+        NSString *title;
+        if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
+            NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
+            ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
+            NSString *formatString = NSLocalizedString(@"Share %@", 
+                                                       @"The title for a confirmation dialog shown when sharing a file. %@ is replaced by the filename of a single selected file.");
+            title = [NSString stringWithFormat:formatString, fileWrapper.name];
+        } else {
+            NSString *formatString = NSLocalizedString(@"Share %u files", 
+                                                       @"The title for a confirmation dialog shown when sharing files. %u is replaced by the number of selected files.");
+            title = [NSString stringWithFormat:formatString, [[self.tableView indexPathsForSelectedRows] count]];
+        }
+        UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
+                                                        delegate:self
+                                               cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
+                                          destructiveButtonTitle:nil
+                                               otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], nil];
+        as.tag = GSFileContainerListViewActionSheetShare;
+        
+        if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
+            // Presenting an alert view from a button in a popover on iPad running 
+            // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
+            // So we'll show the alert view from the window instead.
+            [as showInView:self.view.window];
+        } else {
+            [as showFromBarButtonItem:sender animated:YES];
+        }
+        
+        self.currentActionSheet = as;
     }
-    UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
-                                                    delegate:self
-                                           cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
-                                      destructiveButtonTitle:nil
-                                           otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], nil];
-    as.tag = GSFileContainerListViewActionSheetShare;
-    
-    if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-        // Presenting an alert view from a button in a popover on iPad running 
-        // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
-        // So we'll show the alert view from the window instead.
-        [as showInView:self.view.window];
-    } else {
-        [as showFromBarButtonItem:sender animated:YES];
-    }
-    
-    self.currentActionSheet = as;
 }
 
 - (void)deleteSelectedItems:(id)sender
