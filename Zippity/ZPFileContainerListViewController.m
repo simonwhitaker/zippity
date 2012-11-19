@@ -162,7 +162,8 @@ enum {
         tempButton.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
-    } else {
+    } else if (NSClassFromString(@"UIActivityViewController") == nil) {
+        // Don't have the iOS 6 activity view controller, so add a "Save images" button
         tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Save Images" value:nil table:nil]
                                                       style:UIBarButtonItemStyleBordered
                                                      target:self
