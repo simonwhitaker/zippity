@@ -51,7 +51,7 @@ static NSArray * allEncodings = nil;
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        self.title = @"Choose Encoding";
+        self.title = NSLocalizedString(@"Choose Encoding", @"Title shown on a dialog prompting the user for the character encoding used in a Zip file");
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                                target:self
                                                                                                action:@selector(cancel)];
@@ -86,7 +86,7 @@ static NSArray * allEncodings = nil;
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    return @"Choose the encoding used to encode filenames in this archive";
+    return NSLocalizedString(@"Choose the encoding used to encode filenames in this archive", @"Explanatory text shown above a list of available character encodings.");
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -109,7 +109,9 @@ static NSArray * allEncodings = nil;
     NSString * filenameInEncoding = [NSString stringWithCString:[self.sampleFilenameCString bytes]
                                                        encoding:[[[self.encodings objectAtIndex:indexPath.row] valueForKey:@"encoding"] unsignedIntegerValue]];
     cell.textLabel.text = [[self.encodings objectAtIndex:indexPath.row] valueForKey:@"name"];
-    cell.detailTextLabel.text = [@"Example: " stringByAppendingString:filenameInEncoding];
+    
+    NSString *format = NSLocalizedString(@"Example: %@", @"Shows an example of a filename from the zip file interpreted using a particular character encoding.");
+    cell.detailTextLabel.text = [NSString stringWithFormat:format, filenameInEncoding];
     
     return cell;
 }
