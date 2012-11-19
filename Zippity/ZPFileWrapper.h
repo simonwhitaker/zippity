@@ -32,7 +32,7 @@ typedef enum {
     ZPFileWrapperErrorFailedToExtractArchive,
 } ZPFileWrapperErrorCode;
 
-@interface ZPFileWrapper : NSObject {
+@interface ZPFileWrapper : NSObject <UIActivityItemSource> {
     NSDictionary * _attributes;
     NSString * _name;
     NSString * _humanFileSize;
