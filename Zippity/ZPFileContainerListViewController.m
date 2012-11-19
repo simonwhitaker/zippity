@@ -842,7 +842,7 @@ enum {
                                                                          applicationActivities:applicationActivities];
         vc.completionHandler = ^(NSString *activityType, BOOL completed){
             // Exit edit mode on completion.
-            if (self.tableView.isEditing)
+            if (self.tableView.isEditing && completed)
                 [self toggleEditMode];
         };
         if ([itemsToShare count] > 1) {
