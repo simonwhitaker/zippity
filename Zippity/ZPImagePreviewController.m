@@ -384,7 +384,11 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
             if ([self.activityPopoverController isPopoverVisible]) {
                 [self.activityPopoverController dismissPopoverAnimated:YES];
             } else {
-                self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+                if (self.activityPopoverController) {
+                    [self.activityPopoverController setContentViewController:vc];
+                } else {
+                    self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+                }
                 [self.activityPopoverController presentPopoverFromBarButtonItem:sender
                                                        permittedArrowDirections:UIPopoverArrowDirectionAny
                                                                        animated:YES];
