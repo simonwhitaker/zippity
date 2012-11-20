@@ -9,6 +9,7 @@
 #import "GSSmokedInfoView.h"
 #import "ZPImagePreviewController.h"
 #import "ZPImageScrollView.h"
+#import "ZPDropboxActivity.h"
 
 static NSString * ActionMenuSaveToPhotosButtonTitle; // = @"Save To Photos";
 static NSString * ActionMenuOpenInButtonTitle; // = @"Open In...";
@@ -378,13 +379,25 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 {
     if (NSClassFromString(@"UIActivityViewController") != nil) {
         ZPFileWrapper *currentWrapper = [self.imageFileWrappers objectAtIndex:self.currentIndex];
+        NSArray *applicationActivities = @[
+            [[ZPDropboxActivity alloc] init]
+        ];
         UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[currentWrapper]
-                                                                         applicationActivities:nil];
+                                                                         applicationActivities:applicationActivities];
+        vc.completionHandler = ^(NSString *activityType, BOOL completed) {
+            if (isIpad)
+                [self.activityPopoverController dismissPopoverAnimated:YES];
+        };
+        
         if (isIpad) {
             if ([self.activityPopoverController isPopoverVisible]) {
                 [self.activityPopoverController dismissPopoverAnimated:YES];
             } else {
-                self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+                if (self.activityPopoverController) {
+                    [self.activityPopoverController setContentViewController:vc];
+                } else {
+                    self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+                }
                 [self.activityPopoverController presentPopoverFromBarButtonItem:sender
                                                        permittedArrowDirections:UIPopoverArrowDirectionAny
                                                                        animated:YES];

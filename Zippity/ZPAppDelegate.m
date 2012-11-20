@@ -11,12 +11,17 @@
 #import "ZPEmptyViewController.h"
 #import "ZPImagePreviewController.h"
 #import "ZPPreviewController.h"
+#import <DropboxSDK/DropboxSDK.h>
+#import "ZPDropboxUploader.h"
 
 #define kMaxSuffixesToTry 100
 
 @interface ZPAppDelegate()
 
 - (NSString*)documentsDirectory;
+- (void)handleDropboxUploadStartedNotification:(NSNotification *)notification;
+- (void)handleDropboxUploadProgressNotification:(NSNotification *)notification;
+- (void)updateDropboxUploadStatus;
 
 @end
 
@@ -75,6 +80,14 @@
 #pragma clang diagnostic pop
 #endif
 
+    /* Initialise Dropbox SDK */
+    DBSession *dbSession = [[DBSession alloc] initWithAppKey:@"3rrp23i61km7y4p"
+                                                   appSecret:@"cz04gux12ldrfua"
+                                                        root:kDBRootDropbox];
+    [DBSession setSharedSession:dbSession];
+
+    // NOTE: for testing only, don't check in!
+    //[[DBSession sharedSession] unlinkAll];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
@@ -119,7 +132,11 @@
         self.splitViewController.viewControllers = [NSArray arrayWithObjects:nc, self.detailViewNavigationController, nil];
         self.window.rootViewController = self.splitViewController;
     } else {
-        self.window.rootViewController = nc;
+        GSStatusBarViewController *statusBarViewController = [[GSStatusBarViewController alloc] initWithContentViewController:nc];
+        self.window.rootViewController = statusBarViewController;
+
+        // Store a weak ref to the status bar controller
+        self.statusBarViewController = statusBarViewController;
     }
     
     [self.window makeKeyAndVisible];
@@ -143,6 +160,7 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -157,6 +175,11 @@
     /*
      Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
      */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxUploadStartedNotification:) name:ZPDropboxUploaderDidStartUploadingFileNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDropboxUploadStatus) name:ZPDropboxUploaderDidFinishUploadingFileNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDropboxUploadStatus) name:ZPDropboxUploaderDidFailNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleDropboxUploadProgressNotification:) name:ZPDropboxUploaderDidGetProgressUpdateNotification object:nil];
+    
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [defaults synchronize];
     BOOL shoudClearCache = [defaults boolForKey:kZPDefaultsClearCacheKey];
@@ -179,6 +202,9 @@
     }
     [defaults setBool:NO forKey:kZPDefaultsClearCacheKey];
     [defaults synchronize];
+    
+    // FIXME: get rid of this - just for testing
+    //[self.statusBarViewController showMessage:@"Foo bar" withTimeout:0];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -190,8 +216,16 @@
      */
 }
 
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{    
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    if ([[DBSession sharedSession] handleOpenURL:url]) {
+        if ([[DBSession sharedSession] isLinked]) {
+            NSLog(@"App linked to Dropbox successfully");
+        } else {
+            NSLog(@"App not linked to Dropbox!");
+        }
+        return YES;
+    }
     // Dismiss the info view if it's visible
     [self.masterViewNavigationController dismissModalViewControllerAnimated:NO];
     
@@ -379,6 +413,32 @@
 {
     if (isIpad && navigationController == self.masterViewNavigationController) {
         self.masterPopoverButton.title = viewController.title;
+    }
+}
+
+- (void)handleDropboxUploadStartedNotification:(NSNotification *)notification
+{
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+    NSURL *fileURL = notification.userInfo[ZPDropboxUploaderFileURLKey];
+    NSString *format = NSLocalizedString(@"Uploading %@ to Dropbox", @"Message shown while uploading a file to Dropbox. %@ is replaced by the filename.");
+    NSString *message = [NSString stringWithFormat:format, fileURL.lastPathComponent];
+    [self.statusBarViewController showMessage:message
+                                  withTimeout:0.0];
+    [TestFlight passCheckpoint:@"Started uploading a file to Dropbox"];
+}
+
+- (void)handleDropboxUploadProgressNotification:(NSNotification *)notification
+{
+    CGFloat progress = [notification.userInfo[ZPDropboxUploaderProgressKey] floatValue];
+    [self.statusBarViewController showProgressViewWithProgress:progress];
+}
+
+- (void)updateDropboxUploadStatus
+{
+    if ([[ZPDropboxUploader sharedUploader] queueSize] == 0) {
+        [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+        [self.statusBarViewController hideProgressView];
+        [self.statusBarViewController showMessage:NSLocalizedString(@"Upload complete", @"Status message shown when Dropbox upload session has completed") withTimeout:3.0];
     }
 }
 

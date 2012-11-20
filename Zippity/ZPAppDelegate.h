@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ZPFileContainerListViewController.h"
+#import "GSStatusBarViewController.h"
 
 @interface ZPAppDelegate : UIResponder <UIApplicationDelegate, UISplitViewControllerDelegate, UINavigationControllerDelegate> {
     NSString * _documentsDirectory;
@@ -21,6 +22,9 @@
 @property (readonly) NSString *documentsDirectory;
 @property (readonly) NSString *cacheDirectory;
 @property (weak, nonatomic) UINavigationController *masterViewNavigationController;
+
+// iPhone-only stuff
+@property (weak, nonatomic) GSStatusBarViewController *statusBarViewController;
 
 // iPad-only stuff
 @property (strong, nonatomic) UISplitViewController *splitViewController;

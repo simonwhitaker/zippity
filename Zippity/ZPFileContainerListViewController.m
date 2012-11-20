@@ -27,6 +27,9 @@
 #import "ZPPreviewController.h"
 #import "ZPUnrecognisedFileTypeViewController.h"
 #import "ZPEncodingPickerViewController.h"
+#import <DropboxSDK/DropboxSDK.h>
+#import "ZPDropboxDestinationSelectionViewController.h"
+#import "ZPDropboxActivity.h"
 
 // ZPArchive.h for the error codes
 #import "ZPArchive.h" 
@@ -60,7 +63,7 @@ enum {
 
 @end
 
-@interface ZPFileContainerListViewController()
+@interface ZPFileContainerListViewController() <ZPDropboxDestinationSelectionViewControllerDelegate>
 
 @property (nonatomic, retain) UIBarButtonItem *editButton;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
@@ -79,6 +82,7 @@ enum {
 - (void)saveSelectedImages:(id)sender;
 - (void)updateToolbarButtons;
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
+- (void)showDropboxDestinationSelectionView:(id)sender;
 
 // Prior to iOS 5.1, split view controller popovers shown in
 // standard UIPopoverController views. From iOS 5.1 onwards they're
@@ -158,7 +162,8 @@ enum {
         tempButton.tintColor = [UIColor colorWithRed:0.7 green:0.0 blue:0.0 alpha:1.0];
         [toolbarButtons addObject:tempButton];
         self.deleteButton = tempButton;
-    } else {
+    } else if (NSClassFromString(@"UIActivityViewController") == nil) {
+        // Don't have the iOS 6 activity view controller, so add a "Save images" button
         tempButton = [[UIBarButtonItem alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Save Images" value:nil table:nil]
                                                       style:UIBarButtonItemStyleBordered
                                                      target:self
@@ -210,7 +215,6 @@ enum {
     if (self.isRoot) {
         [self.container reloadContainerContents];
     }
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -597,7 +601,8 @@ enum {
     self.currentActionSheet = nil;
 
     if (actionSheet.tag == GSFileContainerListViewActionSheetShare) {
-        NSString * emailLabel = [[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil];
+        NSString *emailLabel = [[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil];
+        NSString *dropboxLabel = [[NSBundle mainBundle] localizedStringForKey:@"Dropbox" value:nil table:nil];
         
         if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:emailLabel]) {
             if ([MFMailComposeViewController canSendMail]) {
@@ -639,6 +644,19 @@ enum {
                                                    cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"OK" value:nil table:nil]
                                                    otherButtonTitles:nil];
                 [av show];
+            }
+        }
+        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:dropboxLabel]) {
+            /* Handle Dropbox uploads */
+            self.selectedIndexPathsForDropboxUpload = [self.tableView indexPathsForSelectedRows];
+            if (![[DBSession sharedSession] isLinked]) {
+                [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:self.selectedIndexPathsForDropboxUpload]
+                                                          forKey:kZPDefaultsDropboxUploadSelection];
+                [[NSUserDefaults standardUserDefaults] setObject:self.container.url.absoluteString forKey:kZPDefaultsDropboxUploadCurrentContainerPath];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [[DBSession sharedSession] linkFromController:self];
+            } else {
+                [self showDropboxDestinationSelectionView:nil];
             }
         }
     } else if (actionSheet.tag == GSFileContainerListViewActionSheetDelete) {
@@ -699,7 +717,43 @@ enum {
     }
 }
 
+#pragma mark - ZPDropboxDestinationSelection view controller delegate methods
+
+- (void)dropboxDestinationSelectionViewController:(ZPDropboxDestinationSelectionViewController *)viewController
+                         didSelectDestinationPath:(NSString *)destinationPath
+{
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"Uploading files to %@", destinationPath);
+        for (NSIndexPath *indexPath in self.selectedIndexPathsForDropboxUpload) {
+            ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
+            [[ZPDropboxUploader sharedUploader] uploadFileWithURL:wrapper.url toPath:destinationPath];
+        }
+        [[ZPDropboxUploader sharedUploader] start];
+        self.selectedIndexPathsForDropboxUpload = nil;
+    }];
+}
+
+- (void)dropboxDestinationSelectionViewControllerDidCancel:(ZPDropboxDestinationSelectionViewController *)viewController
+{
+    NSLog(@"User cancelled Dropbox destination selection dialog. Nothing to do here.");
+    self.selectedIndexPathsForDropboxUpload = nil;
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 #pragma mark - UI event handlers
+
+- (void)showDropboxDestinationSelectionView:(id)sender
+{
+    ZPDropboxDestinationSelectionViewController *vc = [[ZPDropboxDestinationSelectionViewController alloc] init];
+    vc.delegate = self;
+    vc.rootPath = @"/";
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    nc.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentViewController:nc animated:YES completion:NULL];
+
+    [TestFlight passCheckpoint:@"Showed Dropbox destination selection view"];
+}
 
 - (void)showInfoView:(id)sender
 {
@@ -781,16 +835,30 @@ enum {
         for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
             [itemsToShare addObject:[self.container fileWrapperAtIndex:indexPath.row]];
         }
-        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        NSArray *applicationActivities = @[
+            [[ZPDropboxActivity alloc] init]
+        ];
+        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare
+                                                                         applicationActivities:applicationActivities];
+        vc.completionHandler = ^(NSString *activityType, BOOL completed){
+            // Exit edit mode on completion.
+            if (self.tableView.isEditing && completed)
+                [self toggleEditMode];
+            if (isIpad)
+                [self.activityPopoverController dismissPopoverAnimated:YES];
+        };
         if ([itemsToShare count] > 1) {
             vc.excludedActivityTypes = @[UIActivityTypeAssignToContact];
         }
         if (isIpad) {
-            // TODO: show in popover controller
             if ([self.activityPopoverController isPopoverVisible]) {
                 [self.activityPopoverController dismissPopoverAnimated:YES];
             } else {
-                self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+                if (self.activityPopoverController) {
+                    [self.activityPopoverController setContentViewController:vc];
+                } else {
+                    self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+                }
                 [self.activityPopoverController presentPopoverFromBarButtonItem:sender
                                                        permittedArrowDirections:UIPopoverArrowDirectionAny
                                                                        animated:YES];
@@ -823,7 +891,9 @@ enum {
                                                         delegate:self
                                                cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
                                           destructiveButtonTitle:nil
-                                               otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], nil];
+                                               otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], 
+                                                                 [[NSBundle mainBundle] localizedStringForKey:@"Dropbox" value:nil table:nil],
+                                                                 nil];
         as.tag = GSFileContainerListViewActionSheetShare;
         
         if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
@@ -904,7 +974,7 @@ enum {
 
     if (error.domain == ZPFileWrapperErrorDomain && error.code == ZPFileWrapperErrorFailedToExtractArchive) {
         NSError * underlyingError = [[error userInfo] objectForKey:NSUnderlyingErrorKey];
-        if (underlyingError && underlyingError.domain == kGSArchiveErrorDomain && underlyingError.code == GSArchiveEntryFilenameEncodingUnknownError) {
+        if (underlyingError && [underlyingError.domain isEqualToString:kGSArchiveErrorDomain] && underlyingError.code == GSArchiveEntryFilenameEncodingUnknownError) {
             NSData * samplePathCString = [[underlyingError userInfo] objectForKey:kGSArchiveEntryFilenameCStringAsNSData];
             ZPEncodingPickerViewController * vc = [[ZPEncodingPickerViewController alloc] initWithStyle:UITableViewStyleGrouped];
             vc.delegate = self;
@@ -913,7 +983,6 @@ enum {
             UINavigationController * nc = [[UINavigationController alloc] initWithRootViewController:vc];
             nc.modalPresentationStyle = UIModalPresentationFormSheet;
             nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-            nc.navigationBar.barStyle = UIBarStyleBlackOpaque;
             
             [self presentModalViewController:nc animated:YES];
             return;
@@ -938,6 +1007,31 @@ enum {
 - (void)handleApplicationDidBecomeActiveNotification:(NSNotification *)notification
 {
     [self.tableView reloadData];
+        
+    /* If we're reappearing after leaving the app to authenticate with Dropbox, pick up where we left off. */
+    NSData *selectionForDropboxUploadData = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsDropboxUploadSelection];
+    NSString *dropboxUploadPreviousContainerPath = [[NSUserDefaults standardUserDefaults] objectForKey:kZPDefaultsDropboxUploadCurrentContainerPath];
+    if (selectionForDropboxUploadData != nil
+        && [dropboxUploadPreviousContainerPath isEqualToString:self.container.url.absoluteString]
+        && [[DBSession sharedSession] isLinked]) {
+        
+        [TestFlight passCheckpoint:@"Opened app after authenticating with Dropbox"];
+
+        NSArray *selectionForDropboxUpload = [NSKeyedUnarchiver unarchiveObjectWithData:selectionForDropboxUploadData];
+        if (!self.tableView.isEditing) {
+            [self toggleEditMode];
+        }
+        for (NSIndexPath *ip in selectionForDropboxUpload) {
+            NSLog(@"Selecting row at indexPath %@", ip);
+            [self.tableView selectRowAtIndexPath:ip animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [self updateToolbarButtons];
+        }
+        /* Show the Dropbox destination selection dialog, but wait a short while first so that the user sees that their selection's still intact first. */
+        [self performSelector:@selector(showDropboxDestinationSelectionView:) withObject:nil afterDelay:1.0];
+    }
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kZPDefaultsDropboxUploadSelection];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kZPDefaultsDropboxUploadCurrentContainerPath];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)viewControllerShouldDismiss:(UIViewController *)viewController wasCancelled:(BOOL)wasCancelled
