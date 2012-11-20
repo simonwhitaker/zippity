@@ -844,6 +844,8 @@ enum {
             // Exit edit mode on completion.
             if (self.tableView.isEditing && completed)
                 [self toggleEditMode];
+            if (isIpad)
+                [self.activityPopoverController dismissPopoverAnimated:YES];
         };
         if ([itemsToShare count] > 1) {
             vc.excludedActivityTypes = @[UIActivityTypeAssignToContact];

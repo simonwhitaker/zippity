@@ -380,6 +380,11 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
         ZPFileWrapper *currentWrapper = [self.imageFileWrappers objectAtIndex:self.currentIndex];
         UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[currentWrapper]
                                                                          applicationActivities:nil];
+        vc.completionHandler = ^(NSString *activityType, BOOL completed) {
+            if (isIpad)
+                [self.activityPopoverController dismissPopoverAnimated:YES];
+        };
+        
         if (isIpad) {
             if ([self.activityPopoverController isPopoverVisible]) {
                 [self.activityPopoverController dismissPopoverAnimated:YES];
