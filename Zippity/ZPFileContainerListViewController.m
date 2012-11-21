@@ -232,9 +232,13 @@ enum {
                                                    object:self.container];
     }
     
-    [self.tableView reloadData];
+    if (self.isMovingToParentViewController) {
+        // Only reload data if view is being added to a parent (e.g. pushed onto a
+        // navigation stack), not otherwise (e.g. when being revealed after dismissing
+        // a modal dialog).
+        [self.tableView reloadData];
+    }
 
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleApplicationDidBecomeActiveNotification:)
                                                  name:UIApplicationDidBecomeActiveNotification
