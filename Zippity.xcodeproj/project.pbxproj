@@ -361,8 +361,6 @@
 				F4D3481E151C90B8008B706A /* ZPAboutViewController.h */,
 				F4D3481F151C90B8008B706A /* ZPAboutViewController.m */,
 				F482B10C152BA43100E8965B /* ZPAboutViewController.xib */,
-				F4209E29164954F70081C111 /* ZPDropboxDestinationSelectionViewController.h */,
-				F4209E2A164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m */,
 				F453B8F0153AA5AF00C60685 /* ZPEmptyViewController.h */,
 				F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */,
 				F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */,
@@ -384,15 +382,28 @@
 			children = (
 				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
 				F44DAC6E1653A44B00534B1E /* GSProgressView.h */,
-				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
-				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
 				F44DAC6F1653A44B00534B1E /* GSProgressView.m */,
+				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
 				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
+				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
 				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
 				F490E90A1607B57200C530F8 /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
 			name = "Third-party libraries";
+			sourceTree = "<group>";
+		};
+		F47F11E7165CEAC200CAE47C /* Dropbox integration */ = {
+			isa = PBXGroup;
+			children = (
+				F4209E1816494B120081C111 /* ZPDropboxUploader.h */,
+				F4209E1916494B120081C111 /* ZPDropboxUploader.m */,
+				F4174E5D165A8A90007A17B4 /* ZPDropboxActivity.h */,
+				F4174E5E165A8A90007A17B4 /* ZPDropboxActivity.m */,
+				F4209E29164954F70081C111 /* ZPDropboxDestinationSelectionViewController.h */,
+				F4209E2A164954F70081C111 /* ZPDropboxDestinationSelectionViewController.m */,
+			);
+			name = "Dropbox integration";
 			sourceTree = "<group>";
 		};
 		F47F534714ECCC82009BF6FE = {
@@ -438,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				F482B0F5152B936D00E8965B /* App core */,
+				F47F11E7165CEAC200CAE47C /* Dropbox integration */,
 				F42D56E41508B013000D89A2 /* Models */,
 				F4B9909914EE66F200F8FBD8 /* Categories */,
 				F47DFDA214ED5709007F7443 /* Third-party libraries */,
@@ -469,10 +481,6 @@
 				F47F536614ECCC82009BF6FE /* ZPAppDelegate.m */,
 				F47F536214ECCC82009BF6FE /* main.m */,
 				F40144F4151263690036AF48 /* ZPDefaultsKeys.h */,
-				F4209E1816494B120081C111 /* ZPDropboxUploader.h */,
-				F4209E1916494B120081C111 /* ZPDropboxUploader.m */,
-				F4174E5D165A8A90007A17B4 /* ZPDropboxActivity.h */,
-				F4174E5E165A8A90007A17B4 /* ZPDropboxActivity.m */,
 			);
 			name = "App core";
 			sourceTree = "<group>";
