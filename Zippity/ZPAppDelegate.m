@@ -436,7 +436,7 @@
 {
     if ([[ZPDropboxUploader sharedUploader] queueSize] == 0) {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
-        [self.statusBarViewController hideProgressView];
+        [self.statusBarViewController showProgressViewWithProgress:1.0];
         [self.statusBarViewController showMessage:NSLocalizedString(@"Upload complete", @"Status message shown when Dropbox upload session has completed") withTimeout:3.0];
     }
 }
