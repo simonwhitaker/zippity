@@ -47,23 +47,43 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    CGPoint center = CGPointMake(rect.size.width / 2,
-                                 rect.size.height / 2);
-    CGFloat radius = MIN(rect.size.width, rect.size.height) / 2;
-
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextMoveToPoint(ctx, center.x, center.y);
-    CGContextAddArc(ctx,
-                    center.x,
-                    center.y,
-                    radius,
-                    0 - M_PI_2, // start angle (0 = positive X axis)
-                    2 * M_PI * self.progress - M_PI_2, // end angle
-                    0); // 0 = anticlockwise, 1 = clockwise
-    CGContextClosePath(ctx);
+    CGPoint center = CGPointMake(rect.size.width/2, rect.size.height/2);
+    CGFloat radius = MIN(rect.size.width, rect.size.height)/2;
     
-    CGContextSetFillColorWithColor(ctx, [self.color CGColor]);
-    CGContextFillPath(ctx);
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    [path moveToPoint:center];
+    [path addArcWithCenter:center
+                    radius:radius
+                startAngle:0 - M_PI_2
+                  endAngle:2 * M_PI * self.progress - M_PI_2
+                 clockwise:YES];
+    [path closePath];
+    
+    if (self.progress == 1.0) {
+        UIBezierPath *tickPath = [UIBezierPath bezierPath];
+        CGFloat tickWidth = radius/3;
+        [tickPath moveToPoint:CGPointMake(0, 0)];
+        [tickPath addLineToPoint:CGPointMake(0, tickWidth * 2)];
+        [tickPath addLineToPoint:CGPointMake(tickWidth * 3, tickWidth * 2)];
+        [tickPath addLineToPoint:CGPointMake(tickWidth * 3, tickWidth)];
+        [tickPath addLineToPoint:CGPointMake(tickWidth, tickWidth)];
+        [tickPath addLineToPoint:CGPointMake(tickWidth, 0)];
+        [tickPath closePath];
+        
+        [tickPath applyTransform:CGAffineTransformMakeRotation(-M_PI_4)];
+        [tickPath applyTransform:CGAffineTransformMakeTranslation(radius * 0.43, radius)];
+        
+        // Account for non-square views
+        CGFloat xOffset = rect.size.width/2 - radius;
+        CGFloat yOffset = rect.size.height/2 - radius;
+        [tickPath applyTransform:CGAffineTransformMakeTranslation(xOffset, yOffset)];
+        
+        [path appendPath:tickPath];
+    };
+    path.usesEvenOddFillRule = YES;
+    
+    [self.color setFill];
+    [path fill];
 }
 
 @end
