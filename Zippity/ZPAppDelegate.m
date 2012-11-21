@@ -201,9 +201,6 @@
     }
     [defaults setBool:NO forKey:kZPDefaultsClearCacheKey];
     [defaults synchronize];
-    
-    // FIXME: get rid of this - just for testing
-    //[self.statusBarViewController showMessage:@"Foo bar" withTimeout:0];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
