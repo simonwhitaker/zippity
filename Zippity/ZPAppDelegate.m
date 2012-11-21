@@ -120,6 +120,7 @@
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.rootListViewController];
     self.masterViewNavigationController = nc;
     nc.delegate = self;
+    GSStatusBarViewController *statusBarViewController = [[GSStatusBarViewController alloc] initWithContentViewController:nc];
 
     if (isIpad) {
         ZPEmptyViewController * evc = [[ZPEmptyViewController alloc] init];
@@ -129,15 +130,13 @@
         
         self.splitViewController = [[UISplitViewController alloc] init];
         self.splitViewController.delegate = self;
-        self.splitViewController.viewControllers = [NSArray arrayWithObjects:nc, self.detailViewNavigationController, nil];
+        self.splitViewController.viewControllers = @[statusBarViewController, self.detailViewNavigationController];
         self.window.rootViewController = self.splitViewController;
     } else {
-        GSStatusBarViewController *statusBarViewController = [[GSStatusBarViewController alloc] initWithContentViewController:nc];
         self.window.rootViewController = statusBarViewController;
-
-        // Store a weak ref to the status bar controller
-        self.statusBarViewController = statusBarViewController;
     }
+    // Store a weak ref to the status bar controller
+    self.statusBarViewController = statusBarViewController;
     
     [self.window makeKeyAndVisible];
     return YES;
