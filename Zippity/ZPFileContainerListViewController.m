@@ -394,6 +394,23 @@ enum {
     }
 
     if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {
+        if (indexPath.row >= self.container.fileWrappers.count) {
+            /* 
+             There's a race condition where the container's status changes to ZPFileWrapperContainerStatusReady between the call to tableView:numberOfRowsInSection: and the call to tableView:cellForRowAtIndexPath:. If this happens and the container is empty, we'll end up indexing beyond the end of the array and crashing the app.
+             
+             Sequence of events:
+                
+                - self.container.containerStatus is *not* ZPFileWrapperContainerStatusReady
+                - tableView:numberOfRowsInSection: is called, returns 1 (for display of "unpacking contents..." message)
+                - self.container.containerStatus changes to ZPFileWrapperContainerStatusReady, and the container is empty
+                - tableView:cellForRowAtIndexPath: is called, follows this path since the state is now ready, and tries to get the fileWrapper at index 0
+                - index 0 is out of bounds, app crashes
+             
+             Hence this check. If we're out of bounds, just return an empty cell. We'll be updating the table in a moment when handleContentsReloaded: gets called, so the empty cell's not a problem.
+             */
+            cell.textLabel.text = @"Foo";
+            return cell;
+        }
         ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
         cell.textLabel.text = wrapper.displayName;
         cell.textLabel.accessibilityLabel = wrapper.name;
@@ -455,7 +472,11 @@ enum {
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:indexPath.row];
+    /* See comment in tableView:cellForRowAtIndexPath: for a discussion of the race condition necessitating this check. */
+    if (indexPath.row >= self.container.fileWrappers.count)
+        return NO;
+    
+    ZPFileWrapper *fileWrapper = [self.container fileWrapperAtIndex:indexPath.row];
     return !fileWrapper.isDirectory;
 }
 
