@@ -1,5 +1,5 @@
 //
-//  ZPDropboxUploadJob.h
+//  GSDropboxUploadJob.h
 //  Zippity
 //
 //  Created by Simon Whitaker on 24/11/2012.
@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ZPDropboxUploadJob : NSObject
+@interface GSDropboxUploadJob : NSObject
 
 @property (nonatomic, strong) NSURL *fileURL;
 @property (nonatomic, strong) NSString *destinationPath;
 
-+ (ZPDropboxUploadJob *)uploadJobWithFileURL:(NSURL *)fileURL andDestinationPath:(NSString *)destinationPath;
++ (GSDropboxUploadJob *)uploadJobWithFileURL:(NSURL *)fileURL andDestinationPath:(NSString *)destinationPath;
 
 @end

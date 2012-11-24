@@ -1,27 +1,27 @@
 //
-//  ZPDropboxUploader.m
+//  GSDropboxUploader.m
 //  Zippity
 //
 //  Created by Simon Whitaker on 06/11/2012.
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "ZPDropboxUploader.h"
-#import "ZPDropboxUploadJob.h"
+#import "GSDropboxUploader.h"
+#import "GSDropboxUploadJob.h"
 #import <DropboxSDK/DropboxSDK.h>
 
-NSString *const ZPDropboxUploaderDidStartUploadingFileNotification = @"ZPDropboxUploaderDidStartUploadingFileNotification";
-NSString *const ZPDropboxUploaderDidFinishUploadingFileNotification = @"ZPDropboxUploaderDidFinishUploadingFileNotification";
-NSString *const ZPDropboxUploaderDidGetProgressUpdateNotification = @"ZPDropboxUploaderDidGetProgressUpdateNotification";
-NSString *const ZPDropboxUploaderDidFailNotification = @"ZPDropboxUploaderDidFailNotification";
+NSString *const GSDropboxUploaderDidStartUploadingFileNotification = @"GSDropboxUploaderDidStartUploadingFileNotification";
+NSString *const GSDropboxUploaderDidFinishUploadingFileNotification = @"GSDropboxUploaderDidFinishUploadingFileNotification";
+NSString *const GSDropboxUploaderDidGetProgressUpdateNotification = @"GSDropboxUploaderDidGetProgressUpdateNotification";
+NSString *const GSDropboxUploaderDidFailNotification = @"GSDropboxUploaderDidFailNotification";
 
-NSString *const ZPDropboxUploaderFileURLKey = @"ZPDropboxUploaderFileURLKey";
-NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
+NSString *const GSDropboxUploaderFileURLKey = @"GSDropboxUploaderFileURLKey";
+NSString *const GSDropboxUploaderProgressKey = @"GSDropboxUploaderProgressKey";
 
-@interface ZPDropboxUploader() <DBRestClientDelegate>
+@interface GSDropboxUploader() <DBRestClientDelegate>
 
 // inFlightUploadJob: the file wrapper currently being uploaded
-@property (nonatomic, strong) ZPDropboxUploadJob *_inFlightUploadJob;
+@property (nonatomic, strong) GSDropboxUploadJob *_inFlightUploadJob;
 @property (nonatomic, strong) NSMutableArray *_uploadQueue;
 @property (nonatomic, strong) DBRestClient *_dropboxClient;
 
@@ -29,7 +29,7 @@ NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
 
 @end
 
-@implementation ZPDropboxUploader
+@implementation GSDropboxUploader
 
 - (id)init
 {
@@ -40,17 +40,17 @@ NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
     return self;
 }
 
-+ (ZPDropboxUploader *)sharedUploader
++ (GSDropboxUploader *)sharedUploader
 {
     static dispatch_once_t once;
-    static ZPDropboxUploader *singleton;
-    dispatch_once(&once, ^ { singleton = [[ZPDropboxUploader alloc] init]; });
+    static GSDropboxUploader *singleton;
+    dispatch_once(&once, ^ { singleton = [[GSDropboxUploader alloc] init]; });
     return singleton;
 }
 
 - (void)uploadFileWithURL:(NSURL *)fileURL toPath:(NSString *)destinationPath
 {
-    [self._uploadQueue addObject:[ZPDropboxUploadJob uploadJobWithFileURL:fileURL
+    [self._uploadQueue addObject:[GSDropboxUploadJob uploadJobWithFileURL:fileURL
                                                        andDestinationPath:destinationPath]];
     [self _serviceQueue];
 }
@@ -68,9 +68,9 @@ NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
             [self._uploadQueue removeObjectAtIndex:0];
         }
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:ZPDropboxUploaderDidStartUploadingFileNotification
+        [[NSNotificationCenter defaultCenter] postNotificationName:GSDropboxUploaderDidStartUploadingFileNotification
                                                             object:self
-                                                          userInfo:@{ZPDropboxUploaderFileURLKey: self._inFlightUploadJob.fileURL}];
+                                                          userInfo:@{GSDropboxUploaderFileURLKey: self._inFlightUploadJob.fileURL}];
         [self._dropboxClient uploadFile:self._inFlightUploadJob.fileURL.lastPathComponent
                                 toPath:self._inFlightUploadJob.destinationPath
                          withParentRev:nil
@@ -95,17 +95,17 @@ NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
 #pragma mark - Dropbox client delegate methods
 
 - (void)restClient:(DBRestClient*)client uploadedFile:(NSString*)destPath from:(NSString*)srcPath metadata:(DBMetadata*)metadata {
-    [[NSNotificationCenter defaultCenter] postNotificationName:ZPDropboxUploaderDidFinishUploadingFileNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:GSDropboxUploaderDidFinishUploadingFileNotification
                                                         object:self
-                                                      userInfo:@{ZPDropboxUploaderFileURLKey: self._inFlightUploadJob.fileURL}];
+                                                      userInfo:@{GSDropboxUploaderFileURLKey: self._inFlightUploadJob.fileURL}];
     self._inFlightUploadJob = nil;
     [self _serviceQueue];
 }
 
 - (void)restClient:(DBRestClient*)client uploadFileFailedWithError:(NSError*)error {
-    [[NSNotificationCenter defaultCenter] postNotificationName:ZPDropboxUploaderDidFailNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:GSDropboxUploaderDidFailNotification
                                                         object:self
-                                                      userInfo:@{ZPDropboxUploaderFileURLKey: self._inFlightUploadJob.fileURL}];
+                                                      userInfo:@{GSDropboxUploaderFileURLKey: self._inFlightUploadJob.fileURL}];
     self._inFlightUploadJob = nil;
     [self _serviceQueue];
 }
@@ -114,10 +114,10 @@ NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
            forFile:(NSString*)destPath from:(NSString*)srcPath
 {
     NSDictionary *userInfo = @{
-        ZPDropboxUploaderFileURLKey: self._inFlightUploadJob.fileURL,
-        ZPDropboxUploaderProgressKey: @(progress),
+        GSDropboxUploaderFileURLKey: self._inFlightUploadJob.fileURL,
+        GSDropboxUploaderProgressKey: @(progress),
     };
-    [[NSNotificationCenter defaultCenter] postNotificationName:ZPDropboxUploaderDidGetProgressUpdateNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:GSDropboxUploaderDidGetProgressUpdateNotification
                                                         object:self
                                                       userInfo:userInfo];
 }

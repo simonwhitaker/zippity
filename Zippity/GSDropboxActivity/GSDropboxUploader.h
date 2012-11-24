@@ -1,5 +1,5 @@
 //
-//  ZPDropboxUploader.h
+//  GSDropboxUploader.h
 //  Zippity
 //
 //  Created by Simon Whitaker on 06/11/2012.
@@ -8,20 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ZPDropboxUploader : NSObject
+@interface GSDropboxUploader : NSObject
 
 /* NSNotification names */
-extern NSString *const ZPDropboxUploaderDidStartUploadingFileNotification;
-extern NSString *const ZPDropboxUploaderDidFinishUploadingFileNotification;
-extern NSString *const ZPDropboxUploaderDidGetProgressUpdateNotification;
-extern NSString *const ZPDropboxUploaderDidFailNotification;
+extern NSString *const GSDropboxUploaderDidStartUploadingFileNotification;
+extern NSString *const GSDropboxUploaderDidFinishUploadingFileNotification;
+extern NSString *const GSDropboxUploaderDidGetProgressUpdateNotification;
+extern NSString *const GSDropboxUploaderDidFailNotification;
 
 /* UserInfo dictionary keys */
-extern NSString *const ZPDropboxUploaderFileURLKey;
-extern NSString *const ZPDropboxUploaderProgressKey;
+extern NSString *const GSDropboxUploaderFileURLKey;
+extern NSString *const GSDropboxUploaderProgressKey;
 
 /* The singleton Dropbox uploader - use this for all your Dropbox uploads */
-+ (ZPDropboxUploader*)sharedUploader;
++ (GSDropboxUploader*)sharedUploader;
 
 - (void)uploadFileWithURL:(NSURL *)fileURL toPath:(NSString*)destinationPath;
 

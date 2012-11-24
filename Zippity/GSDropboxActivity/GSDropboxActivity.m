@@ -1,25 +1,25 @@
 //
-//  ZPDropboxActivity.m
+//  GSDropboxActivity.m
 //  Zippity
 //
 //  Created by Simon Whitaker on 19/11/2012.
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "ZPDropboxActivity.h"
-#import "ZPDropboxDestinationSelectionViewController.h"
-#import "ZPDropboxUploader.h"
+#import "GSDropboxActivity.h"
+#import "GSDropboxDestinationSelectionViewController.h"
+#import "GSDropboxUploader.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 #import "ZPAboutViewController.h"
 
-@interface ZPDropboxActivity() <ZPDropboxDestinationSelectionViewControllerDelegate>
+@interface GSDropboxActivity() <GSDropboxDestinationSelectionViewControllerDelegate>
 
 @property (nonatomic, copy) NSArray *activityItems;
-@property (nonatomic, retain) ZPDropboxDestinationSelectionViewController *dropboxDestinationViewController;
+@property (nonatomic, retain) GSDropboxDestinationSelectionViewController *dropboxDestinationViewController;
 @end
 
-@implementation ZPDropboxActivity
+@implementation GSDropboxActivity
 
 + (NSString *)activityTypeString
 {
@@ -27,14 +27,14 @@
 }
 
 - (NSString *)activityType {
-    return [ZPDropboxActivity activityTypeString];
+    return [GSDropboxActivity activityTypeString];
 }
 
 - (NSString *)activityTitle {
     return NSLocalizedString(@"Dropbox", @"Name of the service at www.dropbox.com");
 }
 - (UIImage *)activityImage {
-    return [UIImage imageNamed:@"dropbox-activity-icon"];
+    return [UIImage imageNamed:@"GSDropboxActivityIcon"];
 }
 
 - (BOOL)canPerformWithActivityItems:(NSArray *)activityItems {
@@ -51,7 +51,7 @@
 }
 
 - (UIViewController *)activityViewController {
-    ZPDropboxDestinationSelectionViewController *vc = [[ZPDropboxDestinationSelectionViewController alloc] initWithStyle:UITableViewStylePlain];
+    GSDropboxDestinationSelectionViewController *vc = [[GSDropboxDestinationSelectionViewController alloc] initWithStyle:UITableViewStylePlain];
     vc.delegate = self;
 
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -60,19 +60,19 @@
     return nc;
 }
 
-#pragma mark - ZPDropboxDestinationSelectionViewController delegate methods
+#pragma mark - GSDropboxDestinationSelectionViewController delegate methods
 
-- (void)dropboxDestinationSelectionViewController:(ZPDropboxDestinationSelectionViewController *)viewController
+- (void)dropboxDestinationSelectionViewController:(GSDropboxDestinationSelectionViewController *)viewController
                          didSelectDestinationPath:(NSString *)destinationPath
 {
     for (NSURL *fileURL in self.activityItems) {
-        [[ZPDropboxUploader sharedUploader] uploadFileWithURL:fileURL toPath:destinationPath];
+        [[GSDropboxUploader sharedUploader] uploadFileWithURL:fileURL toPath:destinationPath];
     }
     self.activityItems = nil;
     [self activityDidFinish:YES];
 }
 
-- (void)dropboxDestinationSelectionViewControllerDidCancel:(ZPDropboxDestinationSelectionViewController *)viewController
+- (void)dropboxDestinationSelectionViewControllerDidCancel:(GSDropboxDestinationSelectionViewController *)viewController
 {
     self.activityItems = nil;
     [self activityDidFinish:NO];

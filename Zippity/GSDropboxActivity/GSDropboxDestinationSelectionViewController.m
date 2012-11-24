@@ -1,15 +1,15 @@
 //
-//  ZPDropboxDestinationSelectionViewController.m
+//  GSDropboxDestinationSelectionViewController.m
 //  Zippity
 //
 //  Created by Simon Whitaker on 06/11/2012.
 //  Copyright (c) 2012 Goo Software Ltd. All rights reserved.
 //
 
-#import "ZPDropboxDestinationSelectionViewController.h"
+#import "GSDropboxDestinationSelectionViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 
-@interface ZPDropboxDestinationSelectionViewController () <DBRestClientDelegate>
+@interface GSDropboxDestinationSelectionViewController () <DBRestClientDelegate>
 @property (nonatomic) BOOL isLoading;
 @property (nonatomic, strong) NSArray *subdirectories;
 @property (nonatomic, strong) DBRestClient *dropboxClient;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation ZPDropboxDestinationSelectionViewController
+@implementation GSDropboxDestinationSelectionViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -144,7 +144,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.subdirectories count] > indexPath.row) {
-        ZPDropboxDestinationSelectionViewController *vc = [[ZPDropboxDestinationSelectionViewController alloc] init];
+        GSDropboxDestinationSelectionViewController *vc = [[GSDropboxDestinationSelectionViewController alloc] init];
         vc.delegate = self.delegate;
         vc.rootPath = [self.rootPath stringByAppendingPathComponent:[self.subdirectories objectAtIndex:indexPath.row]];
         [self.navigationController pushViewController:vc animated:YES];

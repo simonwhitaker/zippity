@@ -9,7 +9,7 @@
 #import "GSSmokedInfoView.h"
 #import "ZPImagePreviewController.h"
 #import "ZPImageScrollView.h"
-#import "ZPDropboxActivity.h"
+#import "GSDropboxActivity.h"
 
 static NSString * ActionMenuSaveToPhotosButtonTitle; // = @"Save To Photos";
 static NSString * ActionMenuOpenInButtonTitle; // = @"Open In...";
@@ -380,7 +380,7 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
     if (NSClassFromString(@"UIActivityViewController") != nil) {
         ZPFileWrapper *currentWrapper = [self.imageFileWrappers objectAtIndex:self.currentIndex];
         NSArray *applicationActivities = @[
-            [[ZPDropboxActivity alloc] init]
+            [[GSDropboxActivity alloc] init]
         ];
         UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:@[currentWrapper]
                                                                          applicationActivities:applicationActivities];

@@ -1,5 +1,5 @@
 //
-//  ZPDropboxActivity.h
+//  GSDropboxActivity.h
 //  Zippity
 //
 //  Created by Simon Whitaker on 19/11/2012.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ZPDropboxActivity : UIActivity
+@interface GSDropboxActivity : UIActivity
 
 + (NSString*)activityTypeString;
 

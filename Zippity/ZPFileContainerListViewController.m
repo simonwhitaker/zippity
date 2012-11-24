@@ -28,8 +28,8 @@
 #import "ZPUnrecognisedFileTypeViewController.h"
 #import "ZPEncodingPickerViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
-#import "ZPDropboxDestinationSelectionViewController.h"
-#import "ZPDropboxActivity.h"
+#import "GSDropboxDestinationSelectionViewController.h"
+#import "GSDropboxActivity.h"
 
 // ZPArchive.h for the error codes
 #import "ZPArchive.h" 
@@ -63,7 +63,7 @@ enum {
 
 @end
 
-@interface ZPFileContainerListViewController() <ZPDropboxDestinationSelectionViewControllerDelegate>
+@interface ZPFileContainerListViewController() <GSDropboxDestinationSelectionViewControllerDelegate>
 
 @property (nonatomic, retain) UIBarButtonItem *editButton;
 @property (nonatomic, retain) UIBarButtonItem *doneButton;
@@ -742,22 +742,22 @@ enum {
     }
 }
 
-#pragma mark - ZPDropboxDestinationSelection view controller delegate methods
+#pragma mark - GSDropboxDestinationSelection view controller delegate methods
 
-- (void)dropboxDestinationSelectionViewController:(ZPDropboxDestinationSelectionViewController *)viewController
+- (void)dropboxDestinationSelectionViewController:(GSDropboxDestinationSelectionViewController *)viewController
                          didSelectDestinationPath:(NSString *)destinationPath
 {
     [self dismissViewControllerAnimated:YES completion:^{
         NSLog(@"Uploading files to %@", destinationPath);
         for (NSIndexPath *indexPath in self.selectedIndexPathsForDropboxUpload) {
             ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-            [[ZPDropboxUploader sharedUploader] uploadFileWithURL:wrapper.url toPath:destinationPath];
+            [[GSDropboxUploader sharedUploader] uploadFileWithURL:wrapper.url toPath:destinationPath];
         }
         self.selectedIndexPathsForDropboxUpload = nil;
     }];
 }
 
-- (void)dropboxDestinationSelectionViewControllerDidCancel:(ZPDropboxDestinationSelectionViewController *)viewController
+- (void)dropboxDestinationSelectionViewControllerDidCancel:(GSDropboxDestinationSelectionViewController *)viewController
 {
     NSLog(@"User cancelled Dropbox destination selection dialog. Nothing to do here.");
     self.selectedIndexPathsForDropboxUpload = nil;
@@ -768,7 +768,7 @@ enum {
 
 - (void)showDropboxDestinationSelectionView:(id)sender
 {
-    ZPDropboxDestinationSelectionViewController *vc = [[ZPDropboxDestinationSelectionViewController alloc] init];
+    GSDropboxDestinationSelectionViewController *vc = [[GSDropboxDestinationSelectionViewController alloc] init];
     vc.delegate = self;
     vc.rootPath = @"/";
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
@@ -860,7 +860,7 @@ enum {
             [itemsToShare addObject:[self.container fileWrapperAtIndex:indexPath.row]];
         }
         NSArray *applicationActivities = @[
-            [[ZPDropboxActivity alloc] init]
+            [[GSDropboxActivity alloc] init]
         ];
         UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare
                                                                          applicationActivities:applicationActivities];
