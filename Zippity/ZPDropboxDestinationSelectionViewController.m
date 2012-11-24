@@ -58,7 +58,7 @@
         self.rootPath = @"/";
     
     if ([self.rootPath isEqualToString:@"/"]) {
-        self.title = @"Dropbox";
+        self.title = NSLocalizedString(@"Dropbox", @"The name of the service at www.dropbox.com");
     } else {
         self.title = [self.rootPath lastPathComponent];
     }
@@ -121,7 +121,6 @@
     
     // Configure the cell...
     if (self.isLoading) {
-        /* TODO: internationalise */
         cell.textLabel.text = NSLocalizedString(@"Loading...", @"Progress message while app is loading a list of folders from Dropbox");
     } else if (self.subdirectories == nil) {
         cell.textLabel.text = NSLocalizedString(@"Error loading folder contents", @"Error message if the app couldn't load a list of a folder's contents from Dropbox");

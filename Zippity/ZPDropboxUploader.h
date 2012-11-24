@@ -10,16 +10,19 @@
 
 @interface ZPDropboxUploader : NSObject
 
+/* NSNotification names */
 extern NSString *const ZPDropboxUploaderDidStartUploadingFileNotification;
 extern NSString *const ZPDropboxUploaderDidFinishUploadingFileNotification;
 extern NSString *const ZPDropboxUploaderDidGetProgressUpdateNotification;
 extern NSString *const ZPDropboxUploaderDidFailNotification;
 
-// UserInfo dictionary keys
+/* UserInfo dictionary keys */
 extern NSString *const ZPDropboxUploaderFileURLKey;
 extern NSString *const ZPDropboxUploaderProgressKey;
 
+/* The singleton Dropbox uploader - use this for all your Dropbox uploads */
 + (ZPDropboxUploader*)sharedUploader;
+
 - (void)uploadFileWithURL:(NSURL *)fileURL toPath:(NSString*)destinationPath;
 
 /* Uploads are processed one at a time. If you call uploadFileWithURL:toPath: while an upload's already in progress the new upload will be queued. pendingUploadCount returns the number of uploads currently in the queue pending processing. */
