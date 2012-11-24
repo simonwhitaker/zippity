@@ -753,7 +753,6 @@ enum {
             ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
             [[ZPDropboxUploader sharedUploader] uploadFileWithURL:wrapper.url toPath:destinationPath];
         }
-        [[ZPDropboxUploader sharedUploader] start];
         self.selectedIndexPathsForDropboxUpload = nil;
     }];
 }

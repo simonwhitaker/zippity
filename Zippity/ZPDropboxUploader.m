@@ -52,6 +52,7 @@ NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
 {
     [self._uploadQueue addObject:[ZPDropboxUploadJob uploadJobWithFileURL:fileURL
                                                        andDestinationPath:destinationPath]];
+    [self _serviceQueue];
 }
 
 - (void)start

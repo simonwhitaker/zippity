@@ -81,7 +81,6 @@
     for (NSURL *fileURL in self.activityItems) {
         [[ZPDropboxUploader sharedUploader] uploadFileWithURL:fileURL toPath:destinationPath];
     }
-    [[ZPDropboxUploader sharedUploader] start];
     self.activityItems = nil;
     [self activityDidFinish:YES];
 }
