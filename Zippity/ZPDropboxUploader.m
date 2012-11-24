@@ -7,6 +7,7 @@
 //
 
 #import "ZPDropboxUploader.h"
+#import "ZPDropboxUploadJob.h"
 #import <DropboxSDK/DropboxSDK.h>
 
 NSString *const ZPDropboxUploaderDidStartUploadingFileNotification = @"ZPDropboxUploaderDidStartUploadingFileNotification";
@@ -16,22 +17,6 @@ NSString *const ZPDropboxUploaderDidFailNotification = @"ZPDropboxUploaderDidFai
 
 NSString *const ZPDropboxUploaderFileURLKey = @"ZPDropboxUploaderFileURLKey";
 NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
-
-@interface ZPDropboxUploadJob : NSObject
-@property (nonatomic, strong) NSURL *fileURL;
-@property (nonatomic, strong) NSString *destinationPath;
-+ (ZPDropboxUploadJob *)uploadJobWithFileURL:(NSURL *)fileURL andDestinationPath:(NSString *)destinationPath;
-@end
-
-@implementation ZPDropboxUploadJob
-+ (ZPDropboxUploadJob *)uploadJobWithFileURL:(NSURL *)fileURL andDestinationPath:(NSString *)destinationPath
-{
-    ZPDropboxUploadJob *job = [[ZPDropboxUploadJob alloc] init];
-    job.fileURL = fileURL;
-    job.destinationPath = destinationPath;
-    return job;
-}
-@end
 
 @interface ZPDropboxUploader() <DBRestClientDelegate>
 

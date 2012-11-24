@@ -86,6 +86,7 @@
 		F49ECAF416065A8A006B8CCF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F49ECAF316065A8A006B8CCF /* Default-568h@2x.png */; };
 		F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
+		F4C62BF81661484E00B6554B /* ZPDropboxUploadJob.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C62BF71661484E00B6554B /* ZPDropboxUploadJob.m */; };
 		F4D064731547DF810016C27B /* Doc-Icon-iPhone-rendered.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D064711547DF810016C27B /* Doc-Icon-iPhone-rendered.png */; };
 		F4D064741547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D064721547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png */; };
 		F4D34821151C90B8008B706A /* ZPAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D3481F151C90B8008B706A /* ZPAboutViewController.m */; };
@@ -237,6 +238,8 @@
 		F4A0CE5E1582C314001A2DC2 /* ZPEncodingPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPEncodingPickerViewController.h; sourceTree = "<group>"; };
 		F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPEncodingPickerViewController.m; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		F4C62BF61661484E00B6554B /* ZPDropboxUploadJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPDropboxUploadJob.h; sourceTree = "<group>"; };
+		F4C62BF71661484E00B6554B /* ZPDropboxUploadJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPDropboxUploadJob.m; sourceTree = "<group>"; };
 		F4D064711547DF810016C27B /* Doc-Icon-iPhone-rendered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Doc-Icon-iPhone-rendered.png"; sourceTree = "<group>"; };
 		F4D064721547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Doc-Icon-iPhone-rendered@2x.png"; sourceTree = "<group>"; };
 		F4D3481E151C90B8008B706A /* ZPAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPAboutViewController.h; sourceTree = "<group>"; };
@@ -396,6 +399,8 @@
 		F47F11E7165CEAC200CAE47C /* Dropbox integration */ = {
 			isa = PBXGroup;
 			children = (
+				F4C62BF61661484E00B6554B /* ZPDropboxUploadJob.h */,
+				F4C62BF71661484E00B6554B /* ZPDropboxUploadJob.m */,
 				F4209E1816494B120081C111 /* ZPDropboxUploader.h */,
 				F4209E1916494B120081C111 /* ZPDropboxUploader.m */,
 				F4174E5D165A8A90007A17B4 /* ZPDropboxActivity.h */,
@@ -776,6 +781,7 @@
 				F461C03116529AC200BCB6E6 /* GSStatusBarViewController.m in Sources */,
 				F44DAC701653A44B00534B1E /* GSProgressView.m in Sources */,
 				F4174E5F165A8A90007A17B4 /* ZPDropboxActivity.m in Sources */,
+				F4C62BF81661484E00B6554B /* ZPDropboxUploadJob.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
