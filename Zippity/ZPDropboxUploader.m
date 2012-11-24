@@ -78,7 +78,7 @@ NSString *const ZPDropboxUploaderProgressKey = @"ZPDropboxUploaderProgressKey";
     }
 }
 
-- (NSUInteger)queueSize
+- (NSUInteger)pendingUploadCount
 {
     return [self.uploadQueue count];
 }

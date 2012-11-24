@@ -21,7 +21,9 @@ extern NSString *const ZPDropboxUploaderProgressKey;
 
 + (ZPDropboxUploader*)sharedUploader;
 - (void)uploadFileWithURL:(NSURL *)fileURL toPath:(NSString*)destinationPath;
-- (NSUInteger)queueSize;
 - (void)start;
+
+/* Uploads are processed one at a time. If you call uploadFileWithURL:toPath: while an upload's already in progress the new upload will be queued. pendingUploadCount returns the number of uploads currently in the queue pending processing. */
+- (NSUInteger)pendingUploadCount;
 
 @end
