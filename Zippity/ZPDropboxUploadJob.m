@@ -10,4 +10,12 @@
 
 @implementation ZPDropboxUploadJob
 
++ (ZPDropboxUploadJob *)uploadJobWithFileURL:(NSURL *)fileURL andDestinationPath:(NSString *)destinationPath
+{
+    ZPDropboxUploadJob *job = [[ZPDropboxUploadJob alloc] init];
+    job.fileURL = fileURL;
+    job.destinationPath = destinationPath;
+    return job;
+}
+
 @end

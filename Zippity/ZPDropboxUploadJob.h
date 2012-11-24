@@ -10,4 +10,9 @@
 
 @interface ZPDropboxUploadJob : NSObject
 
+@property (nonatomic, strong) NSURL *fileURL;
+@property (nonatomic, strong) NSString *destinationPath;
+
++ (ZPDropboxUploadJob *)uploadJobWithFileURL:(NSURL *)fileURL andDestinationPath:(NSString *)destinationPath;
+
 @end
