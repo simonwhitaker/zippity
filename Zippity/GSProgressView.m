@@ -13,7 +13,6 @@
 
 - (void)commonInit
 {
-    self.color = [UIColor blackColor];
     self.backgroundColor = [UIColor clearColor];
 }
 
@@ -47,6 +46,9 @@
 
 - (void)drawRect:(CGRect)rect
 {
+    if (self.color == nil)
+        self.color = [UIColor blackColor];
+    
     CGPoint center = CGPointMake(rect.size.width/2, rect.size.height/2);
     CGFloat radius = MIN(rect.size.width, rect.size.height)/2;
     

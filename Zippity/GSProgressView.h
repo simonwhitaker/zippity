@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GSProgressView : UIView
+@interface GSProgressView : UIView <UIAppearanceContainer>
 
 @property (nonatomic) CGFloat progress;
-@property (strong, nonatomic) UIColor *color;
+@property (strong, nonatomic) UIColor *color UI_APPEARANCE_SELECTOR;
 
 @end
