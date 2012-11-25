@@ -52,34 +52,54 @@
     CGPoint center = CGPointMake(rect.size.width/2, rect.size.height/2);
     CGFloat radius = MIN(rect.size.width, rect.size.height)/2;
     
+    // Start a path
     UIBezierPath *path = [UIBezierPath bezierPath];
+    
+    // Move to centre and draw an arc.
+    
     [path moveToPoint:center];
     [path addArcWithCenter:center
                     radius:radius
-                startAngle:0 - M_PI_2
-                  endAngle:2 * M_PI * self.progress - M_PI_2
+                startAngle:0 - M_PI_2 // zero degrees is east, not north, so subtract pi/2
+                  endAngle:2 * M_PI * self.progress - M_PI_2 // ditto
                  clockwise:YES];
     [path closePath];
     
+    // If progress is 1.0, show a tick mark in the centre of the circle
     if (self.progress == 1.0) {
+        /* 
+         First draw a tick that looks like this:
+         
+           A---F
+           |   |
+           |   E-------D
+           |           |
+           B-----------C
+         
+         (Remember: (0,0) is top left)
+         */
         UIBezierPath *tickPath = [UIBezierPath bezierPath];
         CGFloat tickWidth = radius/3;
-        [tickPath moveToPoint:CGPointMake(0, 0)];
-        [tickPath addLineToPoint:CGPointMake(0, tickWidth * 2)];
-        [tickPath addLineToPoint:CGPointMake(tickWidth * 3, tickWidth * 2)];
-        [tickPath addLineToPoint:CGPointMake(tickWidth * 3, tickWidth)];
-        [tickPath addLineToPoint:CGPointMake(tickWidth, tickWidth)];
-        [tickPath addLineToPoint:CGPointMake(tickWidth, 0)];
+        [tickPath moveToPoint:CGPointMake(0, 0)];                            // A
+        [tickPath addLineToPoint:CGPointMake(0, tickWidth * 2)];             // B
+        [tickPath addLineToPoint:CGPointMake(tickWidth * 3, tickWidth * 2)]; // C
+        [tickPath addLineToPoint:CGPointMake(tickWidth * 3, tickWidth)];     // D
+        [tickPath addLineToPoint:CGPointMake(tickWidth, tickWidth)];         // E
+        [tickPath addLineToPoint:CGPointMake(tickWidth, 0)];                 // F
         [tickPath closePath];
         
+        // Now rotate it through -45 degrees...
         [tickPath applyTransform:CGAffineTransformMakeRotation(-M_PI_4)];
+        
+        // ...and move it into the right place.
         [tickPath applyTransform:CGAffineTransformMakeTranslation(radius * 0.43, radius)];
         
         // Account for non-square views
         CGFloat xOffset = rect.size.width/2 - radius;
         CGFloat yOffset = rect.size.height/2 - radius;
         [tickPath applyTransform:CGAffineTransformMakeTranslation(xOffset, yOffset)];
-        
+
+        // Add the tick path to the existing circle path
         [path appendPath:tickPath];
     };
     path.usesEvenOddFillRule = YES;
