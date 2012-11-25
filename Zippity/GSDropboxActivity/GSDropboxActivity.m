@@ -11,8 +11,6 @@
 #import "GSDropboxUploader.h"
 #import <DropboxSDK/DropboxSDK.h>
 
-#import "ZPAboutViewController.h"
-
 @interface GSDropboxActivity() <GSDropboxDestinationSelectionViewControllerDelegate>
 
 @property (nonatomic, copy) NSArray *activityItems;
