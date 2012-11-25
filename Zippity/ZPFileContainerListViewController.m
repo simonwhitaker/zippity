@@ -888,7 +888,7 @@ enum {
                                                                        animated:YES];
             }
         } else {
-            [self presentViewController:vc animated:YES completion:^{}];
+            [self presentViewController:vc animated:YES completion:NULL];
         }
     } else {
         if (self.currentActionSheet) {
