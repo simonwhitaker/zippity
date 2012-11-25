@@ -385,14 +385,14 @@
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F4C62BFC1661505F00B6554B /* GSDropboxActivity */,
 				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
 				F44DAC6E1653A44B00534B1E /* GSProgressView.h */,
-				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
-				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
 				F44DAC6F1653A44B00534B1E /* GSProgressView.m */,
+				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
 				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
+				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
 				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
-				F4C62BFC1661505F00B6554B /* GSDropboxActivity */,
 				F490E90A1607B57200C530F8 /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
