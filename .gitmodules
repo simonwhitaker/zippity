@@ -1,3 +1,9 @@
 [submodule "third-party/iOS-libarchive"]
 	path = third-party/iOS-libarchive
 	url = https://github.com/simonwhitaker/iOS-libarchive.git
+[submodule "third-party/GSDropboxActivity"]
+	path = third-party/GSDropboxActivity
+	url = git@github.com:goosoftware/GSDropboxActivity.git
+[submodule "third-party/GSProgressView"]
+	path = third-party/GSProgressView
+	url = git@github.com:goosoftware/GSProgressView.git

@@ -15,6 +15,19 @@
 		F408F44615854F5700E1A5B4 /* character-encodings.plist in Resources */ = {isa = PBXBuildFile; fileRef = F408F44515854F5700E1A5B4 /* character-encodings.plist */; };
 		F40D71341548263E004FA273 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40D71331548263E004FA273 /* Icon-72@2x.png */; };
 		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
+		F4110BCA16692EC100AA61AB /* GSDropboxActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BA116692EC100AA61AB /* GSDropboxActivity.m */; };
+		F4110BCC16692EC100AA61AB /* GSDropboxActivityIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110BA316692EC100AA61AB /* GSDropboxActivityIcon.png */; };
+		F4110BCD16692EC100AA61AB /* GSDropboxActivityIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110BA416692EC100AA61AB /* GSDropboxActivityIcon@2x.png */; };
+		F4110BCE16692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110BA516692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png */; };
+		F4110BCF16692EC100AA61AB /* GSDropboxActivityIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110BA616692EC100AA61AB /* GSDropboxActivityIcon~ipad.png */; };
+		F4110BD016692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BA816692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m */; };
+		F4110BD116692EC100AA61AB /* GSDropboxUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BAA16692EC100AA61AB /* GSDropboxUploader.m */; };
+		F4110BD216692EC100AA61AB /* GSDropboxUploadJob.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BAC16692EC100AA61AB /* GSDropboxUploadJob.m */; };
+		F4110BDF16692EC100AA61AB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F4110BC316692EC100AA61AB /* LICENSE */; };
+		F4110BE016692EC100AA61AB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4110BC416692EC100AA61AB /* README.md */; };
+		F4110C0216692F5000AA61AB /* GSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BE716692F5000AA61AB /* GSProgressView.m */; };
+		F4110C0C16692F5000AA61AB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F4110BFB16692F5000AA61AB /* LICENSE */; };
+		F4110C0D16692F5000AA61AB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4110BFC16692F5000AA61AB /* README.md */; };
 		F41113A1152341270052E1B3 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F411139F152341270052E1B3 /* info.png */; };
 		F41113A2152341270052E1B3 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41113A0152341270052E1B3 /* info@2x.png */; };
 		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
@@ -42,7 +55,6 @@
 		F4413937150BC691007F5E03 /* nav-bar-title-landscape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4413935150BC691007F5E03 /* nav-bar-title-landscape@2x.png */; };
 		F441B49C14F3765D0067A4FC /* ZPFileWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F441B49A14F3765D0067A4FC /* ZPFileWrapper.m */; };
 		F442747F14F85C9B00C84A0B /* ZPImagePreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */; };
-		F44DAC701653A44B00534B1E /* GSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F44DAC6F1653A44B00534B1E /* GSProgressView.m */; };
 		F453B8F3153AA5AF00C60685 /* ZPEmptyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */; };
 		F453B8F4153AA5AF00C60685 /* ZPEmptyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */; };
 		F453B8F7153ADDBA00C60685 /* ZPAboutViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F453B8F5153ADDBA00C60685 /* ZPAboutViewController-iPad.xib */; };
@@ -79,15 +91,6 @@
 		F49ECAF416065A8A006B8CCF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F49ECAF316065A8A006B8CCF /* Default-568h@2x.png */; };
 		F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */; };
 		F4B9909B14EE7F5A00F8FBD8 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */; };
-		F4C62C0A1661505F00B6554B /* GSDropboxActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C62BFE1661505F00B6554B /* GSDropboxActivity.m */; };
-		F4C62C0B1661505F00B6554B /* GSDropboxActivityIcon.opacity in Resources */ = {isa = PBXBuildFile; fileRef = F4C62BFF1661505F00B6554B /* GSDropboxActivityIcon.opacity */; };
-		F4C62C0C1661505F00B6554B /* GSDropboxActivityIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C62C001661505F00B6554B /* GSDropboxActivityIcon.png */; };
-		F4C62C0D1661505F00B6554B /* GSDropboxActivityIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C62C011661505F00B6554B /* GSDropboxActivityIcon@2x.png */; };
-		F4C62C0E1661505F00B6554B /* GSDropboxActivityIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C62C021661505F00B6554B /* GSDropboxActivityIcon@2x~ipad.png */; };
-		F4C62C0F1661505F00B6554B /* GSDropboxActivityIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4C62C031661505F00B6554B /* GSDropboxActivityIcon~ipad.png */; };
-		F4C62C101661505F00B6554B /* GSDropboxDestinationSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C62C051661505F00B6554B /* GSDropboxDestinationSelectionViewController.m */; };
-		F4C62C111661505F00B6554B /* GSDropboxUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C62C071661505F00B6554B /* GSDropboxUploader.m */; };
-		F4C62C121661505F00B6554B /* GSDropboxUploadJob.m in Sources */ = {isa = PBXBuildFile; fileRef = F4C62C091661505F00B6554B /* GSDropboxUploadJob.m */; };
 		F4D064731547DF810016C27B /* Doc-Icon-iPhone-rendered.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D064711547DF810016C27B /* Doc-Icon-iPhone-rendered.png */; };
 		F4D064741547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4D064721547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png */; };
 		F4D34821151C90B8008B706A /* ZPAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D3481F151C90B8008B706A /* ZPAboutViewController.m */; };
@@ -135,6 +138,24 @@
 		F40D71331548263E004FA273 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		F40FDBA414F2889F008BF9C8 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		F4110BA016692EC100AA61AB /* GSDropboxActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxActivity.h; sourceTree = "<group>"; };
+		F4110BA116692EC100AA61AB /* GSDropboxActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxActivity.m; sourceTree = "<group>"; };
+		F4110BA316692EC100AA61AB /* GSDropboxActivityIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GSDropboxActivityIcon.png; sourceTree = "<group>"; };
+		F4110BA416692EC100AA61AB /* GSDropboxActivityIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon@2x.png"; sourceTree = "<group>"; };
+		F4110BA516692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon@2x~ipad.png"; sourceTree = "<group>"; };
+		F4110BA616692EC100AA61AB /* GSDropboxActivityIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon~ipad.png"; sourceTree = "<group>"; };
+		F4110BA716692EC100AA61AB /* GSDropboxDestinationSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxDestinationSelectionViewController.h; sourceTree = "<group>"; };
+		F4110BA816692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxDestinationSelectionViewController.m; sourceTree = "<group>"; };
+		F4110BA916692EC100AA61AB /* GSDropboxUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploader.h; sourceTree = "<group>"; };
+		F4110BAA16692EC100AA61AB /* GSDropboxUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploader.m; sourceTree = "<group>"; };
+		F4110BAB16692EC100AA61AB /* GSDropboxUploadJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploadJob.h; sourceTree = "<group>"; };
+		F4110BAC16692EC100AA61AB /* GSDropboxUploadJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploadJob.m; sourceTree = "<group>"; };
+		F4110BC316692EC100AA61AB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		F4110BC416692EC100AA61AB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		F4110BE616692F5000AA61AB /* GSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSProgressView.h; sourceTree = "<group>"; };
+		F4110BE716692F5000AA61AB /* GSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSProgressView.m; sourceTree = "<group>"; };
+		F4110BFB16692F5000AA61AB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		F4110BFC16692F5000AA61AB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F411139F152341270052E1B3 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		F41113A0152341270052E1B3 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		F41385B115134AEA0087B896 /* GSSmokedInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSSmokedInfoView.h; sourceTree = "<group>"; };
@@ -169,8 +190,6 @@
 		F441B49B14F3765D0067A4FC /* ZPFileWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPFileWrapper.h; sourceTree = "<group>"; };
 		F442747D14F85C9B00C84A0B /* ZPImagePreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPImagePreviewController.h; sourceTree = "<group>"; };
 		F442747E14F85C9B00C84A0B /* ZPImagePreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPImagePreviewController.m; sourceTree = "<group>"; };
-		F44DAC6E1653A44B00534B1E /* GSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSProgressView.h; sourceTree = "<group>"; };
-		F44DAC6F1653A44B00534B1E /* GSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSProgressView.m; sourceTree = "<group>"; };
 		F453B8F0153AA5AF00C60685 /* ZPEmptyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPEmptyViewController.h; sourceTree = "<group>"; };
 		F453B8F1153AA5AF00C60685 /* ZPEmptyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPEmptyViewController.m; sourceTree = "<group>"; };
 		F453B8F2153AA5AF00C60685 /* ZPEmptyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZPEmptyViewController.xib; sourceTree = "<group>"; };
@@ -229,19 +248,6 @@
 		F4A0CE5E1582C314001A2DC2 /* ZPEncodingPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPEncodingPickerViewController.h; sourceTree = "<group>"; };
 		F4A0CE5F1582C314001A2DC2 /* ZPEncodingPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPEncodingPickerViewController.m; sourceTree = "<group>"; };
 		F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		F4C62BFD1661505F00B6554B /* GSDropboxActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxActivity.h; sourceTree = "<group>"; };
-		F4C62BFE1661505F00B6554B /* GSDropboxActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxActivity.m; sourceTree = "<group>"; };
-		F4C62BFF1661505F00B6554B /* GSDropboxActivityIcon.opacity */ = {isa = PBXFileReference; lastKnownFileType = file; path = GSDropboxActivityIcon.opacity; sourceTree = "<group>"; };
-		F4C62C001661505F00B6554B /* GSDropboxActivityIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GSDropboxActivityIcon.png; sourceTree = "<group>"; };
-		F4C62C011661505F00B6554B /* GSDropboxActivityIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon@2x.png"; sourceTree = "<group>"; };
-		F4C62C021661505F00B6554B /* GSDropboxActivityIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon@2x~ipad.png"; sourceTree = "<group>"; };
-		F4C62C031661505F00B6554B /* GSDropboxActivityIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon~ipad.png"; sourceTree = "<group>"; };
-		F4C62C041661505F00B6554B /* GSDropboxDestinationSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxDestinationSelectionViewController.h; sourceTree = "<group>"; };
-		F4C62C051661505F00B6554B /* GSDropboxDestinationSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxDestinationSelectionViewController.m; sourceTree = "<group>"; };
-		F4C62C061661505F00B6554B /* GSDropboxUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploader.h; sourceTree = "<group>"; };
-		F4C62C071661505F00B6554B /* GSDropboxUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploader.m; sourceTree = "<group>"; };
-		F4C62C081661505F00B6554B /* GSDropboxUploadJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploadJob.h; sourceTree = "<group>"; };
-		F4C62C091661505F00B6554B /* GSDropboxUploadJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploadJob.m; sourceTree = "<group>"; };
 		F4D064711547DF810016C27B /* Doc-Icon-iPhone-rendered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Doc-Icon-iPhone-rendered.png"; sourceTree = "<group>"; };
 		F4D064721547DF810016C27B /* Doc-Icon-iPhone-rendered@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Doc-Icon-iPhone-rendered@2x.png"; sourceTree = "<group>"; };
 		F4D3481E151C90B8008B706A /* ZPAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPAboutViewController.h; sourceTree = "<group>"; };
@@ -335,6 +341,48 @@
 			path = TestFlightSDK;
 			sourceTree = "<group>";
 		};
+		F4110B9D16692EC100AA61AB /* GSDropboxActivity */ = {
+			isa = PBXGroup;
+			children = (
+				F4110B9F16692EC100AA61AB /* GSDropboxActivity */,
+				F4110BC316692EC100AA61AB /* LICENSE */,
+				F4110BC416692EC100AA61AB /* README.md */,
+			);
+			name = GSDropboxActivity;
+			path = "third-party/GSDropboxActivity";
+			sourceTree = SOURCE_ROOT;
+		};
+		F4110B9F16692EC100AA61AB /* GSDropboxActivity */ = {
+			isa = PBXGroup;
+			children = (
+				F4110BA016692EC100AA61AB /* GSDropboxActivity.h */,
+				F4110BA116692EC100AA61AB /* GSDropboxActivity.m */,
+				F4110BA316692EC100AA61AB /* GSDropboxActivityIcon.png */,
+				F4110BA416692EC100AA61AB /* GSDropboxActivityIcon@2x.png */,
+				F4110BA516692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png */,
+				F4110BA616692EC100AA61AB /* GSDropboxActivityIcon~ipad.png */,
+				F4110BA716692EC100AA61AB /* GSDropboxDestinationSelectionViewController.h */,
+				F4110BA816692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m */,
+				F4110BA916692EC100AA61AB /* GSDropboxUploader.h */,
+				F4110BAA16692EC100AA61AB /* GSDropboxUploader.m */,
+				F4110BAB16692EC100AA61AB /* GSDropboxUploadJob.h */,
+				F4110BAC16692EC100AA61AB /* GSDropboxUploadJob.m */,
+			);
+			path = GSDropboxActivity;
+			sourceTree = "<group>";
+		};
+		F4110BE416692F5000AA61AB /* GSProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				F4110BE616692F5000AA61AB /* GSProgressView.h */,
+				F4110BE716692F5000AA61AB /* GSProgressView.m */,
+				F4110BFB16692F5000AA61AB /* LICENSE */,
+				F4110BFC16692F5000AA61AB /* README.md */,
+			);
+			name = GSProgressView;
+			path = "third-party/GSProgressView";
+			sourceTree = SOURCE_ROOT;
+		};
 		F42D56E41508B013000D89A2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,14 +433,13 @@
 		F47DFDA214ED5709007F7443 /* Third-party libraries */ = {
 			isa = PBXGroup;
 			children = (
-				F4C62BFC1661505F00B6554B /* GSDropboxActivity */,
 				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
-				F44DAC6E1653A44B00534B1E /* GSProgressView.h */,
-				F44DAC6F1653A44B00534B1E /* GSProgressView.m */,
 				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
-				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
 				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
+				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
 				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
+				F4110B9D16692EC100AA61AB /* GSDropboxActivity */,
+				F4110BE416692F5000AA61AB /* GSProgressView */,
 				F490E90A1607B57200C530F8 /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
@@ -541,26 +588,6 @@
 				F4D34833151C9EC6008B706A /* Glyphish Pro icons */,
 			);
 			name = Images;
-			sourceTree = "<group>";
-		};
-		F4C62BFC1661505F00B6554B /* GSDropboxActivity */ = {
-			isa = PBXGroup;
-			children = (
-				F4C62BFD1661505F00B6554B /* GSDropboxActivity.h */,
-				F4C62BFE1661505F00B6554B /* GSDropboxActivity.m */,
-				F4C62BFF1661505F00B6554B /* GSDropboxActivityIcon.opacity */,
-				F4C62C001661505F00B6554B /* GSDropboxActivityIcon.png */,
-				F4C62C011661505F00B6554B /* GSDropboxActivityIcon@2x.png */,
-				F4C62C021661505F00B6554B /* GSDropboxActivityIcon@2x~ipad.png */,
-				F4C62C031661505F00B6554B /* GSDropboxActivityIcon~ipad.png */,
-				F4C62C041661505F00B6554B /* GSDropboxDestinationSelectionViewController.h */,
-				F4C62C051661505F00B6554B /* GSDropboxDestinationSelectionViewController.m */,
-				F4C62C061661505F00B6554B /* GSDropboxUploader.h */,
-				F4C62C071661505F00B6554B /* GSDropboxUploader.m */,
-				F4C62C081661505F00B6554B /* GSDropboxUploadJob.h */,
-				F4C62C091661505F00B6554B /* GSDropboxUploadJob.m */,
-			);
-			path = GSDropboxActivity;
 			sourceTree = "<group>";
 		};
 		F4D34833151C9EC6008B706A /* Glyphish Pro icons */ = {
@@ -712,11 +739,14 @@
 				F49ECAF416065A8A006B8CCF /* Default-568h@2x.png in Resources */,
 				F490E90C1607B58C00C530F8 /* archive_entry.h in Resources */,
 				F490E90E1607B59A00C530F8 /* archive.h in Resources */,
-				F4C62C0B1661505F00B6554B /* GSDropboxActivityIcon.opacity in Resources */,
-				F4C62C0C1661505F00B6554B /* GSDropboxActivityIcon.png in Resources */,
-				F4C62C0D1661505F00B6554B /* GSDropboxActivityIcon@2x.png in Resources */,
-				F4C62C0E1661505F00B6554B /* GSDropboxActivityIcon@2x~ipad.png in Resources */,
-				F4C62C0F1661505F00B6554B /* GSDropboxActivityIcon~ipad.png in Resources */,
+				F4110BCC16692EC100AA61AB /* GSDropboxActivityIcon.png in Resources */,
+				F4110BCD16692EC100AA61AB /* GSDropboxActivityIcon@2x.png in Resources */,
+				F4110BCE16692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png in Resources */,
+				F4110BCF16692EC100AA61AB /* GSDropboxActivityIcon~ipad.png in Resources */,
+				F4110BDF16692EC100AA61AB /* LICENSE in Resources */,
+				F4110BE016692EC100AA61AB /* README.md in Resources */,
+				F4110C0C16692F5000AA61AB /* LICENSE in Resources */,
+				F4110C0D16692F5000AA61AB /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,11 +811,11 @@
 				F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */,
 				F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */,
 				F461C03116529AC200BCB6E6 /* GSStatusBarViewController.m in Sources */,
-				F44DAC701653A44B00534B1E /* GSProgressView.m in Sources */,
-				F4C62C0A1661505F00B6554B /* GSDropboxActivity.m in Sources */,
-				F4C62C101661505F00B6554B /* GSDropboxDestinationSelectionViewController.m in Sources */,
-				F4C62C111661505F00B6554B /* GSDropboxUploader.m in Sources */,
-				F4C62C121661505F00B6554B /* GSDropboxUploadJob.m in Sources */,
+				F4110BCA16692EC100AA61AB /* GSDropboxActivity.m in Sources */,
+				F4110BD016692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m in Sources */,
+				F4110BD116692EC100AA61AB /* GSDropboxUploader.m in Sources */,
+				F4110BD216692EC100AA61AB /* GSDropboxUploadJob.m in Sources */,
+				F4110C0216692F5000AA61AB /* GSProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -942,6 +972,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/third-party/GSDropboxActivity/GSDropboxDemoApp\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
@@ -968,6 +999,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/third-party/GSDropboxActivity/GSDropboxDemoApp\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Zippity/Zippity-Prefix.pch";
