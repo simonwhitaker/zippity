@@ -160,6 +160,14 @@
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    // Cancel any pending Dropbox uploads
+    [[GSDropboxUploader sharedUploader] cancelAll];
+
+    // Hide the status bar
+    [self.statusBarViewController dismissAnimated:NO];
+    
+    [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
