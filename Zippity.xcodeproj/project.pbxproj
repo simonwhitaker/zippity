@@ -15,15 +15,15 @@
 		F408F44615854F5700E1A5B4 /* character-encodings.plist in Resources */ = {isa = PBXBuildFile; fileRef = F408F44515854F5700E1A5B4 /* character-encodings.plist */; };
 		F40D71341548263E004FA273 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40D71331548263E004FA273 /* Icon-72@2x.png */; };
 		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
-		F4110BCA16692EC100AA61AB /* GSDropboxActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BA116692EC100AA61AB /* GSDropboxActivity.m */; };
-		F4110BCC16692EC100AA61AB /* GSDropboxActivityIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110BA316692EC100AA61AB /* GSDropboxActivityIcon.png */; };
-		F4110BCD16692EC100AA61AB /* GSDropboxActivityIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110BA416692EC100AA61AB /* GSDropboxActivityIcon@2x.png */; };
-		F4110BCE16692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110BA516692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png */; };
-		F4110BCF16692EC100AA61AB /* GSDropboxActivityIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110BA616692EC100AA61AB /* GSDropboxActivityIcon~ipad.png */; };
-		F4110BD016692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BA816692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m */; };
-		F4110BD116692EC100AA61AB /* GSDropboxUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BAA16692EC100AA61AB /* GSDropboxUploader.m */; };
-		F4110BD216692EC100AA61AB /* GSDropboxUploadJob.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BAC16692EC100AA61AB /* GSDropboxUploadJob.m */; };
 		F4110C0216692F5000AA61AB /* GSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BE716692F5000AA61AB /* GSProgressView.m */; };
+		F4110C1F16693A1C00AA61AB /* GSDropboxActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110C1316693A1C00AA61AB /* GSDropboxActivity.m */; };
+		F4110C2116693A1C00AA61AB /* GSDropboxActivityIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110C1516693A1C00AA61AB /* GSDropboxActivityIcon.png */; };
+		F4110C2216693A1C00AA61AB /* GSDropboxActivityIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110C1616693A1C00AA61AB /* GSDropboxActivityIcon@2x.png */; };
+		F4110C2316693A1C00AA61AB /* GSDropboxActivityIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110C1716693A1C00AA61AB /* GSDropboxActivityIcon@2x~ipad.png */; };
+		F4110C2416693A1C00AA61AB /* GSDropboxActivityIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110C1816693A1C00AA61AB /* GSDropboxActivityIcon~ipad.png */; };
+		F4110C2516693A1C00AA61AB /* GSDropboxDestinationSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110C1A16693A1C00AA61AB /* GSDropboxDestinationSelectionViewController.m */; };
+		F4110C2616693A1C00AA61AB /* GSDropboxUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110C1C16693A1C00AA61AB /* GSDropboxUploader.m */; };
+		F4110C2716693A1C00AA61AB /* GSDropboxUploadJob.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110C1E16693A1C00AA61AB /* GSDropboxUploadJob.m */; };
 		F41113A1152341270052E1B3 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F411139F152341270052E1B3 /* info.png */; };
 		F41113A2152341270052E1B3 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41113A0152341270052E1B3 /* info@2x.png */; };
 		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
@@ -134,20 +134,20 @@
 		F40D71331548263E004FA273 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		F40FDBA414F2889F008BF9C8 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
-		F4110BA016692EC100AA61AB /* GSDropboxActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxActivity.h; sourceTree = "<group>"; };
-		F4110BA116692EC100AA61AB /* GSDropboxActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxActivity.m; sourceTree = "<group>"; };
-		F4110BA316692EC100AA61AB /* GSDropboxActivityIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GSDropboxActivityIcon.png; sourceTree = "<group>"; };
-		F4110BA416692EC100AA61AB /* GSDropboxActivityIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon@2x.png"; sourceTree = "<group>"; };
-		F4110BA516692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon@2x~ipad.png"; sourceTree = "<group>"; };
-		F4110BA616692EC100AA61AB /* GSDropboxActivityIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon~ipad.png"; sourceTree = "<group>"; };
-		F4110BA716692EC100AA61AB /* GSDropboxDestinationSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxDestinationSelectionViewController.h; sourceTree = "<group>"; };
-		F4110BA816692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxDestinationSelectionViewController.m; sourceTree = "<group>"; };
-		F4110BA916692EC100AA61AB /* GSDropboxUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploader.h; sourceTree = "<group>"; };
-		F4110BAA16692EC100AA61AB /* GSDropboxUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploader.m; sourceTree = "<group>"; };
-		F4110BAB16692EC100AA61AB /* GSDropboxUploadJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploadJob.h; sourceTree = "<group>"; };
-		F4110BAC16692EC100AA61AB /* GSDropboxUploadJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploadJob.m; sourceTree = "<group>"; };
 		F4110BE616692F5000AA61AB /* GSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSProgressView.h; sourceTree = "<group>"; };
 		F4110BE716692F5000AA61AB /* GSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSProgressView.m; sourceTree = "<group>"; };
+		F4110C1216693A1C00AA61AB /* GSDropboxActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxActivity.h; sourceTree = "<group>"; };
+		F4110C1316693A1C00AA61AB /* GSDropboxActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxActivity.m; sourceTree = "<group>"; };
+		F4110C1516693A1C00AA61AB /* GSDropboxActivityIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GSDropboxActivityIcon.png; sourceTree = "<group>"; };
+		F4110C1616693A1C00AA61AB /* GSDropboxActivityIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon@2x.png"; sourceTree = "<group>"; };
+		F4110C1716693A1C00AA61AB /* GSDropboxActivityIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon@2x~ipad.png"; sourceTree = "<group>"; };
+		F4110C1816693A1C00AA61AB /* GSDropboxActivityIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GSDropboxActivityIcon~ipad.png"; sourceTree = "<group>"; };
+		F4110C1916693A1C00AA61AB /* GSDropboxDestinationSelectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxDestinationSelectionViewController.h; sourceTree = "<group>"; };
+		F4110C1A16693A1C00AA61AB /* GSDropboxDestinationSelectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxDestinationSelectionViewController.m; sourceTree = "<group>"; };
+		F4110C1B16693A1C00AA61AB /* GSDropboxUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploader.h; sourceTree = "<group>"; };
+		F4110C1C16693A1C00AA61AB /* GSDropboxUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploader.m; sourceTree = "<group>"; };
+		F4110C1D16693A1C00AA61AB /* GSDropboxUploadJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploadJob.h; sourceTree = "<group>"; };
+		F4110C1E16693A1C00AA61AB /* GSDropboxUploadJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploadJob.m; sourceTree = "<group>"; };
 		F411139F152341270052E1B3 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		F41113A0152341270052E1B3 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		F41385B115134AEA0087B896 /* GSSmokedInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSSmokedInfoView.h; sourceTree = "<group>"; };
@@ -333,34 +333,6 @@
 			path = TestFlightSDK;
 			sourceTree = "<group>";
 		};
-		F4110B9D16692EC100AA61AB /* GSDropboxActivity */ = {
-			isa = PBXGroup;
-			children = (
-				F4110B9F16692EC100AA61AB /* GSDropboxActivity */,
-			);
-			name = GSDropboxActivity;
-			path = "third-party/GSDropboxActivity";
-			sourceTree = SOURCE_ROOT;
-		};
-		F4110B9F16692EC100AA61AB /* GSDropboxActivity */ = {
-			isa = PBXGroup;
-			children = (
-				F4110BA016692EC100AA61AB /* GSDropboxActivity.h */,
-				F4110BA116692EC100AA61AB /* GSDropboxActivity.m */,
-				F4110BA316692EC100AA61AB /* GSDropboxActivityIcon.png */,
-				F4110BA416692EC100AA61AB /* GSDropboxActivityIcon@2x.png */,
-				F4110BA516692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png */,
-				F4110BA616692EC100AA61AB /* GSDropboxActivityIcon~ipad.png */,
-				F4110BA716692EC100AA61AB /* GSDropboxDestinationSelectionViewController.h */,
-				F4110BA816692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m */,
-				F4110BA916692EC100AA61AB /* GSDropboxUploader.h */,
-				F4110BAA16692EC100AA61AB /* GSDropboxUploader.m */,
-				F4110BAB16692EC100AA61AB /* GSDropboxUploadJob.h */,
-				F4110BAC16692EC100AA61AB /* GSDropboxUploadJob.m */,
-			);
-			path = GSDropboxActivity;
-			sourceTree = "<group>";
-		};
 		F4110BE416692F5000AA61AB /* GSProgressView */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +341,26 @@
 			);
 			name = GSProgressView;
 			path = "third-party/GSProgressView";
+			sourceTree = SOURCE_ROOT;
+		};
+		F4110C1116693A1C00AA61AB /* GSDropboxActivity */ = {
+			isa = PBXGroup;
+			children = (
+				F4110C1216693A1C00AA61AB /* GSDropboxActivity.h */,
+				F4110C1316693A1C00AA61AB /* GSDropboxActivity.m */,
+				F4110C1516693A1C00AA61AB /* GSDropboxActivityIcon.png */,
+				F4110C1616693A1C00AA61AB /* GSDropboxActivityIcon@2x.png */,
+				F4110C1716693A1C00AA61AB /* GSDropboxActivityIcon@2x~ipad.png */,
+				F4110C1816693A1C00AA61AB /* GSDropboxActivityIcon~ipad.png */,
+				F4110C1916693A1C00AA61AB /* GSDropboxDestinationSelectionViewController.h */,
+				F4110C1A16693A1C00AA61AB /* GSDropboxDestinationSelectionViewController.m */,
+				F4110C1B16693A1C00AA61AB /* GSDropboxUploader.h */,
+				F4110C1C16693A1C00AA61AB /* GSDropboxUploader.m */,
+				F4110C1D16693A1C00AA61AB /* GSDropboxUploadJob.h */,
+				F4110C1E16693A1C00AA61AB /* GSDropboxUploadJob.m */,
+			);
+			name = GSDropboxActivity;
+			path = "third-party/GSDropboxActivity/GSDropboxActivity";
 			sourceTree = SOURCE_ROOT;
 		};
 		F42D56E41508B013000D89A2 /* Models */ = {
@@ -422,7 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
-				F4110B9D16692EC100AA61AB /* GSDropboxActivity */,
+				F4110C1116693A1C00AA61AB /* GSDropboxActivity */,
 				F4110BE416692F5000AA61AB /* GSProgressView */,
 				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
 				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
@@ -727,10 +719,10 @@
 				F49ECAF416065A8A006B8CCF /* Default-568h@2x.png in Resources */,
 				F490E90C1607B58C00C530F8 /* archive_entry.h in Resources */,
 				F490E90E1607B59A00C530F8 /* archive.h in Resources */,
-				F4110BCC16692EC100AA61AB /* GSDropboxActivityIcon.png in Resources */,
-				F4110BCD16692EC100AA61AB /* GSDropboxActivityIcon@2x.png in Resources */,
-				F4110BCE16692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png in Resources */,
-				F4110BCF16692EC100AA61AB /* GSDropboxActivityIcon~ipad.png in Resources */,
+				F4110C2116693A1C00AA61AB /* GSDropboxActivityIcon.png in Resources */,
+				F4110C2216693A1C00AA61AB /* GSDropboxActivityIcon@2x.png in Resources */,
+				F4110C2316693A1C00AA61AB /* GSDropboxActivityIcon@2x~ipad.png in Resources */,
+				F4110C2416693A1C00AA61AB /* GSDropboxActivityIcon~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -795,11 +787,11 @@
 				F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */,
 				F4A0CE601582C314001A2DC2 /* ZPEncodingPickerViewController.m in Sources */,
 				F461C03116529AC200BCB6E6 /* GSStatusBarViewController.m in Sources */,
-				F4110BCA16692EC100AA61AB /* GSDropboxActivity.m in Sources */,
-				F4110BD016692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m in Sources */,
-				F4110BD116692EC100AA61AB /* GSDropboxUploader.m in Sources */,
-				F4110BD216692EC100AA61AB /* GSDropboxUploadJob.m in Sources */,
 				F4110C0216692F5000AA61AB /* GSProgressView.m in Sources */,
+				F4110C1F16693A1C00AA61AB /* GSDropboxActivity.m in Sources */,
+				F4110C2516693A1C00AA61AB /* GSDropboxDestinationSelectionViewController.m in Sources */,
+				F4110C2616693A1C00AA61AB /* GSDropboxUploader.m in Sources */,
+				F4110C2716693A1C00AA61AB /* GSDropboxUploadJob.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
