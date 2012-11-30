@@ -23,11 +23,7 @@
 		F4110BD016692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BA816692EC100AA61AB /* GSDropboxDestinationSelectionViewController.m */; };
 		F4110BD116692EC100AA61AB /* GSDropboxUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BAA16692EC100AA61AB /* GSDropboxUploader.m */; };
 		F4110BD216692EC100AA61AB /* GSDropboxUploadJob.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BAC16692EC100AA61AB /* GSDropboxUploadJob.m */; };
-		F4110BDF16692EC100AA61AB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F4110BC316692EC100AA61AB /* LICENSE */; };
-		F4110BE016692EC100AA61AB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4110BC416692EC100AA61AB /* README.md */; };
 		F4110C0216692F5000AA61AB /* GSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BE716692F5000AA61AB /* GSProgressView.m */; };
-		F4110C0C16692F5000AA61AB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F4110BFB16692F5000AA61AB /* LICENSE */; };
-		F4110C0D16692F5000AA61AB /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F4110BFC16692F5000AA61AB /* README.md */; };
 		F41113A1152341270052E1B3 /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = F411139F152341270052E1B3 /* info.png */; };
 		F41113A2152341270052E1B3 /* info@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41113A0152341270052E1B3 /* info@2x.png */; };
 		F41385B315134AEA0087B896 /* GSSmokedInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F41385B215134AEA0087B896 /* GSSmokedInfoView.m */; };
@@ -150,12 +146,8 @@
 		F4110BAA16692EC100AA61AB /* GSDropboxUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploader.m; sourceTree = "<group>"; };
 		F4110BAB16692EC100AA61AB /* GSDropboxUploadJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxUploadJob.h; sourceTree = "<group>"; };
 		F4110BAC16692EC100AA61AB /* GSDropboxUploadJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSDropboxUploadJob.m; sourceTree = "<group>"; };
-		F4110BC316692EC100AA61AB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		F4110BC416692EC100AA61AB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F4110BE616692F5000AA61AB /* GSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSProgressView.h; sourceTree = "<group>"; };
 		F4110BE716692F5000AA61AB /* GSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSProgressView.m; sourceTree = "<group>"; };
-		F4110BFB16692F5000AA61AB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		F4110BFC16692F5000AA61AB /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F411139F152341270052E1B3 /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
 		F41113A0152341270052E1B3 /* info@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "info@2x.png"; sourceTree = "<group>"; };
 		F41385B115134AEA0087B896 /* GSSmokedInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSSmokedInfoView.h; sourceTree = "<group>"; };
@@ -345,8 +337,6 @@
 			isa = PBXGroup;
 			children = (
 				F4110B9F16692EC100AA61AB /* GSDropboxActivity */,
-				F4110BC316692EC100AA61AB /* LICENSE */,
-				F4110BC416692EC100AA61AB /* README.md */,
 			);
 			name = GSDropboxActivity;
 			path = "third-party/GSDropboxActivity";
@@ -376,8 +366,6 @@
 			children = (
 				F4110BE616692F5000AA61AB /* GSProgressView.h */,
 				F4110BE716692F5000AA61AB /* GSProgressView.m */,
-				F4110BFB16692F5000AA61AB /* LICENSE */,
-				F4110BFC16692F5000AA61AB /* README.md */,
 			);
 			name = GSProgressView;
 			path = "third-party/GSProgressView";
@@ -434,12 +422,12 @@
 			isa = PBXGroup;
 			children = (
 				F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */,
-				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
-				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
-				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
-				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
 				F4110B9D16692EC100AA61AB /* GSDropboxActivity */,
 				F4110BE416692F5000AA61AB /* GSProgressView */,
+				F41385B115134AEA0087B896 /* GSSmokedInfoView.h */,
+				F41385B215134AEA0087B896 /* GSSmokedInfoView.m */,
+				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
+				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
 				F490E90A1607B57200C530F8 /* libarchive */,
 				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
@@ -743,10 +731,6 @@
 				F4110BCD16692EC100AA61AB /* GSDropboxActivityIcon@2x.png in Resources */,
 				F4110BCE16692EC100AA61AB /* GSDropboxActivityIcon@2x~ipad.png in Resources */,
 				F4110BCF16692EC100AA61AB /* GSDropboxActivityIcon~ipad.png in Resources */,
-				F4110BDF16692EC100AA61AB /* LICENSE in Resources */,
-				F4110BE016692EC100AA61AB /* README.md in Resources */,
-				F4110C0C16692F5000AA61AB /* LICENSE in Resources */,
-				F4110C0D16692F5000AA61AB /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
