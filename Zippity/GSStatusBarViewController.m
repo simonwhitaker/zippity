@@ -30,15 +30,17 @@
 /* End of GSMessage */
 
 @interface GSStatusBarViewController ()
-@property (strong, nonatomic) NSMutableArray *messageQueue;
-@property (weak, nonatomic) UILabel *statusLabel;
-@property (weak, nonatomic) GSProgressView *progressView;
-@property (strong, nonatomic) NSTimer *serviceQueueTimer;
+@property (strong, nonatomic) NSMutableArray *_messageQueue;
+@property (weak, nonatomic) UILabel *_statusLabel;
+@property (weak, nonatomic) GSProgressView *_progressView;
+@property (strong, nonatomic) NSTimer *_serviceQueueTimer;
+@property (nonatomic) BOOL _isServicingQueue;
+
 @property (nonatomic) BOOL isDisplayingStatusBar;
-@property (nonatomic) BOOL isServicingQueue;
-- (void)serviceQueue;
-- (void)showStatusBar;
-- (void)hideStatusBar;
+
+- (void)_serviceQueue;
+- (void)_showStatusBar:(BOOL)animated;
+- (void)_hideStatusBar:(BOOL)animated;
 @end
 
 @implementation GSStatusBarViewController
@@ -56,14 +58,14 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
     self = [super init];
     if (self) {
         self.contentViewController = contentViewController;
-        self.messageQueue = [NSMutableArray array];
+        self._messageQueue = [NSMutableArray array];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [self.serviceQueueTimer invalidate];
+    [self._serviceQueueTimer invalidate];
 }
 
 - (void)viewDidLoad
@@ -87,28 +89,28 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
                                    containerView.frame.size.width - kStatusLabelPadding.width - originX,
                                    containerView.frame.size.height - kStatusLabelPadding.height * 2);
 
-    UILabel *statusLabel = [[UILabel alloc] initWithFrame:labelFrame];
-    statusLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    statusLabel.backgroundColor = [UIColor clearColor];
-    statusLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-    statusLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-    statusLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-    statusLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];
-    [containerView addSubview:statusLabel];
+    UILabel *_statusLabel = [[UILabel alloc] initWithFrame:labelFrame];
+    _statusLabel.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    _statusLabel.backgroundColor = [UIColor clearColor];
+    _statusLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1.0];
+    _statusLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    _statusLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+    _statusLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];
+    [containerView addSubview:_statusLabel];
     
     GSProgressView *progressIndicator = [[GSProgressView alloc] initWithFrame:CGRectMake(kStatusLabelPadding.width,
                                                                                          kStatusLabelPadding.height,
                                                                                          kStatusProgressIndicatorSize.width,
                                                                                          kStatusProgressIndicatorSize.height)];
-    progressIndicator.color = statusLabel.textColor;
+    progressIndicator.color = _statusLabel.textColor;
     progressIndicator.progress = 0.6;
     progressIndicator.hidden = YES;
     [containerView addSubview:progressIndicator];
-    self.progressView = progressIndicator;
+    self._progressView = progressIndicator;
     
     [self.view insertSubview:containerView atIndex:0];
     
-    self.statusLabel = statusLabel;
+    self._statusLabel = _statusLabel;
 }
 
 - (void)didReceiveMemoryWarning
@@ -116,7 +118,7 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
-    [self.messageQueue removeAllObjects];
+    [self._messageQueue removeAllObjects];
 }
 
 - (void)setContentViewController:(UIViewController *)contentViewController
@@ -140,92 +142,104 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
 
 - (void)showMessage:(NSString *)message withTimeout:(NSTimeInterval)timeout
 {
-    [self.messageQueue addObject:[GSMessage messageWithText:message andTimeout:timeout]];
+    [self._messageQueue addObject:[GSMessage messageWithText:message andTimeout:timeout]];
     
-    if (!self.isServicingQueue && self.serviceQueueTimer == nil)
-        [self serviceQueue];
+    if (!self._isServicingQueue && self._serviceQueueTimer == nil)
+        [self _serviceQueue];
+}
+
+- (void)dismissAnimated:(BOOL)animated
+{
+    [self._messageQueue removeAllObjects];
+
+    [self._serviceQueueTimer invalidate];
+    self._serviceQueueTimer = nil;
+    
+    [self _hideStatusBar:animated];
 }
 
 - (void)showProgressViewWithProgress:(CGFloat)progress
 {
-    self.progressView.progress = progress;
-    self.progressView.hidden = NO;
+    self._progressView.progress = progress;
+    self._progressView.hidden = NO;
 }
 
 - (void)hideProgressView
 {
-    self.progressView.hidden = YES;
+    self._progressView.hidden = YES;
 }
 
-- (void)serviceQueue
+- (void)_serviceQueue
 {
-    [self.serviceQueueTimer invalidate];
-    self.serviceQueueTimer = nil;
+    [self._serviceQueueTimer invalidate];
+    self._serviceQueueTimer = nil;
     
-    self.isServicingQueue = YES;
+    self._isServicingQueue = YES;
     
-    if ([self.messageQueue count] == 0) {
-        [self hideStatusBar];
+    if ([self._messageQueue count] == 0) {
+        [self _hideStatusBar:YES];
     } else {
-        GSMessage *message = [self.messageQueue objectAtIndex:0];
-        [self.messageQueue removeObjectAtIndex:0];
+        GSMessage *message = [self._messageQueue objectAtIndex:0];
+        [self._messageQueue removeObjectAtIndex:0];
 
         if (message.text == nil || [message.text isEqualToString:@""]) {
-            [self hideStatusBar];
+            [self _hideStatusBar:YES];
         } else if (self.isDisplayingStatusBar) {
             // Swap the message
             [UIView animateWithDuration:kStatusMessageFadeOutAnimationDuration animations:^{
-                self.statusLabel.alpha = 0.0;
+                self._statusLabel.alpha = 0.0;
             } completion:^(BOOL finished) {
-                self.statusLabel.text = message.text;
+                self._statusLabel.text = message.text;
                 [UIView animateWithDuration:kStatusMessageFadeInAnimationDuration animations:^{
-                    self.statusLabel.alpha = 1.0;
+                    self._statusLabel.alpha = 1.0;
                 }];
             }];
         } else {
-            self.statusLabel.text = message.text;
-            [self showStatusBar];
+            self._statusLabel.text = message.text;
+            [self _showStatusBar:YES];
         }
         
         if (message.timeout) {
-            self.serviceQueueTimer = [NSTimer scheduledTimerWithTimeInterval:message.timeout
+            self._serviceQueueTimer = [NSTimer scheduledTimerWithTimeInterval:message.timeout
                                                                       target:self
-                                                                    selector:@selector(serviceQueue)
+                                                                    selector:@selector(_serviceQueue)
                                                                     userInfo:nil
                                                                      repeats:NO];
         }
     }
-    self.isServicingQueue = NO;
+    self._isServicingQueue = NO;
 }
 
-- (void)showStatusBar
+- (void)_showStatusBar:(BOOL)animated
 {
     if (self.isDisplayingStatusBar)
         return;
 
-    [UIView animateWithDuration:0.5 animations:^{
+    NSTimeInterval duration = animated ? 0.5 : 0;
+    [UIView animateWithDuration:duration animations:^{
         CGRect r = self.contentViewController.view.frame;
         r.size.height = self.view.bounds.size.height - (kStatusLabelHeight + kStatusLabelPadding.height * 2 + roundf(kStatusBarShadowOffset / 2));
         self.contentViewController.view.frame = r;
     } completion:^(BOOL finished) {
         self.isDisplayingStatusBar = YES;
-        self.progressView.hidden = NO;
+        self._progressView.hidden = NO;
     }];
 
 }
 
-- (void)hideStatusBar
+- (void)_hideStatusBar:(BOOL)animated
 {
     if (!self.isDisplayingStatusBar)
         return;
     
-    self.progressView.hidden = YES;
-    [UIView animateWithDuration:0.5 animations:^{
+    NSTimeInterval duration = animated ? 0.5 : 0;
+    self._progressView.hidden = YES;
+    [UIView animateWithDuration:duration animations:^{
         CGRect r = self.contentViewController.view.frame;
         r.size.height = self.view.bounds.size.height;
         self.contentViewController.view.frame = r;
     } completion:^(BOOL finished) {
-        self.statusLabel.text = nil;
+        self._statusLabel.text = nil;
         self.isDisplayingStatusBar = NO;
     }];
 }

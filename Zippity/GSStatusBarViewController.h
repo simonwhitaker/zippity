@@ -16,6 +16,10 @@
 
 /* Set timeout to 0 to have the message persist until the next message arrives. */
 - (void)showMessage:(NSString *)message withTimeout:(NSTimeInterval)timeout;
+
+/* Dismiss the status bar, discarding any messages */
+- (void)dismissAnimated:(BOOL)animated;
+
 - (void)showProgressViewWithProgress:(CGFloat)progress;
 - (void)hideProgressView;
 
