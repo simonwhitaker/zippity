@@ -68,6 +68,8 @@ static NSArray * allEncodings = nil;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.navigationController.navigationBar.tintColor = [UIColor darkGrayColor];
+    self.navigationController.toolbar.tintColor = [UIColor darkGrayColor];
 }
 
 - (void)viewDidUnload
