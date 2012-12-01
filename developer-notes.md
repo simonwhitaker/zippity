@@ -2,8 +2,7 @@
 
 For *.m files:
 
-    cd Zippity
-    genstrings -o en.lproj/ *.m
+    genstrings -o Zippity/en.lproj Zippity/*.m third-party/GSDropboxActivity/GSDropboxActivity/*.m    
     
 For the settings bundle:
 
@@ -13,6 +12,7 @@ For the settings bundle:
 For XIBs:
 
     cd Zippity
+    ibtool --generate-strings-file en.lproj/ZPAboutViewController.strings en.lproj/ZPAboutViewController.xib 
     ibtool --generate-strings-file en.lproj/ZPAboutViewController.strings en.lproj/ZPAboutViewController.xib 
 
 # Generating localised XIBs
