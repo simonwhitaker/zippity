@@ -10,7 +10,7 @@
 
 @interface ZPUnrecognisedFileTypeViewController ()
 
-- (void)handleActionButton;
+- (void)handleActionButton:(id)sender;
 
 @end
 
@@ -37,7 +37,7 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction
                                                                                            target:self
-                                                                                           action:@selector(handleActionButton)];
+                                                                                           action:@selector(handleActionButton:)];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -54,13 +54,10 @@
     // Release any retained subviews of the main view.
 }
 
-- (void)handleActionButton
+- (void)handleActionButton:(id)sender
 {
-    if ([self.fileWrapper.documentInteractionController presentOptionsMenuFromRect:CGRectZero
-                                                                            inView:self.view
-                                                                          animated:YES]) {
-    }
-    
+    [self.fileWrapper.documentInteractionController presentOptionsMenuFromBarButtonItem:sender
+                                                                               animated:YES];
 }
 
 @end
