@@ -108,13 +108,13 @@
 /* --- Character encoding picker --- */
 
 /* Title shown on a dialog prompting the user for the character encoding used in a Zip file */
-"Choose Encoding" = "Choose Encoding";
+"Choose Encoding" = "Vyberte kódování";
 
 /* Explanatory text shown above a list of available character encodings. */
-"Choose the encoding used to encode filenames in this archive" = "Choose the encoding used to encode filenames in this archive";
+"Choose the encoding used to encode filenames in this archive" = "Vyberte kódování použité při zakódování souborů v tomto archivu";
 
 /* Shows an example of a filename from the zip file interpreted using a particular character encoding. */
-"Example: %@" = "Example: %@";
+"Example: %@" = "Příklad: %@";
 
 
 /* --- Dropbox integration --- */
@@ -122,26 +122,25 @@
 /* - Selecting the destination folder for uploads - */
 
 /* Prompt asking user to select a destination folder on Dropbox to which uploads will be saved. */
-"Choose a destination for uploads." = "Choose a destination for uploads.";
+"Choose a destination for uploads." = "Vyberte složku pro nahrávání.";
 
 /* Title for button that user taps to specify the current folder as the storage location for uploads. */
-"Choose" = "Choose";
+"Choose" = "Vyberte";
 
 /* Progress message while app is loading a list of folders from Dropbox */
-"Loading..." = "Loading...";
+"Loading..." = "Načítání…";
 
 /* Status message when the current folder contains no sub-folders */
-"Contains no folders" = "Contains no folders";
+"Contains no folders" = "Neobsahuje žádné složky";
 
 /* Error message if the app couldn't load a list of a folder's contents from Dropbox */
-"Error loading folder contents" = "Error loading folder contents";
+"Error loading folder contents" = "Chyba při načtení obsahu složky";
 
 /* - Status messages shown while uploading files - */
 
 /* Message shown while uploading a file to Dropbox. %@ is replaced by the filename. */
-"Uploading %@ to Dropbox" = "Uploading %@ to Dropbox";
+"Uploading %@ to Dropbox" = "Nahrávám %@ na Dropbox";
 
 /* Status message shown when Dropbox upload session has completed */
-"Upload complete" = "Upload complete";
-
+"Upload complete" = "Nahrávání dokončeno";
 

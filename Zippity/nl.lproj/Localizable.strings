@@ -14,7 +14,7 @@
 "Choose account" = "Kies gebruiker";
 
 /* The text for a button that will delete files when tapped */
-"Delete" = "Verwijderen";
+"Delete" = "Verwijder";
 
 /* The title for a confirmation dialog shown when deleting a file. %@ is replaced by the filename of a single selected file. */
 "Delete %@" = "Verwijder %@";
@@ -23,16 +23,16 @@
 "Delete %u files" = "Verwijder %u bestanden";
 
 /* The text for a button that will start composing an email when tapped */
-"Email" = "Email";
+"Email" = "E-mail";
 
 /* Accessibility text for visually impaired users, prompting the user to email us */
-"Email info@goosoftware.co.uk" = "Email info@goosoftware.co.uk";
+"Email info@goosoftware.co.uk" = "E-mail info@goosoftware.co.uk";
 
 /* The title for a message box shown when an error occurs */
 "Error" = "Fout";
 
 /* Message shown when there's an error following @zippityapp on Twitter */
-"Error following @zippityapp" = "Fout bij volgen @zippityapp";
+"Error following @zippityapp" = "Fout bij het volgen van @zippityapp";
 
 /* Button prompting the user to follow @zippityapp on Twitter */
 "Follow @zippityapp" = "Volg @zippityapp";
@@ -47,13 +47,13 @@
 "Save %@" = "Bewaar %@";
 
 /* The title for a confirmation dialog shown when saving files. %u is replaced by the number of files being saved. */
-"Save %u images" = "Bewaar %u beelden";
+"Save %u images" = "Bewaar %u afbeeldingen";
 
 /* The text for a button that will save image files to the camera roll when tapped */
-"Save Images" = "Bewaar beelden";
+"Save Images" = "Bewaar afbeeldingen";
 
 /* Button text for Save to Photos button in action sheet */
-"Save to Photos" = "Bewaar naar fotos";
+"Save to Photos" = "Bewaar naar Foto's";
 
 /* The text for a button that will share files when tapped, for example by email */
 "Share" = "Deel";
@@ -74,10 +74,10 @@
 "Visit www.zippity.co.uk" = "Bezoek www.zippity.co.uk";
 
 /* Message asking the user which of their Twitter accounts they'd like to follow @zippityapp from */
-"Which Twitter account do you want to follow @zippityapp from?" = "Met welke Twitter gebruiker wilt u @zippityapp volgen?";
+"Which Twitter account do you want to follow @zippityapp from?" = "Met welke Twitter-account wilt u @zippityapp volgen?";
 
 /* Message shown to a user when they try to email a file but have not set up an email account on their iPhone. */
-"You don't have an email account configured. You can set one up in the main Settings app." = "U heeft geen emailgebruiker geconfigureerd. U kunt een emailgebruiker aanmaken in de algemene Instellingen app.";
+"You don't have an email account configured. You can set one up in the main Settings app." = "U heeft geen e-mailaccount ingesteld. U kunt een e-mailaccount aanmaken in de algemene Instellingen-app.";
 
 /* Message shown when the user successfully follows @zippityapp on Twitter */
 "You're now following @zippityapp!" = "U volgt nu @zippityapp!";
@@ -94,29 +94,29 @@
 "%u of %u" = "%1$u van %2$u";                                                                                                                       
 
 /* Error mesage shown in a temporary dialog if the app fails to save photos to the user's camera roll */          
-"Error: couldn't save image to Photos" = "Fout: kan beeld niet bewaren naar Fotos";
+"Error: couldn't save image to Photos" = "Fout: kan afbeelding niet bewaren naar Foto's";
 
 /* Message shown in a temporary dialog when the app has successfully saved photos to the user's camera roll */          
-"Image saved to Photos!" = "Beeld bewaard naar Fotos!";
+"Image saved to Photos!" = "Afbeelding bewaard naar Foto's!";
 
-/* Label for the Open In button in the image gallery action sheet */                                   
+/* Label for the Open In button in the image gallery action sheet */                                  
 "Open In..." = "Open in...";
 
-/* Label for the Save To Photos button in the image gallery action sheet */                                  
-"Save To Photos" = "Bewaar naar Fotos";
+/* Label for the Save To Photos button in the image gallery action sheet */                                 
+"Save To Photos" = "Bewaar naar Foto's";
 
 /* ------------------- ADDED 1st December 2012 ------------------- */
 
 /* --- Character encoding picker --- */
 
 /* Title shown on a dialog prompting the user for the character encoding used in a Zip file */
-"Choose Encoding" = "Choose Encoding";
+"Choose Encoding" = "Kies codering";
 
 /* Explanatory text shown above a list of available character encodings. */
-"Choose the encoding used to encode filenames in this archive" = "Choose the encoding used to encode filenames in this archive";
+"Choose the encoding used to encode filenames in this archive" = "Kies de codering die gebruikt wordt om bestandsnamen te coderen in dit archief";
 
 /* Shows an example of a filename from the zip file interpreted using a particular character encoding. */
-"Example: %@" = "Example: %@";
+"Example: %@" = "Voorbeeld: %@";
 
 
 /* --- Dropbox integration --- */
@@ -124,26 +124,26 @@
 /* - Selecting the destination folder for uploads - */
 
 /* Prompt asking user to select a destination folder on Dropbox to which uploads will be saved. */
-"Choose a destination for uploads." = "Choose a destination for uploads.";
+"Choose a destination for uploads." = "Kies een bestemming voor uploads.";
 
 /* Title for button that user taps to specify the current folder as the storage location for uploads. */
-"Choose" = "Choose";
+"Choose" = "Kies";
 
 /* Progress message while app is loading a list of folders from Dropbox */
-"Loading..." = "Loading...";
+"Loading..." = "Laden...";
 
 /* Status message when the current folder contains no sub-folders */
-"Contains no folders" = "Contains no folders";
+"Contains no folders" = "Bevat geen mappen";
 
 /* Error message if the app couldn't load a list of a folder's contents from Dropbox */
-"Error loading folder contents" = "Error loading folder contents";
+"Error loading folder contents" = "Fout bij het laden van mapinhoud";
 
 /* - Status messages shown while uploading files - */
 
 /* Message shown while uploading a file to Dropbox. %@ is replaced by the filename. */
-"Uploading %@ to Dropbox" = "Uploading %@ to Dropbox";
+"Uploading %@ to Dropbox" = "%@ uploaden naar Dropbox";
 
 /* Status message shown when Dropbox upload session has completed */
-"Upload complete" = "Upload complete";
+"Upload complete" = "Upload voltooid";
 
 

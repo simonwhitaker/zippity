@@ -101,20 +101,20 @@
 "Zippity can't list the files in this folder." = "Zippityはこのフォルダーのファイルを表示することができません。";
 
 /* Error message to display when a zip file can't be opened. */
-"Zippity couldn't open that archive file. It might be corrupt." = "Zippityはそのアーカイブファイルを開くことができませんでした。データがしているかもしれません。";
+"Zippity couldn't open that archive file. It might be corrupt." = "Zippityはそのアーカイブファイルを開くことができませんでした。データが破損しているかもしれません。";
 
 /* ------------------- ADDED 1st December 2012 ------------------- */
 
 /* --- Character encoding picker --- */
 
 /* Title shown on a dialog prompting the user for the character encoding used in a Zip file */
-"Choose Encoding" = "Choose Encoding";
+"Choose Encoding" = "記号化を選択する";
 
 /* Explanatory text shown above a list of available character encodings. */
-"Choose the encoding used to encode filenames in this archive" = "Choose the encoding used to encode filenames in this archive";
+"Choose the encoding used to encode filenames in this archive" = "このアーカイブにあるファイル名を記号化するための記号化を選択する";
 
 /* Shows an example of a filename from the zip file interpreted using a particular character encoding. */
-"Example: %@" = "Example: %@";
+"Example: %@" = "例： %@";
 
 
 /* --- Dropbox integration --- */
@@ -122,26 +122,26 @@
 /* - Selecting the destination folder for uploads - */
 
 /* Prompt asking user to select a destination folder on Dropbox to which uploads will be saved. */
-"Choose a destination for uploads." = "Choose a destination for uploads.";
+"Choose a destination for uploads." = "アップロードのための移動先を選択。";
 
 /* Title for button that user taps to specify the current folder as the storage location for uploads. */
-"Choose" = "Choose";
+"Choose" = "選択";
 
 /* Progress message while app is loading a list of folders from Dropbox */
-"Loading..." = "Loading...";
+"Loading..." = "ロード中...";
 
 /* Status message when the current folder contains no sub-folders */
-"Contains no folders" = "Contains no folders";
+"Contains no folders" = "フォルダーがありません";
 
 /* Error message if the app couldn't load a list of a folder's contents from Dropbox */
-"Error loading folder contents" = "Error loading folder contents";
+"Error loading folder contents" = "フォルダー内容のロードにエラーが発生しました";
 
 /* - Status messages shown while uploading files - */
 
 /* Message shown while uploading a file to Dropbox. %@ is replaced by the filename. */
-"Uploading %@ to Dropbox" = "Uploading %@ to Dropbox";
+"Uploading %@ to Dropbox" = "%@をDropboxへアップロード中";
 
 /* Status message shown when Dropbox upload session has completed */
-"Upload complete" = "Upload complete";
+"Upload complete" = "アップロードが完成しました";
 
 
