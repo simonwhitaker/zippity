@@ -133,6 +133,7 @@
         self.splitViewController.viewControllers = @[statusBarViewController, self.detailViewNavigationController];
         self.window.rootViewController = self.splitViewController;
     } else {
+        statusBarViewController.wantsFullScreenLayout = YES;
         self.window.rootViewController = statusBarViewController;
     }
     // Store a weak ref to the status bar controller
