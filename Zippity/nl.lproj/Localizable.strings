@@ -130,7 +130,7 @@
 "Choose" = "Kies";
 
 /* Progress message while app is loading a list of folders from Dropbox */
-"Loading..." = "Laden...";
+"Loading..." = "Laden…";
 
 /* Status message when the current folder contains no sub-folders */
 "Contains no folders" = "Bevat geen mappen";

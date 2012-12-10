@@ -134,7 +134,7 @@
 "Contains no folders" = "フォルダーがありません";
 
 /* Error message if the app couldn't load a list of a folder's contents from Dropbox */
-"Error loading folder contents" = "フォルダー内容のロードにエラーが発生しました";
+"Error loading folder contents" = "内容のロードにエラーが発生しました";
 
 /* - Status messages shown while uploading files - */
 

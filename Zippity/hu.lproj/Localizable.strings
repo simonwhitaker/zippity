@@ -11,7 +11,7 @@
 "Cancel" = "Mégsem";
 
 /* Title for a message box prompting the user to choose a Twitter account from which to follow @zippityapp */
-"Choose account" = "Válassz egy kontót";
+"Choose account" = "Twitter fiók kiválasztása";
 
 /* The text for a button that will delete files when tapped */
 "Delete" = "Törlés";
@@ -32,13 +32,13 @@
 "Error" = "Hiba";
 
 /* Message shown when there's an error following @zippityapp on Twitter */
-"Error following @zippityapp" = "Hiba a @zippityapp követése közben";
+"Error following @zippityapp" = "Nem sikerült követni a @zippityappot";
 
 /* Button prompting the user to follow @zippityapp on Twitter */
-"Follow @zippityapp" = "Kövesd a @zippityapp-ot";
+"Follow @zippityapp" = "@zippityapp követése Twitteren";
 
 /* Accessibility text for visually impaired users, prompting the user to follow @zippityapp on Twitter */
-"Follow @zippityapp on Twitter" = "Kövesd a @zippityapp-ot Twitteren";
+"Follow @zippityapp on Twitter" = "@zippityapp követése Twitteren";
 
 /* The text for a button that confirms a message has been received when tapped */
 "OK" = "OK";
@@ -53,7 +53,7 @@
 "Save Images" = "Képek mentése";
 
 /* Button text for Save to Photos button in action sheet */
-"Save to Photos" = "Fotók közé mentés";
+"Save to Photos" = "Mentés a Fotók közé";
 
 /* The text for a button that will share files when tapped, for example by email */
 "Share" = "Megosztás";
@@ -68,25 +68,25 @@
 "Unpacking contents..." = "Tartalom kicsomagolása...";
 
 /* Version string. Placeholders are replaced by version number and build number. */
-"Version %@ (%@)" = "Verzió %1$@ (%2$@)";
+"Version %@ (%@)" = "%1$@ (%2$@) Verzió";
 
 /* Accessibility text for visually impaired users, the user to visit Zippity's website */
-"Visit www.zippity.co.uk" = "Látogasd meg a www.zippity.co.uk címet";
+"Visit www.zippity.co.uk" = "Látogass el a www.zippity.co.uk oldalra!";
 
 /* Message asking the user which of their Twitter accounts they'd like to follow @zippityapp from */
-"Which Twitter account do you want to follow @zippityapp from?" = "Melyik Twitter kontódról szeretnéd követni a @zippityapp-ot?";
+"Which Twitter account do you want to follow @zippityapp from?" = "Melyik Twitter fiókoddal szeretnéd követni a @zippityappot?";
 
 /* Message shown to a user when they try to email a file but have not set up an email account on their iPhone. */
-"You don't have an email account configured. You can set one up in the main Settings app." = "Nincs beállított email fiókod. Állíts be egyet a telefon beállításai közt.";
+"You don't have an email account configured. You can set one up in the main Settings app." = "Nem állítottál be email fiókot. Adj meg egyet a telefon beállításainál!";
 
 /* Message shown when the user successfully follows @zippityapp on Twitter */
-"You're now following @zippityapp!" = "Követed a @zippityapp-ot!";
+"You're now following @zippityapp!" = "Mostantól követed a @zippityappot!";
 
 /* Error message to display when the contents of a zip file can't be displayed for some unknown reason. */
-"Zippity can't list the files in this folder." = "A Zippity nem tudja megjeleníteni a fájlokat ebben a mappában.";
+"Zippity can't list the files in this folder." = "A Zippity nem tudja megjeleníteni az ebben a mappában található fájlokat.";
 
 /* Error message to display when a zip file can't be opened. */
-"Zippity couldn't open that archive file. It might be corrupt." = "A Zippity nem tudja megnyitni az archív fájlt, ami lehet, hogy hibás.";
+"Zippity couldn't open that archive file. It might be corrupt." = "A Zippity nem tudja megnyitni ezt az archív fájlt. Lehet, hogy a fájl hibás.";
 
 
 /* ------------------- ADDED 7th April 2012 ------------------- */
@@ -95,10 +95,10 @@
 "%u of %u" = "%1$u / %2$u";                                                                                                                       
 
 /* Error mesage shown in a temporary dialog if the app fails to save photos to the user's camera roll */          
-"Error: couldn't save image to Photos" = "Hiba: nem sikerült a fotó mentése";
+"Error: couldn't save image to Photos" = "Hiba: a képet nem sikerült elmenteni a Fotók közé";
 
 /* Message shown in a temporary dialog when the app has successfully saved photos to the user's camera roll */          
-"Image saved to Photos!" = "Kép elmentve a Fotók közé!";
+"Image saved to Photos!" = "A kép elmentve a Fotók közé";
 
 /* Label for the Open In button in the image gallery action sheet */                                   
 "Open In..." = "Megnyitás...";
@@ -111,13 +111,13 @@
 /* --- Character encoding picker --- */
 
 /* Title shown on a dialog prompting the user for the character encoding used in a Zip file */
-"Choose Encoding" = "Choose Encoding";
+"Choose Encoding" = "Karakterkód kiválasztása";
 
 /* Explanatory text shown above a list of available character encodings. */
-"Choose the encoding used to encode filenames in this archive" = "Choose the encoding used to encode filenames in this archive";
+"Choose the encoding used to encode filenames in this archive" = "Válaszd ki az ebben az archívumban található fájlnevekhez tartozó karakterkódot!";
 
 /* Shows an example of a filename from the zip file interpreted using a particular character encoding. */
-"Example: %@" = "Example: %@";
+"Example: %@" = "Példa: %@";
 
 
 /* --- Dropbox integration --- */
@@ -125,27 +125,27 @@
 /* - Selecting the destination folder for uploads - */
 
 /* Prompt asking user to select a destination folder on Dropbox to which uploads will be saved. */
-"Choose a destination for uploads." = "Choose a destination for uploads.";
+"Choose a destination for uploads." = "Válaszd ki azt a mappát, ahová szeretnéd elmenteni a feltöltéseket!";
 
 /* Title for button that user taps to specify the current folder as the storage location for uploads. */
-"Choose" = "Choose";
+"Choose" = "Kiválaszt";
 
 /* Progress message while app is loading a list of folders from Dropbox */
-"Loading..." = "Loading...";
+"Loading..." = "Betöltés…";
 
 /* Status message when the current folder contains no sub-folders */
-"Contains no folders" = "Contains no folders";
+"Contains no folders" = "Nem tartalmaz mappákat";
 
 /* Error message if the app couldn't load a list of a folder's contents from Dropbox */
-"Error loading folder contents" = "Error loading folder contents";
+"Error loading folder contents" = "Hiba történt a mappa betöltése közben";
 
 /* - Status messages shown while uploading files - */
 
 /* Message shown while uploading a file to Dropbox. %@ is replaced by the filename. */
-"Uploading %@ to Dropbox" = "Uploading %@ to Dropbox";
+"Uploading %@ to Dropbox" = "%@ feltöltése Dropboxba";
 
 /* Status message shown when Dropbox upload session has completed */
-"Upload complete" = "Upload complete";
+"Upload complete" = "A feltöltés kész";
 
 
 
