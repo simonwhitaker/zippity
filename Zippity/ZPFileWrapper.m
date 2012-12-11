@@ -328,27 +328,18 @@ static NSArray * SupportedArchiveTypes;
     _attributes = [attributes copy];
 }
 
-#pragma mark - UIActivityDataSource methods
+#pragma mark - UIActivityItemSource methods
+
+/* Always return NSURL as the item source type. Documentation for UIActivityTypeAssignToContact and UIActivityTypeSaveToCameraRoll imply that they need to receive a UIImage, but NSURL works in practice, on iOS 6.0.1 at least. By contrast, returning UIImage messes things up for GSDropboxActivity which must have an NSURL. */
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType
 {
-    // Return a UIImage if this is an image file and we're not looking for the
-    // dropbox activity type. (With Dropbox we treat images just like any other
-    // files.)
-    if (self.isImageFile && ![activityType isEqualToString:[GSDropboxActivity activityTypeString]]) {
-        return [UIImage imageWithContentsOfFile:self.url.path];
-    } else {
-        return self.url;
-    }
+    return self.url;
 }
 
 - (id)activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController
 {
-    if (self.isImageFile) {
-        return [UIImage imageWithContentsOfFile:self.url.path];
-    } else {
-        return self.url;
-    }
+    return self.url;
 }
 
 @end
