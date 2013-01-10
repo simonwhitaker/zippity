@@ -95,7 +95,7 @@ const static CGFloat kStatusMessageFadeInAnimationDuration = 0.05;
     _statusLabel.textColor = [UIColor colorWithWhite:0.9 alpha:1.0];
     _statusLabel.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
     _statusLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-    _statusLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0];
+    _statusLabel.font = [UIFont systemFontOfSize:13.0];
     [containerView addSubview:_statusLabel];
     
     GSProgressView *progressIndicator = [[GSProgressView alloc] initWithFrame:CGRectMake(kStatusLabelPadding.width,
