@@ -236,7 +236,7 @@
         case ZPContactOptionsWebsite:
             cell.imageView.image = [UIImage imageNamed:@"71-compass.png"];
             cell.textLabel.text = @"www.zippityapp.co.uk";
-            cell.textLabel.accessibilityLabel = NSLocalizedString(@"Visit www.zippity.co.uk", @"Accessibility text for visually impaired users, the user to visit Zippity's website");
+            cell.textLabel.accessibilityLabel = NSLocalizedString(@"Visit www.zippityapp.co.uk", @"Accessibility text for visually impaired users, prompting the user to visit Zippity's website");
             break;
     }
     

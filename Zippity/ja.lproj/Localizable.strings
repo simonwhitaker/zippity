@@ -85,8 +85,8 @@
 /* Version string. Placeholders are replaced by version number and build number. */
 "Version %@ (%@)" = "%1$@ (%2$@) バージョン";
 
-/* Accessibility text for visually impaired users, the user to visit Zippity's website */
-"Visit www.zippity.co.uk" = "www.zippity.co.ukにアクセス";
+/* Accessibility text for visually impaired users, prompting the user to visit Zippity's website */
+"Visit www.zippityapp.co.uk" = "www.zippityapp.co.ukにアクセス";
 
 /* Message asking the user which of their Twitter accounts they'd like to follow @zippityapp from */
 "Which Twitter account do you want to follow @zippityapp from?" = "どのTwitterアカウントより@zippityapをフォローしたいですか？";
