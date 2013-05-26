@@ -8,6 +8,7 @@
 
 #import "ZPAboutViewController.h"
 #import "GSSmokedInfoView.h"
+#import <Social/Social.h>
 
 @interface ZPAboutViewController ()
 
@@ -130,9 +131,9 @@
     [parameters setValue:@"zippityapp" forKey:@"screen_name"];
     [parameters setValue:@"true" forKey:@"follow"];
     
-    TWRequest *postRequest = [[TWRequest alloc] initWithURL:[NSURL URLWithString:@"https://api.twitter.com/1/friendships/create.json"]
-                                                 parameters:parameters
-                                              requestMethod:TWRequestMethodPOST];
+    NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/1.1/friendships/create.json"];
+    SLRequest *postRequest = [SLRequest requestForServiceType:SLServiceTypeTwitter requestMethod:SLRequestMethodPOST URL:url parameters:parameters];
+
     [postRequest setAccount:account];
     [postRequest performRequestWithHandler:^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
         NSLog(@"HTTP response status: %i", urlResponse.statusCode);
@@ -163,7 +164,7 @@
                 vc.mailComposeDelegate = self;
                 [vc setSubject:@"Zippity"];
                 [vc setToRecipients:[NSArray arrayWithObject:@"info@goosoftware.co.uk"]];
-                [self presentModalViewController:vc animated:YES];
+                [self presentViewController:vc animated:YES completion:NULL];
             } else {
                 NSString *message = NSLocalizedString(@"You don't have an email account configured. You can set one up in the main Settings app.", 
                                                       @"Message shown to a user when they try to email a file but have not set up an email account on their iPhone.");
@@ -185,7 +186,7 @@
         {
             ACAccountStore *accountStore = [[ACAccountStore alloc] init];
             ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-            [accountStore requestAccessToAccountsWithType:accountType withCompletionHandler:^(BOOL granted, NSError *error) {
+            [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
                 if (granted) {
                     [self performSelectorOnMainThread:@selector(followOnTwitter)
                                            withObject:nil
@@ -284,7 +285,7 @@
           didFinishWithResult:(MFMailComposeResult)result 
                         error:(NSError *)error
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 @end

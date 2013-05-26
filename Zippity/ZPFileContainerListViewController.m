@@ -35,8 +35,7 @@
 #import "ZPArchive.h" 
 
 enum {
-    GSFileContainerListViewActionSheetShare = 1,
-    GSFileContainerListViewActionSheetDelete,
+    GSFileContainerListViewActionSheetDelete = 1,
     GSFileContainerListViewActionSheetSaveImages,
 };
 
@@ -83,13 +82,6 @@ enum {
 - (void)updateToolbarButtons;
 - (void)updateUIForOrientation:(UIInterfaceOrientation)orientation;
 - (void)showDropboxDestinationSelectionView:(id)sender;
-
-// Prior to iOS 5.1, split view controller popovers shown in
-// standard UIPopoverController views. From iOS 5.1 onwards they're
-// shown as panels that slide in from the left. If we're showing an
-// "old-style" popover we need to make sure we don't apply
-// styling to the navigation controller, otherwise it messes up
-// the navigation bar.
 - (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation;
 
 @end
@@ -266,28 +258,15 @@ enum {
 
 - (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    BOOL isPortrait = UIInterfaceOrientationIsPortrait(interfaceOrientation);
-    
-    // Check whether UISplitViewController instances support pressentsWithGesture - new in iOS 5.1
-    BOOL isUsingOldStylePopover = ![UISplitViewController instancesRespondToSelector:@selector(presentsWithGesture)];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
+    self.navigationController.navigationBar.tintColor = kZippityRed;
 
-    if (isIpad && isPortrait && isUsingOldStylePopover) {
-        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-        self.navigationController.navigationBar.tintColor = nil;
-        if (self.isRoot) {
-            self.navigationItem.titleView = nil;
-        }
-    } else {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
-        self.navigationController.navigationBar.tintColor = kZippityRed;
-
-        if (self.isRoot) {
-            if (isIpad || UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-            } else {
-                self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
-            }
+    if (self.isRoot) {
+        if (isIpad || UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
+        } else {
+            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
         }
     }
 }
@@ -567,7 +546,7 @@ enum {
 
 - (void)aboutViewControllerShouldDismiss:(ZPAboutViewController *)aboutViewController
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - ZPImagePreviewController delegate
@@ -614,7 +593,7 @@ enum {
     if (result == MFMailComposeResultSent) {
         [TestFlight passCheckpoint:@"Emailed some files"];
     }
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 #pragma mark - UIActionSheet delegate methods
@@ -623,66 +602,7 @@ enum {
 {
     self.currentActionSheet = nil;
 
-    if (actionSheet.tag == GSFileContainerListViewActionSheetShare) {
-        NSString *emailLabel = [[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil];
-        NSString *dropboxLabel = [[NSBundle mainBundle] localizedStringForKey:@"Dropbox" value:nil table:nil];
-        
-        if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:emailLabel]) {
-            if ([MFMailComposeViewController canSendMail]) {
-                MFMailComposeViewController *mailComposer = [[MFMailComposeViewController alloc] init];
-                mailComposer.mailComposeDelegate = self;
-                
-                for (NSIndexPath *indexPath in [self.tableView indexPathsForSelectedRows]) {
-                    ZPFileWrapper *wrapper = [self.container fileWrapperAtIndex:indexPath.row];
-                    CFStringRef utiStringRef = (__bridge CFStringRef)wrapper.documentInteractionController.UTI;
-                    
-                    // UTTypeCopy... retains its return value (contains the word "copy"), so we
-                    // need to balance this with a release. We either do that manually by keeping
-                    // a pointer to the CFStringRef and then calling CFRelease() on it, or we 
-                    // transfer responsility for memory management to ARC by using 
-                    // __bridge_transfer and let ARC sort it out.
-                    // See http://www.mikeash.com/pyblog/friday-qa-2011-09-30-automatic-reference-counting.html
-                    // for more on this.
-                    NSString *mimeType = (__bridge_transfer NSString*)UTTypeCopyPreferredTagWithClass(utiStringRef,
-                                                                                                      kUTTagClassMIMEType);
-                    if (!mimeType) {
-                        mimeType = @"application/octet-stream";
-                    }
-                                        
-                    [mailComposer addAttachmentData:[NSData dataWithContentsOfURL:wrapper.url]
-                                           mimeType:mimeType
-                                           fileName:wrapper.name];
-                }
-                [self presentModalViewController:mailComposer animated:YES];
-                if (self.tableView.editing) {
-                    [self toggleEditMode];
-                }
-            } else {
-                NSString *message = NSLocalizedString(@"You don't have an email account configured. You can set one up in the main Settings app.", 
-                                                      @"Message shown to a user when they try to email a file but have not set up an email account on their iPhone.");
-
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Error" value:nil table:nil]
-                                                             message:message
-                                                            delegate:nil
-                                                   cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"OK" value:nil table:nil]
-                                                   otherButtonTitles:nil];
-                [av show];
-            }
-        }
-        else if ([[actionSheet buttonTitleAtIndex:buttonIndex] isEqualToString:dropboxLabel]) {
-            /* Handle Dropbox uploads */
-            self.selectedIndexPathsForDropboxUpload = [self.tableView indexPathsForSelectedRows];
-            if (![[DBSession sharedSession] isLinked]) {
-                [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:self.selectedIndexPathsForDropboxUpload]
-                                                          forKey:kZPDefaultsDropboxUploadSelection];
-                [[NSUserDefaults standardUserDefaults] setObject:self.container.url.absoluteString forKey:kZPDefaultsDropboxUploadCurrentContainerPath];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                [[DBSession sharedSession] linkFromController:self];
-            } else {
-                [self showDropboxDestinationSelectionView:nil];
-            }
-        }
-    } else if (actionSheet.tag == GSFileContainerListViewActionSheetDelete) {
+    if (actionSheet.tag == GSFileContainerListViewActionSheetDelete) {
         if (buttonIndex == actionSheet.destructiveButtonIndex) {
             NSMutableArray * successfullyDeleted = [NSMutableArray array];
             NSMutableArray * failedToDelete = [NSMutableArray array];
@@ -783,7 +703,7 @@ enum {
     ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:nibName bundle:nil];
     vc.delegate = self;
     vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self.navigationController presentModalViewController:vc animated:YES];
+    [self.navigationController presentViewController:vc animated:YES completion:NULL];
 }
 
 - (void)toggleEditMode
@@ -851,83 +771,40 @@ enum {
 
 - (void)shareSelectedItems:(id)sender
 {
-    if (NSClassFromString(@"UIActivityViewController") != nil) {
-        // Use the iOS 6 activity view controller
-        NSMutableArray *itemsToShare = [NSMutableArray array];
-        for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
-            [itemsToShare addObject:[self.container fileWrapperAtIndex:indexPath.row]];
-        }
-        NSArray *applicationActivities = @[
-            [[GSDropboxActivity alloc] init]
-        ];
-        UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare
-                                                                         applicationActivities:applicationActivities];
-        vc.completionHandler = ^(NSString *activityType, BOOL completed){
-            // Exit edit mode on completion.
-            if (self.tableView.isEditing && completed)
-                [self toggleEditMode];
-            if (isIpad)
-                [self.activityPopoverController dismissPopoverAnimated:YES];
-        };
-        if ([itemsToShare count] > 1) {
-            vc.excludedActivityTypes = @[UIActivityTypeAssignToContact];
-        }
-        if (isIpad) {
-            if ([self.activityPopoverController isPopoverVisible]) {
-                [self.activityPopoverController dismissPopoverAnimated:YES];
-            } else {
-                if (self.activityPopoverController) {
-                    [self.activityPopoverController setContentViewController:vc];
-                } else {
-                    self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
-                }
-                [self.activityPopoverController presentPopoverFromBarButtonItem:sender
-                                                       permittedArrowDirections:UIPopoverArrowDirectionAny
-                                                                       animated:YES];
-            }
+    NSMutableArray *itemsToShare = [NSMutableArray array];
+    for (NSIndexPath *indexPath in self.tableView.indexPathsForSelectedRows) {
+        [itemsToShare addObject:[self.container fileWrapperAtIndex:indexPath.row]];
+    }
+    NSArray *applicationActivities = @[
+        [[GSDropboxActivity alloc] init]
+    ];
+    UIActivityViewController *vc = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare
+                                                                     applicationActivities:applicationActivities];
+    vc.completionHandler = ^(NSString *activityType, BOOL completed){
+        // Exit edit mode on completion.
+        if (self.tableView.isEditing && completed)
+            [self toggleEditMode];
+        if (isIpad)
+            [self.activityPopoverController dismissPopoverAnimated:YES];
+    };
+    if ([itemsToShare count] > 1) {
+        vc.excludedActivityTypes = @[UIActivityTypeAssignToContact];
+    }
+    if (isIpad) {
+        if ([self.activityPopoverController isPopoverVisible]) {
+            [self.activityPopoverController dismissPopoverAnimated:YES];
         } else {
-            [self presentViewController:vc animated:YES completion:NULL];
+            if (self.activityPopoverController) {
+                [self.activityPopoverController setContentViewController:vc];
+            } else {
+                self.activityPopoverController = [[UIPopoverController alloc] initWithContentViewController:vc];
+            }
+            [self.activityPopoverController presentPopoverFromBarButtonItem:sender
+                                                   permittedArrowDirections:UIPopoverArrowDirectionAny
+                                                                   animated:YES];
         }
     } else {
-        if (self.currentActionSheet) {
-            BOOL wasShowing = self.currentActionSheet.tag == GSFileContainerListViewActionSheetShare;
-            [self.currentActionSheet dismissWithClickedButtonIndex:self.currentActionSheet.cancelButtonIndex animated:wasShowing];
-            if (wasShowing) {
-                return;
-            }
-        }
-
-        NSString *title;
-        if ([[self.tableView indexPathsForSelectedRows] count] == 1) {
-            NSUInteger index = [[[self.tableView indexPathsForSelectedRows] objectAtIndex:0] row];
-            ZPFileWrapper *fileWrapper = [self.container.fileWrappers objectAtIndex:index];
-            NSString *formatString = NSLocalizedString(@"Share %@", 
-                                                       @"The title for a confirmation dialog shown when sharing a file. %@ is replaced by the filename of a single selected file.");
-            title = [NSString stringWithFormat:formatString, fileWrapper.name];
-        } else {
-            NSString *formatString = NSLocalizedString(@"Share %u files", 
-                                                       @"The title for a confirmation dialog shown when sharing files. %u is replaced by the number of selected files.");
-            title = [NSString stringWithFormat:formatString, [[self.tableView indexPathsForSelectedRows] count]];
-        }
-        UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
-                                                        delegate:self
-                                               cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
-                                          destructiveButtonTitle:nil
-                                               otherButtonTitles:[[NSBundle mainBundle] localizedStringForKey:@"Email" value:nil table:nil], 
-                                                                 [[NSBundle mainBundle] localizedStringForKey:@"Dropbox" value:nil table:nil],
-                                                                 nil];
-        as.tag = GSFileContainerListViewActionSheetShare;
-        
-        if (isIpad && UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation])) {
-            // Presenting an alert view from a button in a popover on iPad running 
-            // iOS 5.1 results in a crash - see http://stackoverflow.com/questions/9727917/
-            // So we'll show the alert view from the window instead.
-            [as showInView:self.view.window];
-        } else {
-            [as showFromBarButtonItem:sender animated:YES];
-        }
-        
-        self.currentActionSheet = as;
+        [self presentViewController:vc animated:YES completion:NULL];
     }
 }
 
@@ -1006,7 +883,7 @@ enum {
             nc.modalPresentationStyle = UIModalPresentationFormSheet;
             nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
             
-            [self presentModalViewController:nc animated:YES];
+            [self presentViewController:nc animated:YES completion:NULL];
             return;
         } else {
             errorMessage = NSLocalizedString(@"Zippity couldn't open that archive file. It might be corrupt.", 

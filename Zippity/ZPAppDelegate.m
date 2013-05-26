@@ -232,7 +232,7 @@
         return YES;
     }
     // Dismiss the info view if it's visible
-    [self.masterViewNavigationController dismissModalViewControllerAnimated:NO];
+    [self.masterViewNavigationController dismissViewControllerAnimated:YES completion:NULL];
     
     NSString *incomingPath = [url path];
     NSString *filename = [incomingPath lastPathComponent];

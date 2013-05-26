@@ -41,7 +41,7 @@
         label.numberOfLines = 5;
         label.backgroundColor = [UIColor clearColor];
         label.textColor = [UIColor whiteColor];
-        label.textAlignment = UITextAlignmentCenter;
+        label.textAlignment = NSTextAlignmentCenter;
         label.font = [UIFont boldSystemFontOfSize:FONT_SIZE];
         label.shadowColor = [UIColor blackColor];
         label.shadowOffset = CGSizeMake(0, 2);
