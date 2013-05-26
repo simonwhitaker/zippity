@@ -246,7 +246,6 @@
 		F4D3481E151C90B8008B706A /* ZPAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPAboutViewController.h; sourceTree = "<group>"; };
 		F4D3481F151C90B8008B706A /* ZPAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPAboutViewController.m; sourceTree = "<group>"; };
 		F4D34823151C9906008B706A /* rough_diagonal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rough_diagonal.png; sourceTree = "<group>"; };
-		F4D34825151C9B38008B706A /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
 		F4D34827151C9E8F008B706A /* 18-envelope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "18-envelope.png"; sourceTree = "<group>"; };
 		F4D34828151C9E8F008B706A /* 18-envelope@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "18-envelope@2x.png"; sourceTree = "<group>"; };
 		F4D3482B151C9EAA008B706A /* 71-compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "71-compass.png"; sourceTree = "<group>"; };
@@ -430,7 +429,6 @@
 		F47F534714ECCC82009BF6FE = {
 			isa = PBXGroup;
 			children = (
-				F4570BCB175247DE0021277A /* Social.framework */,
 				F47F535C14ECCC82009BF6FE /* Zippity */,
 				F408F439158548D800E1A5B4 /* Character Encoding Map Generator */,
 				F47F535514ECCC82009BF6FE /* Frameworks and Libraries */,
@@ -450,18 +448,18 @@
 		F47F535514ECCC82009BF6FE /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				F490E90F1607B5ED00C530F8 /* libarc.a */,
-				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F4D34834151CA000008B706A /* Accounts.framework */,
 				F47F535A14ECCC82009BF6FE /* CoreGraphics.framework */,
 				F4209E13164942A50081C111 /* DropboxSDK.framework */,
 				F47F535814ECCC82009BF6FE /* Foundation.framework */,
+				F490E90F1607B5ED00C530F8 /* libarc.a */,
+				F47DFDA314ED57BC007F7443 /* libz.1.2.5.dylib */,
 				F43352E414F3C41600082527 /* MessageUI.framework */,
 				F43352E714F3C80000082527 /* MobileCoreServices.framework */,
 				F41385B515134AF80087B896 /* QuartzCore.framework */,
 				F4B9909A14EE7F5A00F8FBD8 /* QuickLook.framework */,
 				F4209E16164942BC0081C111 /* Security.framework */,
-				F4D34825151C9B38008B706A /* Twitter.framework */,
+				F4570BCB175247DE0021277A /* Social.framework */,
 				F47F535614ECCC82009BF6FE /* UIKit.framework */,
 			);
 			name = "Frameworks and Libraries";
