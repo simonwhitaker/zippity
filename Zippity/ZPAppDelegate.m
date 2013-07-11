@@ -61,25 +61,6 @@
 {
     [TestFlight takeOff:@"c9a1cdc85d251c1574f49750c3db2a52_NzcyMzIwMTEtMDktMTYgMDU6MTI6MTkuOTU1OTM3"];
 
-#if defined (DEBUG) || defined (ADHOC)
-    /*
-     Disable deprecated-declarations warning.
-     See http://clang.llvm.org/docs/UsersManual.html#diagnostics_pragmas
-     
-     Basic workflow:
-     
-        1. push current warnings onto stack
-        2. ignore warning we know will get thrown
-        3. do dodgy thing that causes warning
-        4. pop warnings - go back to what we had before we started dicking around with them
-     
-     */
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
-#pragma clang diagnostic pop
-#endif
-
     /* Initialise Dropbox SDK */
     DBSession *dbSession = [[DBSession alloc] initWithAppKey:@"3rrp23i61km7y4p"
                                                    appSecret:@"cz04gux12ldrfua"
