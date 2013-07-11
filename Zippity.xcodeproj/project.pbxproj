@@ -630,6 +630,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Goo Software Ltd";
+				TargetAttributes = {
+					F47F535114ECCC82009BF6FE = {
+						DevelopmentTeam = P45SW479BV;
+					};
+				};
 			};
 			buildConfigurationList = F47F534C14ECCC82009BF6FE /* Build configuration list for PBXProject "Zippity" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -953,6 +958,7 @@
 		F47F536B14ECCC82009BF6FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 46;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -980,6 +986,7 @@
 		F47F536C14ECCC82009BF6FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = 46;
 				FRAMEWORK_SEARCH_PATHS = (
