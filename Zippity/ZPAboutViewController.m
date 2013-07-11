@@ -41,7 +41,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"rough_diagonal.png"]];
+    if (isIOS6OrBelow) {
+        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"rough_diagonal.png"]];
+    }
     
     // Set contactOptionsTable background view to nil, otherwise
     // it gets a plain grey background on iPad (iOS 5.0+)
