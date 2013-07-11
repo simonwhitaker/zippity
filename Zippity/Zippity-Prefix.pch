@@ -16,6 +16,7 @@
 #import "ZPDefaultsKeys.h"
 
 #define isIpad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
+#define isIOS6OrBelow ([[[[UIDevice currentDevice] systemVersion] substringToIndex:1] integerValue] < 7)
 #define kZippityRed [UIColor colorWithRed:0.68 green:0.17 blue:0.11 alpha:1.0]
 #endif
 
