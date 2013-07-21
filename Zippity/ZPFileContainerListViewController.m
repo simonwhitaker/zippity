@@ -698,11 +698,11 @@ enum {
 
 - (void)showInfoView:(id)sender
 {
-    NSString *nibName = isIpad ? @"ZPAboutViewController-iPad" : @"ZPAboutViewController";
-    ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:nibName bundle:nil];
+    ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:nil bundle:nil];
     vc.delegate = self;
     UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
     nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    nc.modalPresentationStyle = UIModalPresentationFormSheet;
     [self.navigationController presentViewController:nc animated:YES completion:NULL];
 }
 
