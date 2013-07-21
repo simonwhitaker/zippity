@@ -355,6 +355,7 @@ enum {
         CGFloat maxTableWidth = isIpad ? 320.0 : 480.0;
         
         // Set custom selected cell background
+        if (isIOS6OrBelow) {
         CGRect cellFrame = CGRectMake(0, 0, maxTableWidth, [self tableView:tableView heightForRowAtIndexPath:indexPath]);
         UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
         CAGradientLayer *gradient = [CAGradientLayer layer];
@@ -370,6 +371,7 @@ enum {
         UIView *multipleSelectionBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
         multipleSelectionBackgroundView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
         cell.multipleSelectionBackgroundView = multipleSelectionBackgroundView;
+        }
 
     }
 
