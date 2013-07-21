@@ -27,10 +27,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    if (isIOS6OrBelow) {
-        self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"rough_diagonal.png"]];
-    }
-    
     NSDictionary *appInfo = [[NSBundle mainBundle] infoDictionary];
     NSString *versionStr = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"Version string. Placeholders are replaced by version number and build number."), 
                             [appInfo objectForKey:@"CFBundleShortVersionString"], 
