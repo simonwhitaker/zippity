@@ -95,7 +95,9 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 
 
     [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-    self.navigationController.navigationBar.tintColor = nil;
+    if (isIOS6OrBelow) {
+        self.navigationController.navigationBar.tintColor = nil;
+    }
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
     self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
 

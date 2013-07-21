@@ -322,12 +322,13 @@
 
 - (void)applyTintToDetailViewNavigationController
 {
-
+    self.detailViewNavigationController.navigationBar.tintColor = kZippityRed;
     if (isIOS6OrBelow) {
         [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+        self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
+    } else {
+        self.detailViewNavigationController.toolbar.tintColor = kZippityRed;
     }
-    self.detailViewNavigationController.navigationBar.tintColor = kZippityRed;
-    self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
 }
 
 - (void)setDetailViewController:(UIViewController *)viewController
