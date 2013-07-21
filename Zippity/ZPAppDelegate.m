@@ -322,7 +322,10 @@
 
 - (void)applyTintToDetailViewNavigationController
 {
-    [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+
+    if (isIOS6OrBelow) {
+        [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
+    }
     self.detailViewNavigationController.navigationBar.tintColor = kZippityRed;
     self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
 }
