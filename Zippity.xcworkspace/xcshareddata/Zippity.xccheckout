@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>5734B03B-90DC-49F8-A0EC-D8760D087C2E</string>
+	<string>18EF24F3-3456-46BE-A0D1-FDF6F5B85A34</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Zippity</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>2C28C09E-3DDF-4751-A5D7-267F54F45875</key>
 		<string>ssh://github.com/goosoftware/GSProgressView.git</string>
-		<key>6AAA3214-CAA2-4C4D-AC74-0CACF7FBCCEC</key>
-		<string>ssh://codebasehq.com/goosoftware/zippity/zippity-ios.git</string>
+		<key>A219F264-76A7-4C95-889F-E55EC95702D2</key>
+		<string>ssh://github.com/simonwhitaker/zippity.git</string>
 		<key>B602E512-9C66-4ECA-A230-C976D1E171EE</key>
 		<string>https://github.com/simonwhitaker/iOS-libarchive.git</string>
 		<key>FD503E8D-BC66-401E-BB79-9FBE0A372A6A</key>
@@ -23,7 +23,7 @@
 	<dict>
 		<key>2C28C09E-3DDF-4751-A5D7-267F54F45875</key>
 		<string>../third-party/GSProgressView</string>
-		<key>6AAA3214-CAA2-4C4D-AC74-0CACF7FBCCEC</key>
+		<key>A219F264-76A7-4C95-889F-E55EC95702D2</key>
 		<string>..</string>
 		<key>B602E512-9C66-4ECA-A230-C976D1E171EE</key>
 		<string>../third-party/iOS-libarchive</string>
@@ -31,13 +31,29 @@
 		<string>../third-party/GSDropboxActivity</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://codebasehq.com/goosoftware/zippity/zippity-ios.git</string>
+	<string>ssh://github.com/simonwhitaker/zippity.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>6AAA3214-CAA2-4C4D-AC74-0CACF7FBCCEC</string>
+	<string>A219F264-76A7-4C95-889F-E55EC95702D2</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>2C28C09E-3DDF-4751-A5D7-267F54F45875</string>
+			<key>IDESourceControlWCCName</key>
+			<string>GSProgressView</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A219F264-76A7-4C95-889F-E55EC95702D2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>zippity</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
@@ -53,22 +69,6 @@
 			<string>FD503E8D-BC66-401E-BB79-9FBE0A372A6A</string>
 			<key>IDESourceControlWCCName</key>
 			<string>GSDropboxActivity</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>6AAA3214-CAA2-4C4D-AC74-0CACF7FBCCEC</string>
-			<key>IDESourceControlWCCName</key>
-			<string>zippity</string>
-		</dict>
-		<dict>
-			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.git</string>
-			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>2C28C09E-3DDF-4751-A5D7-267F54F45875</string>
-			<key>IDESourceControlWCCName</key>
-			<string>GSProgressView</string>
 		</dict>
 	</array>
 </dict>

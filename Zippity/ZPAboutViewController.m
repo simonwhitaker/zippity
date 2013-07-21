@@ -10,21 +10,7 @@
 #import "GSSmokedInfoView.h"
 #import <Social/Social.h>
 
-@interface ZPAboutViewController ()
-
-- (void)followOnTwitter;
-- (void)followOnTwitterUsingAccount:(ACAccount*)account;
-- (void)followOnTwitterDidSucceed;
-- (void)followOnTwitterDidFail;
-
-@end
-
 @implementation ZPAboutViewController
-
-@synthesize delegate = _delegate;
-@synthesize navigationBar = _navigationBar;
-@synthesize contactOptionsTable = _contactOptionsTable;
-@synthesize versionLabel = _versionLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,22 +31,19 @@
         self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"rough_diagonal.png"]];
     }
     
-    // Set contactOptionsTable background view to nil, otherwise
-    // it gets a plain grey background on iPad (iOS 5.0+)
-    self.contactOptionsTable.backgroundView = nil;
-    
     NSDictionary *appInfo = [[NSBundle mainBundle] infoDictionary];
     NSString *versionStr = [NSString stringWithFormat:NSLocalizedString(@"Version %@ (%@)", @"Version string. Placeholders are replaced by version number and build number."), 
                             [appInfo objectForKey:@"CFBundleShortVersionString"], 
                             [appInfo objectForKey:@"CFBundleVersion"]];
     self.versionLabel.text = versionStr;
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    
+    self.twitterButton.accessibilityLabel = NSLocalizedString(@"Follow @zippityapp on Twitter", @"Accessibility text for visually impaired users, prompting the user to follow @zippityapp on Twitter");
+    self.emailButton.accessibilityLabel = NSLocalizedString(@"Email info@goosoftware.co.uk", @"Accessibility text for visually impaired users, prompting the user to email us");
+    self.websiteButton.accessibilityLabel = NSLocalizedString(@"Visit www.zippityapp.co.uk", @"Accessibility text for visually impaired users, prompting the user to visit Zippity's website");
+    
+    self.title = NSLocalizedString(@"About Zippity", @"Title for the About view");
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(handleCloseButton:)];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -154,67 +137,7 @@
 
 #pragma mark - Table view delegate methods
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    switch (indexPath.row) {
-        case ZPContactOptionsEmail:
-        {
-            if ([MFMailComposeViewController canSendMail]) {
-                MFMailComposeViewController *vc = [[MFMailComposeViewController alloc] init];
-                vc.mailComposeDelegate = self;
-                [vc setSubject:@"Zippity"];
-                [vc setToRecipients:[NSArray arrayWithObject:@"info@goosoftware.co.uk"]];
-                [self presentViewController:vc animated:YES completion:NULL];
-            } else {
-                NSString *message = NSLocalizedString(@"You don't have an email account configured. You can set one up in the main Settings app.", 
-                                                      @"Message shown to a user when they try to email a file but have not set up an email account on their iPhone.");
-                UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Error" value:nil table:nil]
-                                                             message:message
-                                                            delegate:nil
-                                                   cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
-                                                   otherButtonTitles:nil];
-                [av show];
-            }
-            break;
-        }
-        case ZPContactOptionsWebsite:
-        {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.zippityapp.co.uk/"]];
-            break;
-        }
-        case ZPContactOptionsTwitter:
-        {
-            ACAccountStore *accountStore = [[ACAccountStore alloc] init];
-            ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-            [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
-                if (granted) {
-                    [self performSelectorOnMainThread:@selector(followOnTwitter)
-                                           withObject:nil
-                                        waitUntilDone:NO];
-                }
-            }];
-            break;
-        }
-        default:
-            break;
-    }
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:15.0];
-}
-
-#pragma mark - Table view data source methods
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 3;
-}
-
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString * CellIdentifier = @"Cell";
@@ -245,6 +168,8 @@
     
     return cell;
 }
+ */
+
 
 #pragma mark - UIAlertView delegate methods
 
@@ -271,9 +196,47 @@
 
 - (IBAction)handleCloseButton:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(aboutViewControllerShouldDismiss:)]) {
-        [self.delegate aboutViewControllerShouldDismiss:self];
+    if ([self.delegate respondsToSelector:@selector(viewControllerShouldDismiss:wasCancelled:)]) {
+        [self.delegate viewControllerShouldDismiss:self wasCancelled:NO];
     }
+}
+
+- (void)handleEmailButton:(id)sender
+{
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *vc = [[MFMailComposeViewController alloc] init];
+        vc.mailComposeDelegate = self;
+        [vc setSubject:@"Zippity"];
+        [vc setToRecipients:[NSArray arrayWithObject:@"info@goosoftware.co.uk"]];
+        [self presentViewController:vc animated:YES completion:NULL];
+    } else {
+        NSString *message = NSLocalizedString(@"You don't have an email account configured. You can set one up in the main Settings app.",
+                                              @"Message shown to a user when they try to email a file but have not set up an email account on their iPhone.");
+        UIAlertView *av = [[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle] localizedStringForKey:@"Error" value:nil table:nil]
+                                                     message:message
+                                                    delegate:nil
+                                           cancelButtonTitle:[[NSBundle mainBundle] localizedStringForKey:@"Cancel" value:nil table:nil]
+                                           otherButtonTitles:nil];
+        [av show];
+    }
+}
+
+- (void)handleTwitterButton:(id)sender
+{
+    ACAccountStore *accountStore = [[ACAccountStore alloc] init];
+    ACAccountType *accountType = [accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    [accountStore requestAccessToAccountsWithType:accountType options:nil completion:^(BOOL granted, NSError *error) {
+        if (granted) {
+            [self performSelectorOnMainThread:@selector(followOnTwitter)
+                                   withObject:nil
+                                waitUntilDone:NO];
+        }
+    }];
+}
+
+- (void)handleWebsiteButton:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.zippityapp.co.uk/"]];
 }
 
 - (IBAction)visitHicksDesign:(id)sender

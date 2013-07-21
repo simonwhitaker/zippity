@@ -30,6 +30,7 @@
 #import <DropboxSDK/DropboxSDK.h>
 #import "GSDropboxDestinationSelectionViewController.h"
 #import "GSDropboxActivity.h"
+#import "ZPAboutViewController.h"
 
 // ZPArchive.h for the error codes
 #import "ZPArchive.h" 
@@ -547,13 +548,6 @@ enum {
     }
 }
 
-#pragma mark - ZPAboutViewController delegate
-
-- (void)aboutViewControllerShouldDismiss:(ZPAboutViewController *)aboutViewController
-{
-    [self dismissViewControllerAnimated:YES completion:NULL];
-}
-
 #pragma mark - ZPImagePreviewController delegate
 
 - (void)imagePreviewControllerDidShowImageForFileWrapper:(ZPFileWrapper *)fileWrapper
@@ -707,8 +701,9 @@ enum {
     NSString *nibName = isIpad ? @"ZPAboutViewController-iPad" : @"ZPAboutViewController";
     ZPAboutViewController *vc = [[ZPAboutViewController alloc] initWithNibName:nibName bundle:nil];
     vc.delegate = self;
-    vc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    [self.navigationController presentViewController:vc animated:YES completion:NULL];
+    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    [self.navigationController presentViewController:nc animated:YES completion:NULL];
 }
 
 - (void)toggleEditMode
@@ -940,13 +935,17 @@ enum {
 
 - (void)viewControllerShouldDismiss:(UIViewController *)viewController wasCancelled:(BOOL)wasCancelled
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (wasCancelled) {
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            [self.tableView reloadData];
-        }
-    }];
+    if ([viewController isKindOfClass:[ZPEncodingPickerViewController class]]) {
+        [self dismissViewControllerAnimated:YES completion:^{
+            if (wasCancelled) {
+                [self.navigationController popViewControllerAnimated:YES];
+            } else {
+                [self.tableView reloadData];
+            }
+        }];
+    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 @end

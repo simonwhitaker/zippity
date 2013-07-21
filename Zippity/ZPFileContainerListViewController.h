@@ -9,7 +9,6 @@
 #import <MessageUI/MessageUI.h>
 #import <QuickLook/QuickLook.h>
 #import <UIKit/UIKit.h>
-#import "ZPAboutViewController.h"
 #import "ZPFileWrapper.h"
 #import "ZPImagePreviewController.h"
 #import "GSDismissableViewControllerDelegate.h"
@@ -22,7 +21,6 @@ QLPreviewControllerDataSource,
 UIDocumentInteractionControllerDelegate, 
 UIActionSheetDelegate, 
 UIAlertViewDelegate,
-ZPAboutViewControllerDelegate,
 ZPImagePreviewControllerDelegate
 > {
     NSDateFormatter * _subtitleDateFormatter;

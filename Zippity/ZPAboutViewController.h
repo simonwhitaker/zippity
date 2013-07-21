@@ -9,30 +9,26 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import <Accounts/Accounts.h>
-
-@protocol ZPAboutViewControllerDelegate;
+#import "GSDismissableViewControllerDelegate.h"
 
 enum {
     ZPAboutAlertViewTypeUnknown,
     ZPAboutAlertViewTypeSelectTwitterAccount
 };
 
-enum {
-    ZPContactOptionsTwitter,
-    ZPContactOptionsEmail,
-    ZPContactOptionsWebsite
-};
+@interface ZPAboutViewController : UIViewController <UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
-@interface ZPAboutViewController : UIViewController <UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
-@property (nonatomic, weak) id<ZPAboutViewControllerDelegate> delegate;
-@property (nonatomic, weak) IBOutlet UINavigationBar *navigationBar;
-@property (nonatomic, weak) IBOutlet UITableView *contactOptionsTable;
+@property (nonatomic, weak) id<GSDismissableViewControllerDelegate> delegate;
+
 @property (nonatomic, weak) IBOutlet UILabel *versionLabel;
-           
+@property (nonatomic, weak) IBOutlet UIButton *twitterButton;
+@property (nonatomic, weak) IBOutlet UIButton *websiteButton;
+@property (nonatomic, weak) IBOutlet UIButton *emailButton;
+
 - (IBAction)handleCloseButton:(id)sender;
+- (IBAction)handleTwitterButton:(id)sender;
+- (IBAction)handleWebsiteButton:(id)sender;
+- (IBAction)handleEmailButton:(id)sender;
 - (IBAction)visitHicksDesign:(id)sender;
 @end
 
-@protocol ZPAboutViewControllerDelegate <NSObject>
-- (void)aboutViewControllerShouldDismiss:(ZPAboutViewController*)aboutViewController;
-@end
