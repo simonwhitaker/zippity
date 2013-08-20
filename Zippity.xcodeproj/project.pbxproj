@@ -30,6 +30,8 @@
 		F41385B615134AF80087B896 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F41385B515134AF80087B896 /* QuartzCore.framework */; };
 		F417C78A150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */; };
 		F418A5B5153B17D5005F83A9 /* ZPPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */; };
+		F41B1631179C0D4B00607BD9 /* Default-ios7-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41B162F179C0D4B00607BD9 /* Default-ios7-568h@2x.png */; };
+		F41B1632179C0D4B00607BD9 /* Default-ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F41B1630179C0D4B00607BD9 /* Default-ios7@2x.png */; };
 		F4209E14164942A50081C111 /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4209E13164942A50081C111 /* DropboxSDK.framework */; };
 		F4209E17164942BC0081C111 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4209E16164942BC0081C111 /* Security.framework */; };
 		F43352E514F3C41600082527 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F43352E414F3C41600082527 /* MessageUI.framework */; };
@@ -156,6 +158,9 @@
 		F417C789150A305F0035CACD /* ZPUnrecognisedFileTypeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ZPUnrecognisedFileTypeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F418A5B3153B17D5005F83A9 /* ZPPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPPreviewController.h; sourceTree = "<group>"; };
 		F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPPreviewController.m; sourceTree = "<group>"; };
+		F41B162F179C0D4B00607BD9 /* Default-ios7-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-ios7-568h@2x.png"; sourceTree = "<group>"; };
+		F41B1630179C0D4B00607BD9 /* Default-ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-ios7@2x.png"; sourceTree = "<group>"; };
+		F41B1633179C0F4F00607BD9 /* Icon-ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ios7@2x.png"; sourceTree = "<group>"; };
 		F4209E13164942A50081C111 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		F4209E16164942BC0081C111 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -525,6 +530,8 @@
 				F4413931150BC4DB007F5E03 /* Default.png */,
 				F4413930150BC4DB007F5E03 /* Default@2x.png */,
 				F49ECAF316065A8A006B8CCF /* Default-568h@2x.png */,
+				F41B162F179C0D4B00607BD9 /* Default-ios7-568h@2x.png */,
+				F41B1630179C0D4B00607BD9 /* Default-ios7@2x.png */,
 				F43EC9DC1547360D00E083FF /* Doc-Icon-iPad.png */,
 				F43EC9DD1547360D00E083FF /* Doc-Icon-iPad@2x.png */,
 				F43EC9DE1547360D00E083FF /* Doc-Icon-iPhone.png */,
@@ -538,6 +545,7 @@
 				F4827895151D29CB00E62CD0 /* Hicksdesign-logo.png */,
 				F4827896151D29CB00E62CD0 /* Hicksdesign-logo@2x.png */,
 				F43EC9E01547360D00E083FF /* Icon-72.png */,
+				F41B1633179C0F4F00607BD9 /* Icon-ios7@2x.png */,
 				F40D71331548263E004FA273 /* Icon-72@2x.png */,
 				F453B8FA153ADF4200C60685 /* icon-for-about-ipad.png */,
 				F43EC9E21547360D00E083FF /* Icon-Small-50.png */,
@@ -662,6 +670,7 @@
 				F47DFD7F14ED4E32007F7443 /* Icon-Small.png in Resources */,
 				F47DFD8014ED4E32007F7443 /* Icon-Small@2x.png in Resources */,
 				F47DFD8114ED4E32007F7443 /* Icon.png in Resources */,
+				F41B1632179C0D4B00607BD9 /* Default-ios7@2x.png in Resources */,
 				F47DFD8214ED4E32007F7443 /* Icon@2x.png in Resources */,
 				F4876C3E14F05D2B00A95302 /* folder-icon.png in Resources */,
 				F4876C3F14F05D2B00A95302 /* folder-icon@2x.png in Resources */,
@@ -691,6 +700,7 @@
 				F4827898151D29CB00E62CD0 /* Hicksdesign-logo@2x.png in Resources */,
 				F482789F151D2B2600E62CD0 /* iTunesArtwork in Resources */,
 				F41113A1152341270052E1B3 /* info.png in Resources */,
+				F41B1631179C0D4B00607BD9 /* Default-ios7-568h@2x.png in Resources */,
 				F41113A2152341270052E1B3 /* info@2x.png in Resources */,
 				F4F5DB5E1530CA6900D6F45C /* Localizable.strings in Resources */,
 				F453B8F4153AA5AF00C60685 /* ZPEmptyViewController.xib in Resources */,
