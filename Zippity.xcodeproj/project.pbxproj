@@ -142,7 +142,6 @@
 		F418A5B4153B17D5005F83A9 /* ZPPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPPreviewController.m; sourceTree = "<group>"; };
 		F41B162F179C0D4B00607BD9 /* Default-ios7-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-ios7-568h@2x.png"; sourceTree = "<group>"; };
 		F41B1630179C0D4B00607BD9 /* Default-ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-ios7@2x.png"; sourceTree = "<group>"; };
-		F41B1633179C0F4F00607BD9 /* Icon-ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-ios7@2x.png"; sourceTree = "<group>"; };
 		F4209E13164942A50081C111 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = DropboxSDK.framework; sourceTree = "<group>"; };
 		F4209E16164942BC0081C111 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F43352E414F3C41600082527 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -505,7 +504,6 @@
 				F4827895151D29CB00E62CD0 /* Hicksdesign-logo.png */,
 				F4827896151D29CB00E62CD0 /* Hicksdesign-logo@2x.png */,
 				F43EC9E01547360D00E083FF /* Icon-72.png */,
-				F41B1633179C0F4F00607BD9 /* Icon-ios7@2x.png */,
 				F40D71331548263E004FA273 /* Icon-72@2x.png */,
 				F453B8FA153ADF4200C60685 /* icon-for-about-ipad.png */,
 				F43EC9E21547360D00E083FF /* Icon-Small-50.png */,
