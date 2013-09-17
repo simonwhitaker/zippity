@@ -109,7 +109,6 @@ enum {
         _container = container;
         
         self.isRoot = NO;
-        self.wantsFullScreenLayout = NO;
         self.title = self.container.name;
 
     }
@@ -177,12 +176,7 @@ enum {
     self.navigationItem.rightBarButtonItem = self.editButton;
     
     if (self.isRoot) {
-        if (isIOS6OrBelow) {
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"info.png"] landscapeImagePhone:[UIImage imageNamed:@"info.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(showInfoView:)];
-            self.navigationItem.leftBarButtonItem.accessibilityLabel = NSLocalizedString(@"About Zippity", @"Accessibility label for the About button on the Zippity home view");
-        } else {
-            self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStylePlain target:self action:@selector(showInfoView:)];
-        }
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"About" style:UIBarButtonItemStylePlain target:self action:@selector(showInfoView:)];
     }
 }
 
@@ -190,8 +184,6 @@ enum {
 {
     [super viewWillAppear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackOpaque animated:animated];
-
     [self updateUIForOrientation:self.interfaceOrientation];
     self.navigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
 
@@ -258,20 +250,10 @@ enum {
 
 - (void)applyNavigationBarStylingForOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    if (isIOS6OrBelow) {
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background-landscape.png"] forBarMetrics:UIBarMetricsLandscapePhone];
-    }
     self.navigationController.navigationBar.tintColor = kZippityRed;
 
     if (self.isRoot) {
-        if (!isIOS6OrBelow) {
-            self.navigationItem.title = @"Zippity";
-        } else if (isIpad || UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title.png"]];
-        } else {
-            self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nav-bar-title-landscape.png"]];
-        }
+        self.navigationItem.title = @"Zippity";
     }
 }
 
@@ -352,28 +334,6 @@ enum {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-        
-        CGFloat maxTableWidth = isIpad ? 320.0 : 480.0;
-        
-        // Set custom selected cell background
-        if (isIOS6OrBelow) {
-        CGRect cellFrame = CGRectMake(0, 0, maxTableWidth, [self tableView:tableView heightForRowAtIndexPath:indexPath]);
-        UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        gradient.frame = selectedBackgroundView.frame;
-        gradient.colors = [NSArray arrayWithObjects:
-                           (id)[[UIColor colorWithWhite:0.6 alpha:1.0] CGColor], 
-                           (id)[[UIColor colorWithWhite:0.35 alpha:1.0] CGColor], 
-                           nil];
-        [selectedBackgroundView.layer addSublayer:gradient];
-        
-        cell.selectedBackgroundView = selectedBackgroundView;
-        
-        UIView *multipleSelectionBackgroundView = [[UIView alloc] initWithFrame:cellFrame];
-        multipleSelectionBackgroundView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
-        cell.multipleSelectionBackgroundView = multipleSelectionBackgroundView;
-        }
-
     }
 
     if (self.container.containerStatus == ZPFileWrapperContainerStatusReady) {

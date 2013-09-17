@@ -63,7 +63,6 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 {
     self = [super init];
     if (self) {
-        self.wantsFullScreenLayout = YES;
         _currentIndex = NSNotFound;
     }
     return self;
@@ -93,19 +92,6 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 {
     [super viewWillAppear:animated];
 
-
-    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-    if (isIOS6OrBelow) {
-        self.navigationController.navigationBar.tintColor = nil;
-    }
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.navigationController.toolbar.barStyle = UIBarStyleBlackTranslucent;
-
-    if (!isIpad) {
-        // UIStatusBarStyleBlackTranslucent only available on iPhone
-        [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
-    }
-    
     self.currentIndex = self.initialIndex;
     
     // Hiding the navigation bar and toolbar will result in the

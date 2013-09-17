@@ -111,7 +111,6 @@
         self.splitViewController.viewControllers = @[statusBarViewController, self.detailViewNavigationController];
         self.window.rootViewController = self.splitViewController;
     } else {
-        statusBarViewController.wantsFullScreenLayout = YES;
         self.window.rootViewController = statusBarViewController;
     }
     // Store a weak ref to the status bar controller
@@ -320,12 +319,7 @@
 - (void)applyTintToDetailViewNavigationController
 {
     self.detailViewNavigationController.navigationBar.tintColor = kZippityRed;
-    if (isIOS6OrBelow) {
-        [self.detailViewNavigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"nav-bar-background.png"] forBarMetrics:UIBarMetricsDefault];
-        self.detailViewNavigationController.toolbar.tintColor = [UIColor colorWithWhite:0.1 alpha:1.0];
-    } else {
-        self.detailViewNavigationController.toolbar.tintColor = kZippityRed;
-    }
+    self.detailViewNavigationController.toolbar.tintColor = kZippityRed;
 }
 
 - (void)setDetailViewController:(UIViewController *)viewController
