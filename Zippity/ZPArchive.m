@@ -189,17 +189,21 @@ static int copy_data(struct archive *ar, struct archive *aw) {
             // Still no path? Throw an error and let the UI decide what to do.
             if (!path) {
                 NSData * pathData = [NSData dataWithBytes:cPath length:strlen(cPath)];
-                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
-                                                    code:GSArchiveEntryFilenameEncodingUnknownError
-                                                userInfo:[NSDictionary dictionaryWithObject:pathData forKey:kGSArchiveEntryFilenameCStringAsNSData]];
+                if (error) {
+                    *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                        code:GSArchiveEntryFilenameEncodingUnknownError
+                                                    userInfo:[NSDictionary dictionaryWithObject:pathData forKey:kGSArchiveEntryFilenameCStringAsNSData]];
+                }
                 return NO;
             }
         }
         
         if (!path) {
-            *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
-                                                code:GSArchiveEntryReadError
-                                            userInfo:nil];
+            if (error) {
+                *error = [[NSError alloc] initWithDomain:kGSArchiveErrorDomain
+                                                    code:GSArchiveEntryReadError
+                                                userInfo:nil];
+            }
             return NO;
         }
         
