@@ -14,7 +14,6 @@
 		F408F43F158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = F408F43E158548D800E1A5B4 /* Character_Encoding_Map_Generator.1 */; };
 		F408F44615854F5700E1A5B4 /* character-encodings.plist in Resources */ = {isa = PBXBuildFile; fileRef = F408F44515854F5700E1A5B4 /* character-encodings.plist */; };
 		F40D71341548263E004FA273 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F40D71331548263E004FA273 /* Icon-72@2x.png */; };
-		F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40FDBA414F2889F008BF9C8 /* libTestFlight.a */; };
 		F4110C0216692F5000AA61AB /* GSProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110BE716692F5000AA61AB /* GSProgressView.m */; };
 		F4110C1F16693A1C00AA61AB /* GSDropboxActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = F4110C1316693A1C00AA61AB /* GSDropboxActivity.m */; };
 		F4110C2116693A1C00AA61AB /* GSDropboxActivityIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = F4110C1516693A1C00AA61AB /* GSDropboxActivityIcon.png */; };
@@ -133,8 +132,6 @@
 		F408F44515854F5700E1A5B4 /* character-encodings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "character-encodings.plist"; sourceTree = "<group>"; };
 		F408F4661585510B00E1A5B4 /* GSDismissableViewControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSDismissableViewControllerDelegate.h; sourceTree = "<group>"; };
 		F40D71331548263E004FA273 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
-		F40FDBA414F2889F008BF9C8 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		F40FDBA714F2889F008BF9C8 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F4110BE616692F5000AA61AB /* GSProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSProgressView.h; sourceTree = "<group>"; };
 		F4110BE716692F5000AA61AB /* GSProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GSProgressView.m; sourceTree = "<group>"; };
 		F4110C1216693A1C00AA61AB /* GSDropboxActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSDropboxActivity.h; sourceTree = "<group>"; };
@@ -265,8 +262,6 @@
 		F4F5DB631530E41100D6F45C /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F4F62C2714FFC3B600AB0C8C /* ZPArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZPArchive.h; sourceTree = "<group>"; };
 		F4F62C2814FFC3B600AB0C8C /* ZPArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZPArchive.m; sourceTree = "<group>"; };
-		F4FA3C411607398800DA6574 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		F4FA3C421607398800DA6574 /* release_notes.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -294,7 +289,6 @@
 				F47F535714ECCC82009BF6FE /* UIKit.framework in Frameworks */,
 				F47F535914ECCC82009BF6FE /* Foundation.framework in Frameworks */,
 				F47F535B14ECCC82009BF6FE /* CoreGraphics.framework in Frameworks */,
-				F40FDBA814F2889F008BF9C8 /* libTestFlight.a in Frameworks */,
 				F4209E14164942A50081C111 /* DropboxSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -318,17 +312,6 @@
 				F408F43D158548D800E1A5B4 /* Character Encoding Map Generator-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		F40FDBA314F2889F008BF9C8 /* TestFlightSDK */ = {
-			isa = PBXGroup;
-			children = (
-				F4FA3C411607398800DA6574 /* README.md */,
-				F4FA3C421607398800DA6574 /* release_notes.md */,
-				F40FDBA414F2889F008BF9C8 /* libTestFlight.a */,
-				F40FDBA714F2889F008BF9C8 /* TestFlight.h */,
-			);
-			path = TestFlightSDK;
 			sourceTree = "<group>";
 		};
 		F4110BE416692F5000AA61AB /* GSProgressView */ = {
@@ -418,7 +401,6 @@
 				F461C02F16529AC200BCB6E6 /* GSStatusBarViewController.h */,
 				F461C03016529AC200BCB6E6 /* GSStatusBarViewController.m */,
 				F490E90A1607B57200C530F8 /* libarchive */,
-				F40FDBA314F2889F008BF9C8 /* TestFlightSDK */,
 			);
 			name = "Third-party libraries";
 			sourceTree = "<group>";

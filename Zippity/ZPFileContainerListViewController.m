@@ -589,9 +589,6 @@ enum {
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    if (result == MFMailComposeResultSent) {
-        [TestFlight passCheckpoint:@"Emailed some files"];
-    }
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -640,8 +637,6 @@ enum {
             
             // TODO: show error if failedToDelete.count isn't 0?
             
-            [TestFlight passCheckpoint:@"Deleted some files"];
-
             if (self.tableView.editing) {
                 [self toggleEditMode];
             }
@@ -692,8 +687,6 @@ enum {
     nc.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
     nc.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentViewController:nc animated:YES completion:NULL];
-
-    [TestFlight passCheckpoint:@"Showed Dropbox destination selection view"];
 }
 
 - (void)showInfoView:(id)sender
@@ -719,7 +712,6 @@ enum {
     
     if (editing) {
         self.selectedLeafNodeIndexPath = nil;
-        [TestFlight passCheckpoint:@"Entered edit mode"];
         [self updateToolbarButtons];
         self.navigationItem.rightBarButtonItem = self.doneButton;
     } else {
@@ -914,8 +906,6 @@ enum {
         && [dropboxUploadPreviousContainerPath isEqualToString:self.container.url.absoluteString]
         && [[DBSession sharedSession] isLinked]) {
         
-        [TestFlight passCheckpoint:@"Opened app after authenticating with Dropbox"];
-
         NSArray *selectionForDropboxUpload = [NSKeyedUnarchiver unarchiveObjectWithData:selectionForDropboxUploadData];
         if (!self.tableView.isEditing) {
             [self toggleEditMode];

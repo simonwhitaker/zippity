@@ -7,7 +7,6 @@
 //
 
 #import "ZPAppDelegate.h"
-#import "TestFlight.h"
 #import "ZPEmptyViewController.h"
 #import "ZPImagePreviewController.h"
 #import "ZPPreviewController.h"
@@ -59,8 +58,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [TestFlight takeOff:@"c9a1cdc85d251c1574f49750c3db2a52_NzcyMzIwMTEtMDktMTYgMDU6MTI6MTkuOTU1OTM3"];
-
     /* Initialise Dropbox SDK */
     DBSession *dbSession = [[DBSession alloc] initWithAppKey:@"3rrp23i61km7y4p"
                                                    appSecret:@"cz04gux12ldrfua"
@@ -414,7 +411,6 @@
     NSString *message = [NSString stringWithFormat:format, fileURL.lastPathComponent];
     [self.statusBarViewController showMessage:message
                                   withTimeout:0.0];
-    [TestFlight passCheckpoint:@"Started uploading a file to Dropbox"];
 }
 
 - (void)handleDropboxUploadProgressNotification:(NSNotification *)notification

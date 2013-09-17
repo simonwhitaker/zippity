@@ -126,7 +126,6 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [TestFlight passCheckpoint:@"Opened an image preview view"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

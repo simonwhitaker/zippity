@@ -12,7 +12,6 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "NSDate+GSAdditions.h"
-#import "TestFlight.h"
 #import "ZPDefaultsKeys.h"
 
 #define isIpad ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad)
