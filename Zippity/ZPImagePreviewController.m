@@ -112,7 +112,7 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    self.scrollView.delegate = nil;
     [self.navigationController setToolbarHidden:YES animated:animated];
 }
 
