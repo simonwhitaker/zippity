@@ -109,11 +109,6 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
     [self updatePageLayout];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -266,11 +261,6 @@ static NSString * ActionMenuCancelButtonTitle; // = @"Cancel";
         return [(ZPImageScrollView*)scrollView imageView];
     }
     return nil;
-}
-
-- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale
-{
-    
 }
 
 #pragma mark - UIActionSheet delegate methods
